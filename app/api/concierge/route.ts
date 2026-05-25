@@ -1,10 +1,10 @@
 /**
- * app/api/concierge/route.ts — Web AI Concierge v3.0 (Gemini 3.5 Flash)
+ * app/api/concierge/route.ts — Web AI Concierge v4.0 (Edge Runtime)
  * ----------------------------------------------------------------------------
- * Google Gemini 3.5 Flash で応答を SSE で client に逐次配信。
- * - Gemini implicit caching 自動有効 (cache_control 不要)
- * - max_output_tokens 600 (短い応答強制)
- * - 最後に CTA タグを parse して done で配信
+ * Vercel Edge Runtime で SSE ストリーミング配信。
+ *   - ストリーミング 25 分まで OK (Serverless の 10 秒制限を回避)
+ *   - Gemini 3.5 Flash + implicit caching
+ *   - ナレッジは knowledge.ts (ビルド時埋め込み) から import
  * ----------------------------------------------------------------------------
  */
 
@@ -17,8 +17,7 @@ import type {
 	ConciergeSseEvent,
 } from "@/lib/concierge/types";
 
-export const runtime = "nodejs";
-export const maxDuration = 60;
+export const runtime = "edge";
 
 const MAX_INPUT_LENGTH = 1000;
 const MAX_TURNS = 20;

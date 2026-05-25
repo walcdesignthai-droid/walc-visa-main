@@ -11,7 +11,9 @@
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "knowledge:sync": "cp ../dtv-walc-visa/docs/walc-knowledge-source/knowledge_base/*.md docs/walc-knowledge-source/knowledge_base/"
+    "knowledge:sync": "cp ../dtv-walc-visa/docs/walc-knowledge-source/knowledge_base/*.md docs/walc-knowledge-source/knowledge_base/ && node scripts/build-knowledge.mjs",
+    "knowledge:build": "node scripts/build-knowledge.mjs",
+    "prebuild": "node scripts/build-knowledge.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.6.0",
