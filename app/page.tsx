@@ -1,7 +1,7 @@
 /**
  * app/page.tsx — walc-visa.online トップページ
  * ----------------------------------------------------------------------------
- * v1.5 (2026-05-25) — CompanyProof → CompanyInfo (簡素化)
+ * v1.4 (2026-05-25) — AI VISA Concierge を右下にマウント
  * ----------------------------------------------------------------------------
  */
 
@@ -15,6 +15,7 @@ import { Process } from "@/components/lp/Process";
 import { TrustStrip } from "@/components/lp/TrustStrip";
 import { VisaTypes } from "@/components/lp/VisaTypes";
 import { WhyWalc } from "@/components/lp/WhyWalc";
+import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
 
 export default function HomePage() {
 	return (
@@ -31,6 +32,7 @@ export default function HomePage() {
 				<FinalCta />
 			</main>
 			<Footer />
+			<ConciergeBubble />
 		</>
 	);
 }
