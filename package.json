@@ -1,44 +1,45 @@
 {
-	"name": "walc-visa-main",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
-		"format": "biome format --write .",
-		"typecheck": "tsc --noEmit",
-		"test": "vitest run"
-	},
-	"dependencies": {
-		"@anthropic-ai/sdk": "^0.98.0",
-		"@line/liff": "^2.29.0",
-		"@radix-ui/react-slot": "^1.2.4",
-		"@supabase/supabase-js": "^2.106.1",
-		"clsx": "^2.1.1",
-		"lucide-react": "^1.16.0",
-		"motion": "^12.40.0",
-		"next": "16.2.6",
-		"react": "19.2.4",
-		"react-dom": "19.2.4",
-		"react-hook-form": "^7.76.1",
-		"tailwind-merge": "^3.6.0",
-		"zod": "^4.4.3",
-		"zustand": "^5.0.13"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.4.15",
-		"@tailwindcss/postcss": "^4",
-		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
-		"@vercel/analytics": "^2.0.1",
-		"@vitest/ui": "^4.1.7",
-		"tailwindcss": "^4",
-		"typescript": "^5",
-		"vitest": "^4.1.7"
-	},
-	"packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
+  "name": "walc-visa-main",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "knowledge:sync": "cp ../dtv-walc-visa/docs/walc-knowledge-source/knowledge_base/*.md docs/walc-knowledge-source/knowledge_base/"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.98.0",
+    "@line/liff": "^2.29.0",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/supabase-js": "^2.106.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "motion": "^12.40.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.76.1",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vercel/analytics": "^2.0.1",
+    "@vitest/ui": "^4.1.7",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.7"
+  },
+  "packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
 }

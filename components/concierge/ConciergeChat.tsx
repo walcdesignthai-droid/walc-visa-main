@@ -1,10 +1,9 @@
 /**
- * components/concierge/ConciergeChat.tsx — v2.0 (SSE)
+ * components/concierge/ConciergeChat.tsx — v2.1
  * ----------------------------------------------------------------------------
- * Server-Sent Events で AI 応答を逐次表示。
- * - delta イベントで本文を文字単位で追加
- * - done イベントで CTA カードを表示
- * - Markdown は使われない前提 (system prompt で禁止済み)
+ * 修正:
+ *   - done イベント受信時、本文に残った [CTA:xxx] タグを除去
+ *   - delta 中は raw text 表示でも、最終的に綺麗な本文 + CTA カードに整形
  * ----------------------------------------------------------------------------
  */
 
@@ -37,6 +36,12 @@ const INITIAL_GREETING: UiMessage = {
 		"こんにちは。WALC の AI VISA コンシェルジュです。\n\nタイの長期滞在 VISA に関するご質問にお答えします。例えば:\n\n・自分に合うビザを知りたい\n・DTV と Thailand Privilege の違い\n・銀行口座は開設できる?\n\nお気軽にお聞きください。",
 };
 
+const CTA_TAG_PATTERN = /\[CTA:[a-z]+(?::[a-z0-9-_]+)?\]/gi;
+
+function stripCtaTags(text: string): string {
+	return text.replace(CTA_TAG_PATTERN, "").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 export function ConciergeChat({ isOpen, onClose }: Props) {
 	const [messages, setMessages] = useState<UiMessage[]>([INITIAL_GREETING]);
 	const [input, setInput] = useState("");
@@ -58,7 +63,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		setIsLoading(true);
 		setError(null);
 
-		// 空の assistant メッセージを追加 (delta で content を埋めていく)
 		const assistantIndex = next.length;
 		setMessages([
 			...next,
@@ -67,7 +71,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 
 		try {
 			const apiMessages: ConciergeMessage[] = next
-				.filter((_, i) => i !== 0) // greeting を除外
+				.filter((_, i) => i !== 0)
 				.map(({ role, content }) => ({ role, content }));
 
 			const res = await fetch("/api/concierge", {
@@ -89,8 +93,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 				if (done) break;
 
 				buffer += decoder.decode(value, { stream: true });
-
-				// SSE フォーマット: "data: {...}\n\n" で区切り
 				const lines = buffer.split("\n\n");
 				buffer = lines.pop() ?? "";
 
@@ -116,12 +118,14 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 								return copy;
 							});
 						} else if (event.type === "done") {
+							// done 受信時、CTA タグを本文から除去
 							setMessages((prev) => {
 								const copy = [...prev];
 								const m = copy[assistantIndex];
 								if (m && m.role === "assistant") {
 									copy[assistantIndex] = {
 										...m,
+										content: stripCtaTags(m.content),
 										cta: event.cta,
 										streaming: false,
 									};
