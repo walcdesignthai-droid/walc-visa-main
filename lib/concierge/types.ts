@@ -1,5 +1,5 @@
 /**
- * lib/concierge/types.ts — v2.0 (SSE 対応)
+ * lib/concierge/types.ts — v3.0 (human CTA 追加)
  */
 
 export type ConciergeRole = "user" | "assistant";
@@ -13,6 +13,7 @@ export interface ConciergeMessage {
 export type ConciergeCtaType =
 	| "line"
 	| "diagnosis"
+	| "human"
 	| { type: "apply"; visaId: string };
 
 export interface ParsedConciergeResponse {
@@ -24,9 +25,6 @@ export interface ConciergeApiRequest {
 	messages: ConciergeMessage[];
 }
 
-/**
- * SSE イベント (api → client への逐次配信)
- */
 export type ConciergeSseEvent =
 	| { type: "delta"; text: string }
 	| { type: "done"; cta: ConciergeCtaType | null; usage?: ConciergeUsage }
@@ -39,9 +37,6 @@ export interface ConciergeUsage {
 	cacheCreationInputTokens?: number;
 }
 
-/**
- * 非ストリーミング応答 (後方互換)
- */
 export interface ConciergeApiResponse {
 	text: string;
 	cta: ConciergeCtaType | null;

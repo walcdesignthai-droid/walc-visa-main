@@ -1,11 +1,5 @@
 /**
- * components/concierge/ConciergeCta.tsx
- * ----------------------------------------------------------------------------
- * AI 応答内 CTA タグから生成されるアクションカード。
- *   - line     → LINE 友だち追加 / 相談
- *   - diagnosis → DTV LP の VISA 診断
- *   - apply    → CRM 申込フォーム (visa_id クエリ付き)
- * ----------------------------------------------------------------------------
+ * components/concierge/ConciergeCta.tsx — v2.0 (human CTA 追加)
  */
 
 import {
@@ -13,6 +7,7 @@ import {
 	ClipboardCheck,
 	MessageCircle,
 	Sparkles,
+	UserRoundCog,
 } from "lucide-react";
 import { buildApplicationUrl, getLineAddUrl } from "@/lib/walc-links";
 import type { ConciergeCtaType } from "@/lib/concierge/types";
@@ -57,6 +52,22 @@ export function ConciergeCta({ cta }: Props) {
 			>
 				<ClipboardCheck className="w-4 h-4" />
 				無料 VISA 診断を始める
+				<ArrowUpRight className="w-3.5 h-3.5 opacity-80" />
+			</a>
+		);
+	}
+
+	if (cta === "human") {
+		const url = getLineAddUrl();
+		return (
+			<a
+				href={url}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-blue text-white text-sm font-bold shadow-md hover:bg-accent-blue-bright transition-colors"
+			>
+				<UserRoundCog className="w-4 h-4" />
+				WALC スタッフに直接相談
 				<ArrowUpRight className="w-3.5 h-3.5 opacity-80" />
 			</a>
 		);
