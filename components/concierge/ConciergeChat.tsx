@@ -1,9 +1,10 @@
 /**
- * components/concierge/ConciergeChat.tsx
+ * components/concierge/ConciergeChat.tsx — v2.0 (SSE)
  * ----------------------------------------------------------------------------
- * チャットダイアログ本体。
- * デスクトップ: 右下に幅 420px のパネル
- * モバイル: 全画面
+ * Server-Sent Events で AI 応答を逐次表示。
+ * - delta イベントで本文を文字単位で追加
+ * - done イベントで CTA カードを表示
+ * - Markdown は使われない前提 (system prompt で禁止済み)
  * ----------------------------------------------------------------------------
  */
 
@@ -12,9 +13,9 @@
 import { Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type {
-	ConciergeApiResponse,
 	ConciergeCtaType,
 	ConciergeMessage,
+	ConciergeSseEvent,
 } from "@/lib/concierge/types";
 import { ConciergeCta } from "./ConciergeCta";
 import { ConciergeMessageBubble } from "./ConciergeMessage";
@@ -27,6 +28,7 @@ interface Props {
 
 interface UiMessage extends ConciergeMessage {
 	cta?: ConciergeCtaType | null;
+	streaming?: boolean;
 }
 
 const INITIAL_GREETING: UiMessage = {
@@ -42,7 +44,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 	const [error, setError] = useState<string | null>(null);
 	const scrollRef = useRef<HTMLDivElement>(null);
 
-	// 新メッセージで最下部にスクロール
 	useEffect(() => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -57,10 +58,16 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		setIsLoading(true);
 		setError(null);
 
+		// 空の assistant メッセージを追加 (delta で content を埋めていく)
+		const assistantIndex = next.length;
+		setMessages([
+			...next,
+			{ role: "assistant", content: "", streaming: true },
+		]);
+
 		try {
-			// 履歴を送る (greeting と CTA は API には送らない)
 			const apiMessages: ConciergeMessage[] = next
-				.filter((_, i) => i !== 0)
+				.filter((_, i) => i !== 0) // greeting を除外
 				.map(({ role, content }) => ({ role, content }));
 
 			const res = await fetch("/api/concierge", {
@@ -69,20 +76,71 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 				body: JSON.stringify({ messages: apiMessages }),
 			});
 
-			if (!res.ok) {
-				const errBody = await res.json().catch(() => ({}));
-				throw new Error(errBody.error ?? `HTTP ${res.status}`);
+			if (!res.ok || !res.body) {
+				throw new Error(`HTTP ${res.status}`);
 			}
 
-			const data = (await res.json()) as ConciergeApiResponse;
+			const reader = res.body.getReader();
+			const decoder = new TextDecoder();
+			let buffer = "";
 
-			setMessages([
-				...next,
-				{ role: "assistant", content: data.text, cta: data.cta },
-			]);
+			while (true) {
+				const { value, done } = await reader.read();
+				if (done) break;
+
+				buffer += decoder.decode(value, { stream: true });
+
+				// SSE フォーマット: "data: {...}\n\n" で区切り
+				const lines = buffer.split("\n\n");
+				buffer = lines.pop() ?? "";
+
+				for (const line of lines) {
+					const trimmed = line.trim();
+					if (!trimmed.startsWith("data:")) continue;
+					const json = trimmed.slice(5).trim();
+					if (!json) continue;
+
+					try {
+						const event = JSON.parse(json) as ConciergeSseEvent;
+
+						if (event.type === "delta") {
+							setMessages((prev) => {
+								const copy = [...prev];
+								const m = copy[assistantIndex];
+								if (m && m.role === "assistant") {
+									copy[assistantIndex] = {
+										...m,
+										content: m.content + event.text,
+									};
+								}
+								return copy;
+							});
+						} else if (event.type === "done") {
+							setMessages((prev) => {
+								const copy = [...prev];
+								const m = copy[assistantIndex];
+								if (m && m.role === "assistant") {
+									copy[assistantIndex] = {
+										...m,
+										cta: event.cta,
+										streaming: false,
+									};
+								}
+								return copy;
+							});
+						} else if (event.type === "error") {
+							setError(event.message);
+							setMessages((prev) => prev.slice(0, assistantIndex));
+						}
+					} catch {
+						// JSON parse error は無視
+					}
+				}
+			}
 		} catch (e: unknown) {
 			const msg = e instanceof Error ? e.message : "通信エラー";
 			setError(msg);
+			setMessages((prev) => prev.slice(0, assistantIndex));
 		} finally {
 			setIsLoading(false);
 		}
@@ -104,7 +162,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 
 	return (
 		<div className="fixed inset-0 z-50 md:inset-auto md:bottom-5 md:right-5 md:w-[420px] md:h-[640px] md:max-h-[calc(100vh-2.5rem)]">
-			{/* モバイル backdrop */}
 			<button
 				type="button"
 				aria-label="閉じる"
@@ -112,9 +169,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 				className="md:hidden absolute inset-0 bg-black/50 backdrop-blur-sm"
 			/>
 
-			{/* パネル本体 */}
 			<div className="absolute inset-0 md:inset-auto md:bottom-0 md:right-0 md:w-full md:h-full bg-white md:rounded-2xl shadow-2xl border border-border-subtle flex flex-col overflow-hidden">
-				{/* ヘッダー */}
 				<div className="flex items-center justify-between px-5 py-4 bg-brand text-white border-b border-white/10">
 					<div className="flex items-center gap-3">
 						<div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
@@ -124,7 +179,9 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 							<div className="text-[10px] tracking-[0.18em] uppercase text-amber-300 font-bold">
 								WALC AI Concierge
 							</div>
-							<div className="text-sm font-bold">タイ VISA 専門アシスタント</div>
+							<div className="text-sm font-bold">
+								タイ VISA 専門アシスタント
+							</div>
 						</div>
 					</div>
 					<button
@@ -137,15 +194,17 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					</button>
 				</div>
 
-				{/* メッセージリスト */}
 				<div
 					ref={scrollRef}
 					className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-bg-secondary"
 				>
 					{messages.map((msg, i) => (
 						<div key={i}>
-							<ConciergeMessageBubble role={msg.role} content={msg.content} />
-							{msg.cta && (
+							<ConciergeMessageBubble
+								role={msg.role}
+								content={msg.content || (msg.streaming ? "..." : "")}
+							/>
+							{msg.cta && !msg.streaming && (
 								<div className="mt-3 ml-9">
 									<ConciergeCta cta={msg.cta} />
 								</div>
@@ -153,30 +212,28 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 						</div>
 					))}
 
-					{/* タイピングインジケータ */}
-					{isLoading && (
-						<div className="flex items-center gap-2 ml-9 text-text-tertiary text-xs">
-							<span className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce" />
-							<span
-								className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce"
-								style={{ animationDelay: "150ms" }}
-							/>
-							<span
-								className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce"
-								style={{ animationDelay: "300ms" }}
-							/>
-							<span className="ml-1">AI が考えています...</span>
-						</div>
-					)}
+					{isLoading &&
+						messages[messages.length - 1]?.streaming &&
+						messages[messages.length - 1]?.content === "" && (
+							<div className="flex items-center gap-2 ml-9 text-text-tertiary text-xs">
+								<span className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce" />
+								<span
+									className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce"
+									style={{ animationDelay: "150ms" }}
+								/>
+								<span
+									className="w-1.5 h-1.5 bg-text-tertiary rounded-full animate-bounce"
+									style={{ animationDelay: "300ms" }}
+								/>
+							</div>
+						)}
 
-					{/* エラー表示 */}
 					{error && (
 						<div className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
 							{error}
 						</div>
 					)}
 
-					{/* 初回時のクイック質問チップ */}
 					{messages.length === 1 && !isLoading && (
 						<div className="pt-2">
 							<ConciergeQuickChips onSelect={handleQuickChip} />
@@ -184,7 +241,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					)}
 				</div>
 
-				{/* 入力欄 */}
 				<form
 					onSubmit={handleSubmit}
 					className="flex items-center gap-2 px-4 py-3 bg-white border-t border-border-subtle"
@@ -208,7 +264,6 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					</button>
 				</form>
 
-				{/* フッター注釈 */}
 				<div className="px-4 py-2 bg-bg-secondary border-t border-border-subtle">
 					<p className="text-[10px] text-text-tertiary text-center leading-relaxed">
 						AI による回答です。最終判断は LINE で WALC スタッフへご確認ください。
