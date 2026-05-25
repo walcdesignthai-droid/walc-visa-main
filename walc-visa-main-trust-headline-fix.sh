@@ -1,3 +1,18 @@
+#!/bin/bash
+# ============================================================================
+# walc-visa-main CompanyProof 見出し修正
+# ----------------------------------------------------------------------------
+# 「タイ商務省登記の正規法人として、バンコクで 6 年。」(不自然)
+#  → 「タイ法人として、バンコクで 6 年。」(自然・上質)
+# キャプション英文も "Registered Legal Entity" → "Registered in Thailand" へ
+# ============================================================================
+
+set -e
+
+WMV="$HOME/walc-projects/walc-visa-main"
+cd "$WMV"
+
+cat > "$WMV/components/lp/CompanyProof.tsx" <<'PROOF_EOF'
 /**
  * components/lp/CompanyProof.tsx — タイ法人実在証明セクション
  * ----------------------------------------------------------------------------
@@ -154,3 +169,23 @@ export function CompanyProof() {
 		</section>
 	);
 }
+PROOF_EOF
+
+echo "→ Verify: typecheck"
+pnpm typecheck
+
+echo ""
+echo "→ git commit"
+git add -A
+git commit -m "refactor(company-proof): naturalize headline copy
+
+- h2: タイ商務省登記の正規法人として、バンコクで 6 年。
+   →  タイ法人として、バンコクで 6 年。
+- caption: Registered Legal Entity → Registered in Thailand
+- subtext: 「運営母体は、タイ商務省に登記された WALC Design Co., Ltd.」へ
+  (商務省/登記の硬い表現は本文+テーブル側に降ろす)"
+
+echo ""
+echo "============================================================================"
+echo "✓ Headline fix applied!"
+echo "============================================================================"
