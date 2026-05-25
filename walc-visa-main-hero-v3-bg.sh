@@ -1,3 +1,41 @@
+#!/bin/bash
+# ============================================================================
+# walc-visa-main Hero v3.0 — バンコク航空夜景背景
+# ----------------------------------------------------------------------------
+# - next.config.ts に Unsplash 画像許可
+# - Hero.tsx に背景写真 (Unsplash: Braden Jarvis / Bangkok aerial)
+# - ネイビー強オーバーレイで可読性確保
+# - ロゴパターンは透明度下げて残す
+# ============================================================================
+
+set -e
+
+WMV="$HOME/walc-projects/walc-visa-main"
+cd "$WMV"
+
+echo "→ Update next.config.ts (allow Unsplash images)"
+
+cat > "$WMV/next.config.ts" <<'NEXT_EOF'
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "images.unsplash.com",
+				pathname: "/**",
+			},
+		],
+	},
+};
+
+export default nextConfig;
+NEXT_EOF
+
+echo "→ Update Hero.tsx (Bangkok aerial night background)"
+
+cat > "$WMV/components/lp/Hero.tsx" <<'HERO_EOF'
 /**
  * components/lp/Hero.tsx — walc-visa.online Hero v3.0
  * ----------------------------------------------------------------------------
@@ -216,3 +254,26 @@ export function Hero() {
 		</section>
 	);
 }
+HERO_EOF
+
+echo ""
+echo "→ Verify: typecheck"
+pnpm typecheck
+
+echo ""
+echo "→ git commit"
+git add -A
+git commit -m "feat(hero): add Bangkok aerial night photo background
+
+- Hero v3.0: Unsplash bangkok skyline (Braden Jarvis, Unsplash License)
+- Strong navy gradient overlay (96%→78% diagonal) for readability
+- WALC logo pattern opacity reduced to 0.04 (blends with photo)
+- Footer gradient (60%→100%) for connection to TrustStrip
+- Allow images.unsplash.com in next.config.ts"
+
+echo ""
+echo "============================================================================"
+echo "✓ Hero v3.0 with Bangkok night background applied!"
+echo "============================================================================"
+echo ""
+echo "Reload: pnpm dev → http://localhost:3000"
