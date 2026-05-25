@@ -1,0 +1,145 @@
+/**
+ * app/globals.css
+ * ----------------------------------------------------------------------------
+ * Tailwind v4 のエントリ。トークンを取り込み、`@theme inline` で
+ * Tailwind ユーティリティ(bg-bg-primary, text-gold, text-brand, bg-accent-blue, shadow-gold 等)へ公開する。
+ *
+ * Tailwind v4 では `tailwind.config.ts` を作らず、CSS 側で完結させるのが
+ * 推奨パターン。`@tailwindcss/postcss` がこのファイルを処理する。
+ *
+ * 修正履歴:
+ *   v2.0 (2026-05-24) — 指示書 v1.0 準拠。
+ *     ・brand / accent-blue / text-on-dark を新規ブリッジ
+ *     ・font-sans を Plus Jakarta Sans 主、Noto Sans JP フォールバック
+ *     ・本文 line-height を 1.8 へ(日本語可読性向上)
+ *     ・::selection はネイビー + 白(白基調と整合)
+ * ----------------------------------------------------------------------------
+ */
+
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* ============================================================================
+ * Theme Bridge — トークン → Tailwind ユーティリティ
+ *   ここで宣言したカスタムプロパティは Tailwind が自動でクラス化する。
+ *   例: --color-bg-primary → `bg-bg-primary`, `text-bg-primary`
+ *       --color-gold       → `bg-gold`, `text-gold`, `border-gold`
+ *       --color-brand      → `bg-brand`, `text-brand`, `border-brand`
+ *       --color-accent-blue → `bg-accent-blue`, `text-accent-blue`
+ * ========================================================================== */
+@theme inline {
+	/* Colors: Background */
+	--color-bg-primary: var(--bg-primary);
+	--color-bg-secondary: var(--bg-secondary);
+	--color-bg-elevated: var(--bg-elevated);
+	--color-bg-card: var(--bg-card);
+
+	/* Colors: Text */
+	--color-text-primary: var(--text-primary);
+	--color-text-secondary: var(--text-secondary);
+	--color-text-tertiary: var(--text-tertiary);
+	--color-text-disabled: var(--text-disabled);
+	--color-text-on-dark: var(--text-on-dark);
+
+	/* Colors: Brand Navy(WALC corporate) */
+	--color-brand: var(--brand-primary);
+	--color-brand-deep: var(--brand-deep);
+
+	/* Colors: Accent Gold(差し色・1-3 箇所) */
+	--color-gold: var(--accent-gold);
+	--color-gold-bright: var(--accent-gold-bright);
+	--color-gold-soft: var(--accent-gold-soft);
+	--color-gold-muted: var(--accent-gold-muted);
+
+	/* Colors: Accent Royal Blue(CTA 主役) */
+	--color-accent-blue: var(--accent-blue);
+	--color-accent-blue-bright: var(--accent-blue-bright);
+	--color-accent-blue-deep: var(--accent-blue-deep);
+
+	/* Colors: LINE */
+	--color-line: var(--line-green);
+	--color-line-hover: var(--line-green-hover);
+
+	/* Colors: Functional */
+	--color-success: var(--color-success);
+	--color-warning: var(--color-warning);
+	--color-error: var(--color-error);
+	--color-info: var(--color-info);
+
+	/* Borders */
+	--color-border-subtle: var(--border-subtle);
+	--color-border-default: var(--border-default);
+	--color-border-strong: var(--border-strong);
+
+	/* Shadows */
+	--shadow-sm: var(--shadow-sm);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-gold: var(--shadow-gold);
+
+	/* Radius */
+	--radius-sm: var(--radius-sm);
+	--radius-md: var(--radius-md);
+	--radius-lg: var(--radius-lg);
+	--radius-xl: var(--radius-xl);
+	--radius-2xl: var(--radius-2xl);
+
+	/* Fonts:
+	 *   font-sans    : Plus Jakarta Sans(英数主)+ Noto Sans JP(日本語)
+	 *   font-display : 旧 Cormorant Garamond → ユーザー指示で Plus Jakarta Sans Bold へ統一
+	 *     (Cormorant の serif 数字表記は廃止。コード書換せず token 値だけ redirect で全箇所自動波及)
+	 */
+	--font-sans:
+		var(--font-jakarta), var(--font-noto-sans-jp),
+		"Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+	--font-display:
+		var(--font-jakarta), var(--font-noto-sans-jp), system-ui, sans-serif;
+
+	/* Layout */
+	--container-content: var(--content-max-width);
+}
+
+/* ============================================================================
+ * Base Styles
+ * ========================================================================== */
+@layer base {
+	html {
+		font-feature-settings: "palt";
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background: var(--bg-primary);
+		color: var(--text-primary);
+		font-family:
+			var(--font-jakarta), var(--font-noto-sans-jp),
+			"Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+		font-size: var(--font-body);
+		line-height: var(--lh-relaxed); /* 日本語本文 1.8 */
+		letter-spacing: var(--ls-wide);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* 見出しは letter-spacing をやや締める */
+	h1,
+	h2,
+	h3,
+	h4 {
+		letter-spacing: var(--ls-tight);
+		line-height: var(--lh-snug);
+	}
+
+	::selection {
+		background: var(--brand-primary);
+		color: var(--text-on-dark);
+	}
+
+	/* font-display クラスは旧 Cormorant Garamond 用だったが、
+	 * ユーザー指示で Plus Jakarta Sans に redirect 済み。
+	 * 数字・大型見出しでの bold 感を担保するため weight 700 を強制。 */
+	.font-display {
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+}
