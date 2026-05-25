@@ -1,15 +1,34 @@
 /**
  * app/page.tsx — walc-visa.online トップページ
  * ----------------------------------------------------------------------------
- * v1.1 (2026-05-25) — Hero 刷新 + TrustStrip 追加。
- *   Coming Soon は細い帯に縮小し、追加セクションは Sprint 1 後半で。
+ * v1.2 (2026-05-25) — Sprint 1 で本体セクション 5 件追加。
+ *
+ * 構成:
+ *   1. Hero (バンコク夜景 + 浮かぶ実績カード)
+ *   2. TrustStrip (実績ストリップ 5 項目)
+ *   3. VisaTypes (VISA 6 種別カード)
+ *   4. WhyWalc (選ばれる 3 つの理由)
+ *   5. Process (取得プロセス 4 ステップ)
+ *   6. Founder (代表者メッセージ)
+ *   7. FinalCta (最終 CTA 帯)
+ *
+ * Sprint 2 で追加予定:
+ *   - お客様の声 (Testimonials)
+ *   - 料金一覧 (Pricing — 法人系含む)
+ *   - FAQ
+ *   - AI VISA Concierge (右下フローティング)
  * ----------------------------------------------------------------------------
  */
 
-import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
+import { FinalCta } from "@/components/lp/FinalCta";
+import { Founder } from "@/components/lp/Founder";
 import { Hero } from "@/components/lp/Hero";
+import { Process } from "@/components/lp/Process";
 import { TrustStrip } from "@/components/lp/TrustStrip";
+import { VisaTypes } from "@/components/lp/VisaTypes";
+import { WhyWalc } from "@/components/lp/WhyWalc";
 
 export default function HomePage() {
 	return (
@@ -18,44 +37,11 @@ export default function HomePage() {
 			<main className="flex-1 pt-16 md:pt-20">
 				<Hero />
 				<TrustStrip />
-
-				{/* Sprint 1 後半で追加予定:
-				 *   - VISA 種別 6 カード
-				 *   - WALC を選ぶ 3 つの理由
-				 *   - 取得プロセス
-				 *   - お客様の声
-				 *   - 代表者メッセージ
-				 *   - 料金一覧
-				 *   - FAQ
-				 *   - CTA 帯
-				 */}
-
-				{/* Coming Soon: 細い帯のみ */}
-				<section className="bg-bg-secondary border-y border-border-subtle">
-					<div className="mx-auto max-w-content px-5 md:px-8 py-10 md:py-14">
-						<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-							<div>
-								<p className="text-[10px] tracking-widest uppercase text-text-tertiary font-semibold mb-1.5">
-									Coming Soon
-								</p>
-								<h2 className="text-lg md:text-xl font-bold text-text-primary">
-									全 VISA 種別の料金・申込フォームを順次公開
-								</h2>
-								<p className="text-sm text-text-secondary mt-1.5">
-									お急ぎの方は LINE 公式アカウントよりご相談ください。
-								</p>
-							</div>
-							<a
-								href="https://dtv.walc-visa.online"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-flex items-center gap-2 text-sm font-semibold text-accent-blue hover:text-accent-blue-bright transition-colors"
-							>
-								DTV 専用LPを見る →
-							</a>
-						</div>
-					</div>
-				</section>
+				<VisaTypes />
+				<WhyWalc />
+				<Process />
+				<Founder />
+				<FinalCta />
 			</main>
 			<Footer />
 		</>
