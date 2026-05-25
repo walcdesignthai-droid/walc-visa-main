@@ -1,3 +1,25 @@
+#!/bin/bash
+# ============================================================================
+# Fix v4: system prompt 簡潔化 (AI が例文に引きずられる問題を解消)
+# ----------------------------------------------------------------------------
+# 原因: system prompt の「✗ NG → ✓ OK」例示比較パターンが AI を混乱させ、
+#       回答冒頭で例文をそのまま出力 → 自分で「修正版:」と書き直し → token 切れ
+#
+# 修正:
+#   - 「✗ → ✓」 比較形式 を削除
+#   - 単一指示形式 (○○と書く・○○は使わない) に統一
+#   - WALC DESIGN の指示構造を踏襲 (短く・明確に)
+#   - maxOutputTokens: 1024 → 2048 (余裕を持たせる)
+# ============================================================================
+
+set -e
+
+WMV="$HOME/walc-projects/walc-visa-main"
+cd "$WMV"
+
+echo "→ Rewrite lib/concierge/system-prompt.ts (concise + clear)"
+
+cat > "$WMV/lib/concierge/system-prompt.ts" <<'SP_EOF'
 /**
  * lib/concierge/system-prompt.ts — v4.0 (簡潔化)
  * ----------------------------------------------------------------------------
@@ -95,3 +117,53 @@ ${KNOWLEDGE_BASE}`;
 	cachedSystemPrompt = prompt;
 	return prompt;
 }
+SP_EOF
+
+echo "→ Increase maxOutputTokens to 2048 in gemini-client.ts"
+sed -i '' 's|const MAX_OUTPUT_TOKENS = 1024;|const MAX_OUTPUT_TOKENS = 2048;|' \
+  "$WMV/lib/concierge/gemini-client.ts"
+
+echo "→ Verify typecheck"
+pnpm typecheck
+
+echo ""
+echo "→ git commit + push"
+git add -A
+git commit -m "fix(prompt): v4 - remove '✗ → ✓' comparison patterns
+
+Issue: AI began responses by literally quoting the example template
+('弊社の申請ルートではタイ国内からも申請可能...') then said '修正版:'
+and tried to restart, exhausting maxOutputTokens.
+
+Root cause: '✗ NG → ✓ OK' comparison format confuses the model into
+treating the example as a script to follow at the start of every reply.
+
+Fix:
+- Replace all '✗ → ✓' patterns with single-instruction format
+  (e.g., 'タイ国内申請を問われたら「...」と回答する')
+- Structure aligned with WALC DESIGN's working setup
+  (SERVICE_OVERVIEW + CUSTOM_INSTRUCTIONS, 8-10K token compact)
+- maxOutputTokens 1024 → 2048 (safety margin)
+- Knowledge section unchanged, but added clear instruction:
+  'always reply in 顧客向け form even if knowledge contains 契約者/社内 expressions'"
+
+git push
+
+echo ""
+echo "============================================================================"
+echo "✓ system prompt v4 applied + push"
+echo "============================================================================"
+echo ""
+echo "Vercel auto-deploy 完了後 (1-2 分):"
+echo ""
+echo "  curl -N -X POST https://www.walc-visa.online/api/concierge \\"
+echo "    -H 'Content-Type: application/json' \\"
+echo "    -d '{\"messages\":[{\"role\":\"user\",\"content\":\"DTVについて200字で教えて\"}]}'"
+echo ""
+echo "期待される応答:"
+echo "  DTV(Destination Thailand Visa)は、2024 年 7 月に新設された"
+echo "  タイの長期滞在ビザです。5 年マルチプル・1 回 180 日滞在可能で、"
+echo "  リモートワーカーやノマド向けに設計されています。"
+echo "  料金は 60,000 THB 程度から、最短 7-14 日で取得できます。"
+echo "  弊社では 212/212 件取得実績(取得率 100%)。"
+echo "  詳細は LINE でご相談ください。[CTA:line]"

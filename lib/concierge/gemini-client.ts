@@ -15,7 +15,7 @@ import { GoogleGenAI } from "@google/genai";
 import type { ConciergeMessage } from "./types";
 
 const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
-const MAX_OUTPUT_TOKENS = 1024;
+const MAX_OUTPUT_TOKENS = 2048;
 const INPUT_LIMIT = 4000;
 
 let cachedClient: GoogleGenAI | null = null;
