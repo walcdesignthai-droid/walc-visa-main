@@ -14,7 +14,8 @@
     "knowledge:sync": "cp ../dtv-walc-visa/docs/walc-knowledge-source/knowledge_base/*.md docs/walc-knowledge-source/knowledge_base/"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.98.0",
+    "@google/genai": "^2.6.0",
+    "@line/bot-sdk": "^11.0.0",
     "@line/liff": "^2.29.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.106.1",
