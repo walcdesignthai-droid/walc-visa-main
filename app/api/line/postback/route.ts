@@ -15,8 +15,8 @@ import {
 } from "@/lib/line/fetch-client";
 import { setLineMode } from "@/lib/line/mode-store";
 
-export const runtime = "edge";
-export const preferredRegion = ["hnd1"];
+export const runtime = "nodejs";
+export const maxDuration = 60;
 
 interface PostbackEvent {
 	type: string;
