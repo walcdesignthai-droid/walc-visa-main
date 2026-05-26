@@ -29,6 +29,7 @@ import {
 import { getLineModeFull } from "@/lib/line/mode-store";
 
 export const runtime = "edge";
+export const preferredRegion = ["hnd1"];
 
 interface RelayRequest {
 	replyToken: string;

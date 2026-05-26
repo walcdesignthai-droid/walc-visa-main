@@ -16,6 +16,7 @@ import {
 import { setLineMode } from "@/lib/line/mode-store";
 
 export const runtime = "edge";
+export const preferredRegion = ["hnd1"];
 
 interface PostbackEvent {
 	type: string;
