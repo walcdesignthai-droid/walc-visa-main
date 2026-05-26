@@ -20,6 +20,7 @@
     "@line/liff": "^2.29.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.106.1",
+    "@vercel/functions": "^3.6.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "motion": "^12.40.0",

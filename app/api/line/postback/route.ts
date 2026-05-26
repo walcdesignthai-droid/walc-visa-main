@@ -1,11 +1,8 @@
 /**
- * app/api/line/postback/route.ts — Edge Runtime + mode 切替
- * ----------------------------------------------------------------------------
- * Flex ボタンの Postback を処理。
- *   - action=request_human → mode を human にセット + スタッフ通知 + 顧客 Reply
- * ----------------------------------------------------------------------------
+ * app/api/line/postback/route.ts — v3.0 (waitUntil 化)
  */
 
+import { waitUntil } from "@vercel/functions";
 import { type NextRequest, NextResponse } from "next/server";
 import {
 	getLineProfile,
@@ -33,10 +30,7 @@ export async function POST(req: NextRequest) {
 	const providedSecret = req.headers.get("x-walc-relay-secret");
 	const expectedSecret = process.env.WALC_RELAY_SECRET;
 	if (!expectedSecret) {
-		return NextResponse.json(
-			{ error: "Server not configured" },
-			{ status: 500 },
-		);
+		return NextResponse.json({ error: "Server not configured" }, { status: 500 });
 	}
 	if (providedSecret !== expectedSecret) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -64,7 +58,9 @@ export async function POST(req: NextRequest) {
 	const userId = event.source?.userId ?? "";
 
 	if (data === "action=request_human") {
-		return await handleHumanRequest(event.replyToken, userId, body.recentMessage);
+		// バックグラウンド処理 + 即時 200
+		waitUntil(handleHumanRequest(event.replyToken, userId, body.recentMessage));
+		return NextResponse.json({ ok: true, queued: true });
 	}
 
 	return NextResponse.json({ ok: true, skipped: "unknown_action" });
@@ -74,17 +70,14 @@ async function handleHumanRequest(
 	replyToken: string,
 	userId: string,
 	recentMessage: string | undefined,
-): Promise<Response> {
-	// 1. mode を human にセット (24h)
+): Promise<void> {
 	if (userId) {
 		await setLineMode(userId, "human");
 	}
 
-	// 2. 顧客プロフィール取得
 	const profile = userId ? await getLineProfile(userId) : null;
 	const displayName = profile?.displayName ?? "(不明)";
 
-	// 3. 顧客 Reply
 	try {
 		await lineReply(replyToken, [
 			{
@@ -96,7 +89,6 @@ async function handleHumanRequest(
 		console.error("Reply error:", e);
 	}
 
-	// 4. スタッフグループに呼出要請
 	await notifyStaffGroup(
 		[
 			"🚨 【スタッフ呼出要請】",
@@ -109,6 +101,4 @@ async function handleHumanRequest(
 			"🔗 受信ボックス: https://chat.line.biz/U517fac03f5bf559a931138ddfc8bf5bb/?openExternalBrowser=1",
 		].join("\n"),
 	);
-
-	return NextResponse.json({ ok: true, action: "request_human" });
 }
