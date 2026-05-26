@@ -18,7 +18,7 @@ import type { webhook } from "@line/bot-sdk";
 import { type NextRequest, NextResponse } from "next/server";
 import { getLineClient } from "@/lib/line/client";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 export const maxDuration = 30;
 
 interface RelayRequest {

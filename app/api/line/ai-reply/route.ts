@@ -32,7 +32,7 @@ import { getConciergeSystemPrompt } from "@/lib/concierge/system-prompt";
 import { getLineClient } from "@/lib/line/client";
 import { ctaToFlexMessage } from "@/lib/line/flex-cta";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 export const maxDuration = 60;
 
 interface RelayRequest {
