@@ -299,15 +299,33 @@ async function processAiReply(input: AiReplyInput): Promise<void> {
 			`[ai-reply] processAiReply error after ${Date.now() - t0}ms:`,
 			e,
 		);
+		const errMessage = getUserFriendlyErrorMessage(e);
 		await replyOrPush({
 			replyToken,
 			userId,
-			messages: [
-				{
-					type: "text",
-					text: "申し訳ありません。応答中にエラーが発生しました。改めてお試しください。",
-				},
-			],
+			messages: [{ type: "text", text: errMessage }],
 		});
 	}
+}
+
+/**
+ * エラー内容から利用者向けの自然な日本語メッセージを生成
+ */
+function getUserFriendlyErrorMessage(e: unknown): string {
+	const errStr = e instanceof Error ? e.message : String(e);
+	const status =
+		e instanceof Error && "status" in e
+			? (e as Error & { status?: number }).status
+			: undefined;
+
+	if (
+		status === 429 ||
+		errStr.includes("RESOURCE_EXHAUSTED") ||
+		errStr.includes("quota") ||
+		errStr.includes("429")
+	) {
+		return "現在アクセスが集中しております。少々お待ちいただき、改めてお試しください。";
+	}
+
+	return "申し訳ありません。一時的に応答できません。改めてお試しください。";
 }
