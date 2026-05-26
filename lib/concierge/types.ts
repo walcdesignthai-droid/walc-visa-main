@@ -1,5 +1,5 @@
 /**
- * lib/concierge/types.ts — v3.0 (human CTA 追加)
+ * lib/concierge/types.ts — v4.0 (portal CTA 追加)
  */
 
 export type ConciergeRole = "user" | "assistant";
@@ -14,6 +14,8 @@ export type ConciergeCtaType =
 	| "line"
 	| "diagnosis"
 	| "human"
+	| "portal_login"
+	| "portal_reset"
 	| { type: "apply"; visaId: string };
 
 export interface ParsedConciergeResponse {

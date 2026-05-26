@@ -1,7 +1,3 @@
-/**
- * lib/line/flex-cta.ts — CTA タグ → LINE Flex Message 変換 (Edge 対応)
- */
-
 import type { ConciergeCtaType } from "@/lib/concierge/types";
 import { buildApplicationUrl } from "@/lib/walc-links";
 import type { LineFlexMessage } from "./fetch-client";
@@ -16,6 +12,10 @@ const VISA_LABELS: Record<string, string> = {
 };
 
 const DIAGNOSIS_URL = "https://dtv.walc-visa.online/diagnosis";
+const CRM_BASE =
+	process.env.NEXT_PUBLIC_WALC_CRM_BASE_URL ?? "https://crm.walc-visa.online";
+const PORTAL_LOGIN_URL = `${CRM_BASE}/portal/login`;
+const PORTAL_RESET_URL = `${CRM_BASE}/portal/reset-password`;
 
 export function ctaToFlexMessage(
 	cta: ConciergeCtaType | null,
@@ -50,6 +50,25 @@ export function ctaToFlexMessage(
 		});
 	}
 
+	if (cta === "portal_login") {
+		return buildLinkFlex({
+			title: "顧客ポータルにログイン",
+			subtitle: "ご自身の申請進捗・書類・請求書を確認できます。",
+			buttonLabel: "ポータルを開く",
+			url: PORTAL_LOGIN_URL,
+		});
+	}
+
+	if (cta === "portal_reset") {
+		return buildLinkFlex({
+			title: "パスワード再設定",
+			subtitle: "ご登録のメールアドレスにリセットリンクをお送りします。",
+			buttonLabel: "パスワードを再設定",
+			url: PORTAL_RESET_URL,
+		});
+	}
+
+	// apply
 	const visaId = cta.visaId;
 	const label = VISA_LABELS[visaId] ?? visaId.toUpperCase();
 	const url = buildApplicationUrl({
@@ -119,21 +138,8 @@ function bubbleContents(
 			spacing: "md",
 			paddingAll: "16px",
 			contents: [
-				{
-					type: "text",
-					text: title,
-					weight: "bold",
-					size: "md",
-					color: "#0b2a4a",
-					wrap: true,
-				},
-				{
-					type: "text",
-					text: subtitle,
-					size: "xs",
-					color: "#475569",
-					wrap: true,
-				},
+				{ type: "text", text: title, weight: "bold", size: "md", color: "#0b2a4a", wrap: true },
+				{ type: "text", text: subtitle, size: "xs", color: "#475569", wrap: true },
 			],
 		},
 		footer: {
@@ -142,13 +148,7 @@ function bubbleContents(
 			spacing: "sm",
 			paddingAll: "12px",
 			contents: [
-				{
-					type: "button",
-					style: "primary",
-					color: "#0b2a4a",
-					height: "sm",
-					action,
-				},
+				{ type: "button", style: "primary", color: "#0b2a4a", height: "sm", action },
 			],
 		},
 	};
