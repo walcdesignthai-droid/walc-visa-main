@@ -1,13 +1,17 @@
 /**
- * app/api/line/postback/route.ts — v3.0 (waitUntil 化)
+ * app/api/line/postback/route.ts — v5.0
+ * ----------------------------------------------------------------------------
+ * - replyOrPush 採用 (Reply 失敗時 Push fallback)
+ * - mode 切替時に notifyModeChange (構造化通知)
+ * ----------------------------------------------------------------------------
  */
 
 import { waitUntil } from "@vercel/functions";
 import { type NextRequest, NextResponse } from "next/server";
 import {
 	getLineProfile,
-	lineReply,
-	notifyStaffGroup,
+	notifyModeChange,
+	replyOrPush,
 } from "@/lib/line/fetch-client";
 import { setLineMode } from "@/lib/line/mode-store";
 
@@ -30,7 +34,10 @@ export async function POST(req: NextRequest) {
 	const providedSecret = req.headers.get("x-walc-relay-secret");
 	const expectedSecret = process.env.WALC_RELAY_SECRET;
 	if (!expectedSecret) {
-		return NextResponse.json({ error: "Server not configured" }, { status: 500 });
+		return NextResponse.json(
+			{ error: "Server not configured" },
+			{ status: 500 },
+		);
 	}
 	if (providedSecret !== expectedSecret) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -58,7 +65,6 @@ export async function POST(req: NextRequest) {
 	const userId = event.source?.userId ?? "";
 
 	if (data === "action=request_human") {
-		// バックグラウンド処理 + 即時 200
 		waitUntil(handleHumanRequest(event.replyToken, userId, body.recentMessage));
 		return NextResponse.json({ ok: true, queued: true });
 	}
@@ -71,34 +77,33 @@ async function handleHumanRequest(
 	userId: string,
 	recentMessage: string | undefined,
 ): Promise<void> {
+	const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
 	if (userId) {
 		await setLineMode(userId, "human");
 	}
 
 	const profile = userId ? await getLineProfile(userId) : null;
-	const displayName = profile?.displayName ?? "(不明)";
+	const customerName = profile?.displayName ?? "(不明)";
 
-	try {
-		await lineReply(replyToken, [
+	await replyOrPush({
+		replyToken,
+		userId: userId || undefined,
+		messages: [
 			{
 				type: "text",
 				text: "担当者にお繋ぎしました。\n\n営業時間内に WALC スタッフから順次ご返信いたします (最大 24 時間以内)。\n\nこの会話は今後 24 時間、スタッフが直接対応します。\nお気軽にメッセージをお送りください。",
 			},
-		]);
-	} catch (e) {
-		console.error("Reply error:", e);
-	}
+		],
+	});
 
-	await notifyStaffGroup(
-		[
-			"🚨 【スタッフ呼出要請】",
-			"",
-			`👤 顧客: ${displayName} 様`,
-			`💬 直近メッセージ: ${recentMessage || "(未取得)"}`,
-			`🆔 user_id: ${userId}`,
-			"",
-			"⏱  以降 24 時間、AI 応答スキップ・スタッフ対応モード",
-			"🔗 受信ボックス: https://chat.line.biz/U517fac03f5bf559a931138ddfc8bf5bb/?openExternalBrowser=1",
-		].join("\n"),
-	);
+	await notifyModeChange({
+		from: "ai",
+		to: "human",
+		customerName,
+		userId: userId || "(unknown)",
+		reason: "postback",
+		recentMessage,
+		expiresAt,
+	});
 }

@@ -1,8 +1,8 @@
 /**
- * lib/line/mode-store.ts — LINE ユーザーモード管理 (AI / Human)
+ * lib/line/mode-store.ts — v2.0
  * ----------------------------------------------------------------------------
- * Supabase の line_user_modes テーブルで永続化。
- * Human モードは 24h で自動 AI 復帰。
+ * getLineModeFull を追加 (mode + expiresAt + autoReverted の一括返却)
+ * 後方互換のため getLineMode は維持
  * ----------------------------------------------------------------------------
  */
 
@@ -20,9 +20,16 @@ interface LineUserModeRow {
 	updated_at: string;
 }
 
-/** モード取得 (期限切れなら自動で AI に復帰させた上で 'ai' を返す) */
-export async function getLineMode(userId: string | undefined): Promise<LineMode> {
-	if (!userId) return "ai";
+export interface LineModeFull {
+	mode: LineMode;
+	expiresAt: Date | null;
+	autoReverted: boolean;
+}
+
+export async function getLineModeFull(
+	userId: string | undefined,
+): Promise<LineModeFull> {
+	if (!userId) return { mode: "ai", expiresAt: null, autoReverted: false };
 
 	const sb = getSupabaseAdmin();
 	const { data, error } = await sb
@@ -32,25 +39,32 @@ export async function getLineMode(userId: string | undefined): Promise<LineMode>
 		.maybeSingle<Pick<LineUserModeRow, "mode" | "expires_at">>();
 
 	if (error) {
-		console.error("getLineMode error:", error.message);
-		return "ai";
+		console.error("getLineModeFull error:", error.message);
+		return { mode: "ai", expiresAt: null, autoReverted: false };
 	}
-	if (!data) return "ai";
+	if (!data) return { mode: "ai", expiresAt: null, autoReverted: false };
 
-	// human モードで expires_at を過ぎている → AI 復帰
-	if (
-		data.mode === "human" &&
-		data.expires_at &&
-		new Date(data.expires_at) < new Date()
-	) {
+	const expiresAt = data.expires_at ? new Date(data.expires_at) : null;
+
+	if (data.mode === "human" && expiresAt && expiresAt < new Date()) {
 		await setLineMode(userId, "ai");
-		return "ai";
+		return { mode: "ai", expiresAt: null, autoReverted: true };
 	}
 
-	return data.mode;
+	return {
+		mode: data.mode,
+		expiresAt: data.mode === "human" ? expiresAt : null,
+		autoReverted: false,
+	};
 }
 
-/** モード設定 (human の場合 24h の expires_at を自動セット) */
+export async function getLineMode(
+	userId: string | undefined,
+): Promise<LineMode> {
+	const r = await getLineModeFull(userId);
+	return r.mode;
+}
+
 export async function setLineMode(
 	userId: string,
 	mode: LineMode,
@@ -59,7 +73,7 @@ export async function setLineMode(
 
 	const sb = getSupabaseAdmin();
 	const now = new Date();
-	const row: Omit<LineUserModeRow, "updated_at"> & { updated_at: string } = {
+	const row: LineUserModeRow = {
 		line_user_id: userId,
 		mode,
 		entered_human_at: mode === "human" ? now.toISOString() : null,

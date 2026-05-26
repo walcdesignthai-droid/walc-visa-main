@@ -1,10 +1,10 @@
 /**
- * app/api/line/ai-reply/route.ts — v5.0 (waitUntil 非同期化)
+ * app/api/line/ai-reply/route.ts — v7.0
  * ----------------------------------------------------------------------------
- * Vercel Edge 25 秒 timeout 回避:
- *   - n8n には即時 200 を返却
- *   - CRM 連携 + Gemini 応答 + LINE Reply は waitUntil でバックグラウンド継続
- *   - LINE replyToken は 1 分有効なので余裕で間に合う
+ * - waitUntil で n8n に即時 200・AI 処理は背景実行
+ * - replyOrPush で Reply 失敗時に Push へ fallback (replyToken 30 秒超過対策)
+ * - mode 可視化: Human モード時は 🚨 通知、TTL 自動復帰時は 🔄 通知
+ * - 各 phase の timing log で次回診断容易化
  * ----------------------------------------------------------------------------
  */
 
@@ -21,11 +21,12 @@ import {
 import { ctaToFlexMessage } from "@/lib/line/flex-cta";
 import {
 	getLineProfile,
-	lineReply,
-	notifyStaffGroup,
+	notifyModeChange,
+	notifyStaffMessageInHumanMode,
+	replyOrPush,
 	type LineMessage,
 } from "@/lib/line/fetch-client";
-import { getLineMode } from "@/lib/line/mode-store";
+import { getLineModeFull } from "@/lib/line/mode-store";
 
 export const runtime = "edge";
 
@@ -36,7 +37,6 @@ interface RelayRequest {
 }
 
 export async function POST(req: NextRequest) {
-	// 1. Relay Secret 検証
 	const providedSecret = req.headers.get("x-walc-relay-secret");
 	const expectedSecret = process.env.WALC_RELAY_SECRET;
 	if (!expectedSecret) {
@@ -49,7 +49,6 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	// 2. Body
 	let body: RelayRequest;
 	try {
 		body = (await req.json()) as RelayRequest;
@@ -62,54 +61,84 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ ok: true, skipped: "missing_required" });
 	}
 	if (userText.length > 1000) {
-		waitUntil(safeReply(replyToken, [
-			{ type: "text", text: "メッセージが長すぎます。1000 文字以内でお願いします。" },
-		]));
+		waitUntil(
+			replyOrPush({
+				replyToken,
+				userId: body.userId,
+				messages: [
+					{
+						type: "text",
+						text: "メッセージが長すぎます。1000 文字以内でお願いします。",
+					},
+				],
+			}),
+		);
 		return NextResponse.json({ ok: true, note: "too_long" });
 	}
 
-	// 3. バックグラウンドで AI 処理 (n8n には即時 200)
 	waitUntil(processAiReply(body));
-
 	return NextResponse.json({ ok: true, queued: true });
 }
 
-/** バックグラウンド AI 応答処理 (n8n からはタイムアウトしない) */
 async function processAiReply(body: RelayRequest): Promise<void> {
 	const { replyToken, userText, userId } = body;
+	const t0 = Date.now();
 
 	try {
-		// mode 確認
-		const mode = await getLineMode(userId);
+		// 1. mode 取得
+		const tMode0 = Date.now();
+		const modeInfo = await getLineModeFull(userId);
+		console.log(`[ai-reply] getLineModeFull ${Date.now() - tMode0}ms mode=${modeInfo.mode}`);
 
-		// human モード → AI スキップ + スタッフ通知
-		if (mode === "human") {
-			const profile = userId ? await getLineProfile(userId) : null;
-			const displayName = profile?.displayName ?? "(不明)";
-			await notifyStaffGroup(
-				[
-					"💬 [対応中]",
-					`👤 ${displayName} 様`,
-					`📝 ${userText}`,
-					`🆔 ${userId ?? "(unknown)"}`,
-				].join("\n"),
-			);
+		// 2. プロフィール
+		const tProfile0 = Date.now();
+		const profile = userId ? await getLineProfile(userId) : null;
+		const customerName = profile?.displayName ?? "(不明)";
+		console.log(`[ai-reply] getLineProfile ${Date.now() - tProfile0}ms`);
+
+		// 3. TTL 自動復帰なら通知
+		if (modeInfo.autoReverted && userId) {
+			await notifyModeChange({
+				from: "human",
+				to: "ai",
+				customerName,
+				userId,
+				reason: "ttl_expired",
+				recentMessage: userText,
+			});
+		}
+
+		// 4. Human モード → AI スキップ + 構造化通知
+		if (modeInfo.mode === "human") {
+			await notifyStaffMessageInHumanMode({
+				customerName,
+				userText,
+				userId: userId ?? "(unknown)",
+				humanExpiresAt: modeInfo.expiresAt,
+			});
 			return;
 		}
 
-		// AI モード
+		// 5. AI モード処理
 		if (!process.env.GEMINI_API_KEY) {
-			await safeReply(replyToken, [
-				{ type: "text", text: "申し訳ありません。一時的に AI 応答ができません。改めてお試しください。" },
-			]);
+			await replyOrPush({
+				replyToken,
+				userId,
+				messages: [
+					{
+						type: "text",
+						text: "申し訳ありません。一時的に AI 応答ができません。改めてお試しください。",
+					},
+				],
+			});
 			return;
 		}
 
-		// CRM context (best-effort・エラーで失敗しても AI 応答は続ける)
+		// 6. CRM context (best-effort)
 		let customerContext: string | undefined;
+		const tCrm0 = Date.now();
 		try {
 			if (userId) {
-				const profile = await getLineProfile(userId);
 				const customer = await getOrCreateCustomerByLine(
 					userId,
 					profile?.displayName,
@@ -120,14 +149,17 @@ async function processAiReply(body: RelayRequest): Promise<void> {
 				}
 			}
 		} catch (e) {
-			console.warn("CRM context skip (continuing):", e);
+			console.warn("[ai-reply] CRM context skip:", e);
 		}
+		console.log(`[ai-reply] CRM context ${Date.now() - tCrm0}ms`);
 
-		// Gemini 応答
+		// 7. Gemini 応答
+		const tGemini0 = Date.now();
 		const { text: rawText } = await geminiGenerate({
 			systemPrompt: getConciergeSystemPrompt(customerContext),
 			messages: [{ role: "user", content: userText }],
 		});
+		console.log(`[ai-reply] Gemini ${Date.now() - tGemini0}ms`);
 
 		const parsed = parseConciergeResponse(rawText);
 
@@ -137,22 +169,23 @@ async function processAiReply(body: RelayRequest): Promise<void> {
 		const flex = ctaToFlexMessage(parsed.cta);
 		if (flex) messages.push(flex);
 
-		await lineReply(replyToken, messages);
+		// 8. Reply → Push fallback で確実に届ける
+		const tSend0 = Date.now();
+		const sendResult = await replyOrPush({ replyToken, userId, messages });
+		console.log(
+			`[ai-reply] send via ${sendResult.method} ${Date.now() - tSend0}ms ok=${sendResult.ok} (total=${Date.now() - t0}ms)`,
+		);
 	} catch (e) {
-		console.error("processAiReply error:", e);
-		await safeReply(replyToken, [
-			{
-				type: "text",
-				text: "申し訳ありません。応答中にエラーが発生しました。改めてお試しください。",
-			},
-		]);
-	}
-}
-
-async function safeReply(replyToken: string, messages: LineMessage[]): Promise<void> {
-	try {
-		await lineReply(replyToken, messages);
-	} catch (e) {
-		console.error("safeReply failed:", e);
+		console.error(`[ai-reply] processAiReply error after ${Date.now() - t0}ms:`, e);
+		await replyOrPush({
+			replyToken,
+			userId,
+			messages: [
+				{
+					type: "text",
+					text: "申し訳ありません。応答中にエラーが発生しました。改めてお試しください。",
+				},
+			],
+		});
 	}
 }
