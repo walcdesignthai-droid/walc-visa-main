@@ -1,8 +1,9 @@
 /**
- * lib/line/mode-store.ts — v2.0
+ * lib/line/mode-store.ts — v2.1
  * ----------------------------------------------------------------------------
- * getLineModeFull を追加 (mode + expiresAt + autoReverted の一括返却)
- * 後方互換のため getLineMode は維持
+ * HUMAN_MODE_DURATION_MS / HUMAN_MODE_DURATION_HOURS を export し、
+ * 他モジュール (postback-handler 等) と完全一致させる。
+ * v2.1: 24h → 6h に変更
  * ----------------------------------------------------------------------------
  */
 
@@ -10,7 +11,11 @@ import { getSupabaseAdmin } from "@/lib/supabase/server";
 
 export type LineMode = "ai" | "human";
 
-const HUMAN_MODE_DURATION_MS = 24 * 60 * 60 * 1000; // 24h
+/** Human モード継続時間 (時間単位) — UI / 通知用 */
+export const HUMAN_MODE_DURATION_HOURS = 6;
+
+/** Human モード継続時間 (ms) — setLineMode 内部用 */
+export const HUMAN_MODE_DURATION_MS = HUMAN_MODE_DURATION_HOURS * 60 * 60 * 1000;
 
 interface LineUserModeRow {
 	line_user_id: string;

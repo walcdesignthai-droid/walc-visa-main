@@ -1,8 +1,8 @@
 /**
- * lib/line/postback-handler.ts
+ * lib/line/postback-handler.ts — v1.1
  * ----------------------------------------------------------------------------
  * LINE postback イベント処理。
- * ai-reply と /api/line/postback の両方から呼べる共通実装。
+ * Human モード継続時間を mode-store の定数から取得 (ズレ防止)。
  * ----------------------------------------------------------------------------
  */
 
@@ -11,7 +11,11 @@ import {
 	notifyModeChange,
 	replyOrPush,
 } from "@/lib/line/fetch-client";
-import { setLineMode } from "@/lib/line/mode-store";
+import {
+	HUMAN_MODE_DURATION_HOURS,
+	HUMAN_MODE_DURATION_MS,
+	setLineMode,
+} from "@/lib/line/mode-store";
 
 export interface PostbackInput {
 	replyToken: string;
@@ -37,7 +41,7 @@ async function handleHumanRequest(opts: {
 	recentMessage?: string;
 }): Promise<void> {
 	const { replyToken, userId, recentMessage } = opts;
-	const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+	const expiresAt = new Date(Date.now() + HUMAN_MODE_DURATION_MS);
 
 	if (userId) {
 		await setLineMode(userId, "human");
@@ -52,7 +56,7 @@ async function handleHumanRequest(opts: {
 		messages: [
 			{
 				type: "text",
-				text: "担当者にお繋ぎしました。\n\n営業時間内に WALC スタッフから順次ご返信いたします (最大 24 時間以内)。\n\nこの会話は今後 24 時間、スタッフが直接対応します。\nお気軽にメッセージをお送りください。",
+				text: `担当者にお繋ぎしました。\n\n営業時間内に WALC スタッフから順次ご返信いたします (最大 ${HUMAN_MODE_DURATION_HOURS} 時間以内)。\n\nこの会話は今後 ${HUMAN_MODE_DURATION_HOURS} 時間、スタッフが直接対応します。\nお気軽にメッセージをお送りください。`,
 			},
 		],
 	});

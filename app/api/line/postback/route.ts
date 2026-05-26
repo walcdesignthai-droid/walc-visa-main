@@ -1,8 +1,8 @@
 /**
- * app/api/line/postback/route.ts — v5.0
+ * app/api/line/postback/route.ts — v5.1
  * ----------------------------------------------------------------------------
- * - replyOrPush 採用 (Reply 失敗時 Push fallback)
- * - mode 切替時に notifyModeChange (構造化通知)
+ * 旧ルート (n8n は現在 ai-reply に統合済・残置中)
+ * 時間定数を mode-store から import して universal handler と同期
  * ----------------------------------------------------------------------------
  */
 
@@ -13,7 +13,11 @@ import {
 	notifyModeChange,
 	replyOrPush,
 } from "@/lib/line/fetch-client";
-import { setLineMode } from "@/lib/line/mode-store";
+import {
+	HUMAN_MODE_DURATION_HOURS,
+	HUMAN_MODE_DURATION_MS,
+	setLineMode,
+} from "@/lib/line/mode-store";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -78,7 +82,7 @@ async function handleHumanRequest(
 	userId: string,
 	recentMessage: string | undefined,
 ): Promise<void> {
-	const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+	const expiresAt = new Date(Date.now() + HUMAN_MODE_DURATION_MS);
 
 	if (userId) {
 		await setLineMode(userId, "human");
@@ -93,7 +97,7 @@ async function handleHumanRequest(
 		messages: [
 			{
 				type: "text",
-				text: "担当者にお繋ぎしました。\n\n営業時間内に WALC スタッフから順次ご返信いたします (最大 24 時間以内)。\n\nこの会話は今後 24 時間、スタッフが直接対応します。\nお気軽にメッセージをお送りください。",
+				text: `担当者にお繋ぎしました。\n\n営業時間内に WALC スタッフから順次ご返信いたします (最大 ${HUMAN_MODE_DURATION_HOURS} 時間以内)。\n\nこの会話は今後 ${HUMAN_MODE_DURATION_HOURS} 時間、スタッフが直接対応します。\nお気軽にメッセージをお送りください。`,
 			},
 		],
 	});
