@@ -11,9 +11,6 @@ importers:
       '@google/genai':
         specifier: ^2.6.0
         version: 2.6.0
-      '@line/bot-sdk':
-        specifier: ^11.0.0
-        version: 11.0.0
       '@line/liff':
         specifier: ^2.29.0
         version: 2.29.0
@@ -558,10 +555,6 @@ packages:
 
   '@line/bot-sdk@10.8.0':
     resolution: {integrity: sha512-1Mdpw/WPS3QP6fGiwPRTL27k8MgmMe7rVKCKsItP/kPzogX7a/X1ipQqk/F6RkorP9DNyJIx590hnVUkfBQf3w==}
-    engines: {node: '>=20'}
-
-  '@line/bot-sdk@11.0.0':
-    resolution: {integrity: sha512-3NZJjeFm2BikwVRgA8osIVbgKhuL0CzphQOdrB8okXIC40qMRE4RRfHFN3G8/qTb/34RtB95mD4J/KW5MD+b8g==}
     engines: {node: '>=20'}
 
   '@line/liff@2.29.0':
@@ -2329,10 +2322,6 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - supports-color
-
-  '@line/bot-sdk@11.0.0':
-    dependencies:
-      '@types/node': 24.12.4
 
   '@line/liff@2.29.0':
     dependencies:

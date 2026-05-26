@@ -1,16 +1,10 @@
 /**
- * lib/line/flex-cta.ts — v2.0 (human CTA 追加)
- *
- * CTA タグ → LINE Flex Message:
- *   - line       → 案内
- *   - diagnosis  → DTV LP の診断ツール
- *   - human      → WALC スタッフ呼出 (Postback で n8n 通知)
- *   - apply:xxx  → CRM 申込フォーム
+ * lib/line/flex-cta.ts — CTA タグ → LINE Flex Message 変換 (Edge 対応)
  */
 
-import type { messagingApi } from "@line/bot-sdk";
 import type { ConciergeCtaType } from "@/lib/concierge/types";
 import { buildApplicationUrl } from "@/lib/walc-links";
+import type { LineFlexMessage } from "./fetch-client";
 
 const VISA_LABELS: Record<string, string> = {
 	dtv: "DTV(Destination Thailand Visa)",
@@ -25,7 +19,7 @@ const DIAGNOSIS_URL = "https://dtv.walc-visa.online/diagnosis";
 
 export function ctaToFlexMessage(
 	cta: ConciergeCtaType | null,
-): messagingApi.FlexMessage | null {
+): LineFlexMessage | null {
 	if (!cta) return null;
 
 	if (cta === "line") {
@@ -47,7 +41,6 @@ export function ctaToFlexMessage(
 	}
 
 	if (cta === "human") {
-		// Postback action — n8n がこれを検知してスタッフ通知
 		return buildPostbackFlex({
 			title: "WALC スタッフに直接相談",
 			subtitle: "AI ではなく担当者が個別対応します(営業時間内・最大 24h 以内)。",
@@ -57,7 +50,6 @@ export function ctaToFlexMessage(
 		});
 	}
 
-	// apply
 	const visaId = cta.visaId;
 	const label = VISA_LABELS[visaId] ?? visaId.toUpperCase();
 	const url = buildApplicationUrl({
@@ -65,7 +57,6 @@ export function ctaToFlexMessage(
 		source: "line-concierge",
 		medium: "ai-cta",
 	});
-
 	return buildLinkFlex({
 		title: `${label} に申し込む`,
 		subtitle: "オンラインで申込フォームへ進みます。",
@@ -81,52 +72,15 @@ interface LinkFlexConfig {
 	url: string;
 }
 
-function buildLinkFlex(c: LinkFlexConfig): messagingApi.FlexMessage {
+function buildLinkFlex(c: LinkFlexConfig): LineFlexMessage {
 	return {
 		type: "flex",
 		altText: c.title,
-		contents: {
-			type: "bubble",
-			size: "kilo",
-			body: {
-				type: "box",
-				layout: "vertical",
-				spacing: "md",
-				paddingAll: "16px",
-				contents: [
-					{
-						type: "text",
-						text: c.title,
-						weight: "bold",
-						size: "md",
-						color: "#0b2a4a",
-						wrap: true,
-					},
-					{
-						type: "text",
-						text: c.subtitle,
-						size: "xs",
-						color: "#475569",
-						wrap: true,
-					},
-				],
-			},
-			footer: {
-				type: "box",
-				layout: "vertical",
-				spacing: "sm",
-				paddingAll: "12px",
-				contents: [
-					{
-						type: "button",
-						style: "primary",
-						color: "#0b2a4a",
-						height: "sm",
-						action: { type: "uri", label: c.buttonLabel, uri: c.url },
-					},
-				],
-			},
-		},
+		contents: bubbleContents(c.title, c.subtitle, {
+			type: "uri",
+			label: c.buttonLabel,
+			uri: c.url,
+		}),
 	};
 }
 
@@ -138,56 +92,64 @@ interface PostbackFlexConfig {
 	displayText: string;
 }
 
-function buildPostbackFlex(c: PostbackFlexConfig): messagingApi.FlexMessage {
+function buildPostbackFlex(c: PostbackFlexConfig): LineFlexMessage {
 	return {
 		type: "flex",
 		altText: c.title,
-		contents: {
-			type: "bubble",
-			size: "kilo",
-			body: {
-				type: "box",
-				layout: "vertical",
-				spacing: "md",
-				paddingAll: "16px",
-				contents: [
-					{
-						type: "text",
-						text: c.title,
-						weight: "bold",
-						size: "md",
-						color: "#0b2a4a",
-						wrap: true,
-					},
-					{
-						type: "text",
-						text: c.subtitle,
-						size: "xs",
-						color: "#475569",
-						wrap: true,
-					},
-				],
-			},
-			footer: {
-				type: "box",
-				layout: "vertical",
-				spacing: "sm",
-				paddingAll: "12px",
-				contents: [
-					{
-						type: "button",
-						style: "primary",
-						color: "#1e5bb8",
-						height: "sm",
-						action: {
-							type: "postback",
-							label: c.buttonLabel,
-							data: c.postbackData,
-							displayText: c.displayText,
-						},
-					},
-				],
-			},
+		contents: bubbleContents(c.title, c.subtitle, {
+			type: "postback",
+			label: c.buttonLabel,
+			data: c.postbackData,
+			displayText: c.displayText,
+		}),
+	};
+}
+
+function bubbleContents(
+	title: string,
+	subtitle: string,
+	action: Record<string, unknown>,
+): Record<string, unknown> {
+	return {
+		type: "bubble",
+		size: "kilo",
+		body: {
+			type: "box",
+			layout: "vertical",
+			spacing: "md",
+			paddingAll: "16px",
+			contents: [
+				{
+					type: "text",
+					text: title,
+					weight: "bold",
+					size: "md",
+					color: "#0b2a4a",
+					wrap: true,
+				},
+				{
+					type: "text",
+					text: subtitle,
+					size: "xs",
+					color: "#475569",
+					wrap: true,
+				},
+			],
+		},
+		footer: {
+			type: "box",
+			layout: "vertical",
+			spacing: "sm",
+			paddingAll: "12px",
+			contents: [
+				{
+					type: "button",
+					style: "primary",
+					color: "#0b2a4a",
+					height: "sm",
+					action,
+				},
+			],
 		},
 	};
 }
