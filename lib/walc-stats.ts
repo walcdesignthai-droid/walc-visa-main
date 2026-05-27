@@ -47,7 +47,7 @@ export function getDtvAcquisitionStats(): DtvAcquisitionStats {
 		acquired: 212,
 		totalAttempts: 212,
 		successRate: 100,
-		periodLabel: "2024 年 7 月 〜 2026 年 5 月",
+		periodLabel: "2025 年 4 月 の制度大幅変更以降",
 		lastUpdated: "2026-05-24",
 		walcTotalAcquired: 300,
 	};

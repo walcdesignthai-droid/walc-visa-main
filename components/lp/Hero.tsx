@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { getLineAddUrl, buildApplicationUrl } from "@/lib/walc-links";
 import { getDtvAcquisitionStats } from "@/lib/walc-stats";
 
+// v3.3 (2026-05-26) — 飛行機画像は微妙との指示で v3.0 のバンコク夜景に復帰
 const HERO_BG_URL =
 	"https://images.unsplash.com/photo-1531169628939-e84f860fa5d6?fm=jpg&q=85&w=2400&auto=format&fit=crop&ixlib=rb-4.1.0";
 
@@ -57,20 +58,10 @@ export function Hero() {
 				}}
 			/>
 
-			{/* WALC ロゴパターン */}
-			<div className="absolute -right-32 -bottom-32 md:-right-20 md:-bottom-20 w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-[0.04] pointer-events-none z-20">
-				<Image
-					src="/walc-visa-logo.png"
-					alt=""
-					fill
-					sizes="(max-width: 768px) 600px, 800px"
-					className="object-contain"
-				/>
-			</div>
-
-			{/* ドットパターン */}
+			{/* v3.3: WALC ロゴパターン削除 (背景画像と競合のため・Yosuke 指示) */}
+			{/* ドットパターン (控えめ) */}
 			<div
-				className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-screen z-20"
+				className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-screen z-20"
 				style={{
 					backgroundImage:
 						"radial-gradient(circle, white 1px, transparent 1px)",

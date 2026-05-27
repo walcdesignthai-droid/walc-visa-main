@@ -18,8 +18,8 @@ export function WhyWalc() {
 		{
 			Icon: Trophy,
 			labelKey: "Track Record",
-			title: "取得率 100% の実績",
-			body: `DTV ${stats.acquired} / ${stats.totalAttempts} 件取得(${stats.periodLabel})、WALC 全体で ${stats.walcTotalAcquired}+ 件の VISA 取得実績。タイの全主要 VISA 種別に対応する経験量。`,
+			title: "DTV 取得率 100%",
+			body: `DTV ${stats.acquired} / ${stats.totalAttempts} 件取得・取得率 100%(${stats.periodLabel}の弊社実績)。WALC 全体で ${stats.walcTotalAcquired}+ 件の VISA 取得経験があり、Privilege / LTR / リタイアメント / 結婚 / 学生 / NON-B など主要 VISA 全種別を取得まで責任を持ってサポートいたします。`,
 			metric: { value: "212 / 212", label: "DTV 取得 / 申請" },
 		},
 		{

@@ -15,10 +15,18 @@ import {
 } from "lucide-react";
 
 const ITEMS = [
-	{ Icon: MapPin, value: "6 年", label: "タイ拠点運営" },
-	{ Icon: CheckCircle2, value: "212 / 212 件", label: "DTV 取得実績" },
-	{ Icon: ShieldCheck, value: "300+ 件", label: "WALC 全体 VISA 取得" },
-	{ Icon: Clock, value: "24 h 以内", label: "初回応答" },
+	{ Icon: MapPin, value: "6 年", label: "バンコク現地法人運営" },
+	{
+		Icon: CheckCircle2,
+		value: "212 / 212",
+		label: "DTV 取得率 100%(2025/4 制度変更以降)",
+	},
+	{
+		Icon: ShieldCheck,
+		value: "300+ 件",
+		label: "全 VISA 種別 累計取得実績",
+	},
+	{ Icon: Clock, value: "24 h 以内", label: "初回応答(LINE 即レス)" },
 	{ Icon: Smartphone, value: "専用 CRM", label: "申込〜運用まで一気通貫" },
 ] as const;
 

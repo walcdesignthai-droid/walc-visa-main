@@ -3,6 +3,10 @@
  * ----------------------------------------------------------------------------
  * 修正履歴:
  *   v1.1 (2026-05-25) — 漢字修正: 洋介 → 陽介
+ *   v1.2 (2026-05-26) — 在住歴修正: 「バンコク在住 6 年」(WALC 社歴と混同)
+ *                                  → 「バンコク在住 10 年以上」(Yosuke 本人歴)
+ *                                  + 「WALC 創業 6 年」を別途明示
+ *                       出典: walc-studio/knowledge/01_walc_company_info.md
  * ----------------------------------------------------------------------------
  */
 
@@ -35,11 +39,11 @@ export function Founder() {
 						</div>
 
 						<p className="text-xs text-white/55 mt-5 leading-relaxed">
-							WALC Design Co., Ltd. 代表取締役
+							WALC DESIGN Co., Ltd. 代表取締役
 							<br />
 							WALC VISA Consulting 統括
 							<br />
-							バンコク在住 6 年
+							バンコク在住 10 年以上 / WALC 創業 6 年
 						</p>
 					</div>
 
