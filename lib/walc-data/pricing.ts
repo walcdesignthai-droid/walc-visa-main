@@ -54,6 +54,8 @@ export interface VisaCategory {
 	linkDisabled?: boolean;
 	/** リンク無効時の表示文 */
 	linkDisabledReason?: string;
+	/** 外部 LP に飛ばす (DTV 専用サイト等)。指定時は internal /visas/{slug} を使わない */
+	externalUrl?: string;
 }
 
 // ============================================================================
@@ -96,6 +98,8 @@ export const VISA_DTV: VisaCategory = {
 	],
 	bookingNote:
 		"DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。銀行口座開設は 2026/4 以降不可。",
+	// DTV 専用 LP (dtv.walc-visa.online) が既存のため、内部 /visas/dtv は作らず外部リンクで誘導
+	externalUrl: "https://dtv.walc-visa.online",
 };
 
 // ============================================================================

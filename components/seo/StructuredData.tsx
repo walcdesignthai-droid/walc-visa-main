@@ -1,0 +1,172 @@
+/**
+ * components/seo/StructuredData.tsx — walc-visa.online 用 JSON-LD
+ * ----------------------------------------------------------------------------
+ * 全 VISA 種別対応版 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)。
+ *
+ * 含まれるスキーマ:
+ *   - Organization (WALC DESIGN Co., Ltd.)
+ *   - ProfessionalService (VISA 取得代行・全種別)
+ *   - FAQPage (主要 FAQ 5 件)
+ *   - WebSite
+ *   - LocalBusiness (バンコク拠点)
+ *
+ * 出典: walc-studio/knowledge/01_walc_company_info.md / 02_pricing_master.md
+ * ----------------------------------------------------------------------------
+ */
+
+import {
+	formatTHB,
+	VISA_DTV,
+	VISA_LTR,
+	VISA_PRIVILEGE,
+	VISA_RETIREMENT,
+	categoryFromPrice,
+	categoryRecommendedPlan,
+} from "@/lib/walc-data/pricing";
+
+const ORG_BASE = {
+	"@type": "Organization",
+	name: "WALC VISA Consulting",
+	legalName: "WALC DESIGN Co., Ltd.",
+	url: "https://walc-visa.online",
+	logo: "https://walc-visa.online/walc-visa-logo.png",
+	foundingDate: "2021-08-27",
+	founder: {
+		"@type": "Person",
+		name: "小野寺 陽介",
+		givenName: "Yosuke",
+		familyName: "Onodera",
+	},
+	address: {
+		"@type": "PostalAddress",
+		addressCountry: "TH",
+		addressRegion: "Bangkok",
+		streetAddress: "30 Sukhumvit 61, Wattana",
+		postalCode: "10110",
+	},
+	sameAs: [
+		"https://dtv.walc-visa.online",
+		"https://crm.walc-visa.online",
+		"https://walc-consulting.com",
+	],
+};
+
+/** 各 VISA カテゴリを Offer に変換 (recommended plan があればそれを優先) */
+function visaToOffer(cat: typeof VISA_DTV) {
+	const recommended = categoryRecommendedPlan(cat);
+	const minPrice = recommended?.walcFee ?? categoryFromPrice(cat);
+	if (minPrice == null) return null;
+	return {
+		"@type": "Offer",
+		name: `${cat.shortName} (${cat.duration})`,
+		price: String(minPrice),
+		priceCurrency: "THB",
+		description: cat.primaryDesc,
+	};
+}
+
+const PROFESSIONAL_SERVICE = {
+	"@context": "https://schema.org",
+	"@type": "ProfessionalService",
+	name: "WALC VISA Consulting - タイ VISA 取得代行",
+	provider: ORG_BASE,
+	serviceType: "タイ長期 VISA 取得代行 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)",
+	areaServed: { "@type": "Country", name: "Thailand" },
+	priceRange: `${formatTHB(45_000)} - ${formatTHB(5_000_000)}`,
+	offers: [
+		visaToOffer(VISA_DTV),
+		visaToOffer(VISA_RETIREMENT),
+		visaToOffer(VISA_LTR),
+		visaToOffer(VISA_PRIVILEGE),
+	].filter((o): o is NonNullable<typeof o> => o !== null),
+};
+
+const FAQ_PAGE = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: [
+		{
+			"@type": "Question",
+			name: "タイの長期 VISA はどんな種類がありますか?",
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: "DTV (5 年マルチプル・WALC 第一推奨)・Thailand Privilege (5〜20 年)・LTR (10 年・税優遇)・NON-O リタイアメント (50 歳以上)・NON-O 結婚 / 家族・NON-ED 学生など。WALC では全種別に対応しております。",
+			},
+		},
+		{
+			"@type": "Question",
+			name: "DTV ビザの料金はいくらですか?",
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: "WALC 料金は 45,000 THB (ノマド) から 60,000 THB (ソフトパワー)。すべて申請費・書類サポート込み。5 年マルチプル・1 回 180 日滞在。",
+			},
+		},
+		{
+			"@type": "Question",
+			name: "WALC の VISA 取得実績は?",
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: "DTV は 212/212 件取得・取得率 100% (2025 年 4 月の制度大幅変更以降の弊社実績)。WALC 全体で累計 300+ 件の VISA 取得経験。",
+			},
+		},
+		{
+			"@type": "Question",
+			name: "オーバーステイや入国拒否の相談もできますか?",
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: "はい。WALC は VISA トラブル全般 (オーバーステイ・イミグレ拒否・アラート保有・ビザラン疲れ) に対応しております。LINE で 24 時間以内に初回応答いたします。",
+			},
+		},
+		{
+			"@type": "Question",
+			name: "タイ国内で銀行口座を開設したいです",
+			acceptedAnswer: {
+				"@type": "Answer",
+				text: "2026 年 4 月の制度変更以降、DTV では銀行口座開設不可となりました。口座開設が必須の方は、NON-O リタイア・Thailand Privilege・LTR Visa をご検討ください。WALC 専門スタッフが最適プランをご案内します。",
+			},
+		},
+	],
+};
+
+const WEBSITE = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: "WALC VISA Consulting - タイ VISA 取得・運用の専門コンサルティング",
+	url: "https://walc-visa.online",
+	publisher: ORG_BASE,
+	inLanguage: "ja-JP",
+};
+
+const LOCAL_BUSINESS = {
+	...ORG_BASE,
+	"@context": "https://schema.org",
+	"@type": "LocalBusiness",
+	priceRange: "฿13,000 - ฿5,000,000",
+	openingHoursSpecification: [
+		{
+			"@type": "OpeningHoursSpecification",
+			dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+			opens: "09:00",
+			closes: "18:00",
+		},
+	],
+};
+
+export function StructuredData() {
+	const schemas = [PROFESSIONAL_SERVICE, FAQ_PAGE, WEBSITE, LOCAL_BUSINESS];
+	return (
+		<>
+			{schemas.map((schema, i) => (
+				<script
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は信頼できる static data
+					// biome-ignore lint/suspicious/noArrayIndexKey: schemas は固定長・順序が安定
+					key={i}
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(schema),
+					}}
+				/>
+			))}
+		</>
+	);
+}

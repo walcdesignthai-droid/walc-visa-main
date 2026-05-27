@@ -17,8 +17,12 @@ import {
 	SITE_URLS,
 } from "@/lib/walc-data/site-map";
 
-const FOOTER_VISA_NAV: { href: string; label: string }[] = [
-	{ href: "/visas/dtv", label: "DTV (Destination Thailand Visa)" },
+const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
+	{
+		href: SITE_URLS.dtv,
+		label: "DTV 専門サイト",
+		external: true,
+	},
 	{ href: "/visas/retirement", label: "リタイアメント VISA" },
 	{ href: "/visas/ltr", label: "LTR Visa" },
 	{ href: "/#visa-types", label: "Thailand Privilege / 他 VISA 一覧" },
@@ -59,12 +63,24 @@ export function Footer() {
 						<ul className="space-y-2.5">
 							{FOOTER_VISA_NAV.map((item) => (
 								<li key={item.href}>
-									<Link
-										href={item.href}
-										className="text-sm text-white/70 hover:text-white transition-colors"
-									>
-										{item.label}
-									</Link>
+									{item.external ? (
+										<a
+											href={item.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-white transition-colors group"
+										>
+											{item.label}
+											<ArrowUpRight className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+										</a>
+									) : (
+										<Link
+											href={item.href}
+											className="text-sm text-white/70 hover:text-white transition-colors"
+										>
+											{item.label}
+										</Link>
+									)}
 								</li>
 							))}
 						</ul>

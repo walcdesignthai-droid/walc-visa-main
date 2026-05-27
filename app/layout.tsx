@@ -12,6 +12,7 @@ import {
 	Noto_Sans_JP,
 	Plus_Jakarta_Sans,
 } from "next/font/google";
+import { StructuredData } from "@/components/seo/StructuredData";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -70,11 +71,20 @@ export const metadata: Metadata = {
 		title: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
 		description:
 			"タイ国内最大級のVISA取得実績(300件以上)。DTV / リタイア / Thailand Privilege / LTR など全種別に対応。",
+		images: [
+			{
+				url: "/images/AdobeStock_494541408.jpeg",
+				width: 1200,
+				height: 630,
+				alt: "WALC VISA Consulting - タイ VISA 取得代行",
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "WALC VISA Consulting",
 		description: "タイVISA取得・運用の専門コンサル。300件超の取得実績。",
+		images: ["/images/AdobeStock_494541408.jpeg"],
 	},
 	robots: {
 		index: true,
@@ -99,6 +109,10 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 			lang="ja"
 			className={`${jakarta.variable} ${notoSansJp.variable} ${cormorant.variable} h-full antialiased`}
 		>
+			<head>
+				{/* SEO 構造化データ (JSON-LD) — ProfessionalService / FAQPage / WebSite / LocalBusiness */}
+				<StructuredData />
+			</head>
 			<body className="min-h-full flex flex-col bg-bg-primary text-text-primary">
 				{children}
 			</body>

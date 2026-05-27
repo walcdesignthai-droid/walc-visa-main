@@ -62,7 +62,7 @@ export interface NavLink {
 /** Header メインナビ */
 export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },
-	{ href: "/visas/dtv", label: "DTV" },
+	{ href: SITE_URLS.dtv, label: "DTV", external: true },
 	{ href: "/visas/retirement", label: "リタイアメント" },
 	{ href: "/visas/ltr", label: "LTR" },
 	{ href: "/#trouble-support", label: "トラブル対応" },

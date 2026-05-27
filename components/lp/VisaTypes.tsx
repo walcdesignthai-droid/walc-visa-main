@@ -310,9 +310,21 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 		</>
 	);
 
-	// リンク無効カテゴリは div、それ以外は Link
+	// リンク無効カテゴリは div、外部 URL ありなら <a target="_blank">、それ以外は内部 Link
 	if (isDisabled) {
 		return <div className={cardClass}>{inner}</div>;
+	}
+	if (visa.externalUrl) {
+		return (
+			<a
+				href={visa.externalUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+				className={cardClass}
+			>
+				{inner}
+			</a>
+		);
 	}
 	return (
 		<Link href={`/visas/${visa.slug}`} className={cardClass}>

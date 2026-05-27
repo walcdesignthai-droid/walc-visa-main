@@ -29,15 +29,27 @@ export function Header() {
 					</Link>
 
 					<nav className="hidden lg:flex items-center gap-5 xl:gap-6">
-						{HEADER_NAV.map((item) => (
-							<Link
-								key={item.href}
-								href={item.href}
-								className="text-sm text-brand hover:text-accent-blue transition-colors font-medium whitespace-nowrap"
-							>
-								{item.label}
-							</Link>
-						))}
+						{HEADER_NAV.map((item) =>
+							item.external ? (
+								<a
+									key={item.href}
+									href={item.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-sm text-brand hover:text-accent-blue transition-colors font-medium whitespace-nowrap"
+								>
+									{item.label}
+								</a>
+							) : (
+								<Link
+									key={item.href}
+									href={item.href}
+									className="text-sm text-brand hover:text-accent-blue transition-colors font-medium whitespace-nowrap"
+								>
+									{item.label}
+								</Link>
+							),
+						)}
 					</nav>
 
 					<div className="flex items-center gap-2">
@@ -98,16 +110,29 @@ export function Header() {
 						onClick={() => setMobileOpen(false)}
 					/>
 					<nav className="relative flex flex-col px-5 py-6 gap-1 pb-12">
-						{HEADER_NAV.map((item) => (
-							<Link
-								key={item.href}
-								href={item.href}
-								className="px-3 py-4 text-lg text-brand font-medium border-b border-border-subtle hover:text-accent-blue transition-colors"
-								onClick={() => setMobileOpen(false)}
-							>
-								{item.label}
-							</Link>
-						))}
+						{HEADER_NAV.map((item) =>
+							item.external ? (
+								<a
+									key={item.href}
+									href={item.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="px-3 py-4 text-lg text-brand font-medium border-b border-border-subtle hover:text-accent-blue transition-colors"
+									onClick={() => setMobileOpen(false)}
+								>
+									{item.label}
+								</a>
+							) : (
+								<Link
+									key={item.href}
+									href={item.href}
+									className="px-3 py-4 text-lg text-brand font-medium border-b border-border-subtle hover:text-accent-blue transition-colors"
+									onClick={() => setMobileOpen(false)}
+								>
+									{item.label}
+								</Link>
+							),
+						)}
 						<a
 							href={GLOBAL_CTAS.diagnosis.href}
 							target="_blank"
