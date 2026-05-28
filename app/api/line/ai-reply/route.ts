@@ -1,5 +1,5 @@
 /**
- * app/api/line/ai-reply/route.ts — v8.0 (universal LINE event handler)
+ * app/api/line/ai-reply/route.ts — v9.0 (kill switch 対応)
  * ----------------------------------------------------------------------------
  * 受付フォーマット (両対応):
  *   A) LINE webhook event 直接形式:
@@ -8,9 +8,14 @@
  *      { replyToken, userText, userId }
  *
  * 内部 routing:
- *   - type === "message" && message.type === "text" → AI 応答
- *   - type === "postback"                            → handlePostback
+ *   - type === "message" && message.type === "text" → AI 応答 (kill switch 経由)
+ *   - type === "postback"                            → handlePostback (kill switch 無関係)
  *   - その他                                         → skip
+ *
+ * Kill switch (v9.0):
+ *   - LINE_AI_AUTO_REPLY_ENABLED=false で AI text 応答を全停止
+ *   - 停止中も postback (リッチメニュー) は通常動作 + スタッフ通知のみ実行
+ *   - 顧客には返信せず、スタッフが LINE Manager で手動対応する運用に切替
  *
  * Edge → Node.js runtime (Vercel Europe → LINE Japan の 30s timeout 回避)
  * regions=["hnd1"] は vercel.json で指定済
@@ -32,6 +37,7 @@ import {
 	getLineProfile,
 	notifyModeChange,
 	notifyStaffMessageInHumanMode,
+	notifyStaffMessageInKillSwitch,
 	replyOrPush,
 	type LineMessage,
 } from "@/lib/line/fetch-client";
@@ -40,6 +46,14 @@ import { handlePostback } from "@/lib/line/postback-handler";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
+
+/**
+ * AI 自動応答の kill switch.
+ * 既定: true (有効). "false" 文字列のときのみ無効化.
+ * 無効時: 顧客への AI 返信を完全停止 → スタッフ手動対応運用に切替.
+ */
+const AI_AUTO_REPLY_ENABLED =
+	process.env.LINE_AI_AUTO_REPLY_ENABLED !== "false";
 
 interface FlatRequest {
 	replyToken?: string;
@@ -230,6 +244,21 @@ async function processAiReply(input: AiReplyInput): Promise<void> {
 				reason: "ttl_expired",
 				recentMessage: userText,
 			});
+		}
+
+		// === Kill switch: AI 自動応答が無効化されている場合 ===
+		// 顧客への返信はせず、スタッフ通知のみ実行 (LINE Manager 手動対応運用)。
+		// 2026-05-27 事故 (手動応答 + AI 重複返信) を物理的に防止。
+		if (!AI_AUTO_REPLY_ENABLED) {
+			await notifyStaffMessageInKillSwitch({
+				customerName,
+				userText,
+				userId: userId ?? "(unknown)",
+			});
+			console.log(
+				`[ai-reply] kill_switch_active: AI skipped, staff notified (total=${Date.now() - t0}ms)`,
+			);
+			return;
 		}
 
 		if (modeInfo.mode === "human") {

@@ -173,6 +173,25 @@ export async function notifyStaffMessageInHumanMode(
 	await notifyStaffGroup(lines.join("\n"));
 }
 
+/**
+ * Kill switch (LINE_AI_AUTO_REPLY_ENABLED=false) 時の顧客メッセージ通知.
+ * AI は完全停止しているため、スタッフが LINE Manager で必ず手動応答する必要がある.
+ */
+export async function notifyStaffMessageInKillSwitch(opts: {
+	customerName: string;
+	userText: string;
+	userId: string;
+}): Promise<void> {
+	const lines: string[] = [
+		"📩 [手動対応必須] AI 自動応答 停止中",
+		`👤 ${opts.customerName} 様`,
+		`💬 "${opts.userText}"`,
+		`🆔 ${opts.userId}`,
+		`🔗 ${STAFF_INBOX_URL}`,
+	];
+	await notifyStaffGroup(lines.join("\n"));
+}
+
 export type ModeChangeReason =
 	| "postback"
 	| "ttl_expired"
