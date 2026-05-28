@@ -34,7 +34,35 @@ export async function handlePostback(input: PostbackInput): Promise<void> {
 		return;
 	}
 
+	if (data === "action=sns_coming_soon") {
+		await handleSnsComingSoon({ replyToken, userId });
+		return;
+	}
+
 	console.warn(`[postback] unknown action: ${data}`);
+}
+
+async function handleSnsComingSoon(opts: {
+	replyToken: string;
+	userId?: string;
+}): Promise<void> {
+	const { replyToken, userId } = opts;
+	await replyOrPush({
+		replyToken,
+		userId: userId || undefined,
+		messages: [
+			{
+				type: "text",
+				text: [
+					"各種 SNS リンクは現在準備中です。",
+					"近日公開予定 (X / Facebook / Instagram / YouTube)。",
+					"",
+					"最新情報は WALC VISA Consulting 公式 WEB でご確認いただけます。",
+					"→ https://walc-visa.online",
+				].join("\n"),
+			},
+		],
+	});
 }
 
 async function handleHumanRequest(opts: {
