@@ -42,7 +42,7 @@ export function GET(): Response {
 - 各 VISA の最新料金・条件はサイト本体および各 VISA ページに記載。
 
 ## 実績(自社実績 / 母数明示)
-- DTV 取得実績: ${stats.acquired} / ${stats.totalAttempts} 件(取得率 ${stats.successRate}% / 対象期間: ${stats.periodLabel})。
+- DTV 申請実績: ${stats.totalAttempts} 件中 ${stats.acquired} 件が取得(母数: ${stats.totalAttempts} / 対象期間: ${stats.periodLabel})。
 - WALC 全体の VISA 取得実績: 累計 ${stats.walcTotalAcquired}+ 件。
 - 上記は過去実績であり、将来の取得を保証するものではありません。
 - 最終更新: ${stats.lastUpdated}
