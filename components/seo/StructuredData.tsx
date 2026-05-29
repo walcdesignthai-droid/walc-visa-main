@@ -23,6 +23,11 @@ import {
 	categoryFromPrice,
 	categoryRecommendedPlan,
 } from "@/lib/walc-data/pricing";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+
+// 実績数値は SOT (lib/walc-data/stats.ts) から取得し drift を防止 (WI-004 / F-1)。
+// 期間表現・言い回しは公開 SEO スナップショット保護のため文字列リテラルで固定。
+const stats = getDtvAcquisitionStats();
 
 const ORG_BASE = {
 	"@type": "Organization",
@@ -106,7 +111,7 @@ const FAQ_PAGE = {
 			name: "WALC の VISA 取得実績は?",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: "DTV は 212/212 件取得・取得率 100% (2025 年 4 月の制度大幅変更以降の弊社実績)。WALC 全体で累計 300+ 件の VISA 取得経験。",
+				text: `DTV は ${stats.acquired}/${stats.totalAttempts} 件取得・取得率 ${stats.successRate}% (2025 年 4 月の制度大幅変更以降の弊社実績)。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
 			},
 		},
 		{

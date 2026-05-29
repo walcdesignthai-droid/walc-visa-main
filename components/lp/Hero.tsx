@@ -13,7 +13,7 @@ import { ArrowRight, CheckCircle2, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getLineAddUrl, buildApplicationUrl } from "@/lib/walc-links";
-import { getDtvAcquisitionStats } from "@/lib/walc-stats";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
 // v3.3 (2026-05-26) — 飛行機画像は微妙との指示で v3.0 のバンコク夜景に復帰
 const HERO_BG_URL =
