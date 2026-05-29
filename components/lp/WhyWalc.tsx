@@ -9,7 +9,7 @@
  */
 
 import { MapPin, Smartphone, Trophy } from "lucide-react";
-import { getDtvAcquisitionStats } from "@/lib/walc-stats";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
 export function WhyWalc() {
 	const stats = getDtvAcquisitionStats();

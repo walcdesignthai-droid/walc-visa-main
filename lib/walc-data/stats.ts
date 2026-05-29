@@ -1,5 +1,5 @@
 /**
- * lib/walc-stats.ts
+ * lib/walc-data/stats.ts
  * ----------------------------------------------------------------------------
  * WALC VISA 実績統計の SoT(Single Source of Truth)。
  *
