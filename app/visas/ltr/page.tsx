@@ -34,6 +34,7 @@ import type { Metadata } from "next";
 import { formatTHB, VISA_LTR } from "@/lib/walc-data/pricing";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
 	title: "LTR Visa(Long-Term Resident)| WALC VISA Consulting",
