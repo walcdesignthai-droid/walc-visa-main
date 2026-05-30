@@ -149,7 +149,7 @@ export function Hero() {
 							</div>
 							<div className="flex items-center gap-2">
 								<span className="text-sm font-semibold text-emerald-700">
-									取得率 100%
+									{stats.totalAttempts} 件中 {stats.acquired} 件取得
 								</span>
 								<span className="text-[11px] text-text-tertiary">
 									({stats.periodLabel})

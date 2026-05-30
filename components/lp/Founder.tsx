@@ -67,7 +67,7 @@ export function Founder() {
 							<p>
 								WALC VISA Consulting は、その「複雑さ」を私たちが代わりに引き受け、
 								お客様には「タイで何をするか」だけに集中していただけるよう設計しました。
-								取得率 100% の実績、専用 CRM での一気通貫管理、バンコク現地法人 6 年の経験——
+								212 件中 212 件取得の実績、専用 CRM での一気通貫管理、バンコク現地法人 6 年の経験——
 								すべては、お客様の思いを確かな形にするためにあります。
 							</p>
 							<p className="text-amber-200/90 text-sm md:text-base font-semibold">

@@ -111,7 +111,7 @@ const FAQ_PAGE = {
 			name: "WALC の VISA 取得実績は?",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: `DTV は ${stats.acquired}/${stats.totalAttempts} 件取得・取得率 ${stats.successRate}% (2025 年 4 月の制度大幅変更以降の弊社実績)。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
+				text: `DTV は ${stats.totalAttempts} 件中 ${stats.acquired} 件取得(母数 ${stats.totalAttempts} / 2025 年 4 月の制度大幅変更以降の弊社実績)。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
 			},
 		},
 		{
