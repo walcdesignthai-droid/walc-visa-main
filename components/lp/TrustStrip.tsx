@@ -19,7 +19,7 @@ const ITEMS = [
 	{
 		Icon: CheckCircle2,
 		value: "212 / 212",
-		label: "DTV 取得率 100%(2025/4 制度変更以降)",
+		label: "DTV 取得 / 申請(母数 212・2025年4月以降)",
 	},
 	{
 		Icon: ShieldCheck,

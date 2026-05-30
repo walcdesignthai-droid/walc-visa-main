@@ -2,7 +2,7 @@
  * components/lp/WhyWalc.tsx — WALC が選ばれる 3 つの理由
  * ----------------------------------------------------------------------------
  * 差別化ポイントを 3 つに圧縮:
- *   1. 取得率 100% の実績(212/212)
+ *   1. DTV 取得実績(212/212・母数明示 / success-rate 絶対表現は不使用 — WI-017)
  *   2. 専用 CRM アプリで取得後も徹底管理
  *   3. バンコク現地法人 6 年運営
  * ----------------------------------------------------------------------------
@@ -18,8 +18,8 @@ export function WhyWalc() {
 		{
 			Icon: Trophy,
 			labelKey: "Track Record",
-			title: "DTV 取得率 100%",
-			body: `DTV ${stats.acquired} / ${stats.totalAttempts} 件取得・取得率 100%(${stats.periodLabel}の弊社実績)。WALC 全体で ${stats.walcTotalAcquired}+ 件の VISA 取得経験があり、Privilege / LTR / リタイアメント / 結婚 / 学生 / NON-B など主要 VISA 全種別を取得まで責任を持ってサポートいたします。`,
+			title: "DTV 申請実績 212 / 212 件",
+			body: `DTV は ${stats.totalAttempts} 件中 ${stats.acquired} 件取得(母数 ${stats.totalAttempts} / ${stats.periodLabel}の弊社実績)。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で ${stats.walcTotalAcquired}+ 件の VISA 取得経験があり、Privilege / LTR / リタイアメント / 結婚 / 学生 / NON-B など主要 VISA 全種別を取得まで責任を持ってサポートいたします。`,
 			metric: { value: "212 / 212", label: "DTV 取得 / 申請" },
 		},
 		{
