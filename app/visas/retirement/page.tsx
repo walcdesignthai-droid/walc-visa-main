@@ -38,6 +38,7 @@ import type { Metadata } from "next";
 import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
 	title: "リタイアメント VISA(NON-O / 50 歳以上)| WALC VISA Consulting",

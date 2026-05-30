@@ -54,6 +54,13 @@ const ORG_BASE = {
 		"https://crm.walc-visa.online",
 		"https://walc-consulting.com",
 	],
+	// WI-020: 連絡導線(電話番号は未確定のため記載しない / 推測値ゼロ)。
+	contactPoint: {
+		"@type": "ContactPoint",
+		contactType: "customer support",
+		url: "https://walc-visa.online/",
+		availableLanguage: ["ja"],
+	},
 };
 
 /** 各 VISA カテゴリを Offer に変換 (recommended plan があればそれを優先) */
