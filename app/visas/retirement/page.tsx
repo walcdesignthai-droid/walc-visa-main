@@ -64,7 +64,7 @@ const PLAN_DETAILS: PlanCard[] = [
 	{
 		id: "retire-new-evisa-japan",
 		type: "new",
-		tag: "新規 01・最安",
+		tag: "新規 01",
 		title: "日本国内 E-VISA(初期 3 ヶ月 NON-O)",
 		subtitle: "渡航前に日本で取得",
 		target: "渡航前に取得したい方・日本国内の手続きを希望",
@@ -253,7 +253,7 @@ export default function RetirementPage() {
 							<div className="flex flex-wrap gap-3 items-baseline mb-8">
 								<div>
 									<div className="text-[10px] uppercase tracking-wider text-white/60 mb-1">
-										最安
+										最小料金
 									</div>
 									<div className="text-3xl md:text-4xl font-bold text-amber-300 tabular-nums">
 										13,000 THB

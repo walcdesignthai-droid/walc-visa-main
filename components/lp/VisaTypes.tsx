@@ -166,7 +166,7 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 	const Icon = ICON_MAP[visa.slug] ?? Briefcase;
 	const fromPrice = categoryFromPrice(visa);
 	const recommendedPlan = categoryRecommendedPlan(visa);
-	// recommended が設定されていればその価格を「最安/メイン」表示。
+	// recommended が設定されていればその価格を「最小料金/メイン」表示。
 	// 設定がなければ plans 全体の min を使う (Privilege 等)。
 	// → LTR (DWP 3K でなく WALC 手数料 180K を表示) / リタイア (13K) / DTV (60K) 正しく動く
 	const displayPrice = recommendedPlan?.walcFee ?? fromPrice;
