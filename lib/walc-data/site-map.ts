@@ -21,7 +21,7 @@ export const SITE_URLS = {
 	/** DTV LP (dtv-walc-visa) */
 	dtv: "https://dtv.walc-visa.online",
 
-	/** DTV 最適 VISA 診断 (全ページから誘導) */
+	/** DTV VISA 適性診断 (全ページから誘導) */
 	diagnosis: "https://dtv.walc-visa.online/diagnosis",
 
 	/** 企業向け (walc-site → walc-consulting.com) */
@@ -69,11 +69,11 @@ export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#company-info", label: "会社情報" },
 ];
 
-/** 全ページ共通 CTA (最適 VISA 診断 + LINE 相談) */
+/** 全ページ共通 CTA (VISA 適性診断 + LINE 相談) */
 export const GLOBAL_CTAS = {
 	diagnosis: {
 		href: SITE_URLS.diagnosis,
-		label: "最適 VISA 診断",
+		label: "VISA 適性診断",
 		external: true,
 	},
 	line: {

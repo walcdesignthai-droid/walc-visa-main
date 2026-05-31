@@ -69,7 +69,7 @@ const CHANNELS: ChannelCard[] = [
 		title: "専門スタッフと無料相談",
 		highlight: "30 分・お客様の状況に合わせて",
 		description:
-			"AI で大枠が見えたら、専門スタッフが Zoom / Google Meet / LINE 通話で個別ご相談。最適 VISA・スケジュール・概算費用までこの 30 分で全部見えます。",
+			"AI で大枠が見えたら、専門スタッフが Zoom / Google Meet / LINE 通話で個別ご相談。適した VISA・スケジュール・概算費用までこの 30 分で全部見えます。",
 		bullets: [
 			"Zoom / Google Meet / LINE 通話に対応",
 			"30 分・無料・営業時間内に折返し",

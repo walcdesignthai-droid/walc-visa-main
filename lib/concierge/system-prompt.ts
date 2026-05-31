@@ -44,10 +44,10 @@ DTV (5 年マルチプル・第一推奨)
 ・ソフトパワー: ${formatTHB(dtvSoft?.walcFee ?? null)} (申請費全て込み)
 ・ノマド: ${formatTHB(dtvNomad?.walcFee ?? null)}
 ・フリーランス: ${formatTHB(dtvFree?.walcFee ?? null)}
-・銀行口座開設は 2026/4 制度変更で不可
+・銀行口座開設は対応外(口座が必要な方には NON-O リタイア等を案内)
 
 リタイアメント (NON-O・50 歳以上・残高 80 万 THB)
-・最安は ${formatTHB(retireMin)} (新規 / 初期 3 ヶ月 NON-O・日本国内 E-VISA)
+・最小料金は ${formatTHB(retireMin)} (新規 / 初期 3 ヶ月 NON-O・日本国内 E-VISA)
 ・タイ国内フルサポート: ${formatTHB(retireFull?.walcFee ?? null)} (15 ヶ月分・口座開設付)
 ・銀行口座開設サポート: +6,000 THB オプション
 

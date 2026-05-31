@@ -12,7 +12,7 @@ const STEPS = [
 		num: "01",
 		Icon: MessageCircle,
 		title: "LINE で 3 分相談",
-		body: "目的・滞在期間・ご予算をお聞きし、最適な VISA 種別と概算費用をお伝えします。",
+		body: "目的・滞在期間・ご予算をお聞きし、適した VISA 種別と概算費用をお伝えします。",
 		note: "24 時間以内に初回応答",
 	},
 	{

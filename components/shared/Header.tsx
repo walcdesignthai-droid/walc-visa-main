@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * v2.0 (2026-05-26) — 全ページ共通化 (Yosuke 指示)
  *   - HEADER_NAV / GLOBAL_CTAS を lib/walc-data/site-map.ts から取得
- *   - 「最適 VISA 診断」を常時表示 CTA に追加 (全ページ SEO 対策)
+ *   - 「VISA 適性診断」を常時表示 CTA に追加 (全ページ SEO 対策)
  *   - ナビゲーションリンクを内部ページ対応に (#anchor + /visas/* 両方)
  * ----------------------------------------------------------------------------
  */
@@ -53,7 +53,7 @@ export function Header() {
 					</nav>
 
 					<div className="flex items-center gap-2">
-						{/* 最適 VISA 診断 - 全ページ常時表示 */}
+						{/* VISA 適性診断 - 全ページ常時表示 */}
 						<a
 							href={GLOBAL_CTAS.diagnosis.href}
 							target="_blank"

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 		template: "%s | WALC VISA Consulting",
 	},
 	description:
-		"タイ国内最大級のVISA取得実績(300件以上)。DTV / リタイア / Thailand Privilege / LTR / 学生 / 結婚 など全種別に対応。専用CRMアプリで申込から取得後の管理まで一気通貫サポート。",
+		"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR / 学生 / 結婚 など全種別に対応。専用CRMアプリで申込から取得後の管理まで一気通貫サポート。",
 	keywords: [
 		"タイ ビザ",
 		"タイ VISA",
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 		siteName: "WALC VISA Consulting",
 		title: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
 		description:
-			"タイ国内最大級のVISA取得実績(300件以上)。DTV / リタイア / Thailand Privilege / LTR など全種別に対応。",
+			"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR など全種別に対応。",
 		images: [
 			{
 				url: "/images/AdobeStock_494541408.jpeg",
