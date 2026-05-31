@@ -1,7 +1,7 @@
 /**
  * app/visas/retirement/page.tsx — リタイアメント VISA (NON-O) 詳細ページ
  * ----------------------------------------------------------------------------
- * ケース別に最適プランを判定できるフロー設計 (Yosuke 指示)
+ * ケース別に適したプランを判定できるフロー設計 (Yosuke 指示)
  *
  * 出典 (ナレッジ):
  *   - 03_thai_visa_glossary.md §2-3 NON-O Retirement
@@ -64,7 +64,7 @@ const PLAN_DETAILS: PlanCard[] = [
 	{
 		id: "retire-new-evisa-japan",
 		type: "new",
-		tag: "新規 01・最安",
+		tag: "新規 01",
 		title: "日本国内 E-VISA(初期 3 ヶ月 NON-O)",
 		subtitle: "渡航前に日本で取得",
 		target: "渡航前に取得したい方・日本国内の手続きを希望",
@@ -244,7 +244,7 @@ export default function RetirementPage() {
 								</span>
 							</h1>
 							<p className="text-base md:text-lg text-white/85 leading-relaxed mb-8">
-								新規取得 3 プラン・更新 2 プランから、お客様の状況に合わせて最適なプランをご提案します。
+								新規取得 3 プラン・更新 2 プランから、お客様の状況に合わせて適したプランをご提案します。
 								<br className="hidden md:block" />
 								残高 80 万 THB 未満でも更新可能な
 								<span className="font-bold text-amber-200"> WALC 独自スキーム </span>
@@ -253,7 +253,7 @@ export default function RetirementPage() {
 							<div className="flex flex-wrap gap-3 items-baseline mb-8">
 								<div>
 									<div className="text-[10px] uppercase tracking-wider text-white/60 mb-1">
-										最安
+										最小料金
 									</div>
 									<div className="text-3xl md:text-4xl font-bold text-amber-300 tabular-nums">
 										13,000 THB
@@ -271,7 +271,7 @@ export default function RetirementPage() {
 								className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm hover:bg-amber-300 transition-colors shadow-md"
 							>
 								<MessageCircle className="w-4 h-4" />
-								最適プラン診断・LINE 無料相談
+								プラン診断・LINE 無料相談
 							</a>
 						</div>
 					</div>
@@ -328,7 +328,7 @@ export default function RetirementPage() {
 								</span>
 							</div>
 							<h2 className="text-2xl md:text-4xl font-bold text-text-primary tracking-tight mb-3">
-								あなたの状況から最適プランを選ぶ
+								あなたの状況から適したプランを選ぶ
 							</h2>
 							<p className="text-sm md:text-base text-text-secondary leading-relaxed">
 								該当するケースをクリックすると、おすすめプランをご案内します。
@@ -489,7 +489,7 @@ export default function RetirementPage() {
 										コスト・運用負担の両面で DTV のほうがおすすめです。
 									</p>
 									<p className="text-xs text-text-tertiary leading-relaxed">
-										※ 50 歳以上で「銀行口座が必須」の場合、リタイアメント VISA は最適な選択肢です。
+										※ 50 歳以上で「銀行口座が必須」の場合、リタイアメント VISA が有力な選択肢です。
 									</p>
 								</div>
 							</div>
@@ -502,12 +502,12 @@ export default function RetirementPage() {
 					<div className="mx-auto max-w-content px-5 md:px-8 py-16 md:py-20">
 						<div className="max-w-2xl mx-auto text-center">
 							<h2 className="text-2xl md:text-4xl font-bold mb-4 leading-tight">
-								最適プランを LINE で診断
+								適したプランを LINE で診断
 							</h2>
 							<p className="text-sm md:text-base text-white/80 mb-8 leading-relaxed">
 								お客様の年齢・残高・滞在計画をお伺いし、
 								<br className="hidden md:block" />
-								WALC 担当者が最適なプランを 24 時間以内にご案内いたします。
+								WALC 担当者が適したプランを 24 時間以内にご案内いたします。
 							</p>
 							<a
 								href="https://lin.ee/HQc9axW"

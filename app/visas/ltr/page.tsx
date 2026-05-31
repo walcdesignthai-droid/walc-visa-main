@@ -39,7 +39,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 export const metadata: Metadata = {
 	title: "LTR Visa(Long-Term Resident)| WALC VISA Consulting",
 	description:
-		"10 年タイ滞在 + 外国所得非課税。高所得・富裕層・年金生活者向けの最強カテゴリ。WALC 手数料 180,000 THB で BOI endorsement から VISA 取得まで一括サポート。",
+		"10 年タイ滞在 + 外国所得非課税。高所得・富裕層・年金生活者向けの長期カテゴリ。WALC 手数料 180,000 THB で BOI endorsement から VISA 取得まで一括サポート。",
 };
 
 // ---------------------------------------------------------------------------
@@ -237,7 +237,7 @@ export default function LtrPage() {
 								LTR Visa
 								<br />
 								<span className="text-amber-300 text-2xl md:text-3xl font-semibold">
-									10 年滞在 + 外国所得非課税の最強カテゴリ
+									10 年滞在 + 外国所得非課税の長期カテゴリ
 								</span>
 							</h1>
 							<p className="text-base md:text-lg text-white/85 leading-relaxed mb-8">
@@ -470,7 +470,7 @@ export default function LtrPage() {
 							</h2>
 							<p className="text-sm md:text-base text-white/80 mb-8 leading-relaxed">
 								LTR は要件が複雑なため、お客様の状況を伺った上で
-								最適カテゴリと申請ルートを WALC 専門スタッフがご案内します。
+								適したカテゴリと申請ルートを WALC 専門スタッフがご案内します。
 							</p>
 							<div className="flex flex-wrap justify-center gap-3">
 								<a

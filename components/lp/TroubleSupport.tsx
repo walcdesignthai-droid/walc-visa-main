@@ -42,7 +42,7 @@ const TROUBLES: TroubleItem[] = [
 	{
 		Icon: Plane,
 		title: "ビザランを 2 回以上繰り返している",
-		desc: "100 日前後の累計滞在で次回入国拒否リスク大。DTV 取得への切替を含めて最適解をご提案。",
+		desc: "100 日前後の累計滞在で次回入国拒否リスク大。DTV 取得への切替を含めて解決策をご提案。",
 	},
 	{
 		Icon: Clock,
@@ -74,7 +74,7 @@ export function TroubleSupport() {
 						<br className="hidden md:block" />
 						どんな状況でも、現地法人 6 年・累計 200 名以上の対応実績で
 						<br className="hidden md:block" />
-						必ず解決策をご提案します。
+						解決策をご提案します。
 					</p>
 				</div>
 

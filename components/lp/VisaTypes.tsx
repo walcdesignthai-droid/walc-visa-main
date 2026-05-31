@@ -80,7 +80,7 @@ export function VisaTypes() {
 						滞在期間で選ぶ、タイ長期 VISA。
 					</h2>
 					<p className="text-base md:text-lg text-text-secondary leading-relaxed">
-						目的・滞在期間・予算に応じて、最適な VISA をご提案します。
+						目的・滞在期間・予算に応じて、適した VISA をご提案します。
 						<br className="hidden md:block" />
 						迷ったらまず DTV——コストパフォーマンスと自由度の両立で第一推奨です。
 					</p>
@@ -166,7 +166,7 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 	const Icon = ICON_MAP[visa.slug] ?? Briefcase;
 	const fromPrice = categoryFromPrice(visa);
 	const recommendedPlan = categoryRecommendedPlan(visa);
-	// recommended が設定されていればその価格を「最安/メイン」表示。
+	// recommended が設定されていればその価格を「最小料金/メイン」表示。
 	// 設定がなければ plans 全体の min を使う (Privilege 等)。
 	// → LTR (DWP 3K でなく WALC 手数料 180K を表示) / リタイア (13K) / DTV (60K) 正しく動く
 	const displayPrice = recommendedPlan?.walcFee ?? fromPrice;
@@ -265,8 +265,9 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 			>
 				<CreditCard className="w-3 h-3" />
 				<span>
-					銀行口座開設:{" "}
-					{visa.bankAccountAvailable ? "可" : "不可 (2026/4 制度変更)"}
+					{/* WI-034: 無出典の規制日付主張(2026/4 制度変更)を中立表示へ。
+					    口座開設可否は申請時点の運用により異なるため、不可断定は避ける。 */}
+					銀行口座開設: {visa.bankAccountAvailable ? "可" : "要確認"}
 				</span>
 			</div>
 

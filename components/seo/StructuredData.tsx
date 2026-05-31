@@ -134,7 +134,7 @@ const FAQ_PAGE = {
 			name: "WALC の VISA 取得実績は?",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: `DTV は ${stats.totalAttempts} 件中 ${stats.acquired} 件取得(母数 ${stats.totalAttempts} / 2025 年 4 月の制度大幅変更以降の弊社実績)。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
+				text: `DTV は ${stats.totalAttempts} 件中 ${stats.acquired} 件取得(母数 ${stats.totalAttempts} / ${stats.periodLabel})。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
 			},
 		},
 		{
@@ -150,7 +150,7 @@ const FAQ_PAGE = {
 			name: "タイ国内で銀行口座を開設したいです",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: "2026 年 4 月の制度変更以降、DTV では銀行口座開設不可となりました。口座開設が必須の方は、NON-O リタイア・Thailand Privilege・LTR Visa をご検討ください。WALC 専門スタッフが最適プランをご案内します。",
+				text: "銀行口座の開設を希望される方には、NON-O リタイア・Thailand Privilege・LTR など口座開設に対応しやすいカテゴリをご案内しています。状況により適したプランが異なるため、WALC 専門スタッフがご相談に応じます。",
 			},
 		},
 	],
