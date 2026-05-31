@@ -265,8 +265,9 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 			>
 				<CreditCard className="w-3 h-3" />
 				<span>
-					銀行口座開設:{" "}
-					{visa.bankAccountAvailable ? "可" : "不可 (2026/4 制度変更)"}
+					{/* WI-034: 無出典の規制日付主張(2026/4 制度変更)を中立表示へ。
+					    口座開設可否は申請時点の運用により異なるため、不可断定は避ける。 */}
+					銀行口座開設: {visa.bankAccountAvailable ? "可" : "要確認"}
 				</span>
 			</div>
 
