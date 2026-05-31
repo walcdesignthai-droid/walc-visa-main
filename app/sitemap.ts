@@ -30,5 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "monthly",
 			priority: 0.9,
 		},
+		{
+			// WI-031: 著者 / 運営責任者ページ (E-E-A-T)
+			url: `${BASE_URL}/author/yosuke-onodera`,
+			lastModified: now,
+			changeFrequency: "yearly",
+			priority: 0.5,
+		},
 	];
 }

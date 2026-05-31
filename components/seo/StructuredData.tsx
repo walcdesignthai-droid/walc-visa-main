@@ -24,6 +24,7 @@ import {
 	categoryRecommendedPlan,
 } from "@/lib/walc-data/pricing";
 import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 
 // 実績数値は SOT (lib/walc-data/stats.ts) から取得し drift を防止 (WI-004 / F-1)。
 // 期間表現・言い回しは公開 SEO スナップショット保護のため文字列リテラルで固定。
@@ -49,15 +50,30 @@ const ORG_BASE = {
 		streetAddress: "30 Sukhumvit 61, Wattana",
 		postalCode: "10110",
 	},
+	email: WALC_ORGANIZATION.email,
+	// WI-031: canonical 確定の固定電話 (2026-05-30 Owner 確認 / 旧 084 は不使用)。
+	telephone: WALC_ORGANIZATION.telephone,
+	// WI-031: 法人登記番号は env 供給時のみ出力 (未設定 = TBD / 推測値ゼロ)。
+	...(WALC_ORGANIZATION.registrationNumber
+		? {
+				identifier: {
+					"@type": "PropertyValue",
+					propertyID: "TH-company-registration",
+					value: WALC_ORGANIZATION.registrationNumber,
+				},
+			}
+		: {}),
 	sameAs: [
 		"https://dtv.walc-visa.online",
 		"https://crm.walc-visa.online",
 		"https://walc-consulting.com",
 	],
-	// WI-020: 連絡導線(電話番号は未確定のため記載しない / 推測値ゼロ)。
+	// WI-031: 連絡導線。電話は canonical 確定値を併記。
 	contactPoint: {
 		"@type": "ContactPoint",
 		contactType: "customer support",
+		telephone: WALC_ORGANIZATION.telephone,
+		email: WALC_ORGANIZATION.email,
 		url: "https://walc-visa.online/",
 		availableLanguage: ["ja"],
 	},
