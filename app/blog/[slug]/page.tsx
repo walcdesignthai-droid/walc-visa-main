@@ -271,6 +271,33 @@ export default async function ArticlePage({
 							</div>
 						</section>
 
+						{/* 一次出典(政府・公的機関)— 読者に可視(YMYL / E-E-A-T) */}
+						{article.references.length > 0 && (
+							<section className="border-t border-border-subtle pt-8">
+								<h2 className="text-base font-bold tracking-tight text-text-primary">
+									出典(一次情報)
+								</h2>
+								<p className="mt-1 text-xs text-text-tertiary">
+									本記事の制度・要件はタイ政府の一次情報に基づきます。申請前に最新版をご確認ください。
+								</p>
+								<ul className="mt-3 space-y-2">
+									{article.references.map((r) => (
+										<li key={r.url}>
+											<a
+												href={r.url}
+												target="_blank"
+												rel="noopener noreferrer nofollow"
+												className="inline-flex items-start gap-2 text-sm text-brand hover:underline"
+											>
+												<FileText className="mt-0.5 h-4 w-4 shrink-0" />
+												{r.label}
+											</a>
+										</li>
+									))}
+								</ul>
+							</section>
+						)}
+
 						{/* draft レビューパネル(出典 + プレースホルダ可視) */}
 						{article.draft && (
 							<section className="rounded-2xl border border-dashed border-amber-500/40 bg-amber-500/[0.06] p-6 md:p-8">

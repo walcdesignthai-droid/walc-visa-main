@@ -66,5 +66,7 @@ export interface Article {
 	faq: FaqItem[];
 	clusterLinks: ClusterLink[];
 	sources: SourceRef[];
+	/** 一次出典(政府・公的機関)。本文に可視掲載する参照リンク(YMYL)。 */
+	references: { label: string; url: string }[];
 	placeholders: ContentPlaceholder[];
 }
