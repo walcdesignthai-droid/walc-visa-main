@@ -11,7 +11,7 @@
  *
  * 出典: walc-studio/knowledge/02_pricing_master.md v1.1 (2026-05-14)
  * 最終確認: 2026-05-26 by Yosuke (master file)
- * 改訂時は必ず 02_pricing_master.md を真実とし、本ファイルを更新すること
+ * 改訂時は 02_pricing_master.md を真実とし、本ファイルを更新すること
  *
  * 🔴 推測値の追加禁止 (RULE-NO-SPECULATION.md)
  *    未確認の値はコメントアウト + TODO で明示すること
@@ -71,7 +71,7 @@ export const VISA_DTV: VisaCategory = {
 	recommended: true,
 	bankAccountAvailable: false, // 2026/4 制度変更で不可
 	primaryDesc:
-		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。コストパフォーマンス最高クラス。",
+		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。申請費・政府費用込みの料金体系。",
 	plans: [
 		{
 			id: "dtv-soft-power",
@@ -122,7 +122,7 @@ export const VISA_RETIREMENT: VisaCategory = {
 			label: "新規 / 初期 3 ヶ月 NON-O (日本国内 E-VISA)",
 			walcFee: 13_000,
 			govFeeIncluded: true,
-			notes: "★ 最安・渡航前日本取得",
+			notes: "★ 渡航前に日本国内で E-VISA 取得",
 			recommended: true,
 		},
 		{
@@ -407,7 +407,7 @@ export function formatTHB(amount: number | null): string {
 	return `${amount.toLocaleString()} THB`;
 }
 
-/** カテゴリ最安プランの料金を取得 (カード表示用) */
+/** カテゴリ最小料金プランの料金を取得 (カード表示用) */
 export function categoryFromPrice(cat: VisaCategory): number | null {
 	const fees = cat.plans
 		.map((p) => p.walcFee)
@@ -416,7 +416,7 @@ export function categoryFromPrice(cat: VisaCategory): number | null {
 	return Math.min(...fees);
 }
 
-/** カテゴリ最安プラン (推奨マーカー) */
+/** カテゴリ最小料金プラン (推奨マーカー) */
 export function categoryRecommendedPlan(cat: VisaCategory): PricingPlan | null {
 	return cat.plans.find((p) => p.recommended) ?? cat.plans[0] ?? null;
 }

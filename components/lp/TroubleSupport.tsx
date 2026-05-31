@@ -74,7 +74,7 @@ export function TroubleSupport() {
 						<br className="hidden md:block" />
 						どんな状況でも、現地法人 6 年・累計 200 名以上の対応実績で
 						<br className="hidden md:block" />
-						必ず解決策をご提案します。
+						解決策をご提案します。
 					</p>
 				</div>
 

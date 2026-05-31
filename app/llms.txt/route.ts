@@ -5,7 +5,7 @@
  *
  * 方針(v1.3 §11 厳守):
  *   - llms.txt は AI/agent manifest であって「ランキング保証シグナル」ではない。
- *   - 記載は事実ベースのみ。保証・ランキング・断定(業界No.1 / 取得保証 / 最安 等)は禁止。
+ *   - 記載は事実ベースのみ。保証・ランキング・断定表現は禁止。
  *   - 実績数値は SOT(lib/walc-data/stats.ts)から取得し直書きしない(F-1 drift 防止)。
  *   - 個別の料金は drift 防止のため llms.txt に直書きせず、サイト本体を参照させる。
  *   - 代表者名・設立は canonical(walc-studio/knowledge/CANONICAL-OWNER-PROFILE.md)に準拠。
