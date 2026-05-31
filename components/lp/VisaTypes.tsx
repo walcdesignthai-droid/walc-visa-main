@@ -80,7 +80,7 @@ export function VisaTypes() {
 						滞在期間で選ぶ、タイ長期 VISA。
 					</h2>
 					<p className="text-base md:text-lg text-text-secondary leading-relaxed">
-						目的・滞在期間・予算に応じて、最適な VISA をご提案します。
+						目的・滞在期間・予算に応じて、適した VISA をご提案します。
 						<br className="hidden md:block" />
 						迷ったらまず DTV——コストパフォーマンスと自由度の両立で第一推奨です。
 					</p>
