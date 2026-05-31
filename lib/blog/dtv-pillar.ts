@@ -41,7 +41,7 @@ export const DTV_PILLAR: Article = {
 		"タイ DTV ビザの要件・財政基準・滞在ルール・費用を、WALC の実務知見に基づき整理。5 年マルチプル / 1 回 180 日滞在の使い方と、申請前に押さえるべき注意点を解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: true,
+	draft: false,
 	heroEyebrow: "DTV ピラーガイド",
 
 	// --- answer-first(冒頭で結論。約 200 語) ------------------------------
@@ -91,7 +91,7 @@ export const DTV_PILLAR: Article = {
 		{
 			question: "DTV の財政要件(残高)はいくらですか?",
 			answer:
-				"50 万 THB 相当の残高が求められます(タイ外務省 DTV チェックリスト)。",
+				"50 万 THB 相当の残高が求められます。申請区分により、一定期間(例: 3 ヶ月)の残高維持等が求められる場合があります。詳細はタイ外務省 DTV チェックリストをご確認ください(タイ外務省 DTV チェックリスト)。",
 		},
 		{
 			question: "DTV でタイ国内で働けますか?",
@@ -145,7 +145,7 @@ export const DTV_PILLAR: Article = {
 				"タイ外務省 DTV 情報 PDF / e-Visa 公式 + pricing.ts VISA_DTV.duration",
 		},
 		{
-			claim: "財政要件 = 50 万 THB 相当",
+			claim: "財政要件 = 50 万 THB 相当(申請区分により一定期間の残高維持等)",
 			source: "タイ外務省 DTV チェックリスト(Checklist_DTV.pdf)",
 		},
 		{
