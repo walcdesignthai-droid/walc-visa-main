@@ -57,11 +57,16 @@ export interface Article {
 	heroEyebrow: string;
 	/** answer-first ブロック(冒頭 100〜300 語で結論)。段落配列。 */
 	answerFirst: string[];
-	/** 統計ブロック(SOT 由来の実績 + 免責)。 */
+	/**
+	 * 汎用本文セクション(cluster 用)。見出し + リード文 + 箇条書き
+	 * (必要書類リスト等)。pillar では省略可。
+	 */
+	bodySections?: { heading: string; lead?: string; items?: string[] }[];
+	/** 統計ブロック(SOT 由来の実績 + 免責)。空なら非表示(cluster は空可)。 */
 	statsNote: string[];
-	/** 専門家見解(監修者の見解)。 */
+	/** 専門家見解(監修者の見解)。空なら非表示。 */
 	expertView: string[];
-	/** 手順 / WALC サポートの流れ。 */
+	/** 手順 / WALC サポートの流れ。空なら非表示。 */
 	steps: { heading: string; body: string }[];
 	faq: FaqItem[];
 	clusterLinks: ClusterLink[];

@@ -148,52 +148,85 @@ export default async function ArticlePage({
 							</div>
 						</section>
 
-						{/* 統計 */}
-						<section>
-							<h2 className="text-xl md:text-2xl font-bold tracking-tight">
-								WALC の DTV 実績(数値)
-							</h2>
-							<div className="mt-4 space-y-3 text-base leading-relaxed text-text-secondary">
-								{article.statsNote.map((p) => (
-									<p key={p.slice(0, 24)}>{p}</p>
-								))}
-							</div>
-						</section>
+						{/* 汎用本文セクション(cluster: 必要書類等) */}
+						{article.bodySections?.map((sec) => (
+							<section key={sec.heading}>
+								<h2 className="text-xl md:text-2xl font-bold tracking-tight">
+									{sec.heading}
+								</h2>
+								{sec.lead && (
+									<p className="mt-3 text-base leading-relaxed text-text-secondary">
+										{sec.lead}
+									</p>
+								)}
+								{sec.items && sec.items.length > 0 && (
+									<ul className="mt-4 space-y-2">
+										{sec.items.map((it) => (
+											<li
+												key={it.slice(0, 32)}
+												className="flex gap-2 text-sm leading-relaxed text-text-secondary"
+											>
+												<span className="mt-1 text-brand">•</span>
+												<span>{it}</span>
+											</li>
+										))}
+									</ul>
+								)}
+							</section>
+						))}
 
-						{/* 専門家見解 */}
-						<section>
-							<h2 className="flex items-center gap-2 text-xl md:text-2xl font-bold tracking-tight">
-								<Quote className="h-5 w-5 text-brand" />
-								専門家の見解
-							</h2>
-							<div className="mt-4 space-y-3 text-base leading-relaxed text-text-secondary">
-								{article.expertView.map((p) => (
-									<p key={p.slice(0, 24)}>{p}</p>
-								))}
-							</div>
-						</section>
+						{/* 統計(pillar / 空なら非表示) */}
+						{article.statsNote.length > 0 && (
+							<section>
+								<h2 className="text-xl md:text-2xl font-bold tracking-tight">
+									WALC の DTV 実績(数値)
+								</h2>
+								<div className="mt-4 space-y-3 text-base leading-relaxed text-text-secondary">
+									{article.statsNote.map((p) => (
+										<p key={p.slice(0, 24)}>{p}</p>
+									))}
+								</div>
+							</section>
+						)}
 
-						{/* 手順 */}
-						<section>
-							<h2 className="text-xl md:text-2xl font-bold tracking-tight">
-								取得までの流れ
-							</h2>
-							<ol className="mt-4 space-y-4">
-								{article.steps.map((s) => (
-									<li
-										key={s.heading}
-										className="rounded-xl border border-border-subtle bg-bg-secondary p-5"
-									>
-										<h3 className="font-semibold text-text-primary">
-											{s.heading}
-										</h3>
-										<p className="mt-1.5 text-sm leading-relaxed text-text-secondary">
-											{s.body}
-										</p>
-									</li>
-								))}
-							</ol>
-						</section>
+						{/* 専門家見解(空なら非表示) */}
+						{article.expertView.length > 0 && (
+							<section>
+								<h2 className="flex items-center gap-2 text-xl md:text-2xl font-bold tracking-tight">
+									<Quote className="h-5 w-5 text-brand" />
+									専門家の見解
+								</h2>
+								<div className="mt-4 space-y-3 text-base leading-relaxed text-text-secondary">
+									{article.expertView.map((p) => (
+										<p key={p.slice(0, 24)}>{p}</p>
+									))}
+								</div>
+							</section>
+						)}
+
+						{/* 手順(空なら非表示) */}
+						{article.steps.length > 0 && (
+							<section>
+								<h2 className="text-xl md:text-2xl font-bold tracking-tight">
+									取得までの流れ
+								</h2>
+								<ol className="mt-4 space-y-4">
+									{article.steps.map((s) => (
+										<li
+											key={s.heading}
+											className="rounded-xl border border-border-subtle bg-bg-secondary p-5"
+										>
+											<h3 className="font-semibold text-text-primary">
+												{s.heading}
+											</h3>
+											<p className="mt-1.5 text-sm leading-relaxed text-text-secondary">
+												{s.body}
+											</p>
+										</li>
+									))}
+								</ol>
+							</section>
+						)}
 
 						{/* FAQ */}
 						<section>
@@ -220,8 +253,10 @@ export default async function ArticlePage({
 								関連トピック
 							</h2>
 							<ul className="mt-4 space-y-2">
-								{article.clusterLinks.map((c) =>
-									c.published ? (
+								{article.clusterLinks.map((c) => {
+									const target = getArticleBySlug(c.plannedSlug);
+									const isLive = !!target && !target.draft;
+									return isLive ? (
 										<li key={c.promptKey}>
 											<Link
 												href={articleHref(c.plannedSlug)}
@@ -240,8 +275,8 @@ export default async function ArticlePage({
 											{c.label}
 											<span className="text-xs">(準備中)</span>
 										</li>
-									),
-								)}
+									);
+								})}
 							</ul>
 						</section>
 

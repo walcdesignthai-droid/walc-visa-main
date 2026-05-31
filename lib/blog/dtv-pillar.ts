@@ -110,8 +110,8 @@ export const DTV_PILLAR: Article = {
 		{
 			promptKey: "ya-dtv-documents",
 			label: "DTV 必要書類の完全リスト",
-			plannedSlug: "dtv-documents",
-			published: false,
+			plannedSlug: "dtv-required-documents",
+			published: true,
 		},
 		{
 			promptKey: "ya-dtv-stay-rule",
