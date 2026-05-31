@@ -43,7 +43,7 @@ export interface VisaCategory {
 	durationTab: DurationTab;
 	/** WALC 第一推奨 (DTV のみ true) */
 	recommended: boolean;
-	/** 銀行口座開設の可否 (2026/4 制度変更後) */
+	/** 銀行口座開設の可否(申請時点の運用による) */
 	bankAccountAvailable: boolean;
 	/** 1 行説明 */
 	primaryDesc: string;
@@ -69,7 +69,7 @@ export const VISA_DTV: VisaCategory = {
 	duration: "5 年マルチプル / 1 回 180 日滞在",
 	durationTab: "long_term",
 	recommended: true,
-	bankAccountAvailable: false, // 2026/4 制度変更で不可
+	bankAccountAvailable: false, // 口座開設は対応外として扱う(申請時点の運用による)
 	primaryDesc:
 		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。申請費・政府費用込みの料金体系。",
 	plans: [
@@ -96,8 +96,7 @@ export const VISA_DTV: VisaCategory = {
 			notes: "申請費込み・書類作成サポート込み",
 		},
 	],
-	bookingNote:
-		"DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。銀行口座開設は 2026/4 以降不可。",
+	bookingNote: "DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。",
 	// DTV 専用 LP (dtv.walc-visa.online) が既存のため、内部 /visas/dtv は作らず外部リンクで誘導
 	externalUrl: "https://dtv.walc-visa.online",
 };
