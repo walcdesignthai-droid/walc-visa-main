@@ -6,12 +6,16 @@
  */
 
 import { DTV_PILLAR } from "./dtv-pillar";
+import { DTV_REQUIRED_DOCUMENTS } from "./dtv-required-documents";
 import type { Article } from "./types";
 
 export const BLOG_BASE_PATH = "/blog";
 
 /** 全記事(draft 含む)。 */
-export const ALL_ARTICLES: ReadonlyArray<Article> = [DTV_PILLAR];
+export const ALL_ARTICLES: ReadonlyArray<Article> = [
+	DTV_PILLAR,
+	DTV_REQUIRED_DOCUMENTS,
+];
 
 /** 公開記事のみ(一覧 / sitemap 用)。 */
 export const PUBLISHED_ARTICLES: ReadonlyArray<Article> = ALL_ARTICLES.filter(
