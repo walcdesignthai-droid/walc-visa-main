@@ -5,8 +5,11 @@
  * ----------------------------------------------------------------------------
  */
 
+import { DTV_BALANCE_500K } from "./dtv-balance-500k";
+import { DTV_DIY_VS_AGENCY } from "./dtv-diy-vs-agency";
 import { DTV_PILLAR } from "./dtv-pillar";
 import { DTV_REQUIRED_DOCUMENTS } from "./dtv-required-documents";
+import { DTV_STAY_RULE } from "./dtv-stay-rule";
 import type { Article } from "./types";
 
 export const BLOG_BASE_PATH = "/blog";
@@ -15,6 +18,9 @@ export const BLOG_BASE_PATH = "/blog";
 export const ALL_ARTICLES: ReadonlyArray<Article> = [
 	DTV_PILLAR,
 	DTV_REQUIRED_DOCUMENTS,
+	DTV_STAY_RULE,
+	DTV_DIY_VS_AGENCY,
+	DTV_BALANCE_500K,
 ];
 
 /** 公開記事のみ(一覧 / sitemap 用)。 */
