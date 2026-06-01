@@ -1,7 +1,7 @@
 /**
  * lib/blog/dtv-required-documents.ts — cluster(ya-dtv-documents / WI-026)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft: true)。Cowork 品質ゲート → Owner 受入まで公開しない。
+ * 公開済(draft: false)。WI-026 cluster batch 公開(2026-06-01)。
  *
  * 事実の出典(推測ゼロ / YMYL):
  *   - 書類項目 = WALC 申請実務スペック
@@ -26,7 +26,7 @@ export const DTV_REQUIRED_DOCUMENTS: Article = {
 		"タイ DTV ビザの必要書類を、全カテゴリ共通 + 申請区分別(ソフトパワー / ワーケーション / 家族)に整理。Bank Statement と残高証明の違い、50 万 THB の扱いまで、外務省チェックリスト準拠で解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: true,
+	draft: false,
 	heroEyebrow: "DTV クラスター｜必要書類",
 
 	answerFirst: [

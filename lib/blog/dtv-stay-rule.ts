@@ -1,7 +1,7 @@
 /**
  * lib/blog/dtv-stay-rule.ts — cluster(ya-dtv-stay-rule / WI-026)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft: true)。Cowork 品質ゲート → Owner 受入まで公開しない。
+ * 公開済(draft: false)。WI-026 cluster batch 公開(2026-06-01)。
  *
  * 事実の出典(推測ゼロ / YMYL):
  *   - 滞在日数・延長・最大 360 日 = タイ外務省 DTV 情報 / e-Visa 公式
@@ -25,7 +25,7 @@ export const DTV_STAY_RULE: Article = {
 		"タイ DTV ビザの滞在日数・延長・最大 360 日連続滞在のルールを、タイ外務省 DTV 情報・e-Visa 公式に基づき整理。5 年マルチプルの使い方と 90 日レポートの考え方を解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: true,
+	draft: false,
 	heroEyebrow: "DTV クラスター｜滞在ルール",
 
 	answerFirst: [

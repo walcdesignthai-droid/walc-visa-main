@@ -1,7 +1,7 @@
 /**
  * lib/blog/dtv-diy-vs-agency.ts — cluster(cc-dtv-vs-agencies / WI-026)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft: true)。Cowork 品質ゲート → Owner 受入まで公開しない。
+ * 公開済(draft: false)。WI-026 cluster batch 公開(2026-06-01)。
  *
  * 🔴 比較記事 = 景表法リスク最大。厳守:
  *   - 競合他社への言及・disparage 禁止(「他社は…」を書かない)。
@@ -36,7 +36,7 @@ export const DTV_DIY_VS_AGENCY: Article = {
 		"タイ DTV ビザを自分で申請(DIY)する場合と、代行に依頼する場合の特徴を、事実ベースで中立に整理。準備の手間・書類の英文対応・費用から、自分に合う進め方を判断できます。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: true,
+	draft: false,
 	heroEyebrow: "DTV クラスター｜DIY vs 代行",
 
 	answerFirst: [

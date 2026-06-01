@@ -1,7 +1,7 @@
 /**
  * lib/blog/dtv-balance-500k.ts — cluster(ya-dtv-balance-500k / WI-026)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft: true)。Cowork 品質ゲート → Owner 受入まで公開しない。
+ * 公開済(draft: false)。WI-026 cluster batch 公開(2026-06-01)。
  *
  * 事実の出典(推測ゼロ / YMYL)— 出典区分を明記:
  *   - 50 万 THB / Statement≠Certificate / 3 ヶ月維持 = タイ外務省 DTV チェックリスト
@@ -24,7 +24,7 @@ export const DTV_BALANCE_500K: Article = {
 		"タイ DTV ビザの財政要件 50 万 THB の準備を、Bank Statement(入出金明細)と Bank Certificate(残高証明書)の違い、3 ヶ月維持の考え方まで、外務省チェックリストと WALC 実務に基づき整理します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: true,
+	draft: false,
 	heroEyebrow: "DTV クラスター｜50 万 THB 残高",
 
 	answerFirst: [
