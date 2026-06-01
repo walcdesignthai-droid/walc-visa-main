@@ -7,6 +7,7 @@
 
 import { DTV_PILLAR } from "./dtv-pillar";
 import { DTV_REQUIRED_DOCUMENTS } from "./dtv-required-documents";
+import { DTV_STAY_RULE } from "./dtv-stay-rule";
 import type { Article } from "./types";
 
 export const BLOG_BASE_PATH = "/blog";
@@ -15,6 +16,7 @@ export const BLOG_BASE_PATH = "/blog";
 export const ALL_ARTICLES: ReadonlyArray<Article> = [
 	DTV_PILLAR,
 	DTV_REQUIRED_DOCUMENTS,
+	DTV_STAY_RULE,
 ];
 
 /** 公開記事のみ(一覧 / sitemap 用)。 */
