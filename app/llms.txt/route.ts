@@ -12,12 +12,41 @@
  * ----------------------------------------------------------------------------
  */
 
+import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
+import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
 import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
 export const dynamic = "force-static";
 
+const ORIGIN = "https://walc-visa.online";
+
+/**
+ * 公開済ブログ記事を category 順に列挙(LLMO: AI/agent に権威ある解説の所在を示す)。
+ * registry(SOT)から動的生成 → 記事追加で自動反映・drift なし。draft は PUBLISHED_ARTICLES で除外。
+ */
+function buildBlogSection(): string {
+	const order: Array<ReturnType<typeof articleCategory>> = [
+		"pillar",
+		"guide",
+		"compare",
+		"qa",
+		"news",
+	];
+	const lines: string[] = [];
+	for (const cat of order) {
+		const arts = PUBLISHED_ARTICLES.filter((a) => articleCategory(a) === cat);
+		if (arts.length === 0) continue;
+		lines.push(`\n### ${CATEGORY_LABEL[cat]}`);
+		for (const a of arts) {
+			lines.push(`- ${a.title}: ${ORIGIN}${articleHref(a.slug)}`);
+		}
+	}
+	return lines.join("\n");
+}
+
 export function GET(): Response {
 	const stats = getDtvAcquisitionStats();
+	const blogSection = buildBlogSection();
 
 	const body = `# WALC VISA Consulting — タイ VISA 取得代行
 
@@ -52,6 +81,9 @@ export function GET(): Response {
 - LTR(Long-Term Resident)Visa: https://walc-visa.online/visas/ltr
 - リタイアメント(NON-O)Visa: https://walc-visa.online/visas/retirement
 - DTV 専門サイト: https://dtv.walc-visa.online
+
+## ガイド記事(ブログ / 事実ベース解説・一次出典付き)
+${blogSection}
 
 ## 連絡
 - 問い合わせはサイト本体の導線より受付。
