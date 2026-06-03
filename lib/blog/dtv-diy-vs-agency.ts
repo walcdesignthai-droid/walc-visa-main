@@ -36,7 +36,16 @@ export const DTV_DIY_VS_AGENCY: Article = {
 		"タイ DTV ビザを自分で申請(DIY)する場合と、代行に依頼する場合の特徴を、事実ベースで中立に整理。準備の手間・書類の英文対応・費用から、自分に合う進め方を判断できます。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: false,
+	draft: true,
+	category: "visa-type",
+	tags: ["DTV", "代行"],
+	cover: {
+		motif: "stamp",
+		kicker: "DTV ・ 申請の選び方",
+		titleLines: ["自分で申請か、", "代行か。"],
+		accentWord: "代行",
+		sub: "費用・手間・確実性で考える、申請方法の選び方。",
+	},
 	heroEyebrow: "DTV クラスター｜DIY vs 代行",
 
 	answerFirst: [

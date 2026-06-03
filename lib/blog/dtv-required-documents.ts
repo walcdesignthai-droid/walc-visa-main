@@ -26,7 +26,16 @@ export const DTV_REQUIRED_DOCUMENTS: Article = {
 		"タイ DTV ビザの必要書類を、全カテゴリ共通 + 申請区分別(ソフトパワー / ワーケーション / 家族)に整理。Bank Statement と残高証明の違い、50 万 THB の扱いまで、外務省チェックリスト準拠で解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: false,
+	draft: true,
+	category: "visa-type",
+	tags: ["DTV", "必要書類"],
+	cover: {
+		motif: "docs",
+		kicker: "DTV ・ 必要書類",
+		titleLines: ["DTV ビザの", "必要書類リスト。"],
+		accentWord: "必要書類",
+		sub: "申請に必要な書類を一次情報ベースで整理。",
+	},
 	heroEyebrow: "DTV クラスター｜必要書類",
 
 	answerFirst: [

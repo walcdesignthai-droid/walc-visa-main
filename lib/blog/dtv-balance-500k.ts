@@ -24,7 +24,16 @@ export const DTV_BALANCE_500K: Article = {
 		"タイ DTV ビザの財政要件 50 万 THB の準備を、Bank Statement(入出金明細)と Bank Certificate(残高証明書)の違い、3 ヶ月維持の考え方まで、外務省チェックリストと WALC 実務に基づき整理します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: false,
+	draft: true,
+	category: "visa-type",
+	tags: ["DTV", "資金要件"],
+	cover: {
+		motif: "baht",
+		kicker: "DTV ・ 資金要件",
+		titleLines: ["50万THB の", "残高証明。"],
+		accentWord: "50万THB",
+		sub: "残高証明の準備と、申請前の注意点を整理。",
+	},
 	heroEyebrow: "DTV クラスター｜50 万 THB 残高",
 
 	answerFirst: [

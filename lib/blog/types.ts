@@ -9,6 +9,9 @@
  * ----------------------------------------------------------------------------
  */
 
+import type { CategoryKey } from "./categories";
+import type { CoverSpec } from "./cover";
+
 export type ArticleKind = "pillar" | "cluster";
 
 /** 事実 → 出典の対応(YMYL の検証可能性を担保)。 */
@@ -52,8 +55,16 @@ export interface Article {
 	description: string; // meta description / answer-first 要約
 	datePublished: string; // ISO8601
 	dateModified?: string;
-	/** true = 未公開(noindex / 一覧非掲載 / sitemap 非掲載)。 */
+	/** true = 未公開(noindex / 一覧非掲載 / sitemap 非掲載 / schema 非出力)。 */
 	draft: boolean;
+	/** カテゴリ(IA: qa / news / visa-type)。色・フィルタ・関連の単位。 */
+	category: CategoryKey;
+	/** タグ(カード表示・横断 / 任意)。 */
+	tags?: string[];
+	/** マガジン型カバー(1記事1デザイン)。未設定はカテゴリから既定生成。 */
+	cover?: CoverSpec;
+	/** スタッツカード(既存の数字を3枚で見せる / 事実は statsNote と同一)。 */
+	statsCards?: { value: string; unit?: string; label: string }[];
 	heroEyebrow: string;
 	/** answer-first ブロック(冒頭 100〜300 語で結論)。段落配列。 */
 	answerFirst: string[];

@@ -25,7 +25,16 @@ export const DTV_STAY_RULE: Article = {
 		"タイ DTV ビザの滞在日数・延長・最大 360 日連続滞在のルールを、タイ外務省 DTV 情報・e-Visa 公式に基づき整理。5 年マルチプルの使い方と 90 日レポートの考え方を解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: false,
+	draft: true,
+	category: "visa-type",
+	tags: ["DTV", "滞在ルール"],
+	cover: {
+		motif: "calendar",
+		kicker: "DTV ・ 滞在ルール",
+		titleLines: ["180日と延長、", "最大360日。"],
+		accentWord: "360日",
+		sub: "滞在日数・延長・90日レポートの考え方を整理。",
+	},
 	heroEyebrow: "DTV クラスター｜滞在ルール",
 
 	answerFirst: [

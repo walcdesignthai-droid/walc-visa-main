@@ -41,7 +41,16 @@ export const DTV_PILLAR: Article = {
 		"タイ DTV ビザの要件・財政基準・滞在ルール・費用を、WALC の実務知見に基づき整理。5 年マルチプル / 1 回 180 日滞在の使い方と、申請前に押さえるべき注意点を解説します。",
 	datePublished: "2026-06-01",
 	dateModified: "2026-06-01",
-	draft: false,
+	draft: true,
+	category: "visa-type",
+	tags: ["DTV", "完全ガイド"],
+	cover: {
+		motif: "passport",
+		kicker: "DTV ビザ ・ 完全ガイド",
+		titleLines: ["タイで働き、暮らす。", "新しいDTVビザ。"],
+		accentWord: "DTV",
+		sub: "対象・申請要件・必要書類・滞在ルールを、一次情報ベースで整理。",
+	},
 	heroEyebrow: "DTV ピラーガイド",
 
 	// --- answer-first(冒頭で結論。約 200 語) ------------------------------

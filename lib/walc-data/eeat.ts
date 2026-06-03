@@ -54,13 +54,14 @@ export const WALC_ORGANIZATION = {
  */
 export const WALC_AUTHOR = {
 	slug: "yosuke-onodera",
-	name: "小野寺 陽介",
+	/** 監修者表記 = ローマ字統一(WALC-VISA-BLOG-DESIGN §8 / Owner 確定 2026-06-03)。漢字「小野寺陽介」は不使用。 */
+	name: "Yosuke Onodera",
 	givenName: "Yosuke",
 	familyName: "Onodera",
-	jobTitle: "代表取締役 / WALC VISA Consulting 統括",
-	/** 確定事実のみ(Founder.tsx / canonical と整合)。在住・社歴は別概念で併記。 */
+	jobTitle: "WALC VISA Consulting 代表",
+	/** E-E-A-T 経歴(Owner 確定 2026-06-03)。SOT: CANONICAL-OWNER-PROFILE.md(要 SEO セッション同期)。 */
 	bioJa:
-		"WALC DESIGN Co., Ltd. 代表取締役。バンコク在住 10 年以上、WALC としてタイで 6 年(事業開始 2020 年 / 法人化 2021-08-27)、タイ長期 VISA の取得・運用コンサルティングを統括。DTV・Thailand Privilege・LTR・リタイアメント・結婚・学生など全種別の実務に従事。",
+		"WALC VISA Consulting 代表。タイ在住 13 年、VISA サポート事業 7 年目のプロフェッショナル。DTV・Thailand Privilege・LTR・リタイアメント・学生・家族など、タイ長期 VISA 全種別の取得・運用コンサルティングに従事。",
 	knowsAbout: [
 		"タイ長期VISA",
 		"DTV(Destination Thailand Visa)",
@@ -154,5 +155,20 @@ export function buildArticleSchema(input: ArticleSchemaInput): JsonLd {
 			name: WALC_ORGANIZATION.legalName,
 			logo: { "@type": "ImageObject", url: WALC_ORGANIZATION.logo },
 		},
+	};
+}
+
+/** FAQPage の JSON-LD(公開時のみ出力)。 */
+export function buildFaqSchema(
+	faq: { question: string; answer: string }[],
+): JsonLd {
+	return {
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: faq.map((f) => ({
+			"@type": "Question",
+			name: f.question,
+			acceptedAnswer: { "@type": "Answer", text: f.answer },
+		})),
 	};
 }
