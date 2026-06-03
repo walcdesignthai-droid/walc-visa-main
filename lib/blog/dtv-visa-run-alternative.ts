@@ -19,7 +19,7 @@ export const DTV_VISA_RUN_ALTERNATIVE: Article = {
 		"タイのビザラン(国境を越えて滞在をリセットする方法)の限界と、その代替としてのDTVビザの活用法を解説。年間コストの試算、切り替えステップ、対象チェックリスト、90日レポートやオーバーステイの注意点までまとめました。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "手続き・暮らしのQ&A ・ 出入国",
 	category: "qa",
 	tags: ["ビザラン", "DTV", "出入国", "長期滞在"],

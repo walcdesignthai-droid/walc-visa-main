@@ -18,7 +18,7 @@ export const EDUCATION_VISA_REALITY: Article = {
 		"タイ教育ビザ(ED)の実態を解説。出席義務と出席率の目安、90日単位の延長と費用、更新時の面接・語学チェック、近年の審査厳格化、危ないスクールの見分け方、DTVなど代替の検討まで契約前に知っておきたい注意点をまとめました。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "ビザ別ガイド ・ 教育(ED)",
 	category: "guide",
 	tags: ["教育ビザ", "ED", "語学学校", "スクール選び"],

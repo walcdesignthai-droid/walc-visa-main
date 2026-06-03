@@ -21,7 +21,7 @@ export const VISA_COMPARISON: Article = {
 		"タイの主要ビザ(DTV・LTR・リタイアメント・教育・ビジネス・観光・Thailand Privilege)を、対象・有効期限・滞在日数・資金/費用・就労可否で早見比較。費用の目安と簡易フローで、どのビザが自分に合うかを選べます。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "制度比較 ・ ビザ選び",
 	category: "compare",
 	tags: ["ビザ比較", "ビザ選び", "長期滞在"],

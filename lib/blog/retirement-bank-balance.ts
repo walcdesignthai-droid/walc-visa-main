@@ -19,7 +19,7 @@ export const RETIREMENT_BANK_BALANCE: Article = {
 		"タイのリタイアメントビザ(Non-OA/退職)の資金要件を解説。80万バーツの預金・月6.5万バーツの収入・併用、残高の寝かせ期間と更新後の維持ルール、健康保険、毎年の更新書類と費用まで実務目線でまとめました。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "ビザ別ガイド ・ リタイアメント",
 	category: "guide",
 	tags: ["リタイアメントビザ", "Non-OA", "銀行残高", "更新"],

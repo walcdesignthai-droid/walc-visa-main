@@ -20,7 +20,7 @@ export const VISA_EXTENSION_VS_90DAY: Article = {
 		"タイのビザ延長(エクステンション)・90日レポート・再入国許可は別物です。目的・タイミング・窓口・費用・罰則の違いを整理。「更新したのに90日レポートも必要?」の混同を解消し、出国前にやるべきことまで解説します。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "手続き・暮らしのQ&A ・ 在住手続き",
 	category: "qa",
 	tags: ["ビザ延長", "90日レポート", "再入国許可", "在住手続き"],

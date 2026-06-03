@@ -18,7 +18,7 @@ export const DTV_VS_TOURIST: Article = {
 		"タイのDTVビザと観光ビザ(TR・ビザ免除)を、滞在期間・入国回数・費用・資金条件・就労可否で比較。ビザランを重ねるとどこでDTVが得になるか、費用の逆転ポイントを試算しながら滞在スタイル別に解説します。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "制度比較 ・ DTV か 観光か",
 	category: "compare",
 	tags: ["DTV", "観光ビザ", "ビザ比較"],

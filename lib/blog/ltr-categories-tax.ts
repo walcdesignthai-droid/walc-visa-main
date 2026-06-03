@@ -19,7 +19,7 @@ export const LTR_CATEGORIES_TAX: Article = {
 		"タイLTR(長期滞在ビザ)の4区分(富裕層・年金受給者・タイで働くプロ・高度人材)の条件目安と、10年滞在・年次報告・17%一律所得税・国外所得の取り扱いをわかりやすく解説。自分がどの区分に当てはまるかを整理できます。",
 	datePublished: "2026-06-03",
 	dateModified: "2026-06-03",
-	draft: true,
+	draft: false,
 	heroEyebrow: "ビザ別ガイド ・ LTR",
 	category: "guide",
 	tags: ["LTR", "税優遇", "長期滞在", "BOI"],
