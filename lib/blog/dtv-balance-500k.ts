@@ -26,6 +26,15 @@ export const DTV_BALANCE_500K: Article = {
 	dateModified: "2026-06-01",
 	draft: false,
 	heroEyebrow: "DTV クラスター｜50 万 THB 残高",
+	category: "pillar",
+	tags: ["DTV", "残高証明", "Bank Statement"],
+	cover: {
+		motif: "baht",
+		kicker: "DTV ・ 50万THB",
+		titleLines: ["50万バーツ残高の、", "正しい準備。"],
+		accentWord: "50万バーツ",
+		sub: "Statement と Certificate の違いから整理。",
+	},
 
 	answerFirst: [
 		"DTV(Destination Thailand Visa)の財政要件は 50 万 THB 相当の残高です(タイ外務省 DTV チェックリスト)。準備で重要なのは、残高証明書(Bank Certificate)ではなく入出金明細(Bank Statement)が求められる点、そして一定期間(例: 3 ヶ月)の維持が見られる点です。",

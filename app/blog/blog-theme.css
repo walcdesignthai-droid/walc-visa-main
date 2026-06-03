@@ -1,0 +1,34 @@
+/* app/blog/blog-theme.css — WI-036 クリーンネイビー トークン(/blog スコープ) */
+
+.vb-theme {
+  --vb-bg: #f7f8fb;
+  --vb-card: #ffffff;
+  --vb-border: #dde2ee;
+  --vb-ink: #16264f; /* navy 主役 */
+  --vb-gold: #caa14a;
+  --vb-gold-text: #b8893f; /* ライト面のゴールド文字 */
+  --vb-sub: #3552a0;
+  --vb-body: #46506b;
+  --vb-muted: #6a7793;
+  --vb-faint: #8089a0;
+
+  background-color: var(--vb-bg);
+  color: var(--vb-body);
+  font-family: var(--font-vb-sans), system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.vb-theme .vb-serif {
+  font-family: var(--font-vb-serif), serif;
+}
+
+/* sticky 目次(崩れ禁止) */
+.vb-toc {
+  position: sticky;
+  top: 88px;
+}
+
+/* 記事本文の基本リズム */
+.vb-prose h2 {
+  scroll-margin-top: 96px;
+}

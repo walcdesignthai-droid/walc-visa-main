@@ -43,6 +43,15 @@ export const DTV_PILLAR: Article = {
 	dateModified: "2026-06-01",
 	draft: false,
 	heroEyebrow: "DTV ピラーガイド",
+	category: "pillar",
+	tags: ["DTV", "5年マルチプル", "180日"],
+	cover: {
+		motif: "passport",
+		kicker: "DTV ビザ ・ 完全ガイド",
+		titleLines: ["タイで働き、暮らす。", "新しいDTVビザ。"],
+		accentWord: "DTV",
+		sub: "対象・要件・必要書類・滞在ルールを一次情報で整理しました。",
+	},
 
 	// --- answer-first(冒頭で結論。約 200 語) ------------------------------
 	// 🔴 政府一次出典で裏付けられない主張(2025/4 厳格化・銀行口座不可・90 日レポート

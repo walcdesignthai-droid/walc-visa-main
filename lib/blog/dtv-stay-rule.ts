@@ -27,6 +27,15 @@ export const DTV_STAY_RULE: Article = {
 	dateModified: "2026-06-01",
 	draft: false,
 	heroEyebrow: "DTV クラスター｜滞在ルール",
+	category: "pillar",
+	tags: ["DTV", "滞在ルール", "90日レポート"],
+	cover: {
+		motif: "calendar",
+		kicker: "DTV ・ 滞在ルール",
+		titleLines: ["180日と延長で、", "最大360日。"],
+		accentWord: "360日",
+		sub: "5年マルチプルの使い方を一次情報で整理。",
+	},
 
 	answerFirst: [
 		"DTV(Destination Thailand Visa)は 5 年マルチプルで、1 回の入国あたり最長 180 日の滞在が認められます。タイ国内で延長手続きを行えば、さらに 180 日延長でき、最大 360 日の連続滞在が可能です(タイ外務省 DTV 情報・e-Visa 公式)。",

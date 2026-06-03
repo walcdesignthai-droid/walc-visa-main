@@ -11,6 +11,15 @@
 
 export type ArticleKind = "pillar" | "cluster";
 
+/** WI-036 カバーの主役モチーフ(線画 SVG)。 */
+export type CoverMotif =
+	| "passport"
+	| "stamp"
+	| "documents"
+	| "map-pin"
+	| "calendar"
+	| "baht";
+
 /** 事実 → 出典の対応(YMYL の検証可能性を担保)。 */
 export interface SourceRef {
 	/** 本文中の該当事実(短く)。 */
@@ -55,6 +64,27 @@ export interface Article {
 	/** true = 未公開(noindex / 一覧非掲載 / sitemap 非掲載)。 */
 	draft: boolean;
 	heroEyebrow: string;
+	/**
+	 * WI-036: 一覧の上位カテゴリ(設計§6 IA)。
+	 * qa=手続き・暮らしのQ&A / news=制度ニュース解説 / pillar=ビザ種別pillar。
+	 */
+	category?: "qa" | "news" | "pillar";
+	/** 横断タグ(90日レポート / TM30 等)。 */
+	tags?: string[];
+	/** 読了目安(分)。未指定は本文量から概算。 */
+	readingMinutes?: number;
+	/**
+	 * WI-036: 記事専用カバー(クリーンネイビー)。1 記事 1 デザイン。
+	 * motif で主役線画を選び、kicker / titleLines / accentWord / sub で構成。
+	 */
+	cover?: {
+		motif: CoverMotif;
+		kicker: string;
+		titleLines: string[];
+		/** titleLines 内でゴールド強調する語(部分一致)。 */
+		accentWord?: string;
+		sub?: string;
+	};
 	/** answer-first ブロック(冒頭 100〜300 語で結論)。段落配列。 */
 	answerFirst: string[];
 	/**
