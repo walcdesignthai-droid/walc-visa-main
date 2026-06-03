@@ -7,10 +7,15 @@
 
 import type { Article, CoverMotif } from "./types";
 
-export const CATEGORY_LABEL: Record<NonNullable<Article["category"]>, string> = {
+export const CATEGORY_LABEL: Record<
+	NonNullable<Article["category"]>,
+	string
+> = {
 	qa: "手続き・暮らしの Q&A",
 	news: "制度ニュース解説",
 	pillar: "ビザ種別ガイド",
+	guide: "ビザ別ガイド",
+	compare: "制度比較・ビザ選び",
 };
 
 export function articleCategory(a: Article): NonNullable<Article["category"]> {

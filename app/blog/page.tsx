@@ -11,10 +11,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogCover } from "@/components/blog/BlogCover";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import { articleCategory, CATEGORY_LABEL, resolveCover } from "@/lib/blog/presentation";
+import {
+	articleCategory,
+	CATEGORY_LABEL,
+	resolveCover,
+} from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 import { SITE_URLS } from "@/lib/walc-data/site-map";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
 const ORIGIN = "https://walc-visa.online";
 
@@ -26,9 +30,11 @@ export const metadata: Metadata = {
 };
 
 const CATEGORY_ORDER: Array<NonNullable<ReturnType<typeof articleCategory>>> = [
+	"pillar",
+	"guide",
+	"compare",
 	"qa",
 	"news",
-	"pillar",
 ];
 
 export default function BlogIndexPage() {
@@ -43,7 +49,12 @@ export default function BlogIndexPage() {
 		"@type": "BreadcrumbList",
 		itemListElement: [
 			{ "@type": "ListItem", position: 1, name: "ホーム", item: `${ORIGIN}/` },
-			{ "@type": "ListItem", position: 2, name: "ブログ", item: `${ORIGIN}/blog` },
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "ブログ",
+				item: `${ORIGIN}/blog`,
+			},
 		],
 	};
 
@@ -81,7 +92,9 @@ export default function BlogIndexPage() {
 					{/* カードグリッド */}
 					<div>
 						{articles.length === 0 ? (
-							<p className="text-[var(--vb-muted)]">記事は準備中です。順次公開します。</p>
+							<p className="text-[var(--vb-muted)]">
+								記事は準備中です。順次公開します。
+							</p>
 						) : (
 							<ul className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 								{articles.map((a) => {
@@ -106,7 +119,10 @@ export default function BlogIndexPage() {
 													{CATEGORY_LABEL[articleCategory(a)]}
 												</p>
 												<h2 className="mt-1.5 text-base font-bold leading-snug text-[var(--vb-ink)]">
-													<Link href={articleHref(a.slug)} className="hover:underline">
+													<Link
+														href={articleHref(a.slug)}
+														className="hover:underline"
+													>
 														{a.h1}
 													</Link>
 												</h2>
@@ -124,9 +140,12 @@ export default function BlogIndexPage() {
 					{/* 右サイドバー */}
 					<aside className="space-y-5">
 						<div className="rounded-2xl bg-[var(--vb-ink)] p-5 text-white">
-							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-gold)]">サービス</p>
+							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-gold)]">
+								サービス
+							</p>
 							<p className="mt-2 text-sm leading-relaxed text-white/85">
-								DTV・LTR・リタイア・Privilege など全種別のタイ長期 VISA を、申請から取得後まで一気通貫サポート。
+								DTV・LTR・リタイア・Privilege など全種別のタイ長期 VISA
+								を、申請から取得後まで一気通貫サポート。
 							</p>
 							<a
 								href={SITE_URLS.social.line}
@@ -140,10 +159,13 @@ export default function BlogIndexPage() {
 						</div>
 
 						<div className="rounded-2xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-5">
-							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">実績</p>
+							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">
+								実績
+							</p>
 							<p className="mt-2 text-sm leading-relaxed text-[var(--vb-body)]">
-								DTV {stats.acquired} 件中 {stats.acquired} 件取得(母数 {stats.totalAttempts} / {stats.periodLabel})。
-								WALC 全体で累計 {stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験。
+								DTV {stats.acquired} 件中 {stats.acquired} 件取得(母数{" "}
+								{stats.totalAttempts} / {stats.periodLabel})。 WALC 全体で累計{" "}
+								{stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験。
 							</p>
 							<p className="mt-2 text-[11px] text-[var(--vb-faint)]">
 								これは過去実績であり、将来の取得を保証するものではありません。
@@ -151,16 +173,28 @@ export default function BlogIndexPage() {
 						</div>
 
 						<div className="rounded-2xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-5">
-							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">公式</p>
+							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">
+								公式
+							</p>
 							<ul className="mt-2 space-y-1.5 text-sm">
 								<li>
-									<a href={SITE_URLS.dtv} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[var(--vb-sub)] hover:underline">
+									<a
+										href={SITE_URLS.dtv}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="inline-flex items-center gap-1.5 text-[var(--vb-sub)] hover:underline"
+									>
 										<ArrowRight className="h-3.5 w-3.5" />
 										DTV 専門サイト
 									</a>
 								</li>
 								<li>
-									<a href={SITE_URLS.social.x} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[var(--vb-sub)] hover:underline">
+									<a
+										href={SITE_URLS.social.x}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="inline-flex items-center gap-1.5 text-[var(--vb-sub)] hover:underline"
+									>
 										<ArrowRight className="h-3.5 w-3.5" />
 										X(@walcvisa)
 									</a>
