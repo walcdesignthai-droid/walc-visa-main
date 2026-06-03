@@ -5,6 +5,7 @@
  * ----------------------------------------------------------------------------
  */
 
+import { NINETY_DAY_REPORT_TROUBLE } from "./90-day-report-trouble";
 import { DTV_BALANCE_500K } from "./dtv-balance-500k";
 import { DTV_DIY_VS_AGENCY } from "./dtv-diy-vs-agency";
 import { DTV_PILLAR } from "./dtv-pillar";
@@ -13,8 +14,15 @@ import { DTV_STAY_RULE } from "./dtv-stay-rule";
 import { DTV_VISA_RUN_ALTERNATIVE } from "./dtv-visa-run-alternative";
 import { DTV_VS_TOURIST } from "./dtv-vs-tourist";
 import { EDUCATION_VISA_REALITY } from "./education-visa-reality";
+import { IMMIGRATION_OFFICE_BANGKOK } from "./immigration-office-bangkok";
 import { LTR_CATEGORIES_TAX } from "./ltr-categories-tax";
+import { MARRIAGE_VISA_THAILAND } from "./marriage-visa-thailand";
+import { NON_B_VISA_EXTENSION } from "./non-b-visa-extension";
 import { RETIREMENT_BANK_BALANCE } from "./retirement-bank-balance";
+import { RETIREMENT_HEALTH_INSURANCE } from "./retirement-health-insurance";
+import { THAILAND_BANK_ACCOUNT } from "./thailand-bank-account";
+import { THAILAND_PRIVILEGE_OVERVIEW } from "./thailand-privilege-overview";
+import { THAILAND_WORK_PERMIT } from "./thailand-work-permit";
 import type { Article } from "./types";
 import { VISA_COMPARISON } from "./visa-comparison";
 import { VISA_EXTENSION_VS_90DAY } from "./visa-extension-vs-90-day-report";
@@ -39,6 +47,17 @@ export const ALL_ARTICLES: ReadonlyArray<Article> = [
 	// 手続き・暮らしのQ&A(qa)
 	DTV_VISA_RUN_ALTERNATIVE,
 	VISA_EXTENSION_VS_90DAY,
+	// WI-overnight Batch B: 困りごとQ&A / ビザ別ガイド 量産(draft)
+	// ビザ別ガイド(guide)
+	NON_B_VISA_EXTENSION,
+	THAILAND_WORK_PERMIT,
+	MARRIAGE_VISA_THAILAND,
+	RETIREMENT_HEALTH_INSURANCE,
+	THAILAND_PRIVILEGE_OVERVIEW,
+	// 手続き・暮らしのQ&A(qa)
+	IMMIGRATION_OFFICE_BANGKOK,
+	THAILAND_BANK_ACCOUNT,
+	NINETY_DAY_REPORT_TROUBLE,
 ];
 
 /** 公開記事のみ(一覧 / sitemap 用)。 */
