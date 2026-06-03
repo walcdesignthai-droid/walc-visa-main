@@ -28,6 +28,14 @@ export const DTV_REQUIRED_DOCUMENTS: Article = {
 	dateModified: "2026-06-01",
 	draft: false,
 	heroEyebrow: "DTV クラスター｜必要書類",
+	category: "pillar",
+	tags: ["DTV", "必要書類", "残高証明"],
+	cover: {
+		motif: "documents",
+		kicker: "DTV ・ 必要書類",
+		titleLines: ["DTV の必要書類を、", "ぜんぶ整理。"],
+		sub: "共通書類＋区分別を、外務省チェックリスト準拠で。",
+	},
 
 	answerFirst: [
 		"DTV(Destination Thailand Visa)の必要書類は、全カテゴリ共通の基本書類(パスポート・財政証明・滞在関連)と、申請区分(ソフトパワー / ワーケーション(ノマド・フリーランス)/ 家族)ごとの追加書類で構成されます。財政面では、50 万 THB 相当の残高に加え、3 ヶ月分の入出金明細(Bank Statement)が重要です。",

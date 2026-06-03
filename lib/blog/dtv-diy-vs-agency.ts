@@ -38,6 +38,14 @@ export const DTV_DIY_VS_AGENCY: Article = {
 	dateModified: "2026-06-01",
 	draft: false,
 	heroEyebrow: "DTV クラスター｜DIY vs 代行",
+	category: "pillar",
+	tags: ["DTV", "代行", "e-Visa"],
+	cover: {
+		motif: "stamp",
+		kicker: "DTV ・ 申請の進め方",
+		titleLines: ["自分で申請か、", "代行か。"],
+		sub: "DIY と代行の特徴を、事実ベースで中立に整理。",
+	},
 
 	answerFirst: [
 		"DTV(Destination Thailand Visa)は、自分で申請することも、代行に依頼することもできます。どちらも正当な選択です。判断軸は、準備にかけられる時間・書類の英文対応・却下リスクの許容度です。",

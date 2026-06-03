@@ -54,13 +54,17 @@ export const WALC_ORGANIZATION = {
  */
 export const WALC_AUTHOR = {
 	slug: "yosuke-onodera",
-	name: "小野寺 陽介",
+	// WI-036 / 設計§8(Owner 承認 2026-06-03): ブログ著者表記はローマ字統一。
+	name: "Yosuke Onodera",
 	givenName: "Yosuke",
 	familyName: "Onodera",
-	jobTitle: "代表取締役 / WALC VISA Consulting 統括",
-	/** 確定事実のみ(Founder.tsx / canonical と整合)。在住・社歴は別概念で併記。 */
+	jobTitle: "WALC VISA Consulting 代表",
+	/**
+	 * SOT: CANONICAL-OWNER-PROFILE.md(在住年数・事業年数 = Owner 確定 2026-06-03)。
+	 * 設計§8 バイライン「タイ在住13年、VISAサポート事業7年目のプロフェッショナル」。
+	 */
 	bioJa:
-		"WALC DESIGN Co., Ltd. 代表取締役。バンコク在住 10 年以上、WALC としてタイで 6 年(事業開始 2020 年 / 法人化 2021-08-27)、タイ長期 VISA の取得・運用コンサルティングを統括。DTV・Thailand Privilege・LTR・リタイアメント・結婚・学生など全種別の実務に従事。",
+		"タイ在住 13 年、タイ長期 VISA サポート事業 7 年目のプロフェッショナル。WALC VISA Consulting 代表として、DTV・Thailand Privilege・LTR・リタイアメント・結婚・学生など全種別の取得・運用コンサルティングを統括しています。",
 	knowsAbout: [
 		"タイ長期VISA",
 		"DTV(Destination Thailand Visa)",
