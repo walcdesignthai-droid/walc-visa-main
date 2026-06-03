@@ -66,9 +66,11 @@ export interface Article {
 	heroEyebrow: string;
 	/**
 	 * WI-036: 一覧の上位カテゴリ(設計§6 IA)。
-	 * qa=手続き・暮らしのQ&A / news=制度ニュース解説 / pillar=ビザ種別pillar。
+	 * qa=手続き・暮らしのQ&A / news=制度ニュース解説 / pillar=ビザ種別pillar /
+	 * guide=ビザ別ガイド(種別解説) / compare=制度比較・ビザ選び。
+	 * (guide/compare は WI-visa-content-consolidation §2 で追加)
 	 */
-	category?: "qa" | "news" | "pillar";
+	category?: "qa" | "news" | "pillar" | "guide" | "compare";
 	/** 横断タグ(90日レポート / TM30 等)。 */
 	tags?: string[];
 	/** 読了目安(分)。未指定は本文量から概算。 */
