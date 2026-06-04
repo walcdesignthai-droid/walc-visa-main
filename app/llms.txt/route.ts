@@ -80,6 +80,7 @@ export function GET(): Response {
 - トップ: https://walc-visa.online/
 - LTR(Long-Term Resident)Visa: https://walc-visa.online/visas/ltr
 - リタイアメント(NON-O)Visa: https://walc-visa.online/visas/retirement
+- 入国・イミグレ緊急サポート(入国拒否/別室/オーバーステイ/強制送還の相談): https://walc-visa.online/immigration-support
 - DTV 専門サイト: https://dtv.walc-visa.online
 
 ## ガイド記事(ブログ / 事実ベース解説・一次出典付き)
