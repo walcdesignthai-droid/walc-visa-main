@@ -14,13 +14,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogCover } from "@/components/blog/BlogCover";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import { ALL_ARTICLES, articleHref, getArticleBySlug } from "@/lib/blog/registry";
 import {
 	articleCategory,
 	CATEGORY_LABEL,
 	readingMinutes,
 	resolveCover,
 } from "@/lib/blog/presentation";
+import {
+	ALL_ARTICLES,
+	articleHref,
+	getArticleBySlug,
+} from "@/lib/blog/registry";
 import type { Article } from "@/lib/blog/types";
 import {
 	buildArticleSchema,
@@ -69,7 +73,9 @@ interface TocItem {
 }
 function buildToc(a: Article): TocItem[] {
 	const toc: TocItem[] = [{ id: "answer", label: "結論" }];
-	a.bodySections?.forEach((s, i) => toc.push({ id: `s-${i}`, label: s.heading }));
+	a.bodySections?.forEach((s, i) => {
+		toc.push({ id: `s-${i}`, label: s.heading });
+	});
 	if (a.statsNote.length) toc.push({ id: "stats", label: "実績" });
 	if (a.expertView.length) toc.push({ id: "expert", label: "専門家の見解" });
 	if (a.steps.length) toc.push({ id: "steps", label: "取得までの流れ" });
@@ -117,7 +123,12 @@ export default async function ArticlePage({
 		"@type": "BreadcrumbList",
 		itemListElement: [
 			{ "@type": "ListItem", position: 1, name: "ホーム", item: `${ORIGIN}/` },
-			{ "@type": "ListItem", position: 2, name: "ブログ", item: `${ORIGIN}/blog` },
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "ブログ",
+				item: `${ORIGIN}/blog`,
+			},
 			{ "@type": "ListItem", position: 3, name: article.h1, item: url },
 		],
 	};
@@ -162,7 +173,10 @@ export default async function ArticlePage({
 				</div>
 
 				{/* Breadcrumb */}
-				<nav aria-label="パンくず" className="mt-6 text-xs text-[var(--vb-faint)]">
+				<nav
+					aria-label="パンくず"
+					className="mt-6 text-xs text-[var(--vb-faint)]"
+				>
 					<Link href="/" className="hover:text-[var(--vb-ink)]">
 						ホーム
 					</Link>
@@ -171,7 +185,9 @@ export default async function ArticlePage({
 						ブログ
 					</Link>
 					<span className="mx-1.5">/</span>
-					<span className="text-[var(--vb-muted)]">{CATEGORY_LABEL[articleCategory(article)]}</span>
+					<span className="text-[var(--vb-muted)]">
+						{CATEGORY_LABEL[articleCategory(article)]}
+					</span>
 				</nav>
 
 				<header className="mt-3">
@@ -184,7 +200,10 @@ export default async function ArticlePage({
 					<div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--vb-muted)]">
 						<span>
 							監修:{" "}
-							<Link href={`/author/${WALC_AUTHOR.slug}`} className="font-semibold text-[var(--vb-ink)] hover:underline">
+							<Link
+								href={`/author/${WALC_AUTHOR.slug}`}
+								className="font-semibold text-[var(--vb-ink)] hover:underline"
+							>
 								{WALC_AUTHOR.name}
 							</Link>
 						</span>
@@ -199,7 +218,10 @@ export default async function ArticlePage({
 					{/* 本文 */}
 					<article className="vb-prose min-w-0 space-y-12">
 						{/* answer-first */}
-						<section id="answer" className="rounded-2xl border border-[var(--vb-gold)]/30 bg-[var(--vb-gold)]/[0.06] p-6 md:p-7">
+						<section
+							id="answer"
+							className="rounded-2xl border border-[var(--vb-gold)]/30 bg-[var(--vb-gold)]/[0.06] p-6 md:p-7"
+						>
 							<h2 className="text-xs font-bold uppercase tracking-wide text-[var(--vb-gold-text)]">
 								結論(まず要点)
 							</h2>
@@ -214,11 +236,18 @@ export default async function ArticlePage({
 						{article.bodySections?.map((sec, i) => (
 							<section key={sec.heading} id={`s-${i}`}>
 								<h2 className={H2}>{sec.heading}</h2>
-								{sec.lead && <p className="mt-3 leading-relaxed text-[var(--vb-body)]">{sec.lead}</p>}
+								{sec.lead && (
+									<p className="mt-3 leading-relaxed text-[var(--vb-body)]">
+										{sec.lead}
+									</p>
+								)}
 								{sec.items && (
 									<ul className="mt-4 space-y-2.5">
 										{sec.items.map((it) => (
-											<li key={it.slice(0, 32)} className="flex gap-2.5 leading-relaxed text-[var(--vb-body)]">
+											<li
+												key={it.slice(0, 32)}
+												className="flex gap-2.5 leading-relaxed text-[var(--vb-body)]"
+											>
 												<FileText className="mt-1 h-4 w-4 shrink-0 text-[var(--vb-gold-text)]" />
 												<span>{it}</span>
 											</li>
@@ -258,9 +287,16 @@ export default async function ArticlePage({
 								<h2 className={H2}>取得までの流れ</h2>
 								<ol className="mt-4 space-y-3">
 									{article.steps.map((s) => (
-										<li key={s.heading} className="rounded-xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-5">
-											<h3 className="font-semibold text-[var(--vb-ink)]">{s.heading}</h3>
-											<p className="mt-1.5 text-sm leading-relaxed text-[var(--vb-body)]">{s.body}</p>
+										<li
+											key={s.heading}
+											className="rounded-xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-5"
+										>
+											<h3 className="font-semibold text-[var(--vb-ink)]">
+												{s.heading}
+											</h3>
+											<p className="mt-1.5 text-sm leading-relaxed text-[var(--vb-body)]">
+												{s.body}
+											</p>
 										</li>
 									))}
 								</ol>
@@ -274,8 +310,12 @@ export default async function ArticlePage({
 								<dl className="mt-4 space-y-5">
 									{article.faq.map((f) => (
 										<div key={f.question}>
-											<dt className="font-semibold text-[var(--vb-ink)]">{f.question}</dt>
-											<dd className="mt-1.5 text-sm leading-relaxed text-[var(--vb-body)]">{f.answer}</dd>
+											<dt className="font-semibold text-[var(--vb-ink)]">
+												{f.question}
+											</dt>
+											<dd className="mt-1.5 text-sm leading-relaxed text-[var(--vb-body)]">
+												{f.answer}
+											</dd>
 										</div>
 									))}
 								</dl>
@@ -283,8 +323,13 @@ export default async function ArticlePage({
 						)}
 
 						{/* 出典 */}
-						<section id="sources" className="rounded-2xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-6 md:p-7">
-							<h2 className="text-base font-bold text-[var(--vb-ink)]">出典(一次情報)</h2>
+						<section
+							id="sources"
+							className="rounded-2xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-6 md:p-7"
+						>
+							<h2 className="text-base font-bold text-[var(--vb-ink)]">
+								出典(一次情報)
+							</h2>
 							<p className="mt-1 text-xs text-[var(--vb-faint)]">
 								本記事の制度・要件は下記の一次情報に基づきます。申請前に最新版をご確認ください。
 							</p>
@@ -307,26 +352,38 @@ export default async function ArticlePage({
 
 						{/* 著者ボックス */}
 						<section className="rounded-2xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-6 md:p-7">
-							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-gold-text)]">監修者</p>
+							<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-gold-text)]">
+								監修者
+							</p>
 							<div className="mt-2 flex items-start gap-4">
 								<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[var(--vb-ink)] text-lg font-black text-white">
 									YO
 								</div>
 								<div>
-									<Link href={`/author/${WALC_AUTHOR.slug}`} className="text-base font-bold text-[var(--vb-ink)] hover:underline">
+									<Link
+										href={`/author/${WALC_AUTHOR.slug}`}
+										className="text-base font-bold text-[var(--vb-ink)] hover:underline"
+									>
 										{WALC_AUTHOR.name}
 									</Link>
-									<p className="text-xs text-[var(--vb-muted)]">{WALC_AUTHOR.jobTitle}</p>
-									<p className="mt-2 text-sm leading-relaxed text-[var(--vb-body)]">{WALC_AUTHOR.bioJa}</p>
+									<p className="text-xs text-[var(--vb-muted)]">
+										{WALC_AUTHOR.jobTitle}
+									</p>
+									<p className="mt-2 text-sm leading-relaxed text-[var(--vb-body)]">
+										{WALC_AUTHOR.bioJa}
+									</p>
 								</div>
 							</div>
 						</section>
 
 						{/* CTA */}
 						<section className="rounded-2xl bg-[var(--vb-ink)] p-6 md:p-8 text-white">
-							<h2 className="text-lg md:text-xl font-bold">あなたの状況に合うか、無料で相談する</h2>
+							<h2 className="text-lg md:text-xl font-bold">
+								あなたの状況に合うか、無料で相談する
+							</h2>
 							<p className="mt-2 text-sm text-white/75">
-								WALC VISA コンシェルジュ・LINE 相談で、申請区分や必要書類を個別にご案内します。
+								WALC VISA コンシェルジュ・LINE
+								相談で、申請区分や必要書類を個別にご案内します。
 							</p>
 							<div className="mt-5 flex flex-wrap gap-3">
 								<a
@@ -354,12 +411,20 @@ export default async function ArticlePage({
 					{/* サイドバー: 目次(sticky)+ 関連 */}
 					<aside className="hidden lg:block">
 						<div className="vb-toc space-y-6">
-							<nav aria-label="目次" className="rounded-xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-4">
-								<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">目次</p>
+							<nav
+								aria-label="目次"
+								className="rounded-xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-4"
+							>
+								<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">
+									目次
+								</p>
 								<ul className="mt-2 space-y-1.5">
 									{toc.map((t) => (
 										<li key={t.id}>
-											<a href={`#${t.id}`} className="block text-xs leading-snug text-[var(--vb-muted)] hover:text-[var(--vb-ink)]">
+											<a
+												href={`#${t.id}`}
+												className="block text-xs leading-snug text-[var(--vb-muted)] hover:text-[var(--vb-ink)]"
+											>
 												{t.label}
 											</a>
 										</li>
@@ -368,20 +433,28 @@ export default async function ArticlePage({
 							</nav>
 
 							<div className="rounded-xl border border-[var(--vb-border)] bg-[var(--vb-card)] p-4">
-								<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">関連トピック</p>
+								<p className="text-[11px] font-bold uppercase tracking-wider text-[var(--vb-faint)]">
+									関連トピック
+								</p>
 								<ul className="mt-2 space-y-2">
 									{article.clusterLinks.map((c) => {
 										const target = getArticleBySlug(c.plannedSlug);
 										const isLive = !!target && !target.draft;
 										return isLive ? (
 											<li key={c.promptKey}>
-												<Link href={articleHref(c.plannedSlug)} className="inline-flex items-start gap-1.5 text-xs leading-snug text-[var(--vb-sub)] hover:underline">
+												<Link
+													href={articleHref(c.plannedSlug)}
+													className="inline-flex items-start gap-1.5 text-xs leading-snug text-[var(--vb-sub)] hover:underline"
+												>
 													<ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" />
 													{c.label}
 												</Link>
 											</li>
 										) : (
-											<li key={c.promptKey} className="inline-flex items-start gap-1.5 text-xs leading-snug text-[var(--vb-faint)]">
+											<li
+												key={c.promptKey}
+												className="inline-flex items-start gap-1.5 text-xs leading-snug text-[var(--vb-faint)]"
+											>
 												<FileText className="mt-0.5 h-3.5 w-3.5 shrink-0" />
 												{c.label}
 												<span>(準備中)</span>
@@ -389,6 +462,18 @@ export default async function ArticlePage({
 										);
 									})}
 								</ul>
+								{(article.slug === "thailand-overstay-what-to-do" ||
+									article.slug === "thailand-re-entry-permit") && (
+									<div className="mt-3 border-t border-[var(--vb-border)] pt-3">
+										<Link
+											href="/immigration-support"
+											className="inline-flex items-start gap-1.5 text-xs font-semibold leading-snug text-[var(--vb-gold-text)] hover:underline"
+										>
+											<ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+											入国で止められた/オーバーステイの緊急相談
+										</Link>
+									</div>
+								)}
 							</div>
 						</div>
 					</aside>

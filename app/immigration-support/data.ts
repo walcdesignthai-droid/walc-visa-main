@@ -8,7 +8,7 @@
  */
 
 /** 公開フラグ。true の間は noindex + JSON-LD 非出力。 */
-export const DRAFT = true;
+export const DRAFT = false;
 
 export const ORIGIN = "https://walc-visa.online";
 export const LP_PATH = "/immigration-support";
