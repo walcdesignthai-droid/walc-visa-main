@@ -1,0 +1,81 @@
+/**
+ * app/immigration-support/immigration.css — 入国サポート LP トークン
+ * ----------------------------------------------------------------------------
+ * 🔴 デザイン鉄則(WALC 共通):
+ *   - 背景は白を基調(#fff / #f7f8fb)。ネイビーは見出し・文字・線に使う。
+ *   - 枠は「全辺ヘアライン + 均一角丸」のみ。左端カラー縦バーの囲みは禁止。
+ *   - CTA = LINE グリーン(#06C755)。緊急 = レッド(#d64550)はバッジ等に限定。
+ *   - コピーは断定・約束・最上級表現を使わない(景表法 / グレー配慮)。
+ * ----------------------------------------------------------------------------
+ */
+
+.imm-theme {
+	--imm-ink: #16264f; /* navy 見出し・本文 */
+	--imm-ink-soft: #3a4a73; /* 補助テキスト */
+	--imm-muted: #5b6680;
+	--imm-faint: #8a93a8;
+	--imm-gold: #caa14a;
+	--imm-gold-text: #b8893f;
+	--imm-green: #06c755; /* LINE */
+	--imm-green-dark: #05a648;
+	--imm-red: #d64550; /* 緊急 */
+	--imm-bg: #ffffff;
+	--imm-soft: #f7f8fb;
+	--imm-card: #ffffff;
+	--imm-border: #e6eaf3; /* ヘアライン */
+
+	font-family: var(--font-imm-sans), system-ui, sans-serif;
+	color: var(--imm-ink);
+	background: var(--imm-bg);
+}
+
+.imm-serif {
+	font-family: var(--font-imm-serif), serif;
+}
+
+/* セクションのソフト背景帯(白を基調に交互) */
+.imm-band-soft {
+	background: var(--imm-soft);
+}
+
+/* 全辺ヘアラインのカード(左カラー縦バーは使わない) */
+.imm-card {
+	background: var(--imm-card);
+	border: 1px solid var(--imm-border);
+	border-radius: 16px;
+}
+
+/* ゴールドの小ラベル(kicker) */
+.imm-kicker {
+	color: var(--imm-gold-text);
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	font-size: 11px;
+}
+
+/* 追従 CTA バー分の余白(本文が隠れないように) */
+.imm-has-stickybar {
+	padding-bottom: 88px;
+}
+
+/* FAQ アコーディオン */
+.imm-acc summary {
+	cursor: pointer;
+	list-style: none;
+}
+.imm-acc summary::-webkit-details-marker {
+	display: none;
+}
+.imm-acc[open] .imm-acc-icon {
+	transform: rotate(45deg);
+}
+.imm-acc-icon {
+	transition: transform 150ms ease;
+}
+
+@media (min-width: 768px) {
+	.imm-has-stickybar {
+		padding-bottom: 0;
+	}
+}
