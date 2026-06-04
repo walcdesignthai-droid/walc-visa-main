@@ -17,16 +17,32 @@ import { type NextRequest, NextResponse } from "next/server";
  *     正規ルート(/ /visas/* /api/* /llms.txt /robots.txt /sitemap.xml 等)には
  *     一切発火しないため、410 を誤って本番ページにかけることはない。
  *   - 恒久削除を機械可読にするため X-Robots-Tag: noindex も付与。
- *   - 旧 WP 記事(/dtv-visa-thailand /thaivisa21 等)の 301 は next.config.ts 側で
- *     既に処理済 (WI-018)。ここでは 410 専用パターンのみ扱い、重複させない。
+ *   - 旧 WP 記事の 301 は原則 next.config.ts 側で処理(WI-018)。ただし
+ *     /immigrate-thai → /blog, /thaivisa21 → /blog/visa-comparison は
+ *     **チェーン0(旧URL → 単一301 → 最終200)**にするため proxy 側で処理する
+ *     (WI-legacy-url-301-retarget)。proxy は trailingSlash 正規化(308)より
+ *     前に走るため、`/foo/` でも 308 を挟まず単一 301 にできる。
  * ----------------------------------------------------------------------------
  */
 
 const GONE_BODY =
 	"410 Gone — This URL has been permanently removed.\nこのページは恒久的に削除されました。";
 
-export function proxy(_req: NextRequest): NextResponse {
-	// matcher により本関数に到達するのはスパム / WP 痕跡パターンのみ。
+/** 旧URL(末尾スラッシュ除去後)→ トピックの近い新ページ(301・恒久)。 */
+const LEGACY_301: Record<string, string> = {
+	"/immigrate-thai": "/blog",
+	"/thaivisa21": "/blog/visa-comparison",
+};
+
+export function proxy(req: NextRequest): NextResponse {
+	// 旧URL 301 再ターゲット(末尾スラッシュ有無を同一視・単一301=チェーン0)。
+	const path = req.nextUrl.pathname.replace(/\/+$/, "");
+	const target = LEGACY_301[path];
+	if (target) {
+		return NextResponse.redirect(new URL(target, req.nextUrl.origin), 301);
+	}
+
+	// それ以外で本関数に到達するのはスパム / WP 痕跡パターン = 410 Gone。
 	return new NextResponse(GONE_BODY, {
 		status: 410,
 		headers: {
@@ -44,6 +60,11 @@ export const config = {
 	 * ⚠️ 正規ルートは含めない (/ /visas/* /api/* 等は対象外)。
 	 */
 	matcher: [
+		// 旧URL 301 再ターゲット(末尾スラッシュ有無の両方)= WI-legacy-url-301-retarget
+		"/immigrate-thai",
+		"/immigrate-thai/",
+		"/thaivisa21",
+		"/thaivisa21/",
 		// 旧 EC スパム注入の痕跡 (bare path と配下の両方を 410 化)
 		"/products",
 		"/products/:path*",
