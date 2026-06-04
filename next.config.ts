@@ -22,6 +22,11 @@ const LEGACY_REDIRECTS: Array<{ from: string; to: string }> = [
 ];
 
 const nextConfig: NextConfig = {
+	// WI-legacy-url-301-retarget: 末尾スラッシュの自動 308 正規化を無効化。
+	// これにより proxy.ts が `/immigrate-thai/` 等を 308 を挟まず直接 301 でき、
+	// 旧URL → 単一301 → 最終200(チェーン0)になる。trailing slash の重複は
+	// 各ページの canonical で解決(/x と /x/ は canonical=/x へ集約)。
+	skipTrailingSlashRedirect: true,
 	images: {
 		remotePatterns: [
 			{
