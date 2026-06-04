@@ -15,9 +15,10 @@ const LEGACY_REDIRECTS: Array<{ from: string; to: string }> = [
 	// DTV 関連 → DTV 専門サイト(live)
 	{ from: "/dtv-visa-thailand", to: "https://dtv.walc-visa.online" },
 	// 該当ページ未確定 → トップへ集約
-	{ from: "/immigrate-thai", to: "/" },
-	{ from: "/thaivisa21", to: "/" },
 	{ from: "/contact-us", to: "/" },
+	// 注: /immigrate-thai → /blog, /thaivisa21 → /blog/visa-comparison は
+	// WI-legacy-url-301-retarget で middleware.ts に移管。trailingSlash 308 を
+	// 回避し「旧URL → 最終200」を単一 301(チェーン0)にするため。
 ];
 
 const nextConfig: NextConfig = {
