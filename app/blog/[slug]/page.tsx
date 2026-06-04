@@ -36,6 +36,21 @@ import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 const ORIGIN = "https://walc-visa.online";
 
+/**
+ * WI-immigration-LP-seo-hardening P3: 入国系記事 → 獲得LP(/immigration-support)へ
+ * KW アンカーで内部リンク(文脈別の自然なアンカー)。
+ */
+const IMMIGRATION_LP_ANCHORS: Record<string, string> = {
+	"thailand-overstay-what-to-do":
+		"オーバーステイで入国を止められそう?緊急相談はこちら",
+	"thailand-re-entry-permit": "再入国で止められた時の相談はこちら",
+	"thailand-90-day-report-online": "タイで入国・滞在を止められたら(緊急相談)",
+	"dtv-visa-run-alternative": "ビザランで入国拒否された時の相談はこちら",
+	"visa-comparison": "タイで入国を止められたら(緊急相談)",
+	"visa-extension-vs-90-day-report": "オーバーステイ・入国拒否の相談はこちら",
+	"dtv-vs-tourist": "入国で止められた・別室に通された時の相談はこちら",
+};
+
 export function generateStaticParams() {
 	return ALL_ARTICLES.map((a) => ({ slug: a.slug }));
 }
@@ -462,15 +477,14 @@ export default async function ArticlePage({
 										);
 									})}
 								</ul>
-								{(article.slug === "thailand-overstay-what-to-do" ||
-									article.slug === "thailand-re-entry-permit") && (
+								{IMMIGRATION_LP_ANCHORS[article.slug] && (
 									<div className="mt-3 border-t border-[var(--vb-border)] pt-3">
 										<Link
 											href="/immigration-support"
 											className="inline-flex items-start gap-1.5 text-xs font-semibold leading-snug text-[var(--vb-gold-text)] hover:underline"
 										>
 											<ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-											入国で止められた/オーバーステイの緊急相談
+											{IMMIGRATION_LP_ANCHORS[article.slug]}
 										</Link>
 									</div>
 								)}

@@ -46,8 +46,11 @@ import {
 	WHAT_WE_CAN_DO,
 } from "./data";
 
+// ルート layout の title.template("%s | WALC VISA Consulting")がブランドを1回付与。
+// ページ title にブランドを含めない(二重回避)。OG/Twitter は明示指定(template 非適用)。
 const TITLE =
-	"タイで入国拒否・イミグレで止められた時の相談｜オーバーステイ・強制送還も｜WALC VISA";
+	"タイ入国拒否・イミグレで止められた時の相談｜オーバーステイ・強制送還も";
+const OG_TITLE = `${TITLE}｜WALC VISA`;
 const DESCRIPTION =
 	"タイの空港・国境で入国を止められた/別室に通された/オーバーステイ・強制送還が不安——まだ諦めないでください。タイ在住13年の WALC VISA が、状況に応じたアドバイス・サポートを LINE でご相談に対応。今すぐ無料通話。";
 
@@ -60,14 +63,14 @@ export const metadata: Metadata = {
 		: { index: true, follow: true },
 	openGraph: {
 		type: "website",
-		title: TITLE,
+		title: OG_TITLE,
 		description: DESCRIPTION,
 		url: `${ORIGIN}${LP_PATH}`,
 		siteName: "WALC VISA Consulting",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: TITLE,
+		title: OG_TITLE,
 		description: DESCRIPTION,
 	},
 };
@@ -89,7 +92,7 @@ function CallButton({
 			rel="noopener noreferrer"
 			className="inline-flex items-center justify-center gap-2 rounded-full bg-[#06c755] px-6 py-3.5 text-sm md:text-base font-bold text-white shadow-sm transition-colors hover:bg-[#05a648]"
 		>
-			<Phone className="h-4 w-4" />
+			<Phone className="h-4 w-4" aria-hidden />
 			{label}
 		</a>
 	);
@@ -109,7 +112,7 @@ function AddFriendButton({
 			rel="noopener noreferrer"
 			className="inline-flex items-center justify-center gap-2 rounded-full border border-[#16264f]/25 bg-white px-6 py-3.5 text-sm md:text-base font-semibold text-[#16264f] transition-colors hover:border-[#16264f]/50"
 		>
-			<MessageCircle className="h-4 w-4" />
+			<MessageCircle className="h-4 w-4" aria-hidden />
 			{label}
 		</a>
 	);
@@ -192,7 +195,7 @@ export default function ImmigrationSupportPage() {
 				<section className="imm-band-soft border-b border-[#e6eaf3]">
 					<div className="mx-auto max-w-5xl px-5 md:px-8 pt-12 md:pt-16 pb-12">
 						<div className="inline-flex items-center gap-2 rounded-full bg-[#d64550]/10 px-3 py-1 text-[11px] font-bold text-[#d64550]">
-							<AlertTriangle className="h-3.5 w-3.5" />
+							<AlertTriangle className="h-3.5 w-3.5" aria-hidden />
 							入国・トラブル対応 ・ 緊急相談
 						</div>
 						<h1 className="mt-4 text-3xl md:text-5xl font-black leading-tight tracking-tight text-[#16264f]">
@@ -219,7 +222,7 @@ export default function ImmigrationSupportPage() {
 						</div>
 						<div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#5b6680]">
 							<span className="inline-flex items-center gap-1.5">
-								<ShieldCheck className="h-4 w-4 text-[#b8893f]" />
+								<ShieldCheck className="h-4 w-4 text-[#b8893f]" aria-hidden />
 								タイ現地13年
 							</span>
 							<span>・ 日本語対応</span>
@@ -254,7 +257,7 @@ export default function ImmigrationSupportPage() {
 				<section className="imm-band-soft border-y border-[#e6eaf3]">
 					<div className="mx-auto max-w-5xl px-5 md:px-8 py-12 md:py-16">
 						<div className="inline-flex items-center gap-2 rounded-full bg-[#d64550]/10 px-3 py-1 text-[11px] font-bold text-[#d64550]">
-							<AlertTriangle className="h-3.5 w-3.5" />
+							<AlertTriangle className="h-3.5 w-3.5" aria-hidden />
 							今、止められている方へ
 						</div>
 						<h2 className={`mt-3 ${H2}`}>まず守ってほしい3つのこと</h2>
@@ -332,7 +335,10 @@ export default function ImmigrationSupportPage() {
 								key={p.slice(0, 24)}
 								className="flex gap-2.5 leading-relaxed text-[#3a4a73]"
 							>
-								<ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]" />
+								<ArrowRight
+									className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
+									aria-hidden
+								/>
 								<span>{p}</span>
 							</li>
 						))}
@@ -358,7 +364,10 @@ export default function ImmigrationSupportPage() {
 									key={p.slice(0, 24)}
 									className="flex gap-2.5 leading-relaxed text-[#3a4a73]"
 								>
-									<ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]" />
+									<ArrowRight
+										className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
+										aria-hidden
+									/>
 									<span>{p}</span>
 								</li>
 							))}
@@ -389,7 +398,10 @@ export default function ImmigrationSupportPage() {
 								key={w.slice(0, 24)}
 								className="flex gap-2.5 leading-relaxed text-[#3a4a73]"
 							>
-								<ShieldCheck className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]" />
+								<ShieldCheck
+									className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
+									aria-hidden
+								/>
 								<span>{w}</span>
 							</li>
 						))}
@@ -428,7 +440,10 @@ export default function ImmigrationSupportPage() {
 									<span className="font-semibold text-[#16264f]">
 										{f.question}
 									</span>
-									<Plus className="imm-acc-icon mt-1 h-4 w-4 shrink-0 text-[#b8893f]" />
+									<Plus
+										className="imm-acc-icon mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
+										aria-hidden
+									/>
 								</summary>
 								<p className="mt-2.5 text-sm leading-relaxed text-[#3a4a73]">
 									{f.answer}
@@ -449,7 +464,10 @@ export default function ImmigrationSupportPage() {
 										href={r.href}
 										className="inline-flex items-start gap-2 text-sm text-[#3a4a73] hover:text-[#16264f] hover:underline"
 									>
-										<FileText className="mt-0.5 h-4 w-4 shrink-0 text-[#b8893f]" />
+										<FileText
+											className="mt-0.5 h-4 w-4 shrink-0 text-[#b8893f]"
+											aria-hidden
+										/>
 										{r.label}
 									</Link>
 								</li>
@@ -492,7 +510,7 @@ export default function ImmigrationSupportPage() {
 											rel="noopener noreferrer nofollow"
 											className="inline-flex items-center gap-1.5 text-[#3a4a73] hover:underline"
 										>
-											<ArrowRight className="h-3.5 w-3.5" />
+											<ArrowRight className="h-3.5 w-3.5" aria-hidden />
 											{s.label}
 										</a>
 									</li>
@@ -512,7 +530,7 @@ export default function ImmigrationSupportPage() {
 						rel="noopener noreferrer"
 						className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#06c755] px-4 py-2.5 text-sm font-bold text-white"
 					>
-						<Phone className="h-4 w-4" />
+						<Phone className="h-4 w-4" aria-hidden />
 						無料通話で相談
 					</a>
 					<a
@@ -521,7 +539,7 @@ export default function ImmigrationSupportPage() {
 						rel="noopener noreferrer"
 						className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#16264f]/25 px-4 py-2.5 text-sm font-semibold text-[#16264f]"
 					>
-						<MessageCircle className="h-4 w-4" />
+						<MessageCircle className="h-4 w-4" aria-hidden />
 						友だち追加
 					</a>
 				</div>
