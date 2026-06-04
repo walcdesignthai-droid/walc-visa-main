@@ -52,11 +52,12 @@ export const THAILAND_BANK_ACCOUNT: Article = {
 			heading: "一般的に求められる書類(目安)",
 			lead: "銀行・支店により異なります。下記は多くのガイドで共通して挙げられる項目です。",
 			items: [
-				"有効なパスポート(滞在期限に一定の残り日数を求められる場合があります)",
+				"有効なパスポート(滞在期限に一定の残り日数を求められる場合があります。例として Kasikorn 系の案内では残存 30 日以上を目安とする旨が紹介されていますが、基準は銀行・支店・時期により異なるため要事前確認)",
 				"ビザ(長期滞在系が有利。種別の可否は銀行・支店による)",
 				"ワークパーミット(ある場合は提示を求められることが多い)",
 				"タイ国内の住所を示す書類(コンドミニアム契約書・賃貸契約・在学証明 等)",
 				"在留届出済証明(英文)や、タイ・イミグレーションが発行する居住証明書を求められる場合があります",
+				"初回入金(最低額は銀行・支店で異なる。例として Kasikorn 系の案内では 500 THB 程度とされますが、口座種別・時期で変わるため要事前確認)",
 			],
 		},
 		{
@@ -68,6 +69,7 @@ export const THAILAND_BANK_ACCOUNT: Article = {
 				"リタイア延長 / LTR: 対応している銀行があります(LTR は BOI が取扱行を案内)",
 				"DTV: 5 年有効でも KYC 上はツーリスト扱いとされ、新規開設を断られる事例が広がっています",
 				"ツーリストビザ・短期滞在: 新規開設は難しい傾向です(銀行・支店による)",
+				"2026 年初頭には、Bangkok Bank がツーリスト系・DTV の新規口座開設を一段と厳格化し、長期滞在ビザ(Non-B/Non-O/ED/LTR/リタイア延長 等)を求める運用が報じられています。背景には不正利用(マネーミュール)対策の規制強化があるとされます。運用は銀行・支店・時期で変わるため、最新の取り扱いは対象の銀行へ要事前確認",
 			],
 		},
 		{
@@ -181,6 +183,20 @@ export const THAILAND_BANK_ACCOUNT: Article = {
 			claim: "在留届出済証明(英文)の発行元は在タイ日本国大使館",
 			source: "在タイ日本国大使館 案内(一次出典)",
 		},
+		{
+			claim:
+				"Kasikorn 系の案内では初回入金の目安 500 THB・パスポート残存 30 日以上(= 案内例。口座種別・支店・時期で異なる)",
+			source:
+				"Wise「How to open a Kasikorn Bank account for foreigners」(2026 年閲覧)",
+			primaryPending: true,
+		},
+		{
+			claim:
+				"2026 年初頭に Bangkok Bank がツーリスト系・DTV の新規開設を厳格化し長期滞在ビザを要件化(= マネーミュール対策の規制強化を背景とする報道。運用は銀行・支店による)",
+			source:
+				"Bangkok Post「Bangkok Bank tightens account rules for some foreigners」/ 各種在タイ向けガイド(2026 年閲覧)",
+			primaryPending: true,
+		},
 	],
 
 	references: [
@@ -196,20 +212,30 @@ export const THAILAND_BANK_ACCOUNT: Article = {
 			label: "Nation Thailand｜Opening a Bank Account with a DTV Visa",
 			url: "https://www.nationthailand.com/pr-news/pr-news/40046639",
 		},
+		{
+			label:
+				"Wise｜How to open a Kasikorn Bank account for foreigners(必要書類・最低入金)",
+			url: "https://wise.com/en-th/blog/kasikorn-bank-foreigners",
+		},
+		{
+			label:
+				"Bangkok Post｜Bangkok Bank tightens account rules for some foreigners",
+			url: "https://www.bangkokpost.com/business/general/3036585/bangkok-bank-tightens-account-rules-for-some-foreigners",
+		},
 	],
 
 	placeholders: [
 		{
 			key: "要一次出典: 各行の最新の必要書類・ビザ要件",
-			note: "Bangkok Bank / Kasikorn / Krungthai 等の公式ページで、外国人の口座開設に必要な書類・ビザ要件・パスポート残存日数の基準を確認し、確定後に本文を更新する。支店裁量が大きい点は維持。",
+			note: "二次情報(Wise / Bangkok Post 等)では、2026 年初頭に Bangkok Bank がツーリスト系・DTV を厳格化し長期滞在ビザを要件化、Kasikorn 系はパスポート残存 30 日以上を目安、という傾向まで確認し本文へ反映済(いずれも primaryPending)。Bangkok Bank / Kasikorn / Krungthai 等の銀行公式ページで、外国人の必要書類・ビザ要件・残存日数基準を一次確認できたら primaryPending を外し本文を確定する。支店裁量が大きい点は維持。",
 		},
 		{
 			key: "要一次出典: 在留届出済証明の手数料・所要日数",
-			note: "在タイ日本国大使館の最新案内で、在留届出済証明(英文)の手数料(THB 建てでレート変動)・受取までの日数・窓口時間を確認し、必要なら本文に追記する。",
+			note: "在タイ日本国大使館サイト/手数料表は 403 で一次取得不可。検索上は領事手数料 PDF に複数行(例: 3,630 / 2,520 THB 等)が混在し、どの行が在留届出済証明(英文)か断定できない(過去改定では 670 THB の表記もあり)。断定できないため本文には金額を書かず保留。大使館公式案内で在留届出済証明(英文)の手数料・受取日数・窓口/オンライン区分を一次確認できたら本文へ追記する。",
 		},
 		{
 			key: "要一次出典: 初回入金額・付帯保険・口座維持手数料",
-			note: "初回入金の最低額・口座開設時に案内される付帯保険・口座維持手数料は銀行/支店で異なるため、確証ある銀行公式の数値が取れた場合のみ本文へ追記する。",
+			note: "初回入金は Kasikorn 系案内の例として 500 THB を本文に傾向値として反映済(primaryPending)。付帯保険・口座維持手数料は銀行/支店で異なり確証が取れていないため未記載。各行公式の確証ある数値が取れた場合のみ本文へ追記する。",
 		},
 	],
 };
