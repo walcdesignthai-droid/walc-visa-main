@@ -14,6 +14,9 @@ import { DTV_VISA_RUN_ALTERNATIVE } from "./dtv-visa-run-alternative";
 import { DTV_VS_TOURIST } from "./dtv-vs-tourist";
 import { EDUCATION_VISA_REALITY } from "./education-visa-reality";
 import { LTR_CATEGORIES_TAX } from "./ltr-categories-tax";
+import { QA_90DAY_REPORT } from "./qa-90day-report";
+import { QA_OVERSTAY } from "./qa-overstay";
+import { QA_REENTRY_PERMIT } from "./qa-reentry-permit";
 import { RETIREMENT_BANK_BALANCE } from "./retirement-bank-balance";
 import type { Article } from "./types";
 import { VISA_COMPARISON } from "./visa-comparison";
@@ -39,6 +42,10 @@ export const ALL_ARTICLES: ReadonlyArray<Article> = [
 	// 手続き・暮らしのQ&A(qa)
 	DTV_VISA_RUN_ALTERNATIVE,
 	VISA_EXTENSION_VS_90DAY,
+	// WI-038: 手続き・暮らしのQ&A(公開)
+	QA_90DAY_REPORT,
+	QA_REENTRY_PERMIT,
+	QA_OVERSTAY,
 ];
 
 /** 公開記事のみ(一覧 / sitemap 用)。 */
