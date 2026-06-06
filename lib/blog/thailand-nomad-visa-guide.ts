@@ -1,7 +1,7 @@
 /**
  * lib/blog/thailand-nomad-visa-guide.ts — ノマドビザ pillar(WI-20260604-nomad-visa-pillar)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft: true)。Cowork 品質ゲート(YMYL/schema/ブランド/内部リンク)→ Owner 目視まで公開しない。
+ * ✅ 公開(draft:false / 2026-06-06)。Owner GO + Cowork GREEN(YMYL0/schema/ブランド/内部リンク/PGFYVNZ)→ 公開承認済。
  *
  * 戦略: knowledge/seo-memory/walc-visa/nomad-visa-seo-strategy.md
  *   通称KW「タイ ノマドビザ / デジタルノマドビザ」を title/h1/meta で直撃。
@@ -33,7 +33,7 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 		"タイの「ノマドビザ」と呼ばれる DTV(Destination Thailand Visa)を徹底解説。条件・必要書類・e-Visa 申請手順・政府費用から、Thailand Privilege との比較、ビザなし60日・学生ビザの代替まで。「自分はどれを選ぶべきか」が分かります。",
 	datePublished: "2026-06-06",
 	dateModified: "2026-06-06",
-	draft: true,
+	draft: false,
 	heroEyebrow: "ノマドビザ 完全ガイド",
 	// WI 指定カテゴリ「制度比較・ビザ選び」= compare。
 	category: "compare",
