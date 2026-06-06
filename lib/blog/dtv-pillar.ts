@@ -117,6 +117,13 @@ export const DTV_PILLAR: Article = {
 	// --- cluster 内部リンク枠(本体は後続。未公開は href を張らない) ---------
 	clusterLinks: [
 		{
+			// WI-nomad-visa-pillar P3: 通称KW pillar への相互リンク(公開時に live)
+			promptKey: "sq-thailand-nomad",
+			label: "タイのノマドビザ完全ガイド",
+			plannedSlug: "thailand-nomad-visa-guide",
+			published: true,
+		},
+		{
 			promptKey: "ya-dtv-documents",
 			label: "DTV 必要書類の完全リスト",
 			plannedSlug: "dtv-required-documents",

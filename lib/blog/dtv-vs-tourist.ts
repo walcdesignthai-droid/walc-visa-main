@@ -128,6 +128,13 @@ export const DTV_VS_TOURIST: Article = {
 			published: true,
 		},
 		{
+			// WI-nomad-visa-pillar P3: 通称KW pillar への相互リンク
+			promptKey: "sq-thailand-nomad",
+			label: "タイのノマドビザ完全ガイド",
+			plannedSlug: "thailand-nomad-visa-guide",
+			published: true,
+		},
+		{
 			promptKey: "qa-dtv-visa-run",
 			label: "ビザラン代替としてのDTV活用",
 			plannedSlug: "dtv-visa-run-alternative",

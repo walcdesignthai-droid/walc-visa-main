@@ -4,7 +4,7 @@
  * WI-036 / 設計§2(Owner 承認 2026-06-03)。viewBox 1200×675 の SVG で、
  * ヒーロー(記事先頭)・一覧カードサムネ・OG の元として使い回す。
  *
- * トークン: bg #f7f8fb / ネイビー #16264f / ゴールド #caa14a(ライト面文字 #b8893f)
+ * トークン: bg #f7f8fb / ネイビー #001830 / ゴールド #caa14a(ライト面文字 #b8893f)
  * / 枠 #dde2ee / 本文 #46506b / faint #8089a0。walc-design ブルー不使用。
  * 1 記事 1 デザイン: motif で主役線画を切替。
  * ----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
 
 import type { CoverMotif } from "@/lib/blog/types";
 
-const INK = "#16264f";
+const INK = "#001830";
 const GOLD = "#caa14a";
 const GOLD_TEXT = "#b8893f";
 const BORDER = "#dde2ee";
