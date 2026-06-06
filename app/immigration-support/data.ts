@@ -20,7 +20,7 @@ export function emergencyCallHref(placement: string): string {
 	return `https://lin.ee/KYVgRRP?${UTM}&utm_content=${placement}`;
 }
 export function friendAddHref(placement: string): string {
-	return `https://lin.ee/7sV0zzU?${UTM}&utm_content=${placement}`;
+	return `https://lin.ee/PGFYVNZ?${UTM}&utm_content=${placement}`;
 }
 
 /** 共感チップ(① こんな状況ではありませんか?)。 */

@@ -137,7 +137,7 @@ export default function ImmigrationSupportPage() {
 		},
 		availableChannel: {
 			"@type": "ServiceChannel",
-			serviceUrl: "https://lin.ee/7sV0zzU",
+			serviceUrl: "https://lin.ee/PGFYVNZ",
 			availableLanguage: ["ja"],
 		},
 		url,

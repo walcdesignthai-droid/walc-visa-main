@@ -39,8 +39,8 @@ export const SITE_URLS = {
 
 	/** SNS */
 	social: {
-		line: "https://lin.ee/HQc9axW",
-		lineOaShortlink: "https://page.line.me/872bhpgw",
+		line: "https://lin.ee/PGFYVNZ",
+		lineOaShortlink: "https://lin.ee/PGFYVNZ",
 		x: "https://x.com/walcvisa",
 	},
 

@@ -249,7 +249,7 @@ export default function LtrPage() {
 							</p>
 							<div className="flex flex-wrap gap-3">
 								<a
-									href="https://lin.ee/HQc9axW"
+									href="https://lin.ee/PGFYVNZ"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm hover:bg-amber-300 transition-colors shadow-md"
@@ -474,7 +474,7 @@ export default function LtrPage() {
 							</p>
 							<div className="flex flex-wrap justify-center gap-3">
 								<a
-									href="https://lin.ee/HQc9axW"
+									href="https://lin.ee/PGFYVNZ"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm hover:bg-amber-300 transition-colors shadow-md"

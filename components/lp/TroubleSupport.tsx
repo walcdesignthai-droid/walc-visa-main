@@ -149,7 +149,7 @@ export function TroubleSupport() {
 						</div>
 						<div className="flex flex-col gap-3">
 							<a
-								href="https://lin.ee/HQc9axW"
+								href="https://lin.ee/PGFYVNZ"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm md:text-base hover:bg-amber-300 transition-colors shadow-md"
