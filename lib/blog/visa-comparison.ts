@@ -136,6 +136,13 @@ export const VISA_COMPARISON: Article = {
 
 	clusterLinks: [
 		{
+			// WI-nomad-visa-pillar P3: 通称KW pillar への相互リンク
+			promptKey: "sq-thailand-nomad",
+			label: "タイのノマドビザ完全ガイド",
+			plannedSlug: "thailand-nomad-visa-guide",
+			published: true,
+		},
+		{
 			promptKey: "cmp-dtv-vs-tourist",
 			label: "DTV vs 観光ビザ 徹底比較",
 			plannedSlug: "dtv-vs-tourist",

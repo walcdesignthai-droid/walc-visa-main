@@ -265,7 +265,7 @@ export default function RetirementPage() {
 								</div>
 							</div>
 							<a
-								href="https://lin.ee/HQc9axW"
+								href="https://lin.ee/PGFYVNZ"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm hover:bg-amber-300 transition-colors shadow-md"
@@ -510,7 +510,7 @@ export default function RetirementPage() {
 								WALC 担当者が適したプランを 24 時間以内にご案内いたします。
 							</p>
 							<a
-								href="https://lin.ee/HQc9axW"
+								href="https://lin.ee/PGFYVNZ"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm hover:bg-amber-300 transition-colors shadow-md"

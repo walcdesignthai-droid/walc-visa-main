@@ -1,7 +1,7 @@
 /**
  * app/immigration-support/opengraph-image.tsx — 入国サポート LP の OG(1200×630)
  * ----------------------------------------------------------------------------
- * 白地 × ネイビー#16264f × ゴールド#caa14a。見出し「タイで入国を止められたら/
+ * 白地 × ネイビー#001830 × ゴールド#caa14a。見出し「タイで入国を止められたら/
  * まだ諦めないで。」+「LINE 無料相談」。Noto Sans JP を Google Fonts から取得。
  * 動的生成のためビルドはブロックしない。og:image + twitter:image を自動配線。
  * ----------------------------------------------------------------------------
@@ -14,7 +14,7 @@ export const alt =
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const INK = "#16264f";
+const INK = "#001830";
 const GOLD = "#b8893f";
 const GREEN = "#06c755";
 

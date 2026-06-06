@@ -138,7 +138,7 @@ function bubbleContents(
 			spacing: "md",
 			paddingAll: "16px",
 			contents: [
-				{ type: "text", text: title, weight: "bold", size: "md", color: "#0b2a4a", wrap: true },
+				{ type: "text", text: title, weight: "bold", size: "md", color: "#001830", wrap: true },
 				{ type: "text", text: subtitle, size: "xs", color: "#475569", wrap: true },
 			],
 		},
@@ -148,7 +148,7 @@ function bubbleContents(
 			spacing: "sm",
 			paddingAll: "12px",
 			contents: [
-				{ type: "button", style: "primary", color: "#0b2a4a", height: "sm", action },
+				{ type: "button", style: "primary", color: "#001830", height: "sm", action },
 			],
 		},
 	};

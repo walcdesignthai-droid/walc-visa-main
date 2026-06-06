@@ -24,6 +24,7 @@ import { QA_REENTRY_PERMIT } from "./qa-reentry-permit";
 import { RETIREMENT_BANK_BALANCE } from "./retirement-bank-balance";
 import { RETIREMENT_HEALTH_INSURANCE } from "./retirement-health-insurance";
 import { THAILAND_BANK_ACCOUNT } from "./thailand-bank-account";
+import { THAILAND_NOMAD_VISA_GUIDE } from "./thailand-nomad-visa-guide";
 import { THAILAND_PRIVILEGE_OVERVIEW } from "./thailand-privilege-overview";
 import { THAILAND_WORK_PERMIT } from "./thailand-work-permit";
 import type { Article } from "./types";
@@ -35,6 +36,8 @@ export const BLOG_BASE_PATH = "/blog";
 /** 全記事(draft 含む)。 */
 export const ALL_ARTICLES: ReadonlyArray<Article> = [
 	DTV_PILLAR,
+	// WI-20260604-nomad-visa-pillar: 通称KW「タイ ノマドビザ」攻略 pillar(制度比較・ビザ選び / draft)
+	THAILAND_NOMAD_VISA_GUIDE,
 	DTV_REQUIRED_DOCUMENTS,
 	DTV_STAY_RULE,
 	DTV_DIY_VS_AGENCY,

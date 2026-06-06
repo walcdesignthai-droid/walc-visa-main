@@ -17,7 +17,7 @@
 const DEFAULT_APPLICATION_FORM_URL = "https://crm.walc-visa.online/apply";
 
 /** LINE 公式アカウント友だち追加 URL */
-const DEFAULT_LINE_ADD_URL = "https://lin.ee/pQkudMM";
+const DEFAULT_LINE_ADD_URL = "https://lin.ee/PGFYVNZ";
 
 /* ============================================================================
  * 申込フォーム

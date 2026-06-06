@@ -10,7 +10,7 @@
  */
 
 .imm-theme {
-	--imm-ink: #16264f; /* navy 見出し・本文 */
+	--imm-ink: #001830; /* navy 見出し・本文 */
 	--imm-ink-soft: #3a4a73; /* 補助テキスト */
 	--imm-muted: #5b6680;
 	--imm-faint: #8a93a8;

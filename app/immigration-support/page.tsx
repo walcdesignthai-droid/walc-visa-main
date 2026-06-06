@@ -110,7 +110,7 @@ function AddFriendButton({
 			href={friendAddHref(placement)}
 			target="_blank"
 			rel="noopener noreferrer"
-			className="inline-flex items-center justify-center gap-2 rounded-full border border-[#16264f]/25 bg-white px-6 py-3.5 text-sm md:text-base font-semibold text-[#16264f] transition-colors hover:border-[#16264f]/50"
+			className="inline-flex items-center justify-center gap-2 rounded-full border border-[#001830]/25 bg-white px-6 py-3.5 text-sm md:text-base font-semibold text-[#001830] transition-colors hover:border-[#001830]/50"
 		>
 			<MessageCircle className="h-4 w-4" aria-hidden />
 			{label}
@@ -118,7 +118,7 @@ function AddFriendButton({
 	);
 }
 
-const H2 = "text-2xl md:text-3xl font-black tracking-tight text-[#16264f]";
+const H2 = "text-2xl md:text-3xl font-black tracking-tight text-[#001830]";
 
 export default function ImmigrationSupportPage() {
 	const url = `${ORIGIN}${LP_PATH}`;
@@ -137,7 +137,7 @@ export default function ImmigrationSupportPage() {
 		},
 		availableChannel: {
 			"@type": "ServiceChannel",
-			serviceUrl: "https://lin.ee/7sV0zzU",
+			serviceUrl: "https://lin.ee/PGFYVNZ",
 			availableLanguage: ["ja"],
 		},
 		url,
@@ -190,7 +190,7 @@ export default function ImmigrationSupportPage() {
 				</>
 			)}
 
-			<main className="imm-has-stickybar bg-white text-[#16264f]">
+			<main className="imm-has-stickybar bg-white text-[#001830]">
 				{/* ───── HERO ───── */}
 				<section className="imm-band-soft border-b border-[#e6eaf3]">
 					<div className="mx-auto max-w-5xl px-5 md:px-8 pt-12 md:pt-16 pb-12">
@@ -198,7 +198,7 @@ export default function ImmigrationSupportPage() {
 							<AlertTriangle className="h-3.5 w-3.5" aria-hidden />
 							入国・トラブル対応 ・ 緊急相談
 						</div>
-						<h1 className="mt-4 text-3xl md:text-5xl font-black leading-tight tracking-tight text-[#16264f]">
+						<h1 className="mt-4 text-3xl md:text-5xl font-black leading-tight tracking-tight text-[#001830]">
 							タイで入国を止められた。
 							<br className="hidden md:block" />
 							オーバーステイしてしまった。
@@ -245,7 +245,7 @@ export default function ImmigrationSupportPage() {
 							</span>
 						))}
 					</div>
-					<p className="mt-6 text-base md:text-lg leading-relaxed text-[#16264f]">
+					<p className="mt-6 text-base md:text-lg leading-relaxed text-[#001830]">
 						状況によっては、まだ打つ手があります。一人で判断せず、まず状況をお聞かせください。
 						<span className="text-sm text-[#8a93a8]">
 							(※結果を保証するものではありません)
@@ -267,7 +267,7 @@ export default function ImmigrationSupportPage() {
 									<div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e6eaf3] text-base font-black text-[#b8893f]">
 										{i + 1}
 									</div>
-									<h3 className="mt-3 font-bold text-[#16264f]">{p.head}</h3>
+									<h3 className="mt-3 font-bold text-[#001830]">{p.head}</h3>
 									<p className="mt-1.5 text-sm leading-relaxed text-[#3a4a73]">
 										{p.body}
 									</p>
@@ -290,7 +290,7 @@ export default function ImmigrationSupportPage() {
 					<div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
 						{CURRENT_REASONS.map((r) => (
 							<div key={r.head} className="imm-card p-5">
-								<h3 className="font-bold text-[#16264f]">{r.head}</h3>
+								<h3 className="font-bold text-[#001830]">{r.head}</h3>
 								<p className="mt-1.5 text-sm leading-relaxed text-[#3a4a73]">
 									{r.body}
 								</p>
@@ -310,7 +310,7 @@ export default function ImmigrationSupportPage() {
 						<div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 							{CASE_EXAMPLES.map((c) => (
 								<div key={c.title} className="imm-card p-5">
-									<h3 className="text-sm font-bold leading-snug text-[#16264f]">
+									<h3 className="text-sm font-bold leading-snug text-[#001830]">
 										{c.title}
 									</h3>
 									<p className="mt-2 text-sm leading-relaxed text-[#3a4a73]">
@@ -319,7 +319,7 @@ export default function ImmigrationSupportPage() {
 								</div>
 							))}
 						</div>
-						<p className="mt-6 leading-relaxed text-[#16264f]">
+						<p className="mt-6 leading-relaxed text-[#001830]">
 							共通する教訓は「止められる前の準備」と「止められた時の冷静な対応・早い相談」です。状況は一人ひとり違います。まずはご相談を。
 						</p>
 					</div>
@@ -343,7 +343,7 @@ export default function ImmigrationSupportPage() {
 							</li>
 						))}
 					</ul>
-					<p className="mt-5 leading-relaxed text-[#16264f]">
+					<p className="mt-5 leading-relaxed text-[#001830]">
 						「自分は ban
 						なのか/いつ・どの方法なら可能性があるか」は、記録と経緯の整理が出発点です。現実的な選択肢を一緒に整理します。まず
 						LINE で。
@@ -372,7 +372,7 @@ export default function ImmigrationSupportPage() {
 								</li>
 							))}
 						</ul>
-						<p className="mt-5 leading-relaxed text-[#16264f]">
+						<p className="mt-5 leading-relaxed text-[#001830]">
 							「今
 							何日超過」「これから出たい」「将来もタイに戻りたい」——状況に応じた動き方をご案内します。摘発前に、まず
 							LINE で。
@@ -416,10 +416,10 @@ export default function ImmigrationSupportPage() {
 						<ol className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
 							{CONSULT_FLOW.map((s, i) => (
 								<li key={s.head} className="imm-card p-5">
-									<div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#16264f] text-base font-black text-white">
+									<div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#001830] text-base font-black text-white">
 										{i + 1}
 									</div>
-									<h3 className="mt-3 font-bold text-[#16264f]">{s.head}</h3>
+									<h3 className="mt-3 font-bold text-[#001830]">{s.head}</h3>
 									<p className="mt-1.5 text-sm leading-relaxed text-[#3a4a73]">
 										{s.body}
 									</p>
@@ -437,7 +437,7 @@ export default function ImmigrationSupportPage() {
 						{FAQ_ITEMS.map((f) => (
 							<details key={f.question} className="imm-acc group py-4">
 								<summary className="flex items-start justify-between gap-3">
-									<span className="font-semibold text-[#16264f]">
+									<span className="font-semibold text-[#001830]">
 										{f.question}
 									</span>
 									<Plus
@@ -462,7 +462,7 @@ export default function ImmigrationSupportPage() {
 								<li key={r.href}>
 									<Link
 										href={r.href}
-										className="inline-flex items-start gap-2 text-sm text-[#3a4a73] hover:text-[#16264f] hover:underline"
+										className="inline-flex items-start gap-2 text-sm text-[#3a4a73] hover:text-[#001830] hover:underline"
 									>
 										<FileText
 											className="mt-0.5 h-4 w-4 shrink-0 text-[#b8893f]"
@@ -479,7 +479,7 @@ export default function ImmigrationSupportPage() {
 				{/* ───── ⑩ 最終CTA ───── */}
 				<section className="mx-auto max-w-5xl px-5 md:px-8 py-12 md:py-16">
 					<div className="imm-card p-8 md:p-10 text-center">
-						<h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#16264f]">
+						<h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#001830]">
 							一人で抱え込まないでください。
 						</h2>
 						<p className="mt-3 text-base md:text-lg text-[#3a4a73]">
@@ -495,7 +495,7 @@ export default function ImmigrationSupportPage() {
 				{/* ───── Footer + 免責 + 出典 ───── */}
 				<footer className="border-t border-[#e6eaf3] bg-[#f7f8fb]">
 					<div className="mx-auto max-w-5xl px-5 md:px-8 py-10 text-sm text-[#5b6680]">
-						<p className="font-semibold text-[#16264f]">
+						<p className="font-semibold text-[#001830]">
 							監修:{WALC_AUTHOR.name}(WALC VISA Consulting 代表)
 						</p>
 						<p className="mt-3 leading-relaxed">{DISCLAIMER}</p>
@@ -537,7 +537,7 @@ export default function ImmigrationSupportPage() {
 						href={friendAddHref("stickybar")}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#16264f]/25 px-4 py-2.5 text-sm font-semibold text-[#16264f]"
+						className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#001830]/25 px-4 py-2.5 text-sm font-semibold text-[#001830]"
 					>
 						<MessageCircle className="h-4 w-4" aria-hidden />
 						友だち追加

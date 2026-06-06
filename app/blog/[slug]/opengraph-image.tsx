@@ -14,7 +14,7 @@ export const alt = "WALC VISA";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const INK = "#16264f";
+const INK = "#001830";
 const GOLD = "#b8893f";
 
 async function loadFont(weight: number): Promise<ArrayBuffer | null> {
