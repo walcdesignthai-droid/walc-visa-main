@@ -76,6 +76,11 @@ export const WALC_AUTHOR = {
 	],
 	url: "https://walc-visa.online/author/yosuke-onodera",
 	sameAs: ["https://x.com/walcvisa"],
+	/** 代表 宣材写真(Owner 確定 2026-06-06)。Person schema image / 著者ボックス等で共用。 */
+	imageUrl: "https://walc-visa.online/brand/photos/yosuke-portrait.png",
+	/** next/image 用の相対パス + alt(サイト内表示で使用)。 */
+	imagePath: "/brand/photos/yosuke-portrait.png",
+	imageAlt: "Yosuke Onodera(WALC VISA Consulting 代表)",
 } as const;
 
 type JsonLd = Record<string, unknown>;
@@ -104,6 +109,7 @@ export function buildPersonSchema(): JsonLd {
 		familyName: WALC_AUTHOR.familyName,
 		jobTitle: WALC_AUTHOR.jobTitle,
 		description: WALC_AUTHOR.bioJa,
+		image: WALC_AUTHOR.imageUrl,
 		knowsAbout: [...WALC_AUTHOR.knowsAbout],
 		url: WALC_AUTHOR.url,
 		sameAs: [...WALC_AUTHOR.sameAs],

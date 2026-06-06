@@ -10,6 +10,7 @@
 
 import { ArrowRight, FileText, MessageCircle } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogCover } from "@/components/blog/BlogCover";
@@ -371,8 +372,14 @@ export default async function ArticlePage({
 								監修者
 							</p>
 							<div className="mt-2 flex items-start gap-4">
-								<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[var(--vb-ink)] text-lg font-black text-white">
-									YO
+								<div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[var(--vb-border)]">
+									<Image
+										src={WALC_AUTHOR.imagePath}
+										alt={WALC_AUTHOR.imageAlt}
+										fill
+										sizes="56px"
+										className="object-cover object-top"
+									/>
 								</div>
 								<div>
 									<Link
