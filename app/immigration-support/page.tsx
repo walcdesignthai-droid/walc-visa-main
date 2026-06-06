@@ -18,6 +18,7 @@ import {
 	ShieldCheck,
 } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import {
@@ -385,27 +386,49 @@ export default function ImmigrationSupportPage() {
 
 				{/* ───── ⑦ WALC にできること ───── */}
 				<section className="mx-auto max-w-5xl px-5 md:px-8 py-12 md:py-16">
-					<p className="imm-kicker">WALC VISA にできること</p>
-					<h2 className={`mt-2 ${H2}`}>
-						まず、現実的な選択肢を一緒に整理します
-					</h2>
-					<p className="mt-3 max-w-3xl leading-relaxed text-[#3a4a73]">
-						タイ在住13年・VISAサポート事業7年目の知見で、入国時に止められた方、過去の滞在やオーバーステイ・送還に不安がある方のご相談に対応します。
-					</p>
-					<ul className="mt-5 space-y-3">
-						{WHAT_WE_CAN_DO.map((w) => (
-							<li
-								key={w.slice(0, 24)}
-								className="flex gap-2.5 leading-relaxed text-[#3a4a73]"
-							>
-								<ShieldCheck
-									className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
-									aria-hidden
+					<div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10">
+						<figure className="mx-auto w-40 shrink-0 md:mx-0">
+							<div className="relative h-52 w-40 overflow-hidden rounded-2xl border border-[#e6eaf3] shadow-sm">
+								<Image
+									src={WALC_AUTHOR.imagePath}
+									alt={WALC_AUTHOR.imageAlt}
+									fill
+									sizes="160px"
+									className="object-cover object-top"
 								/>
-								<span>{w}</span>
-							</li>
-						))}
-					</ul>
+							</div>
+							<figcaption className="mt-2 text-center text-xs text-[#3a4a73] md:text-left">
+								<Link href={`/author/${WALC_AUTHOR.slug}`} className="font-semibold text-[#001830] hover:underline">
+									{WALC_AUTHOR.name}
+								</Link>
+								<br />
+								WALC VISA Consulting 代表
+							</figcaption>
+						</figure>
+						<div className="min-w-0">
+							<p className="imm-kicker">WALC VISA にできること</p>
+							<h2 className={`mt-2 ${H2}`}>
+								まず、現実的な選択肢を一緒に整理します
+							</h2>
+							<p className="mt-3 max-w-3xl leading-relaxed text-[#3a4a73]">
+								タイ在住13年・VISAサポート事業7年目の知見で、入国時に止められた方、過去の滞在やオーバーステイ・送還に不安がある方のご相談に対応します。
+							</p>
+							<ul className="mt-5 space-y-3">
+								{WHAT_WE_CAN_DO.map((w) => (
+									<li
+										key={w.slice(0, 24)}
+										className="flex gap-2.5 leading-relaxed text-[#3a4a73]"
+									>
+										<ShieldCheck
+											className="mt-1 h-4 w-4 shrink-0 text-[#b8893f]"
+											aria-hidden
+										/>
+										<span>{w}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
 				</section>
 
 				{/* ───── ⑧ ご相談の流れ ───── */}

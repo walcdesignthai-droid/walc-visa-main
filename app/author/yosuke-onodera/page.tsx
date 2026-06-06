@@ -12,6 +12,7 @@
 
 import { Building2, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
@@ -63,19 +64,31 @@ export default function AuthorPage() {
 			<Header />
 			<main>
 				<section className="bg-brand text-white">
-					<div className="mx-auto max-w-content px-5 md:px-8 py-16 md:py-24">
-						<p className="text-[11px] tracking-[0.22em] uppercase text-amber-300 font-semibold">
-							Author / 運営責任者
-						</p>
-						<h1 className="mt-3 text-3xl md:text-5xl font-bold tracking-tight">
-							{WALC_AUTHOR.name}
-						</h1>
-						<p className="mt-2 text-sm text-white/70">
-							{WALC_AUTHOR.givenName} {WALC_AUTHOR.familyName}
-						</p>
-						<p className="mt-1 text-base text-white/80">
-							{WALC_AUTHOR.jobTitle}
-						</p>
+					<div className="mx-auto flex max-w-content flex-col-reverse items-center gap-8 px-5 md:px-8 py-16 md:py-24 md:flex-row md:items-center md:justify-between md:gap-12">
+						<div className="text-center md:text-left">
+							<p className="text-[11px] tracking-[0.22em] uppercase text-amber-300 font-semibold">
+								Author / 運営責任者
+							</p>
+							<h1 className="mt-3 text-3xl md:text-5xl font-bold tracking-tight">
+								{WALC_AUTHOR.name}
+							</h1>
+							<p className="mt-2 text-sm text-white/70">
+								{WALC_AUTHOR.givenName} {WALC_AUTHOR.familyName}
+							</p>
+							<p className="mt-1 text-base text-white/80">
+								{WALC_AUTHOR.jobTitle}
+							</p>
+						</div>
+						<div className="relative h-44 w-44 shrink-0 overflow-hidden rounded-2xl border border-white/20 shadow-lg md:h-56 md:w-56">
+							<Image
+								src={WALC_AUTHOR.imagePath}
+								alt={WALC_AUTHOR.imageAlt}
+								fill
+								sizes="(min-width: 768px) 224px, 176px"
+								className="object-cover object-top"
+								priority
+							/>
+						</div>
 					</div>
 				</section>
 
