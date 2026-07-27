@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 interface TroubleItem {
 	Icon: typeof AlertTriangle;
@@ -37,7 +38,7 @@ const TROUBLES: TroubleItem[] = [
 	{
 		Icon: ShieldAlert,
 		title: "イミグレで止められた / 拒否歴あり",
-		desc: "アラート保有・別室送り経験のある方も対応可。空港イミグレサポートで安全に入国。",
+		desc: "入国歴・拒否歴を整理し、DTVを含む長期滞在方法と申請準備を個別に確認します。",
 	},
 	{
 		Icon: Plane,
@@ -51,7 +52,9 @@ const TROUBLES: TroubleItem[] = [
 	},
 ];
 
-export function TroubleSupport() {
+export async function TroubleSupport() {
+	const content = await getDtvPublicContent();
+
 	return (
 		<section
 			id="trouble-support"
@@ -72,10 +75,12 @@ export function TroubleSupport() {
 					<p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
 						オーバーステイ・イミグレ拒否・アラート保有・ビザラン疲れ——
 						<br className="hidden md:block" />
-						どんな状況でも、現地法人 6 年・累計 200 名以上の対応実績で
-						<br className="hidden md:block" />
-						解決策をご提案します。
+						現地法人 6 年の実務経験をもとに、状況に合う選択肢を整理します。
 					</p>
+					<div className="mx-auto mt-5 max-w-2xl rounded-xl border border-amber-300 bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-950">
+						空港イミグレ入国サポートは、現在新規受付を一時停止しています。
+						DTVなど長期滞在VISAのご相談は通常どおり受付中です。
+					</div>
 				</div>
 
 				{/* トラブル例カード */}
@@ -129,49 +134,50 @@ export function TroubleSupport() {
 						}}
 					/>
 					<div className="relative z-20">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
-						<div className="lg:col-span-2">
-							<div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 mb-3">
-								<span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-								<span className="text-[10px] tracking-[0.18em] uppercase text-amber-200 font-bold">
-									24h LINE 即レス
-								</span>
+						<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+							<div className="lg:col-span-2">
+								<div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 mb-3">
+									<span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+									<span className="text-[10px] tracking-[0.18em] uppercase text-amber-200 font-bold">
+										24h LINE 即レス
+									</span>
+								</div>
+								<h3 className="text-xl md:text-2xl font-bold mb-2 leading-tight">
+									迷ったら、まず LINE で状況をお聞かせください。
+								</h3>
+								<p className="text-sm md:text-base text-white/80 leading-relaxed">
+									入国歴や現在のVISA状況を確認し、対応可能な範囲と次の選択肢をご案内します。
+									<br className="hidden md:block" />
+									AI コンシェルジュが 24
+									時間即レス・必要に応じてスタッフへ繋ぎます。
+								</p>
 							</div>
-							<h3 className="text-xl md:text-2xl font-bold mb-2 leading-tight">
-								迷ったら、まず LINE で状況をお聞かせください。
-							</h3>
-							<p className="text-sm md:text-base text-white/80 leading-relaxed">
-								緊急性が高い場合も、まず LINE でご相談いただければ
-								最短ルートで対応方針をご案内します。
-								<br className="hidden md:block" />
-								AI コンシェルジュが 24 時間即レス・必要に応じてスタッフへ繋ぎます。
-							</p>
+							<div className="flex flex-col gap-3">
+								<a
+									href={content.consultationUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm md:text-base hover:bg-amber-300 transition-colors shadow-md"
+								>
+									<MessageCircle className="w-4 h-4" />
+									LINE で相談する
+									<ArrowRight className="w-4 h-4" />
+								</a>
+								<Link
+									href="#concierge"
+									className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
+								>
+									AI コンシェルジュに聞く
+								</Link>
+							</div>
 						</div>
-						<div className="flex flex-col gap-3">
-							<a
-								href="https://lin.ee/PGFYVNZ"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm md:text-base hover:bg-amber-300 transition-colors shadow-md"
-							>
-								<MessageCircle className="w-4 h-4" />
-								LINE で相談する
-								<ArrowRight className="w-4 h-4" />
-							</a>
-							<Link
-								href="#concierge"
-								className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
-							>
-								AI コンシェルジュに聞く
-							</Link>
-						</div>
-					</div>
 					</div>
 				</div>
 
 				{/* 補助テキスト */}
 				<p className="text-xs text-text-tertiary text-center mt-6 leading-relaxed">
-					※ オーバーステイの場合、1 日でも早く動くことが何より大切です。隠れて滞在を続けると逮捕リスクが高まり、入国禁止期間も長くなります。
+					※ オーバーステイの場合、1
+					日でも早く動くことが何より大切です。隠れて滞在を続けると逮捕リスクが高まり、入国禁止期間も長くなります。
 				</p>
 			</div>
 		</section>

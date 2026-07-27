@@ -12,17 +12,15 @@
 import { ArrowRight, CheckCircle2, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getLineAddUrl, buildApplicationUrl } from "@/lib/walc-links";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 // v3.3 (2026-05-26) — 飛行機画像は微妙との指示で v3.0 のバンコク夜景に復帰
 const HERO_BG_URL =
 	"https://images.unsplash.com/photo-1531169628939-e84f860fa5d6?fm=jpg&q=85&w=2400&auto=format&fit=crop&ixlib=rb-4.1.0";
 
-export function Hero() {
-	const lineUrl = getLineAddUrl();
-	const applyUrl = buildApplicationUrl({ source: "main-hero" });
-	const stats = getDtvAcquisitionStats();
+export async function Hero() {
+	const content = await getDtvPublicContent();
+	const lineUrl = content.consultationUrl;
 
 	return (
 		<section className="relative bg-brand-deep text-text-on-dark overflow-hidden isolate">
@@ -97,7 +95,12 @@ export function Hero() {
 						</p>
 
 						<div className="flex flex-col sm:flex-row gap-3 mb-6">
-							<Button asChild variant="line" size="lg" className="w-full sm:w-auto">
+							<Button
+								asChild
+								variant="line"
+								size="lg"
+								className="w-full sm:w-auto"
+							>
 								<a href={lineUrl} target="_blank" rel="noopener noreferrer">
 									LINE で 3 分相談
 									<ArrowRight className="w-4 h-4" />
@@ -108,7 +111,11 @@ export function Hero() {
 								size="lg"
 								className="w-full sm:w-auto bg-white text-brand hover:bg-white/90 border border-white"
 							>
-								<a href={applyUrl} target="_blank" rel="noopener noreferrer">
+								<a
+									href={content.consultationUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									専門家に相談する
 								</a>
 							</Button>
@@ -135,39 +142,33 @@ export function Hero() {
 						<div className="absolute top-4 right-0 w-[280px] bg-white text-text-primary rounded-xl shadow-2xl p-6 z-30 border border-white/40 backdrop-blur-md">
 							<div className="flex items-center justify-between mb-3">
 								<span className="text-[10px] tracking-widest uppercase text-text-tertiary font-bold">
-									DTV 取得実績
+									{content.trackRecord.label}
 								</span>
 								<CheckCircle2 className="w-4 h-4 text-emerald-600" />
 							</div>
 							<div className="flex items-baseline gap-2 mb-2">
 								<span className="text-5xl font-bold tabular-nums text-brand tracking-tight">
-									{stats.acquired}
-								</span>
-								<span className="text-2xl text-text-tertiary font-medium">
-									/ {stats.totalAttempts}
+									{content.trackRecord.display}
 								</span>
 							</div>
 							<div className="flex items-center gap-2">
 								<span className="text-sm font-semibold text-emerald-700">
-									{stats.totalAttempts} 件中 {stats.acquired} 件取得
+									申請通過まで徹底サポート
 								</span>
 								<span className="text-[11px] text-text-tertiary">
-									({stats.periodLabel})
+									(弊社実績)
 								</span>
 							</div>
 						</div>
 
 						<div className="absolute top-[170px] left-0 w-[240px] bg-brand-deep/95 text-white rounded-xl shadow-2xl p-5 z-20 border border-white/15 backdrop-blur-md">
 							<div className="text-[10px] tracking-widest uppercase text-amber-300 font-bold mb-3">
-								WALC 全体 VISA 取得
+								CONNECTED SUPPORT
 							</div>
-							<div className="flex items-baseline gap-1">
-								<span className="text-5xl font-bold tabular-nums tracking-tight">
-									{stats.walcTotalAcquired}
-								</span>
-								<span className="text-2xl font-medium text-white/70">+</span>
+							<div className="text-2xl font-bold tracking-tight">一元管理</div>
+							<div className="text-xs text-white/70 mt-2">
+								申込・書類・進捗・取得後まで
 							</div>
-							<div className="text-xs text-white/70 mt-2">全 VISA 種別 累計</div>
 						</div>
 
 						<div className="absolute bottom-0 right-4 w-[220px] bg-white text-text-primary rounded-xl shadow-2xl p-5 z-30 border border-white/40 backdrop-blur-md">
@@ -181,7 +182,9 @@ export function Hero() {
 								<span className="text-5xl font-bold tabular-nums text-brand tracking-tight">
 									6
 								</span>
-								<span className="text-lg font-medium text-text-secondary">年</span>
+								<span className="text-lg font-medium text-text-secondary">
+									年
+								</span>
 							</div>
 							<div className="text-xs text-text-secondary mt-1">
 								バンコク現地法人

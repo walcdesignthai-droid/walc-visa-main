@@ -17,8 +17,8 @@ import {
 	resolveCover,
 } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 import { SITE_URLS } from "@/lib/walc-data/site-map";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
 const ORIGIN = "https://walc-visa.online";
 
@@ -37,9 +37,9 @@ const CATEGORY_ORDER: Array<NonNullable<ReturnType<typeof articleCategory>>> = [
 	"news",
 ];
 
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
 	const articles = PUBLISHED_ARTICLES;
-	const stats = getDtvAcquisitionStats();
+	const content = await getDtvPublicContent();
 	const present = CATEGORY_ORDER.filter((c) =>
 		articles.some((a) => articleCategory(a) === c),
 	);
@@ -163,12 +163,10 @@ export default function BlogIndexPage() {
 								実績
 							</p>
 							<p className="mt-2 text-sm leading-relaxed text-[var(--vb-body)]">
-								DTV {stats.acquired} 件中 {stats.acquired} 件取得(母数{" "}
-								{stats.totalAttempts} / {stats.periodLabel})。 WALC 全体で累計{" "}
-								{stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験。
+								{content.trackRecord.display}の{content.trackRecord.label}。
 							</p>
 							<p className="mt-2 text-[11px] text-[var(--vb-faint)]">
-								これは過去実績であり、将来の取得を保証するものではありません。
+								{content.trackRecord.disclaimer}
 							</p>
 						</div>
 

@@ -6,8 +6,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Footer } from "@/components/shared/Footer";
-import { Header } from "@/components/shared/Header";
+import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
 import { CompanyInfo } from "@/components/lp/CompanyInfo";
 import { ConsultBlock } from "@/components/lp/ConsultBlock";
 import { FinalCta } from "@/components/lp/FinalCta";
@@ -18,16 +17,20 @@ import { TroubleSupport } from "@/components/lp/TroubleSupport";
 import { TrustStrip } from "@/components/lp/TrustStrip";
 import { VisaTypes } from "@/components/lp/VisaTypes";
 import { WhyWalc } from "@/components/lp/WhyWalc";
-import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
+import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
-export default function HomePage() {
+export default async function HomePage() {
+	const content = await getDtvPublicContent();
+
 	return (
 		<>
 			<Header />
 			<main className="flex-1 pt-16 md:pt-20">
 				<Hero />
 				<TrustStrip />
-				<VisaTypes />
+				<VisaTypes dtvPricing={content.pricing} />
 				<TroubleSupport />
 				<ConsultBlock />
 				<WhyWalc />

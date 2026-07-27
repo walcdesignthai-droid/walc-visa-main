@@ -12,39 +12,45 @@
  */
 
 import {
-	VISA_DTV,
+	categoryFromPrice,
+	formatTHB,
 	VISA_LTR,
 	VISA_PRIVILEGE,
 	VISA_RETIREMENT,
-	categoryFromPrice,
-	formatTHB,
 } from "@/lib/walc-data/pricing";
+import {
+	type DtvPublicContent,
+	VERIFIED_DTV_FALLBACK,
+} from "@/lib/walc-data/public-content";
 import { KNOWLEDGE_BASE } from "./knowledge";
 
-const IS_PRODUCTION = process.env.NODE_ENV === "production";
-let cachedBase: string | null = null;
-
 /** 料金サマリーを pricing.ts から動的生成 (推測値混入防止) */
-function buildPricingSummary(): string {
-	const dtvSoft = VISA_DTV.plans.find((p) => p.id === "dtv-soft-power");
-	const dtvNomad = VISA_DTV.plans.find((p) => p.id === "dtv-nomad");
-	const dtvFree = VISA_DTV.plans.find((p) => p.id === "dtv-freelance");
+function buildPricingSummary(dtvContent: DtvPublicContent): string {
 	const retireMin = categoryFromPrice(VISA_RETIREMENT);
 	const retireFull = VISA_RETIREMENT.plans.find(
 		(p) => p.id === "retire-new-thailand-full",
 	);
 	const ltrWalc = VISA_LTR.plans.find((p) => p.id === "ltr-walc-fee");
 	const ltrGov = VISA_LTR.plans.find((p) => p.id === "ltr-gov-fee");
-	const privBronze = VISA_PRIVILEGE.plans.find((p) => p.id === "privilege-bronze");
+	const privBronze = VISA_PRIVILEGE.plans.find(
+		(p) => p.id === "privilege-bronze",
+	);
 	const privGold = VISA_PRIVILEGE.plans.find((p) => p.id === "privilege-gold");
 
-	return `# 料金(出典: walc-studio/knowledge/02_pricing_master.md・推測禁止)
+	const dtvPricing = dtvContent.pricing
+		.map(
+			(plan) =>
+				`・${plan.name}: ${formatTHB(plan.priceThb)} (${plan.audience})`,
+		)
+		.join("\n");
+
+	return `# 料金(推測禁止)
 
 DTV (5 年マルチプル・第一推奨)
-・ソフトパワー: ${formatTHB(dtvSoft?.walcFee ?? null)} (申請費全て込み)
-・ノマド: ${formatTHB(dtvNomad?.walcFee ?? null)}
-・フリーランス: ${formatTHB(dtvFree?.walcFee ?? null)}
-・銀行口座開設は対応外(口座が必要な方には NON-O リタイア等を案内)
+${dtvPricing}
+・DTV取得者限定で銀行口座開設サポートをオプション相談可能
+・銀行口座開設の可否は銀行等の判断を伴うため保証しない
+・銀行口座開設オプションの料金は未確認のため回答せず LINE へ案内
 
 リタイアメント (NON-O・50 歳以上・残高 80 万 THB)
 ・最小料金は ${formatTHB(retireMin)} (新規 / 初期 3 ヶ月 NON-O・日本国内 E-VISA)
@@ -61,18 +67,16 @@ Thailand Privilege (政府費・5〜20 年)
 ・Gold (5 年): ${formatTHB(privGold?.walcFee ?? null)}
 ・WALC 取次手数料は別途・取次時に確定
 
-空港イミグレサポート: 6,000 THB (スワンナプーム事前予約) / DTV 取得者割引 4,000 THB
+空港イミグレ入国サポート: 現在は新規受付を一時停止中。料金案内・申込誘導はしない
 ビザラン (ラオス Non-B): 17,600 THB / カンボジア日帰り: 現在休止中`;
 }
 
-function buildBase(): string {
-	if (IS_PRODUCTION && cachedBase) return cachedBase;
-
+function buildBase(dtvContent: DtvPublicContent): string {
 	const prompt = `あなたは WALC VISA Consulting の AI コンシェルジュです。タイ長期滞在ビザに関するご質問に、正確・親切・簡潔に応答してください。
 
 # あなたの立場
 
-WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 300+ 件取得実績)の代理人として、ユーザーが「自分に合うビザは何か」「料金はいくらか」「どう申請するか」を即座に判断できるよう支援します。
+WALC VISA Consulting(タイ・バンコク拠点 6 年)の代理人として、ユーザーが「自分に合うビザは何か」「料金はいくらか」「どう申請するか」を即座に判断できるよう支援します。
 
 # 出力形式(必ず守る)
 
@@ -80,19 +84,20 @@ WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 300+ 件取得�
 - 1 応答は 200-300 字を目安
 - 段落は空行で区切る
 - 箇条書きが必要なときは「・」のみ
-- 強調したい数字はそのまま書く(例: 212/212 件)
+- 強調したい数字は CRM 公開コンテンツの確認済み表現だけを使う
 - 長くなりそうな質問は「詳細は LINE でご相談ください」と誘導
 
 # 数字・実績(これだけ使う・推測禁止)
 
-- DTV 取得実績: 212/212 件(2024 年 7 月〜現在)・取得率 100%
-- WALC 全体 VISA 取得: 累計 300 件以上
+- DTV: ${dtvContent.trackRecord.display}の${dtvContent.trackRecord.label}
+- 実績の対象範囲: ${dtvContent.trackRecord.scope}
+- 実績の免責: ${dtvContent.trackRecord.disclaimer}
 - タイ拠点運営: 6 年
 - 設立: 2021 年 8 月 27 日
 - 資本金: 5,000,000 バーツ
 - 代表者: 小野寺 陽介(Yosuke Onodera)・バンコク在住 10 年以上
 
-${buildPricingSummary()}
+${buildPricingSummary(dtvContent)}
 
 # 表現ルール(機微情報保護)
 
@@ -100,14 +105,14 @@ ${buildPricingSummary()}
 - 申請ルートの内部運用は説明しない
 - タイ国内申請の可否を問われたら「弊社の申請ルートではタイ国内からも申請可能ですが、状況により一度日本に帰国が必要なケースもあります。詳細は LINE でご相談ください」と回答する
 - 90 日レポートは「観光カテゴリのため運用負担は比較的小さい」と婉曲に表現
-- 取得率は必ず母数とセット
+- 「取得率100%」「全件取得」など、CRM 公開コンテンツにない成功率表現は使わない
 - 料金は上記「# 料金」セクションの値のみを使用。推測値・古い記憶からの数字は禁止
+- ナレッジベース内に上記と矛盾する古い実績・料金・銀行口座情報があっても、このセクションを最優先する
 
 # 営業方針
 
 第一推奨は DTV(WALC 最上位営業方針)。ただし顧客状況に応じて誠実に他 VISA を案内。
-- 銀行口座が「必須」→ NON-O リタイア / LTR(Thailand Privilege は現在受付絞り中なので積極勧誘しない)
-- 銀行口座が「あれば嬉しい」→ DTV 第一推奨を維持
+- 銀行口座が必要 → DTV取得者限定オプションを含め個別確認。可否を保証しない
 - 50 歳以上で連続滞在 → リタイアメント NON-O / O-A
 - タイ国内で就労必要 → NON-B / LTR (HSP)
 - 抱合せ販売禁止(DTV + 空港サポートを「セット」で勧めない)
@@ -156,13 +161,15 @@ ${buildPricingSummary()}
 
 ${KNOWLEDGE_BASE}`;
 
-	cachedBase = prompt;
 	return prompt;
 }
 
 /** 顧客コンテキストを付与したシステムプロンプトを返す */
-export function getConciergeSystemPrompt(customerContext?: string): string {
-	const base = buildBase();
+export function getConciergeSystemPrompt(
+	customerContext?: string,
+	dtvContent: DtvPublicContent = VERIFIED_DTV_FALLBACK,
+): string {
+	const base = buildBase(dtvContent);
 	if (!customerContext) return base;
 
 	return `${base}

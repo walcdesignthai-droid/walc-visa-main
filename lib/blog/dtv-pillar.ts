@@ -10,17 +10,16 @@
  *       「2025/4 厳格化」「2026/4 後も銀行口座不可」「90 日レポート実質不要」
  *       「25〜49 歳(= DTV 要件ではなく WALC 推奨ペルソナ。DTV は 20 歳以上・上限なし)」。
  *   - WALC 料金 = `lib/walc-data/pricing.ts`(VISA_DTV)SOT を interpolate。
- *   - WALC 実績 = `lib/walc-data/stats.ts`(getDtvAcquisitionStats)SOT を interpolate。
- *     成功率(%)・保証表現は使わず「件数 + 母数 + 期間 + 免責」のみ(WI-025 / §6 doctrine)。
+ *   - WALC 実績 = CRM 公開コンテンツの検証済みフォールバックを interpolate。
  *   - 申請処理期間・New Measures 完全 URL 等の未確定は `placeholders` に残す。
  * ----------------------------------------------------------------------------
  */
 
 import { formatTHB, VISA_DTV } from "@/lib/walc-data/pricing";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { VERIFIED_DTV_FALLBACK } from "@/lib/walc-data/public-content";
 import type { Article } from "./types";
 
-const stats = getDtvAcquisitionStats();
+const trackRecord = VERIFIED_DTV_FALLBACK.trackRecord;
 
 const fee = (id: string): string => {
 	const plan = VISA_DTV.plans.find((p) => p.id === id);
@@ -64,8 +63,8 @@ export const DTV_PILLAR: Article = {
 
 	// --- 統計(SOT 由来 + 免責。成功率/保証表現は使わない) ------------------
 	statsNote: [
-		`WALC の DTV 取得実績は ${stats.acquired} 件中 ${stats.acquired} 件(母数 ${stats.totalAttempts} / ${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
-		"これは過去の実績であり、将来の取得を保証するものではありません。要件充足の可否は個別事情・申請時点の運用により異なります。",
+		`WALC には${trackRecord.display}の${trackRecord.label}があります。対象範囲は${trackRecord.scope}です。`,
+		trackRecord.disclaimer,
 	],
 
 	// --- 専門家見解(監修者の見解 / WALC の文書化された方針) ----------------
@@ -182,8 +181,8 @@ export const DTV_PILLAR: Article = {
 			source: "lib/walc-data/pricing.ts VISA_DTV.plans(SOT)",
 		},
 		{
-			claim: `WALC DTV 実績 ${stats.acquired}/${stats.totalAttempts}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
-			source: "lib/walc-data/stats.ts getDtvAcquisitionStats(SOT)",
+			claim: `WALC DTV実績 ${trackRecord.display}の${trackRecord.label}`,
+			source: "CRM public content contract (owner_confirmed)",
 		},
 		{
 			claim:

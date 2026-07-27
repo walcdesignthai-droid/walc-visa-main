@@ -24,11 +24,17 @@ export const SITE_URLS = {
 	/** DTV VISA 適性診断 (全ページから誘導) */
 	diagnosis: "https://dtv.walc-visa.online/diagnosis",
 
+	/** DTV 取得者ガイド */
+	guideDtv: "https://guide.walc-visa.online/guide/dtv/owner",
+
+	/** 法人向け NON-B / Work Permit ガイド */
+	guideBusiness: "https://guide.walc-visa.online/guide/business",
+
 	/** 企業向け (walc-site → walc-consulting.com) */
 	corporate: "https://walc-consulting.com",
 
 	/** 顧客ポータル (walc-visa-crm) */
-	portal: "https://crm.walc-visa.online/portal/login",
+	portal: "https://my.walc-visa.online/portal/login",
 
 	/** 法務ページ (CRM 側で一元管理) */
 	legal: {
@@ -63,10 +69,11 @@ export interface NavLink {
 export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },
 	{ href: SITE_URLS.dtv, label: "DTV", external: true },
-	{ href: "/visas/retirement", label: "リタイアメント" },
-	{ href: "/visas/ltr", label: "LTR" },
+	{ href: SITE_URLS.guideBusiness, label: "NON-B / WP", external: true },
+	{ href: SITE_URLS.guideDtv, label: "取得者ガイド", external: true },
 	{ href: "/#trouble-support", label: "トラブル対応" },
-	{ href: "/#company-info", label: "会社情報" },
+	{ href: "/#consult", label: "AI 相談" },
+	{ href: SITE_URLS.portal, label: "マイページ", external: true },
 ];
 
 /** 全ページ共通 CTA (VISA 適性診断 + LINE 相談) */
@@ -99,6 +106,16 @@ export const FOOTER_RELATED_SITES: readonly NavLink[] = [
 	{
 		href: SITE_URLS.portal,
 		label: "顧客ポータル (会員ログイン)",
+		external: true,
+	},
+	{
+		href: SITE_URLS.guideBusiness,
+		label: "NON-B / Work Permit ガイド",
+		external: true,
+	},
+	{
+		href: SITE_URLS.guideDtv,
+		label: "DTV 取得者ガイド",
 		external: true,
 	},
 ];

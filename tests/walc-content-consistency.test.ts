@@ -51,4 +51,31 @@ describe("WALC VISA public content consistency", () => {
 
 		expect(links).not.toContain("https://crm.walc-visa.online/apply");
 	});
+
+	it("keeps the AI concierge on the shared content and current model fallback", async () => {
+		const [route, provider, prompt] = await Promise.all([
+			read("app/api/concierge/route.ts"),
+			read("lib/concierge/provider.ts"),
+			read("lib/concierge/system-prompt.ts"),
+		]);
+
+		expect(route).toContain("getDtvPublicContent");
+		expect(route).toContain("conciergeGenerateStream");
+		expect(provider).toContain("google/gemini-3.6-flash");
+		expect(provider).toContain("anthropic/claude-sonnet-5");
+		expect(prompt).toContain("dtvContent.trackRecord.display");
+		expect(prompt).not.toMatch(/\b212\b/);
+		expect(prompt).not.toContain("取得率 100%");
+	});
+
+	it("excludes superseded sales claims from the generated AI knowledge", async () => {
+		const knowledge = await read("lib/concierge/knowledge.ts");
+
+		expect(knowledge).toContain("新規受付を一時停止");
+		expect(knowledge).toContain("DTV取得者限定");
+		expect(knowledge).not.toMatch(/\b212\b/);
+		expect(knowledge).not.toContain("取得率100%");
+		expect(knowledge).not.toContain("DTVでは銀行口座を開設できなくなりました");
+		expect(knowledge).not.toContain("空港サポート必須");
+	});
 });
