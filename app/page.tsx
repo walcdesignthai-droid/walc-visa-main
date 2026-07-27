@@ -6,19 +6,22 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Footer } from "@/components/shared/Footer";
-import { Header } from "@/components/shared/Header";
+import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
 import { CompanyInfo } from "@/components/lp/CompanyInfo";
 import { ConsultBlock } from "@/components/lp/ConsultBlock";
+import { DtvPricing } from "@/components/lp/DtvPricing";
+import { EntryRisk } from "@/components/lp/EntryRisk";
 import { FinalCta } from "@/components/lp/FinalCta";
 import { Founder } from "@/components/lp/Founder";
 import { Hero } from "@/components/lp/Hero";
+import { MobileLineBar } from "@/components/lp/MobileLineBar";
 import { Process } from "@/components/lp/Process";
 import { TroubleSupport } from "@/components/lp/TroubleSupport";
 import { TrustStrip } from "@/components/lp/TrustStrip";
 import { VisaTypes } from "@/components/lp/VisaTypes";
 import { WhyWalc } from "@/components/lp/WhyWalc";
-import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
+import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
 
 export default function HomePage() {
 	return (
@@ -27,17 +30,20 @@ export default function HomePage() {
 			<main className="flex-1 pt-16 md:pt-20">
 				<Hero />
 				<TrustStrip />
-				<VisaTypes />
+				<EntryRisk />
+				<DtvPricing />
 				<TroubleSupport />
-				<ConsultBlock />
 				<WhyWalc />
 				<Process />
+				<ConsultBlock />
+				<VisaTypes />
 				<Founder />
 				<FinalCta />
 				{/* 会社概要は最下部 (業務的・信頼感) - Yosuke 指示 2026-05-26 */}
 				<CompanyInfo />
 			</main>
 			<Footer />
+			<MobileLineBar />
 			<ConciergeBubble />
 		</>
 	);

@@ -47,9 +47,8 @@ export function getDtvAcquisitionStats(): DtvAcquisitionStats {
 		acquired: 212,
 		totalAttempts: 212,
 		successRate: 100,
-		// WI-034: 無出典の規制日付(「2025年4月制度大幅変更」)を中立表現へ。件数(SOT)は維持。
-		periodLabel: "直近の弊社実績",
-		lastUpdated: "2026-05-24",
+		periodLabel: "2025年4月以降",
+		lastUpdated: "2026-07-27",
 		walcTotalAcquired: 300,
 	};
 }

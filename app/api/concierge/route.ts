@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * Vercel Edge Runtime で SSE ストリーミング配信。
  *   - ストリーミング 25 分まで OK (Serverless の 10 秒制限を回避)
- *   - Gemini 3.5 Flash + implicit caching
+ *   - Gemini 3.6 Flash + low thinking for quality/latency balance
  *   - ナレッジは knowledge.ts (ビルド時埋め込み) から import
  * ----------------------------------------------------------------------------
  */
@@ -31,8 +31,12 @@ export async function POST(req: NextRequest) {
 
 	if (!process.env.GEMINI_API_KEY) {
 		return new Response(
-			sse({ type: "error", message: "GEMINI_API_KEY is not configured" }),
-			{ status: 500, headers: { "Content-Type": "text/event-stream" } },
+			sse({
+				type: "error",
+				message:
+					"AI コンシェルジュが一時的に応答できません。LINE の無料相談をご利用ください。",
+			}),
+			{ status: 200, headers: { "Content-Type": "text/event-stream" } },
 		);
 	}
 
@@ -105,9 +109,16 @@ export async function POST(req: NextRequest) {
 					encoder.encode(sse({ type: "done", cta: parsed.cta })),
 				);
 			} catch (error: unknown) {
-				const message =
-					error instanceof Error ? error.message : "Unknown error";
-				controller.enqueue(encoder.encode(sse({ type: "error", message })));
+				console.error("Concierge generation failed", error);
+				controller.enqueue(
+					encoder.encode(
+						sse({
+							type: "error",
+							message:
+								"AI コンシェルジュが一時的に応答できません。LINE の無料相談をご利用ください。",
+						}),
+					),
+				);
 			} finally {
 				controller.close();
 			}

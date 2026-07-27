@@ -16,6 +16,7 @@ import type {
 	ConciergeMessage,
 	ConciergeSseEvent,
 } from "@/lib/concierge/types";
+import { getLineAddUrl } from "@/lib/walc-links";
 import { ConciergeCta } from "./ConciergeCta";
 import { ConciergeMessageBubble } from "./ConciergeMessage";
 import { ConciergeQuickChips } from "./ConciergeQuickChips";
@@ -26,20 +27,25 @@ interface Props {
 }
 
 interface UiMessage extends ConciergeMessage {
+	id: string;
 	cta?: ConciergeCtaType | null;
 	streaming?: boolean;
 }
 
 const INITIAL_GREETING: UiMessage = {
+	id: "initial-greeting",
 	role: "assistant",
 	content:
-		"こんにちは。WALC の AI VISA コンシェルジュです。\n\nタイの長期滞在 VISA に関するご質問にお答えします。例えば:\n\n・自分に合うビザを知りたい\n・DTV と Thailand Privilege の違い\n・銀行口座は開設できる?\n\nお気軽にお聞きください。",
+		"こんにちは。WALC の AI VISA コンシェルジュです。\n\nDTV の申請カテゴリ、料金、資金証明、過去の入国トラブルについて、状況に合わせてご案内します。\n\n個別判断が必要な場合は、そのまま LINE の専門スタッフへ引き継げます。",
 };
 
 const CTA_TAG_PATTERN = /\[CTA:[a-z]+(?::[a-z0-9-_]+)?\]/gi;
 
 function stripCtaTags(text: string): string {
-	return text.replace(CTA_TAG_PATTERN, "").replace(/\n{3,}/g, "\n\n").trim();
+	return text
+		.replace(CTA_TAG_PATTERN, "")
+		.replace(/\n{3,}/g, "\n\n")
+		.trim();
 }
 
 export function ConciergeChat({ isOpen, onClose }: Props) {
@@ -49,6 +55,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 	const [error, setError] = useState<string | null>(null);
 	const scrollRef = useRef<HTMLDivElement>(null);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: streamed messages must keep the viewport pinned to the latest content
 	useEffect(() => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -56,7 +63,11 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 	}, [messages, isLoading]);
 
 	const sendMessage = async (text: string) => {
-		const userMsg: UiMessage = { role: "user", content: text };
+		const userMsg: UiMessage = {
+			id: crypto.randomUUID(),
+			role: "user",
+			content: text,
+		};
 		const next = [...messages, userMsg];
 		setMessages(next);
 		setInput("");
@@ -66,7 +77,12 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		const assistantIndex = next.length;
 		setMessages([
 			...next,
-			{ role: "assistant", content: "", streaming: true },
+			{
+				id: crypto.randomUUID(),
+				role: "assistant",
+				content: "",
+				streaming: true,
+			},
 		]);
 
 		try {
@@ -141,9 +157,10 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					}
 				}
 			}
-		} catch (e: unknown) {
-			const msg = e instanceof Error ? e.message : "通信エラー";
-			setError(msg);
+		} catch {
+			setError(
+				"AI が一時的に応答できません。しばらく待つか、LINE の無料相談をご利用ください。",
+			);
 			setMessages((prev) => prev.slice(0, assistantIndex));
 		} finally {
 			setIsLoading(false);
@@ -202,8 +219,8 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					ref={scrollRef}
 					className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-bg-secondary"
 				>
-					{messages.map((msg, i) => (
-						<div key={i}>
+					{messages.map((msg) => (
+						<div key={msg.id}>
 							<ConciergeMessageBubble
 								role={msg.role}
 								content={msg.content || (msg.streaming ? "..." : "")}
@@ -234,7 +251,15 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 
 					{error && (
 						<div className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
-							{error}
+							<p>{error}</p>
+							<a
+								href={getLineAddUrl()}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="mt-2 inline-flex font-bold underline"
+							>
+								LINE の無料相談を開く
+							</a>
 						</div>
 					)}
 
@@ -270,7 +295,8 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 
 				<div className="px-4 py-2 bg-bg-secondary border-t border-border-subtle">
 					<p className="text-[10px] text-text-tertiary text-center leading-relaxed">
-						AI による回答です。最終判断は LINE で WALC スタッフへご確認ください。
+						AI による回答です。最終判断は LINE で WALC
+						スタッフへご確認ください。
 					</p>
 				</div>
 			</div>

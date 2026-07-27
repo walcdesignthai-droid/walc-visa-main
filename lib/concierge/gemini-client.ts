@@ -11,11 +11,11 @@
  * ----------------------------------------------------------------------------
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import type { ConciergeMessage } from "./types";
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
-const MAX_OUTPUT_TOKENS = 2048;
+const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.6-flash";
+const MAX_OUTPUT_TOKENS = 1024;
 const INPUT_LIMIT = 4000;
 
 let cachedClient: GoogleGenAI | null = null;
@@ -48,9 +48,9 @@ function buildConfig(options: GeminiGenerateOptions) {
 	return {
 		systemInstruction: options.systemPrompt,
 		maxOutputTokens: options.maxOutputTokens ?? MAX_OUTPUT_TOKENS,
-		temperature: 0.7,
-		// thinkingConfig は明示設定しない (WALC DESIGN 仕様)
-		// → Gemini 3.5 Flash では thinking 予算は別枠で maxOutputTokens を消費しない
+		thinkingConfig: {
+			thinkingLevel: ThinkingLevel.LOW,
+		},
 	};
 }
 
