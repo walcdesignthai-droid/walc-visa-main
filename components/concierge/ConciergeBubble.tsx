@@ -16,6 +16,17 @@ export function ConciergeBubble() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 
+	useEffect(() => {
+		const openConcierge = () => {
+			setIsVisible(true);
+			setIsOpen(true);
+		};
+
+		window.addEventListener("walc:open-concierge", openConcierge);
+		return () =>
+			window.removeEventListener("walc:open-concierge", openConcierge);
+	}, []);
+
 	// 3 秒後にフェードイン
 	useEffect(() => {
 		const t = setTimeout(() => setIsVisible(true), 3000);
@@ -23,7 +34,7 @@ export function ConciergeBubble() {
 	}, []);
 
 	return (
-		<>
+		<div id="concierge">
 			{/* フローティングボタン */}
 			<button
 				type="button"
@@ -54,6 +65,6 @@ export function ConciergeBubble() {
 
 			{/* ダイアログ */}
 			<ConciergeChat isOpen={isOpen} onClose={() => setIsOpen(false)} />
-		</>
+		</div>
 	);
 }

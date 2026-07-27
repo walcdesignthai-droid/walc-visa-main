@@ -10,6 +10,8 @@
  * ----------------------------------------------------------------------------
  */
 
+"use client";
+
 import {
 	AlertTriangle,
 	ArrowRight,
@@ -20,7 +22,6 @@ import {
 	ShieldAlert,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 interface TroubleItem {
 	Icon: typeof AlertTriangle;
@@ -165,12 +166,15 @@ export function TroubleSupport() {
 									LINE で相談する
 									<ArrowRight className="w-4 h-4" />
 								</a>
-								<Link
-									href="#concierge"
+								<button
+									type="button"
+									onClick={() =>
+										window.dispatchEvent(new Event("walc:open-concierge"))
+									}
 									className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
 								>
 									AI コンシェルジュに聞く
-								</Link>
+								</button>
 							</div>
 						</div>
 					</div>
