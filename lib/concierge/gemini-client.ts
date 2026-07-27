@@ -14,7 +14,7 @@
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import type { ConciergeMessage } from "./types";
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.6-flash";
+const MODEL = "gemini-3.6-flash";
 const MAX_OUTPUT_TOKENS = 1024;
 const INPUT_LIMIT = 4000;
 
