@@ -9,6 +9,8 @@ describe("DTV concierge knowledge", () => {
 		expect(prompt).toContain("現在は新規受付を一時停止中");
 		expect(prompt).toContain("DTV 取得者限定の銀行口座開設オプション");
 		expect(prompt).toContain("2025 年 4 月以降");
+		expect(prompt).toContain("DTV 申請通過実績: 200 件以上");
+		expect(prompt).not.toContain("212/212");
 	});
 
 	it("forbids unsupported claims and unlawful balance workarounds", () => {

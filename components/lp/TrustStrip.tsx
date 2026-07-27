@@ -18,8 +18,8 @@ const ITEMS = [
 	{ Icon: MapPin, value: "6 年", label: "バンコク現地法人運営" },
 	{
 		Icon: CheckCircle2,
-		value: "212 / 212",
-		label: "DTV 取得 / 申請(母数 212・2025年4月以降)",
+		value: "200 件以上",
+		label: "DTV 申請通過実績",
 	},
 	{
 		Icon: ShieldCheck,

@@ -88,12 +88,12 @@ WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 ${stats.walcTota
 - 1 応答は 200-300 字を目安
 - 段落は空行で区切る
 - 箇条書きが必要なときは「・」のみ
-- 強調したい数字はそのまま書く(例: ${stats.acquired}/${stats.totalAttempts} 件)
+- 強調したい数字はそのまま書く(例: ${stats.successfulApplicationsLabel})
 - 長くなりそうな質問は「詳細は LINE でご相談ください」と誘導
 
 # 数字・実績(これだけ使う・推測禁止)
 
-- DTV 取得実績: ${stats.acquired}/${stats.totalAttempts} 件(${periodLabel})・取得率 ${stats.successRate}%
+- DTV 申請通過実績: ${stats.successfulApplicationsLabel}(${periodLabel})
 - WALC 全体 VISA 取得: 累計 ${stats.walcTotalAcquired} 件以上
 - タイ拠点運営: 6 年
 - 設立: 2021 年 8 月 27 日

@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 		default: "DTV VISA取得サポート｜5年間のタイ長期滞在ならWALC",
 		template: "%s | WALC VISA Consulting",
 	},
-	description: `タイのDTV VISA（5年マルチプル）取得を日本語で徹底サポート。入国拒否歴・オーバーステイ歴・50万THBの資金証明に不安がある方も個別相談。${dtvStats.periodLabel}は${dtvStats.totalAttempts}件中${dtvStats.acquired}件取得（将来の取得を保証するものではありません）。`,
+	description: `タイのDTV VISA（5年マルチプル）取得を日本語で徹底サポート。入国拒否歴・オーバーステイ歴・50万THBの資金証明に不安がある方も個別相談。${dtvStats.periodLabel}の申請通過実績は${dtvStats.successfulApplicationsLabel}（将来の取得を保証するものではありません）。`,
 	keywords: [
 		"DTV VISA",
 		"タイ DTV ビザ",

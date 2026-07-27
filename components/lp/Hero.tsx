@@ -1,13 +1,6 @@
-import {
-	ArrowRight,
-	Check,
-	MessageCircle,
-	ShieldCheck,
-	TriangleAlert,
-} from "lucide-react";
+import { ArrowRight, Check, MessageCircle, TriangleAlert } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 import { getLineAddUrl } from "@/lib/walc-links";
 
 const HERO_BG_URL =
@@ -21,7 +14,6 @@ const DTV_BENEFITS = [
 
 export function Hero() {
 	const lineUrl = getLineAddUrl();
-	const stats = getDtvAcquisitionStats();
 
 	return (
 		<section className="relative isolate overflow-hidden bg-brand-deep text-white">
@@ -53,9 +45,9 @@ export function Hero() {
 						</p>
 
 						<h1 className="mb-6 text-balance text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
-							次の入国を、
+							入国拒否多発中！
 							<br />
-							<span className="text-amber-300">「運任せ」にしない。</span>
+							<span className="text-amber-300">DTV VISAで安心の滞在へ</span>
 						</h1>
 
 						<p className="mb-7 max-w-2xl text-pretty text-base leading-relaxed text-white/85 md:text-xl">
@@ -100,44 +92,17 @@ export function Hero() {
 					</div>
 
 					<div className="lg:col-span-5">
-						<div className="border border-white/15 bg-white p-5 text-text-primary shadow-2xl md:p-7">
-							<div className="mb-5 flex items-start justify-between gap-4 border-b border-border-subtle pb-5">
-								<div>
-									<p className="text-xs font-bold text-text-tertiary">
-										2025 年 4 月の制度変更以降
-									</p>
-									<p className="mt-1 text-2xl font-bold text-brand">
-										DTV 申請サポート実績
-									</p>
-								</div>
-								<ShieldCheck
-									className="size-8 text-success"
-									aria-hidden="true"
-								/>
-							</div>
-
-							<div className="mb-6 flex items-end gap-3">
-								<span className="text-6xl font-bold leading-none text-brand tabular-nums md:text-7xl">
-									{stats.acquired}
-								</span>
-								<span className="pb-1 text-xl font-bold text-text-secondary">
-									/ {stats.totalAttempts} 件
-								</span>
-							</div>
-
-							<p className="mb-5 text-pretty text-sm leading-relaxed text-text-secondary">
-								申請受理まで必要書類・追加照会を徹底フォロー。オーバーステイ歴、入国拒否歴、前回入国時に注意を受けた方も、まずは個別に状況を確認します。
-							</p>
-
-							<div className="border-l-4 border-amber-400 bg-amber-50 px-4 py-3">
-								<p className="font-bold text-amber-900">
-									50 万 THB の残高を 3 ヶ月維持するのが難しい方へ
-								</p>
-								<p className="mt-1 text-pretty text-xs leading-relaxed text-amber-800">
-									申請先・時期・カテゴリごとの必要資料を確認し、適法な選択肢を個別にご案内します。
-								</p>
-							</div>
-						</div>
+						<figure className="overflow-hidden rounded-2xl border border-white/20 bg-white shadow-2xl">
+							<Image
+								src="/images/walc-visa-dtv-ads.png"
+								alt="DTV VISAで5年間のノマド滞在とLINE無料相談を案内するWALC VISA Consulting"
+								width={1040}
+								height={1040}
+								sizes="(max-width: 1024px) 100vw, 42vw"
+								className="h-auto w-full"
+								priority
+							/>
+						</figure>
 					</div>
 				</div>
 			</div>
