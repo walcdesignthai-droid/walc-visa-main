@@ -24,9 +24,7 @@ export function Header() {
 		<>
 			<header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-border-subtle shadow-sm">
 				<div className="mx-auto max-w-content px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
-					<Link href="/" className="shrink-0">
-						<WalcLogo />
-					</Link>
+					<WalcLogo className="shrink-0" />
 
 					<nav className="hidden lg:flex items-center gap-5 xl:gap-6">
 						{HEADER_NAV.map((item) =>

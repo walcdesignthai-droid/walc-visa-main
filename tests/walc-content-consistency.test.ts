@@ -46,6 +46,13 @@ describe("WALC VISA public content consistency", () => {
 		expect(finalCta).not.toContain("buildApplicationUrl");
 	});
 
+	it("keeps the header logo as a single valid home link for hydration", async () => {
+		const header = await read("components/shared/Header.tsx");
+
+		expect(header).not.toContain('<Link href="/" className="shrink-0">');
+		expect(header).toContain('<WalcLogo className="shrink-0" />');
+	});
+
 	it("does not retain the removed CRM application path as a production fallback", async () => {
 		const links = await read("lib/walc-links.ts");
 
