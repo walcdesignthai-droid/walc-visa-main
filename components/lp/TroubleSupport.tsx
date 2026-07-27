@@ -37,7 +37,7 @@ const TROUBLES: TroubleItem[] = [
 	{
 		Icon: ShieldAlert,
 		title: "イミグレで止められた / 拒否歴あり",
-		desc: "アラート保有・別室送り経験のある方も対応可。空港イミグレサポートで安全に入国。",
+		desc: "アラート保有・別室送り経験のある方も相談可。履歴を確認し、渡航前の DTV 取得を含む対策をご提案。",
 	},
 	{
 		Icon: Plane,
@@ -129,49 +129,58 @@ export function TroubleSupport() {
 						}}
 					/>
 					<div className="relative z-20">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
-						<div className="lg:col-span-2">
-							<div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 mb-3">
-								<span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-								<span className="text-[10px] tracking-[0.18em] uppercase text-amber-200 font-bold">
-									24h LINE 即レス
-								</span>
+						<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+							<div className="lg:col-span-2">
+								<div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 mb-3">
+									<span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+									<span className="text-[10px] tracking-[0.18em] uppercase text-amber-200 font-bold">
+										24h LINE 即レス
+									</span>
+								</div>
+								<h3 className="text-xl md:text-2xl font-bold mb-2 leading-tight">
+									迷ったら、まず LINE で状況をお聞かせください。
+								</h3>
+								<p className="text-sm md:text-base text-white/80 leading-relaxed">
+									緊急性が高い場合も、まず LINE でご相談いただければ
+									最短ルートで対応方針をご案内します。
+									<br className="hidden md:block" />
+									{
+										"AI コンシェルジュが 24 時間即レス・必要に応じてスタッフへ繋ぎます。"
+									}
+								</p>
+								<p className="mt-3 text-xs text-amber-100/90 leading-relaxed">
+									{
+										"※ 空港イミグレ入国サポートは現在、新規受付を一時停止しています。入国や VISA 取得を保証するものではありません。"
+									}
+								</p>
 							</div>
-							<h3 className="text-xl md:text-2xl font-bold mb-2 leading-tight">
-								迷ったら、まず LINE で状況をお聞かせください。
-							</h3>
-							<p className="text-sm md:text-base text-white/80 leading-relaxed">
-								緊急性が高い場合も、まず LINE でご相談いただければ
-								最短ルートで対応方針をご案内します。
-								<br className="hidden md:block" />
-								AI コンシェルジュが 24 時間即レス・必要に応じてスタッフへ繋ぎます。
-							</p>
+							<div className="flex flex-col gap-3">
+								<a
+									href="https://lin.ee/PGFYVNZ"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm md:text-base hover:bg-amber-300 transition-colors shadow-md"
+								>
+									<MessageCircle className="w-4 h-4" />
+									LINE で相談する
+									<ArrowRight className="w-4 h-4" />
+								</a>
+								<Link
+									href="#concierge"
+									className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
+								>
+									AI コンシェルジュに聞く
+								</Link>
+							</div>
 						</div>
-						<div className="flex flex-col gap-3">
-							<a
-								href="https://lin.ee/PGFYVNZ"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 text-brand-deep font-bold text-sm md:text-base hover:bg-amber-300 transition-colors shadow-md"
-							>
-								<MessageCircle className="w-4 h-4" />
-								LINE で相談する
-								<ArrowRight className="w-4 h-4" />
-							</a>
-							<Link
-								href="#concierge"
-								className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
-							>
-								AI コンシェルジュに聞く
-							</Link>
-						</div>
-					</div>
 					</div>
 				</div>
 
 				{/* 補助テキスト */}
 				<p className="text-xs text-text-tertiary text-center mt-6 leading-relaxed">
-					※ オーバーステイの場合、1 日でも早く動くことが何より大切です。隠れて滞在を続けると逮捕リスクが高まり、入国禁止期間も長くなります。
+					{
+						"※ オーバーステイの場合、1 日でも早く動くことが何より大切です。隠れて滞在を続けると逮捕リスクが高まり、入国禁止期間も長くなります。"
+					}
 				</p>
 			</div>
 		</section>

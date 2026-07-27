@@ -236,7 +236,7 @@ https://fukuoka.thaiembassy.org/jp/page/visa20724
 | 期間 | 5年マルチプル / 180日滞在 / 180日延長で最大360日連続 |
 | 残高要件 | 50万THB相当を**3ヶ月キープ**(2025年4月制度厳格化) |
 | 90日レポート | **実質不要**(罰則なし・出入国でリセット) |
-| 銀行口座開設 | **不可**(2026年4月制度変更後も継続不可) |
+| 銀行口座開設 | 通常は難しい。WALC は DTV 取得者限定オプションを個別確認 |
 | 就労 | タイ国内での就労不可・海外企業のリモートワークOK |
 
 WALC料金:
@@ -452,8 +452,8 @@ WALC料金:
 | 50歳以上・残高80万THB未満 | **NON-O 残高サポート付** | DTV |
 | 富裕層・資産100万USD以上 | **LTR WGC** | Thailand Privilege |
 | 富裕層・面倒回避・税優遇不要 | **Thailand Privilege Diamond/Reserve** | LTR |
-| イミグレでアラート保有 | **DTV+空港サポート** | Privilege |
-| 銀行口座必須 | **NON-O / Privilege / LTR** | — (DTVは不可) |
+| イミグレでアラート保有 | **渡航前に DTV を個別相談** | 他 VISA も比較 |
+| 銀行口座必須 | **DTV限定オプションを個別確認** | NON-O / Privilege / LTR |
 | タイで就労希望 | **NON-B / LTR WFTP・HSP** | — |
 | ビザラン疲れ | **DTV** | Privilege Bronze |
 

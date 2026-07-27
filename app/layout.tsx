@@ -13,6 +13,7 @@ import {
 	Plus_Jakarta_Sans,
 } from "next/font/google";
 import { StructuredData } from "@/components/seo/StructuredData";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -37,22 +38,27 @@ const cormorant = Cormorant_Garamond({
 	variable: "--font-cormorant",
 });
 
+const dtvStats = getDtvAcquisitionStats();
+
 export const metadata: Metadata = {
 	metadataBase: new URL("https://walc-visa.online"),
 	title: {
-		default: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
+		default: "DTV VISA取得サポート｜5年間のタイ長期滞在ならWALC",
 		template: "%s | WALC VISA Consulting",
 	},
-	description:
-		"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR / 学生 / 結婚 など全種別に対応。専用CRMアプリで申込から取得後の管理まで一気通貫サポート。",
+	description: `タイのDTV VISA（5年マルチプル）取得を日本語で徹底サポート。入国拒否歴・オーバーステイ歴・50万THBの資金証明に不安がある方も個別相談。${dtvStats.periodLabel}は${dtvStats.totalAttempts}件中${dtvStats.acquired}件取得（将来の取得を保証するものではありません）。`,
 	keywords: [
-		"タイ ビザ",
-		"タイ VISA",
-		"DTV",
+		"DTV VISA",
+		"タイ DTV ビザ",
+		"タイ ノマドビザ",
+		"Destination Thailand Visa",
+		"DTV 申請",
+		"DTV 取得サポート",
+		"タイ 入国拒否",
+		"タイ 長期滞在",
 		"Thailand Privilege",
 		"LTR",
 		"リタイアメントビザ",
-		"学生ビザ",
 		"WALC",
 		"WALC VISA Consulting",
 	],
@@ -68,23 +74,24 @@ export const metadata: Metadata = {
 		locale: "ja_JP",
 		url: "/",
 		siteName: "WALC VISA Consulting",
-		title: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
+		title: "DTV VISAで5年間のタイ長期滞在｜WALC VISA Consulting",
 		description:
-			"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR など全種別に対応。",
+			"入国審査の厳格化に、渡航前のDTV取得という備えを。書類確認から申請受理まで日本語で伴走します。",
 		images: [
 			{
-				url: "/images/AdobeStock_494541408.jpeg",
-				width: 1200,
-				height: 630,
-				alt: "WALC VISA Consulting - タイ VISA 取得代行",
+				url: "/images/walc-visa-dtv-ads.png",
+				width: 1040,
+				height: 1040,
+				alt: "DTV VISAで5年間のタイ長期滞在を支援するWALC VISA Consulting",
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "WALC VISA Consulting",
-		description: "タイVISA取得・運用の専門コンサル。300件超の取得実績。",
-		images: ["/images/AdobeStock_494541408.jpeg"],
+		title: "DTV VISA取得サポート｜WALC VISA Consulting",
+		description:
+			"5年マルチプルのDTV取得を日本語で伴走。入国履歴や資金証明に不安がある方も個別相談。",
+		images: ["/images/walc-visa-dtv-ads.png"],
 	},
 	robots: {
 		index: true,

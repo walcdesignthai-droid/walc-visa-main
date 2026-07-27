@@ -2,8 +2,8 @@
 file_id: knowledge_base/04_immigration_practice
 title: タイ・イミグレ入国実務マニュアル
 type: knowledge_base
-version: 1.1
-updated: 2026-05-14
+version: 1.2
+updated: 2026-07-27
 status: active
 priority: high
 references:
@@ -19,7 +19,7 @@ when_to_use:
   - 入国リスクの評価
   - イミグレ担当官の裁量・アラート制度の説明
   - ノービザ運用の戦略立案
-  - 空港サポートの必要性判断
+  - 空港サポート一時停止中の渡航前案内
 tags:
   - immigration
   - entry_practice
@@ -40,9 +40,9 @@ tags:
 - 出典: Thai Government Public Relations Department, "Thailand Tightens Border Control with Strict 3 NOs Policy!", 2026-06-06
 
 > **WALC VISA Consulting 共通知識リポジトリ**
-> 最終更新: 2026/05/14 (v1.1)
+> 最終更新: 2026/07/27 (v1.2)
 > 参照元: DTV/空港サポート/オーバーステイ/ビザラン マニュアル
-> バージョン: v1.1
+> バージョン: v1.2
 
 ---
 
@@ -276,15 +276,11 @@ tags:
        ↓
 [顧客]WALC LINEに状況連絡
        ↓
-[WALC]状況確認・対応方針の指示
+[WALC]状況確認・一般的な注意点を案内
        ↓
-   ┌────────────────────────┐
-   │ ケースA:対応可能       │
-   │  → アンダー対応で通過  │
-   ├────────────────────────┤
-   │ ケースB:対応不可       │
-   │  → 一時帰国・再戦略    │
-   └────────────────────────┘
+[入国審査官の判断に従う]
+       ↓
+[必要に応じて一時帰国・次回渡航前の VISA 戦略を再設計]
 ```
 
 ---

@@ -19,6 +19,7 @@ import {
 	VISA_PRIVILEGE,
 	VISA_RETIREMENT,
 } from "../walc-data/pricing";
+import { getDtvAcquisitionStats } from "../walc-data/stats";
 import { KNOWLEDGE_BASE } from "./knowledge";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
@@ -69,12 +70,17 @@ Thailand Privilege (政府費・5〜20 年)
 
 function buildBase(): string {
 	if (IS_PRODUCTION && cachedBase) return cachedBase;
+	const stats = getDtvAcquisitionStats();
+	const periodLabel = stats.periodLabel.replace(
+		/(\d{4})年(\d{1,2})月/,
+		"$1 年 $2 月",
+	);
 
 	const prompt = `あなたは WALC VISA Consulting の AI コンシェルジュです。タイ長期滞在ビザに関するご質問に、正確・親切・簡潔に応答してください。
 
 # あなたの立場
 
-WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 300+ 件取得実績)の代理人として、ユーザーが「自分に合うビザは何か」「料金はいくらか」「どう申請するか」を即座に判断できるよう支援します。
+WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 ${stats.walcTotalAcquired}+ 件取得実績)の代理人として、ユーザーが「自分に合うビザは何か」「料金はいくらか」「どう申請するか」を即座に判断できるよう支援します。
 
 # 出力形式(必ず守る)
 
@@ -82,13 +88,13 @@ WALC VISA Consulting(タイ・バンコク拠点 6 年・累計 300+ 件取得�
 - 1 応答は 200-300 字を目安
 - 段落は空行で区切る
 - 箇条書きが必要なときは「・」のみ
-- 強調したい数字はそのまま書く(例: 212/212 件)
+- 強調したい数字はそのまま書く(例: ${stats.acquired}/${stats.totalAttempts} 件)
 - 長くなりそうな質問は「詳細は LINE でご相談ください」と誘導
 
 # 数字・実績(これだけ使う・推測禁止)
 
-- DTV 取得実績: 212/212 件(2025 年 4 月以降)・取得率 100%
-- WALC 全体 VISA 取得: 累計 300 件以上
+- DTV 取得実績: ${stats.acquired}/${stats.totalAttempts} 件(${periodLabel})・取得率 ${stats.successRate}%
+- WALC 全体 VISA 取得: 累計 ${stats.walcTotalAcquired} 件以上
 - タイ拠点運営: 6 年
 - 設立: 2021 年 8 月 27 日
 - 資本金: 5,000,000 バーツ

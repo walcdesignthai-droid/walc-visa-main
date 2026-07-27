@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * 修正履歴:
  *   v3.0 (2026-05-26) — WALC DESIGN の本番稼働実装に完全同期。
- *     - thinkingConfig 削除 (Gemini 3.5 Flash では thinking 予算は別枠)
+ *     - Gemini 3.6 Flash + LOW thinking で応答速度を優先
  *     - maxOutputTokens: 2000 → 1024
  *     - temperature: 0.6 → 0.7
  *     - 入力サニタイズ追加: 4000 文字制限
