@@ -9,6 +9,8 @@
  * ----------------------------------------------------------------------------
  */
 
+"use client";
+
 import {
 	ArrowRight,
 	Bot,
@@ -86,6 +88,39 @@ const CHANNELS: ChannelCard[] = [
 	},
 ];
 
+function ChannelAction({
+	channel,
+	children,
+	className,
+}: {
+	channel: ChannelCard;
+	children: React.ReactNode;
+	className: string;
+}) {
+	if (channel.id === "ai") {
+		return (
+			<button
+				type="button"
+				onClick={() => window.dispatchEvent(new Event("walc:open-concierge"))}
+				className={`${className} text-left`}
+			>
+				{children}
+			</button>
+		);
+	}
+
+	return (
+		<a
+			href={channel.cta.href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className={className}
+		>
+			{children}
+		</a>
+	);
+}
+
 export function ConsultBlock() {
 	return (
 		<section
@@ -139,11 +174,9 @@ export function ConsultBlock() {
 						const { Icon } = ch;
 						const isAi = ch.id === "ai";
 						return (
-							<a
+							<ChannelAction
 								key={ch.id}
-								href={ch.cta.href}
-								target={isAi ? undefined : "_blank"}
-								rel={isAi ? undefined : "noopener noreferrer"}
+								channel={ch}
 								className={`group relative flex flex-col p-7 md:p-9 rounded-2xl border-2 transition-all duration-300 ${
 									isAi
 										? "bg-white border-border-subtle hover:border-brand/40 hover:shadow-xl hover:-translate-y-1"
@@ -258,7 +291,7 @@ export function ConsultBlock() {
 									{ch.cta.label}
 									<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
 								</div>
-							</a>
+							</ChannelAction>
 						);
 					})}
 				</div>
@@ -275,8 +308,8 @@ export function ConsultBlock() {
 									どちらから始めても OK
 								</p>
 								<p className="text-xs md:text-sm text-text-secondary leading-relaxed">
-									すぐ知りたい方は AI コンシェルジュ、しっかり相談したい方は LINE で日程調整。
-									24 時間以内に初回応答いたします。
+									すぐ知りたい方は AI コンシェルジュ、しっかり相談したい方は
+									LINE で日程調整。 24 時間以内に初回応答いたします。
 								</p>
 							</div>
 						</div>

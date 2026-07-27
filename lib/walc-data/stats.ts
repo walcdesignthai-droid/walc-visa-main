@@ -8,22 +8,25 @@
  *   - 将来: WALC VISA CRM(crm.walc-visa.online)の新規 REST API
  *     `GET /api/v1/stats/dtv` から動的取得する構造に差し替え可能
  *
- * 法務的注意:
- *   - 「○件取得 / ○件中(取得率 100%)」の母数明示が景表法上必須
- *   - 数字は実績ベース(誇張禁止)
+ * 公開方針:
+ *   - 2026-07-27 Owner 指示により、古い固定値 212/212 は使用しない
+ *   - 最新の正確な母数を未確認のため「200 件以上の申請通過実績」に統一
+ *   - 数字は実績ベースで控えめに表示し、将来の取得を保証しない
  *
  * 修正履歴:
- *   v1.0 (2026-05-24) — DTV 212 件で固定。Yosuke 確定済。
+ *   v1.1 (2026-07-27) — 公開表現を「200 件以上の申請通過実績」に変更。
  * ----------------------------------------------------------------------------
  */
 
 export interface DtvAcquisitionStats {
-	/** 取得成功件数 */
+	/** 公開する保守的な最小実績数 */
+	successfulApplicationsAtLeast: number;
+	/** 公開表示用ラベル */
+	successfulApplicationsLabel: string;
+	/** @deprecated 旧コンポーネント互換用。公開表示には使用しない */
 	acquired: number;
-	/** 申請総件数(=取得+不許可) */
+	/** @deprecated 旧コンポーネント互換用。公開表示には使用しない */
 	totalAttempts: number;
-	/** 取得率(% 整数)。100% = 全件取得成功 */
-	successRate: number;
 	/** 統計の対象期間(表示用ラベル) */
 	periodLabel: string;
 	/** 統計の最終更新日(YYYY-MM-DD) */
@@ -44,20 +47,12 @@ export interface DtvAcquisitionStats {
  */
 export function getDtvAcquisitionStats(): DtvAcquisitionStats {
 	return {
-		acquired: 212,
-		totalAttempts: 212,
-		successRate: 100,
-		// WI-034: 無出典の規制日付(「2025年4月制度大幅変更」)を中立表現へ。件数(SOT)は維持。
-		periodLabel: "直近の弊社実績",
-		lastUpdated: "2026-05-24",
+		successfulApplicationsAtLeast: 200,
+		successfulApplicationsLabel: "200 件以上",
+		acquired: 200,
+		totalAttempts: 200,
+		periodLabel: "2025年4月以降",
+		lastUpdated: "2026-07-27",
 		walcTotalAcquired: 300,
 	};
-}
-
-/**
- * 「○ / ○ 件取得」用の表示文字列を組み立て。
- * 例: { acquired: 212, totalAttempts: 212 } → "212 / 212"
- */
-export function formatAcquisitionRatio(stats: DtvAcquisitionStats): string {
-	return `${stats.acquired} / ${stats.totalAttempts}`;
 }

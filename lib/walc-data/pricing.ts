@@ -69,7 +69,7 @@ export const VISA_DTV: VisaCategory = {
 	duration: "5 年マルチプル / 1 回 180 日滞在",
 	durationTab: "long_term",
 	recommended: true,
-	bankAccountAvailable: false, // 口座開設は対応外として扱う(申請時点の運用による)
+	bankAccountAvailable: true,
 	primaryDesc:
 		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。申請費・政府費用込みの料金体系。",
 	plans: [
@@ -96,7 +96,8 @@ export const VISA_DTV: VisaCategory = {
 			notes: "申請費込み・書類作成サポート込み",
 		},
 	],
-	bookingNote: "DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。",
+	bookingNote:
+		"DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。DTV 取得者限定の銀行口座開設オプションは対応可否・料金とも個別案内。",
 	// DTV 専用 LP (dtv.walc-visa.online) が既存のため、内部 /visas/dtv は作らず外部リンクで誘導
 	externalUrl: "https://dtv.walc-visa.online",
 };
@@ -324,8 +325,9 @@ export interface AirportImmigrationPlan {
 export const AIRPORT_IMMIGRATION_SUPPORT = {
 	slug: "airport-immigration",
 	shortName: "空港イミグレサポート",
+	available: false,
 	description:
-		"入国にリスクのある方向け VIP 入国サポート。原則 DTV 取得者には不要。「万が一」のケース (DTV 取得間に合わない / 過去アラート保有等) のみ利用。",
+		"入国審査の厳格化を受け、現在は新規受付を一時停止しています。渡航前の DTV 取得をご相談ください。",
 	plans: [
 		{
 			id: "swn-reserve",

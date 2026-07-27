@@ -8,13 +8,24 @@
 
 "use client";
 
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ConciergeChat } from "./ConciergeChat";
 
 export function ConciergeBubble() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		const openConcierge = () => {
+			setIsVisible(true);
+			setIsOpen(true);
+		};
+
+		window.addEventListener("walc:open-concierge", openConcierge);
+		return () =>
+			window.removeEventListener("walc:open-concierge", openConcierge);
+	}, []);
 
 	// 3 秒後にフェードイン
 	useEffect(() => {
@@ -23,13 +34,13 @@ export function ConciergeBubble() {
 	}, []);
 
 	return (
-		<>
+		<div id="concierge">
 			{/* フローティングボタン */}
 			<button
 				type="button"
 				onClick={() => setIsOpen(true)}
 				aria-label="AI コンシェルジュに質問する"
-				className={`fixed bottom-5 right-5 md:bottom-6 md:right-6 z-40 group ${
+				className={`fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 group ${
 					isVisible
 						? "opacity-100 translate-y-0"
 						: "opacity-0 translate-y-4 pointer-events-none"
@@ -54,6 +65,6 @@ export function ConciergeBubble() {
 
 			{/* ダイアログ */}
 			<ConciergeChat isOpen={isOpen} onClose={() => setIsOpen(false)} />
-		</>
+		</div>
 	);
 }
