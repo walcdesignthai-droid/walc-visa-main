@@ -14,17 +14,17 @@
  * ----------------------------------------------------------------------------
  */
 
-import { WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 import {
-	categoryFromPrice,
-	categoryRecommendedPlan,
 	formatTHB,
 	VISA_DTV,
 	VISA_LTR,
 	VISA_PRIVILEGE,
 	VISA_RETIREMENT,
+	categoryFromPrice,
+	categoryRecommendedPlan,
 } from "@/lib/walc-data/pricing";
 import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 
 // 実績数値は SOT (lib/walc-data/stats.ts) から取得し drift を防止 (WI-004 / F-1)。
 // 期間表現・言い回しは公開 SEO スナップショット保護のため文字列リテラルで固定。
@@ -93,32 +93,16 @@ function visaToOffer(cat: typeof VISA_DTV) {
 	};
 }
 
-/** DTV は LP 掲載の 3 プランを個別 Offer として公開する */
-function dtvPlanOffers() {
-	return VISA_DTV.plans
-		.filter((plan) => plan.walcFee != null)
-		.map((plan) => ({
-			"@type": "Offer",
-			name: `DTV ${plan.label}`,
-			price: String(plan.walcFee),
-			priceCurrency: "THB",
-			description: plan.notes ?? VISA_DTV.primaryDesc,
-			url: "https://walc-visa.online/#consult",
-			availability: "https://schema.org/InStock",
-		}));
-}
-
 const PROFESSIONAL_SERVICE = {
 	"@context": "https://schema.org",
 	"@type": "ProfessionalService",
 	name: "WALC VISA Consulting - タイ VISA 取得代行",
 	provider: ORG_BASE,
-	serviceType:
-		"タイ長期 VISA 取得代行 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)",
+	serviceType: "タイ長期 VISA 取得代行 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)",
 	areaServed: { "@type": "Country", name: "Thailand" },
 	priceRange: `${formatTHB(45_000)} - ${formatTHB(5_000_000)}`,
 	offers: [
-		...dtvPlanOffers(),
+		visaToOffer(VISA_DTV),
 		visaToOffer(VISA_RETIREMENT),
 		visaToOffer(VISA_LTR),
 		visaToOffer(VISA_PRIVILEGE),
@@ -150,7 +134,7 @@ const FAQ_PAGE = {
 			name: "WALC の VISA 取得実績は?",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: `DTV の申請通過実績は ${stats.successfulApplicationsLabel}(${stats.periodLabel})。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
+				text: `DTV は ${stats.totalAttempts} 件中 ${stats.acquired} 件取得(母数 ${stats.totalAttempts} / ${stats.periodLabel})。これは過去実績であり、将来の取得を保証するものではありません。WALC 全体で累計 ${stats.walcTotalAcquired}+ 件の VISA 取得経験。`,
 			},
 		},
 		{
@@ -166,15 +150,7 @@ const FAQ_PAGE = {
 			name: "タイ国内で銀行口座を開設したいです",
 			acceptedAnswer: {
 				"@type": "Answer",
-				text: "WALC では DTV 取得者限定の銀行口座開設オプションをご用意しています。銀行・支店・お客様の状況により必要条件や対応可否が異なるため、料金を含め専門スタッフが個別に確認します。開設を保証するものではありません。",
-			},
-		},
-		{
-			"@type": "Question",
-			name: "空港イミグレ入国サポートは利用できますか?",
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: "入国審査の厳格化を受け、空港イミグレ入国サポートは現在、新規受付を一時停止しています。入国履歴を確認し、渡航前の DTV 取得を含む対策を個別にご案内します。VISA 取得や入国を保証するものではありません。",
+				text: "銀行口座の開設を希望される方には、NON-O リタイア・Thailand Privilege・LTR など口座開設に対応しやすいカテゴリをご案内しています。状況により適したプランが異なるため、WALC 専門スタッフがご相談に応じます。",
 			},
 		},
 	],
@@ -210,10 +186,10 @@ export function StructuredData() {
 		<>
 			{schemas.map((schema, i) => (
 				<script
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は信頼できる static data
 					// biome-ignore lint/suspicious/noArrayIndexKey: schemas は固定長・順序が安定
 					key={i}
 					type="application/ld+json"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は信頼できる static data
 					dangerouslySetInnerHTML={{
 						__html: JSON.stringify(schema),
 					}}

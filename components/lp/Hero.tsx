@@ -1,108 +1,192 @@
-import { ArrowRight, Check, MessageCircle, TriangleAlert } from "lucide-react";
+/**
+ * components/lp/Hero.tsx — walc-visa.online Hero v3.1
+ * ----------------------------------------------------------------------------
+ * 修正履歴:
+ *   v3.1 (2026-05-25) — キャッチコピー差替(訴求力強化)。
+ *     「タイで生きる選択を、確かなものに。」→「タイに住みたい、その思いを形にする。」
+ *     ユーザー自身が決定。情緒 × 具体性のバランス最良。
+ *   v3.0 (2026-05-25) — バンコク夜景写真を背景に追加。
+ * ----------------------------------------------------------------------------
+ */
+
+import { ArrowRight, CheckCircle2, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getLineAddUrl } from "@/lib/walc-links";
+import { getLineAddUrl, buildApplicationUrl } from "@/lib/walc-links";
+import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
 
+// v3.3 (2026-05-26) — 飛行機画像は微妙との指示で v3.0 のバンコク夜景に復帰
 const HERO_BG_URL =
 	"https://images.unsplash.com/photo-1531169628939-e84f860fa5d6?fm=jpg&q=85&w=2400&auto=format&fit=crop&ixlib=rb-4.1.0";
 
-const DTV_BENEFITS = [
-	"5 年マルチプル",
-	"1 回最長 180 日",
-	"原則 1 年ごとの更新不要",
-] as const;
-
 export function Hero() {
 	const lineUrl = getLineAddUrl();
+	const applyUrl = buildApplicationUrl({ source: "main-hero" });
+	const stats = getDtvAcquisitionStats();
 
 	return (
-		<section className="relative isolate overflow-hidden bg-brand-deep text-white">
-			<div className="absolute inset-0">
+		<section className="relative bg-brand-deep text-text-on-dark overflow-hidden isolate">
+			{/* 上端 金細ライン */}
+			<div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent z-30" />
+
+			{/* 背景写真 */}
+			<div className="absolute inset-0 z-0">
 				<Image
 					src={HERO_BG_URL}
 					alt=""
 					fill
 					priority
 					sizes="100vw"
-					className="object-cover object-center opacity-25"
-					quality={75}
+					className="object-cover object-center"
+					quality={85}
 				/>
-				<div className="absolute inset-0 bg-brand-deep/80" />
 			</div>
 
-			<div className="relative z-10 border-b border-amber-300/30 bg-amber-400 text-brand-deep">
-				<div className="mx-auto flex max-w-content items-center justify-center gap-2 px-5 py-3 text-center text-sm font-bold md:px-8 md:text-base">
-					<TriangleAlert className="size-5 shrink-0" aria-hidden="true" />
-					<span>VISA なし長期滞在への入国審査が、全国的に厳格化しています</span>
-				</div>
-			</div>
+			{/* ネイビー強オーバーレイ */}
+			<div
+				className="absolute inset-0 z-10 pointer-events-none"
+				style={{
+					background:
+						"linear-gradient(135deg, rgba(6,24,48,0.96) 0%, rgba(11,42,74,0.88) 45%, rgba(11,42,74,0.78) 100%)",
+				}}
+			/>
+			<div
+				className="absolute inset-0 z-10 pointer-events-none"
+				style={{
+					background:
+						"linear-gradient(to bottom, transparent 60%, rgba(6,24,48,0.55) 100%)",
+				}}
+			/>
 
-			<div className="relative z-10 mx-auto max-w-content px-5 py-14 md:px-8 md:py-20 lg:py-24">
-				<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+			{/* v3.3: WALC ロゴパターン削除 (背景画像と競合のため・Yosuke 指示) */}
+			{/* ドットパターン (控えめ) */}
+			<div
+				className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-screen z-20"
+				style={{
+					backgroundImage:
+						"radial-gradient(circle, white 1px, transparent 1px)",
+					backgroundSize: "32px 32px",
+				}}
+			/>
+
+			{/* コンテンツ */}
+			<div className="relative mx-auto max-w-content px-5 md:px-8 py-20 md:py-28 lg:py-32 z-30">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+					{/* 左 */}
 					<div className="lg:col-span-7">
-						<p className="mb-5 inline-flex items-center gap-2 border-l-2 border-amber-300 pl-3 text-sm font-bold text-amber-200">
-							WALC VISA Consulting｜DTV 申請サポート
-						</p>
+						<div className="inline-flex items-center gap-2.5 mb-6">
+							<span className="w-8 h-px bg-amber-400/80" />
+							<span className="text-[11px] md:text-xs tracking-[0.22em] uppercase text-amber-200 font-semibold">
+								Trusted Visa Specialists in Thailand
+							</span>
+						</div>
 
-						<h1 className="mb-6 text-balance text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
-							入国拒否多発中！
+						{/* 新キャッチコピー */}
+						<h1 className="text-[40px] leading-[1.12] md:text-[56px] lg:text-[68px] lg:leading-[1.08] font-bold tracking-tight mb-6 md:mb-7 drop-shadow-[0_2px_24px_rgba(0,0,0,0.25)]">
+							タイに住みたい、
 							<br />
-							<span className="text-amber-300">DTV VISAで安心の滞在へ</span>
+							<span className="text-white">その思いを形にする。</span>
 						</h1>
 
-						<p className="mb-7 max-w-2xl text-pretty text-base leading-relaxed text-white/85 md:text-xl">
-							DTV VISA（ノマドビザ）で、5 年間のタイ長期滞在へ。
-							申請ルートの選定から追加書類への対応まで、実践経験を持つ日本語チームが伴走します。
+						<p className="text-base md:text-lg leading-relaxed md:leading-[1.85] text-white/85 mb-8 md:mb-10 max-w-xl">
+							DTV・Thailand Privilege・LTR・リタイアメント・学生・結婚 ——
+							<br className="hidden md:block" />
+							タイの全 VISA 種別に対応する専門コンサルティング。
+							<br />
+							取得から取得後の運用まで、専用 CRM で一気通貫サポート。
 						</p>
 
-						<ul className="mb-8 flex flex-wrap gap-2.5">
-							{DTV_BENEFITS.map((benefit) => (
-								<li
-									key={benefit}
-									className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold"
-								>
-									<Check className="size-4 text-amber-300" aria-hidden="true" />
-									{benefit}
-								</li>
-							))}
-						</ul>
+						<div className="flex flex-col sm:flex-row gap-3 mb-6">
+							<Button asChild variant="line" size="lg" className="w-full sm:w-auto">
+								<a href={lineUrl} target="_blank" rel="noopener noreferrer">
+									LINE で 3 分相談
+									<ArrowRight className="w-4 h-4" />
+								</a>
+							</Button>
+							<Button
+								asChild
+								size="lg"
+								className="w-full sm:w-auto bg-white text-brand hover:bg-white/90 border border-white"
+							>
+								<a href={applyUrl} target="_blank" rel="noopener noreferrer">
+									専門家に相談する
+								</a>
+							</Button>
+						</div>
 
-						<Button
-							asChild
-							variant="line"
-							size="xl"
-							className="h-auto w-full whitespace-normal px-6 py-4 text-center sm:w-auto"
-						>
-							<a href={lineUrl} target="_blank" rel="noopener noreferrer">
-								<MessageCircle className="size-5 shrink-0" aria-hidden="true" />
-								<span>
-									LINE で無料相談
-									<span className="block text-xs font-medium text-white/80">
-										状況を送るだけ・初回相談無料
-									</span>
-								</span>
-								<ArrowRight className="size-5 shrink-0" aria-hidden="true" />
-							</a>
-						</Button>
-
-						<p className="mt-4 text-pretty text-xs leading-relaxed text-white/65">
-							※
-							審査・入国の最終判断はタイ当局が行います。過去実績は将来の取得を保証するものではありません。
-						</p>
+						<div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm text-white/75">
+							<span className="flex items-center gap-1.5">
+								<Clock className="w-3.5 h-3.5 text-amber-300" />
+								24 時間以内に初回応答
+							</span>
+							<span className="flex items-center gap-1.5">
+								<CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />
+								初回相談 無料
+							</span>
+							<span className="flex items-center gap-1.5">
+								<MapPin className="w-3.5 h-3.5 text-amber-300" />
+								バンコク法人・日本語対応
+							</span>
+						</div>
 					</div>
 
-					<div className="lg:col-span-5">
-						<figure className="overflow-hidden rounded-2xl border border-white/20 bg-white shadow-2xl">
-							<Image
-								src="/images/walc-visa-dtv-ads.png"
-								alt="DTV VISAで5年間のノマド滞在とLINE無料相談を案内するWALC VISA Consulting"
-								width={1040}
-								height={1040}
-								sizes="(max-width: 1024px) 100vw, 42vw"
-								className="h-auto w-full"
-								priority
-							/>
-						</figure>
+					{/* 右: 浮かぶ実績カード */}
+					<div className="lg:col-span-5 relative h-[360px] md:h-[420px] lg:h-[480px] hidden md:block">
+						<div className="absolute top-4 right-0 w-[280px] bg-white text-text-primary rounded-xl shadow-2xl p-6 z-30 border border-white/40 backdrop-blur-md">
+							<div className="flex items-center justify-between mb-3">
+								<span className="text-[10px] tracking-widest uppercase text-text-tertiary font-bold">
+									DTV 取得実績
+								</span>
+								<CheckCircle2 className="w-4 h-4 text-emerald-600" />
+							</div>
+							<div className="flex items-baseline gap-2 mb-2">
+								<span className="text-5xl font-bold tabular-nums text-brand tracking-tight">
+									{stats.acquired}
+								</span>
+								<span className="text-2xl text-text-tertiary font-medium">
+									/ {stats.totalAttempts}
+								</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<span className="text-sm font-semibold text-emerald-700">
+									{stats.totalAttempts} 件中 {stats.acquired} 件取得
+								</span>
+								<span className="text-[11px] text-text-tertiary">
+									({stats.periodLabel})
+								</span>
+							</div>
+						</div>
+
+						<div className="absolute top-[170px] left-0 w-[240px] bg-brand-deep/95 text-white rounded-xl shadow-2xl p-5 z-20 border border-white/15 backdrop-blur-md">
+							<div className="text-[10px] tracking-widest uppercase text-amber-300 font-bold mb-3">
+								WALC 全体 VISA 取得
+							</div>
+							<div className="flex items-baseline gap-1">
+								<span className="text-5xl font-bold tabular-nums tracking-tight">
+									{stats.walcTotalAcquired}
+								</span>
+								<span className="text-2xl font-medium text-white/70">+</span>
+							</div>
+							<div className="text-xs text-white/70 mt-2">全 VISA 種別 累計</div>
+						</div>
+
+						<div className="absolute bottom-0 right-4 w-[220px] bg-white text-text-primary rounded-xl shadow-2xl p-5 z-30 border border-white/40 backdrop-blur-md">
+							<div className="flex items-center gap-1.5 mb-2">
+								<MapPin className="w-3 h-3 text-brand" />
+								<span className="text-[10px] tracking-widest uppercase text-text-tertiary font-bold">
+									タイ法人運営
+								</span>
+							</div>
+							<div className="flex items-baseline gap-1">
+								<span className="text-5xl font-bold tabular-nums text-brand tracking-tight">
+									6
+								</span>
+								<span className="text-lg font-medium text-text-secondary">年</span>
+							</div>
+							<div className="text-xs text-text-secondary mt-1">
+								バンコク現地法人
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

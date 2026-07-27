@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * 修正履歴:
  *   v3.0 (2026-05-26) — WALC DESIGN の本番稼働実装に完全同期。
- *     - Gemini 3.6 Flash + LOW thinking で応答速度を優先
+ *     - thinkingConfig 削除 (Gemini 3.5 Flash では thinking 予算は別枠)
  *     - maxOutputTokens: 2000 → 1024
  *     - temperature: 0.6 → 0.7
  *     - 入力サニタイズ追加: 4000 文字制限
@@ -11,11 +11,11 @@
  * ----------------------------------------------------------------------------
  */
 
-import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import type { ConciergeMessage } from "./types";
 
-const MODEL = "gemini-3.6-flash";
-const MAX_OUTPUT_TOKENS = 1024;
+const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
+const MAX_OUTPUT_TOKENS = 2048;
 const INPUT_LIMIT = 4000;
 
 let cachedClient: GoogleGenAI | null = null;
@@ -48,9 +48,9 @@ function buildConfig(options: GeminiGenerateOptions) {
 	return {
 		systemInstruction: options.systemPrompt,
 		maxOutputTokens: options.maxOutputTokens ?? MAX_OUTPUT_TOKENS,
-		thinkingConfig: {
-			thinkingLevel: ThinkingLevel.LOW,
-		},
+		temperature: 0.7,
+		// thinkingConfig は明示設定しない (WALC DESIGN 仕様)
+		// → Gemini 3.5 Flash では thinking 予算は別枠で maxOutputTokens を消費しない
 	};
 }
 

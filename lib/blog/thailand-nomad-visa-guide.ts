@@ -10,7 +10,7 @@
  *
  * 事実の出典(推測ゼロ / YMYL):
  *   - DTV 制度事実 = タイ政府一次出典(e-Visa 公式 / 外務省 DTV チェックリスト・情報 PDF)を references に可視掲載。
- *   - WALC 実績 = lib/walc-data/stats.ts(getDtvAcquisitionStats)SOT を interpolate(保守的な件数+期間+免責のみ・成功率/保証表現は使わない)。
+ *   - WALC 実績 = lib/walc-data/stats.ts(getDtvAcquisitionStats)SOT を interpolate(件数+母数+期間+免責のみ・成功率/保証表現は使わない)。
  *   - Thailand Privilege のプラン/費用は thailand-privilege-overview 記事に委譲(clusterLink)。比較は概況に留める。
  *   - 政府費用の日本円換算等の未確定は placeholders に残す。
  *   - 既存 DTV pillar(dtv-visa-thailand-guide)とは KW/インテントで差別化(本記事=通称KW・横断比較)。
@@ -112,7 +112,7 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 
 	// --- 統計(SOT 由来 + 免責) ----------------------------------------------
 	statsNote: [
-		`WALC の DTV 申請通過実績は ${stats.successfulApplicationsLabel}(${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
+		`WALC の DTV 取得実績は ${stats.acquired} 件中 ${stats.acquired} 件(母数 ${stats.totalAttempts} / ${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
 		"これは過去の実績であり、将来の取得を保証するものではありません。要件充足の可否は個別事情・申請時点の運用により異なります。",
 	],
 
@@ -274,7 +274,7 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 			source: "タイ外務省 DTV 情報 PDF / DTV チェックリスト",
 		},
 		{
-			claim: `WALC DTV 申請通過実績 ${stats.successfulApplicationsLabel}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
+			claim: `WALC DTV 実績 ${stats.acquired}/${stats.totalAttempts}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
 			source: "lib/walc-data/stats.ts getDtvAcquisitionStats(SOT)",
 		},
 		{

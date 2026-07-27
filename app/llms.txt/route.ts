@@ -62,34 +62,25 @@ export function GET(): Response {
 
 ## 提供サービス(取り扱い VISA カテゴリ)
 - DTV(Destination Thailand Visa): 5 年マルチプル / リモートワーカー・ソフトパワー領域向け。WALC 第一推奨。専門サイト: https://dtv.walc-visa.online
-- DTV 料金カテゴリ: タイソフトパワー / ワーケーション(ノマド) / ワーケーション(フリーランス)。最新料金はサイト本体を参照。
-- DTV 取得者限定の銀行口座開設オプションあり。銀行・支店・顧客状況で異なるため、対応可否・料金は専門スタッフが個別確認し、開設を保証しない。
 - NON-O リタイアメント(50 歳以上)
 - Thailand Privilege(旧 Thailand Elite Visa)
 - LTR(Long-Term Resident Visa)
 - 学生 VISA(NON-ED)
 - 結婚・家族 VISA(NON-O / Marriage / Family / Guardian)
-- 空港イミグレ入国サポートは入国審査の厳格化を受け、現在は新規受付を一時停止。過去料金や通過保証は案内しない。
-- ビザランサポート
+- 空港イミグレサポート / ビザランサポート
 - 各 VISA の最新料金・条件はサイト本体および各 VISA ページに記載。
 
 ## 実績(自社実績 / 母数明示)
-- DTV 申請通過実績: ${stats.successfulApplicationsLabel}(対象期間: ${stats.periodLabel})。
+- DTV 申請実績: ${stats.totalAttempts} 件中 ${stats.acquired} 件が取得(母数: ${stats.totalAttempts} / 対象期間: ${stats.periodLabel})。
 - WALC 全体の VISA 取得実績: 累計 ${stats.walcTotalAcquired}+ 件。
 - 上記は過去実績であり、将来の取得を保証するものではありません。
 - 最終更新: ${stats.lastUpdated}
-
-## 入国審査に関する現在の案内
-- タイ政府広報は 2026-06-06、資金不足・旅程不備・不審なビザラン等を理由に外国人 29,490 人を入国拒否したと公表。
-- 29,490 人は日本人だけの人数でも、2025 年の年間人数として確認された数値でもない。
-- 過去の入国拒否・オーバーステイ・注意歴がある方も DTV 相談可能。ただし、VISA 取得や入国を保証しない。
-- 一次出典: https://thailand.prd.go.th/en/content/category/detail/id/43/cid/2078/iid/509718
 
 ## 主要ページ
 - トップ: https://walc-visa.online/
 - LTR(Long-Term Resident)Visa: https://walc-visa.online/visas/ltr
 - リタイアメント(NON-O)Visa: https://walc-visa.online/visas/retirement
-- 入国・イミグレ相談(入国拒否/別室/オーバーステイ/強制送還の事前相談。空港入国サポートは一時停止中): https://walc-visa.online/immigration-support
+- 入国・イミグレ緊急サポート(入国拒否/別室/オーバーステイ/強制送還の相談): https://walc-visa.online/immigration-support
 - DTV 専門サイト: https://dtv.walc-visa.online
 
 ## ガイド記事(ブログ / 事実ベース解説・一次出典付き)

@@ -13,8 +13,8 @@
  * ----------------------------------------------------------------------------
  */
 
-/** 申込相談のデフォルト URL。CRM 公開フォーム停止中は LINE へ安全に誘導 */
-const DEFAULT_APPLICATION_FORM_URL = "https://lin.ee/PGFYVNZ";
+/** 申込フォームのデフォルト URL(env 未設定時のフォールバック) */
+const DEFAULT_APPLICATION_FORM_URL = "https://crm.walc-visa.online/apply";
 
 /** LINE 公式アカウント友だち追加 URL */
 const DEFAULT_LINE_ADD_URL = "https://lin.ee/PGFYVNZ";

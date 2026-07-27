@@ -16,6 +16,18 @@
  * ----------------------------------------------------------------------------
  */
 
+import { useState } from "react";
+import {
+	ALL_VISA_CATEGORIES,
+	type DurationTab,
+	type VisaCategory,
+	categoryFromPrice,
+	categoryRecommendedPlan,
+	formatTHB,
+	visasByTab,
+	AIRPORT_IMMIGRATION_SUPPORT,
+	VISA_RUN_SUPPORT,
+} from "@/lib/walc-data/pricing";
 import {
 	ArrowUpRight,
 	Award,
@@ -32,17 +44,6 @@ import {
 	Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import {
-	AIRPORT_IMMIGRATION_SUPPORT,
-	categoryFromPrice,
-	categoryRecommendedPlan,
-	type DurationTab,
-	formatTHB,
-	VISA_RUN_SUPPORT,
-	type VisaCategory,
-	visasByTab,
-} from "@/lib/walc-data/pricing";
 
 // アイコンマップ (slug → icon)
 const ICON_MAP: Record<string, typeof Briefcase> = {
@@ -147,8 +148,7 @@ export function VisaTypes() {
 				{/* 補助テキスト + 訴求 */}
 				<div className="mt-10 md:mt-12 pt-8 border-t border-border-subtle">
 					<p className="text-sm text-text-tertiary text-center max-w-2xl mx-auto leading-relaxed">
-						※ 料金はすべてタイバーツ (THB)
-						表示・税込です。為替レートにより日本円換算額は変動します。
+						※ 料金はすべてタイバーツ (THB) 表示・税込です。為替レートにより日本円換算額は変動します。
 						<br />
 						最新の正確なお見積もりは LINE 相談で即時お伝えします。
 					</p>
@@ -377,7 +377,9 @@ function ShortStaySection() {
 						<div className="text-2xl font-bold text-brand tabular-nums">
 							合計 90 日
 						</div>
-						<div className="text-xs text-text-secondary mt-1">最大連続滞在</div>
+						<div className="text-xs text-text-secondary mt-1">
+							最大連続滞在
+						</div>
 					</div>
 				</div>
 			</div>
@@ -398,10 +400,37 @@ function ShortStaySection() {
 					</div>
 				</div>
 
-				<div className="mt-4 border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-800">
-					現在、新規受付を一時停止しています。次回渡航前に DTV
-					など適切な長期滞在 VISA をご相談ください。
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+					{AIRPORT_IMMIGRATION_SUPPORT.plans.map((plan) => (
+						<div
+							key={plan.id}
+							className={`flex items-baseline justify-between p-3 rounded-lg ${
+								plan.dtvDiscount
+									? "bg-amber-50 border border-amber-200"
+									: "bg-bg-secondary"
+							}`}
+						>
+							<div className="flex-1 min-w-0 pr-3">
+								<div className="text-sm font-medium text-text-primary">
+									{plan.label}
+								</div>
+								{plan.notes && (
+									<div className="text-[11px] text-text-tertiary mt-0.5">
+										{plan.notes}
+									</div>
+								)}
+							</div>
+							<div className="text-sm font-bold text-brand tabular-nums whitespace-nowrap">
+								{formatTHB(plan.walcFee)}
+							</div>
+						</div>
+					))}
 				</div>
+
+				<p className="text-[11px] text-text-tertiary mt-4 leading-relaxed">
+					※ アラート保有者・ビザラン疲れ・取得済み顧客の任意利用にも対応。原則 DTV
+					取得が長期解決策となります。
+				</p>
 			</div>
 
 			{/* ビザランサポート */}
