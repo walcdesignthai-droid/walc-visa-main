@@ -1,5 +1,4 @@
 import type { ConciergeCtaType } from "@/lib/concierge/types";
-import { buildApplicationUrl } from "@/lib/walc-links";
 import type { LineFlexMessage } from "./fetch-client";
 
 const VISA_LABELS: Record<string, string> = {
@@ -43,7 +42,8 @@ export function ctaToFlexMessage(
 	if (cta === "human") {
 		return buildPostbackFlex({
 			title: "WALC スタッフに直接相談",
-			subtitle: "AI ではなく担当者が個別対応します(営業時間内・最大 24h 以内)。",
+			subtitle:
+				"AI ではなく担当者が個別対応します(営業時間内・最大 24h 以内)。",
 			buttonLabel: "スタッフに繋ぐ",
 			postbackData: "action=request_human",
 			displayText: "スタッフに繋いでください",
@@ -71,16 +71,12 @@ export function ctaToFlexMessage(
 	// apply
 	const visaId = cta.visaId;
 	const label = VISA_LABELS[visaId] ?? visaId.toUpperCase();
-	const url = buildApplicationUrl({
-		visaId,
-		source: "line-concierge",
-		medium: "ai-cta",
-	});
-	return buildLinkFlex({
-		title: `${label} に申し込む`,
-		subtitle: "オンラインで申込フォームへ進みます。",
-		buttonLabel: "申込フォームへ",
-		url,
+	return buildPostbackFlex({
+		title: `${label} の申し込み相談`,
+		subtitle: "WALC スタッフが申込方法と必要書類を個別にご案内します。",
+		buttonLabel: "スタッフに相談",
+		postbackData: `action=request_human&visa=${encodeURIComponent(visaId)}`,
+		displayText: `${label} の申し込みを相談したいです`,
 	});
 }
 
@@ -138,8 +134,21 @@ function bubbleContents(
 			spacing: "md",
 			paddingAll: "16px",
 			contents: [
-				{ type: "text", text: title, weight: "bold", size: "md", color: "#001830", wrap: true },
-				{ type: "text", text: subtitle, size: "xs", color: "#475569", wrap: true },
+				{
+					type: "text",
+					text: title,
+					weight: "bold",
+					size: "md",
+					color: "#001830",
+					wrap: true,
+				},
+				{
+					type: "text",
+					text: subtitle,
+					size: "xs",
+					color: "#475569",
+					wrap: true,
+				},
 			],
 		},
 		footer: {
@@ -148,7 +157,13 @@ function bubbleContents(
 			spacing: "sm",
 			paddingAll: "12px",
 			contents: [
-				{ type: "button", style: "primary", color: "#001830", height: "sm", action },
+				{
+					type: "button",
+					style: "primary",
+					color: "#001830",
+					height: "sm",
+					action,
+				},
 			],
 		},
 	};
