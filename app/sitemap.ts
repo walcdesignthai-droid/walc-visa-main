@@ -53,13 +53,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.7,
 		},
-		{
-			// WI-immigration-LP: 入国・イミグレ緊急サポート LP(獲得)
-			url: `${BASE_URL}/immigration-support`,
-			lastModified: now,
-			changeFrequency: "monthly",
-			priority: 0.9,
-		},
 		...blogEntries,
 	];
 }

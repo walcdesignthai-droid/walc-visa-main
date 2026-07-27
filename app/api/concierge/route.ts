@@ -1,21 +1,24 @@
 /**
- * app/api/concierge/route.ts — Web AI Concierge v4.0 (Edge Runtime)
+ * app/api/concierge/route.ts — Web AI Concierge v5.0 (Edge Runtime)
  * ----------------------------------------------------------------------------
  * Vercel Edge Runtime で SSE ストリーミング配信。
  *   - ストリーミング 25 分まで OK (Serverless の 10 秒制限を回避)
- *   - Gemini 3.5 Flash + implicit caching
- *   - ナレッジは knowledge.ts (ビルド時埋め込み) から import
+ *   - Gemini 3.6 Flash を低遅延の第一候補として使用
+ *   - Claude Sonnet 5 をフォールバックに使用
+ *   - CRM の共通公開コンテンツを回答ナレッジとして使用
  * ----------------------------------------------------------------------------
  */
 
 import type { NextRequest } from "next/server";
 import { parseConciergeResponse } from "@/lib/concierge/cta-parser";
-import { geminiGenerateStream } from "@/lib/concierge/gemini-client";
+import { buildConciergeFallback } from "@/lib/concierge/fallback";
+import { conciergeGenerateStream } from "@/lib/concierge/provider";
 import { getConciergeSystemPrompt } from "@/lib/concierge/system-prompt";
 import type {
 	ConciergeApiRequest,
 	ConciergeSseEvent,
 } from "@/lib/concierge/types";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 export const runtime = "edge";
 
@@ -28,13 +31,6 @@ function sse(event: ConciergeSseEvent): string {
 
 export async function POST(req: NextRequest) {
 	const encoder = new TextEncoder();
-
-	if (!process.env.GEMINI_API_KEY) {
-		return new Response(
-			sse({ type: "error", message: "GEMINI_API_KEY is not configured" }),
-			{ status: 500, headers: { "Content-Type": "text/event-stream" } },
-		);
-	}
 
 	let body: ConciergeApiRequest;
 	try {
@@ -83,16 +79,18 @@ export async function POST(req: NextRequest) {
 		}
 	}
 
-	const systemPrompt = getConciergeSystemPrompt();
+	const content = await getDtvPublicContent();
+	const systemPrompt = getConciergeSystemPrompt(undefined, content);
 
 	const stream = new ReadableStream<Uint8Array>({
 		async start(controller) {
 			let fullText = "";
 
 			try {
-				for await (const chunk of geminiGenerateStream({
+				for await (const chunk of conciergeGenerateStream({
 					systemPrompt,
 					messages: body.messages,
+					gatewayToken: req.headers.get("x-vercel-oidc-token") ?? undefined,
 				})) {
 					fullText += chunk;
 					controller.enqueue(
@@ -107,7 +105,16 @@ export async function POST(req: NextRequest) {
 			} catch (error: unknown) {
 				const message =
 					error instanceof Error ? error.message : "Unknown error";
-				controller.enqueue(encoder.encode(sse({ type: "error", message })));
+				console.error("[concierge] provider fallback", { message });
+				const fallback = parseConciergeResponse(
+					buildConciergeFallback(body.messages, content),
+				);
+				controller.enqueue(
+					encoder.encode(sse({ type: "delta", text: fallback.text })),
+				);
+				controller.enqueue(
+					encoder.encode(sse({ type: "done", cta: fallback.cta })),
+				);
 			} finally {
 				controller.close();
 			}

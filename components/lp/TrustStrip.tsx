@@ -13,29 +13,31 @@ import {
 	ShieldCheck,
 	Smartphone,
 } from "lucide-react";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
-const ITEMS = [
-	{ Icon: MapPin, value: "6 年", label: "バンコク現地法人運営" },
-	{
-		Icon: CheckCircle2,
-		value: "212 / 212",
-		label: "DTV 取得 / 申請(母数 212・2025年4月以降)",
-	},
-	{
-		Icon: ShieldCheck,
-		value: "300+ 件",
-		label: "全 VISA 種別 累計取得実績",
-	},
-	{ Icon: Clock, value: "24 h 以内", label: "初回応答(LINE 即レス)" },
-	{ Icon: Smartphone, value: "専用 CRM", label: "申込〜運用まで一気通貫" },
-] as const;
+export async function TrustStrip() {
+	const content = await getDtvPublicContent();
+	const items = [
+		{ Icon: MapPin, value: "6 年", label: "バンコク現地法人運営" },
+		{
+			Icon: CheckCircle2,
+			value: content.trackRecord.display,
+			label: content.trackRecord.label,
+		},
+		{
+			Icon: ShieldCheck,
+			value: "日本語対応",
+			label: "必要書類から追加対応まで伴走",
+		},
+		{ Icon: Clock, value: "24 h 以内", label: "初回応答(LINE 即レス)" },
+		{ Icon: Smartphone, value: "専用 CRM", label: "申込〜運用まで一気通貫" },
+	] as const;
 
-export function TrustStrip() {
 	return (
 		<section className="border-y border-border-subtle bg-white">
 			<div className="mx-auto max-w-content px-5 md:px-8 py-6 md:py-7">
 				<ul className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-					{ITEMS.map(({ Icon, value, label }) => (
+					{items.map(({ Icon, value, label }) => (
 						<li key={label} className="flex items-start gap-3">
 							<span className="shrink-0 w-9 h-9 rounded-full bg-brand/5 flex items-center justify-center mt-0.5">
 								<Icon className="w-4 h-4 text-brand" strokeWidth={2} />

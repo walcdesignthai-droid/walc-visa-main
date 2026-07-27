@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------------------
  */
 
-/** 公開フラグ。true の間は noindex + JSON-LD 非出力。 */
-export const DRAFT = false;
+/** 新規受付停止中のため、再開・内容再検証までは noindex + JSON-LD 非出力。 */
+export const DRAFT = true;
 
 export const ORIGIN = "https://walc-visa.online";
 export const LP_PATH = "/immigration-support";
@@ -16,9 +16,6 @@ export const LP_PATH = "/immigration-support";
 /** LINE 導線(UTM 付き = LP 流入計測)。 */
 const UTM =
 	"utm_source=immigration-lp&utm_medium=lp&utm_campaign=immigration_support";
-export function emergencyCallHref(placement: string): string {
-	return `https://lin.ee/KYVgRRP?${UTM}&utm_content=${placement}`;
-}
 export function friendAddHref(placement: string): string {
 	return `https://lin.ee/PGFYVNZ?${UTM}&utm_content=${placement}`;
 }

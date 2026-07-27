@@ -14,21 +14,16 @@
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 
 const KNOWLEDGE_FILES = [
-	"00_walc_principles.md",
-	"01_walc_company_info.md",
-	"02_pricing_master.md",
+	"00_current_operations.md",
 	"03_thai_visa_glossary.md",
-	"04_immigration_practice.md",
-	"05_overstay_practice.md",
-	"06_tax_180day_rule.md",
-	"07_bank_account_2026.md",
+	"07_bank_account_current.md",
 ];
 
 const blocks = KNOWLEDGE_FILES.map((file) => {
@@ -36,7 +31,7 @@ const blocks = KNOWLEDGE_FILES.map((file) => {
 	try {
 		const content = readFileSync(path, "utf-8");
 		return `<file path="knowledge_base/${file}">\n${content}\n</file>`;
-	} catch (e) {
+	} catch (_e) {
 		console.warn(`! ${file} not found`);
 		return `<file path="knowledge_base/${file}" status="not_found"></file>`;
 	}
@@ -60,4 +55,6 @@ export const KNOWLEDGE_BASE = \`${escaped}\`;
 const outPath = join(ROOT, "lib/concierge/knowledge.ts");
 writeFileSync(outPath, output, "utf-8");
 
-console.log(`✓ Built lib/concierge/knowledge.ts (${escaped.length} chars from ${KNOWLEDGE_FILES.length} files)`);
+console.log(
+	`✓ Built lib/concierge/knowledge.ts (${escaped.length} chars from ${KNOWLEDGE_FILES.length} files)`,
+);

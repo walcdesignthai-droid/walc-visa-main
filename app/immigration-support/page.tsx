@@ -35,7 +35,6 @@ import {
 	DISCLAIMER,
 	DRAFT,
 	EMPATHY_CHIPS,
-	emergencyCallHref,
 	FAQ_ITEMS,
 	friendAddHref,
 	LP_PATH,
@@ -53,7 +52,7 @@ const TITLE =
 	"タイ入国拒否・イミグレで止められた時の相談｜オーバーステイ・強制送還も";
 const OG_TITLE = `${TITLE}｜WALC VISA`;
 const DESCRIPTION =
-	"タイの空港・国境で入国を止められた/別室に通された/オーバーステイ・強制送還が不安——まだ諦めないでください。タイ在住13年の WALC VISA が、状況に応じたアドバイス・サポートを LINE でご相談に対応。今すぐ無料通話。";
+	"空港イミグレ入国サポートは現在、新規受付を一時停止しています。DTVなど長期滞在VISAのご相談は公式LINEで受付中です。";
 
 export const metadata: Metadata = {
 	title: TITLE,
@@ -80,22 +79,20 @@ export const metadata: Metadata = {
 // CTA(LINE グリーン緊急通話 / 友だち追加)
 // ---------------------------------------------------------------------------
 function CallButton({
-	placement,
-	label,
+	placement: _placement,
+	label: _label,
 }: {
 	placement: string;
 	label: string;
 }) {
 	return (
-		<a
-			href={emergencyCallHref(placement)}
-			target="_blank"
-			rel="noopener noreferrer"
-			className="inline-flex items-center justify-center gap-2 rounded-full bg-[#06c755] px-6 py-3.5 text-sm md:text-base font-bold text-white shadow-sm transition-colors hover:bg-[#05a648]"
+		<span
+			aria-disabled="true"
+			className="inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-full bg-slate-500 px-6 py-3.5 text-sm md:text-base font-bold text-white shadow-sm"
 		>
 			<Phone className="h-4 w-4" aria-hidden />
-			{label}
-		</a>
+			新規受付一時停止中
+		</span>
 	);
 }
 
@@ -398,7 +395,10 @@ export default function ImmigrationSupportPage() {
 								/>
 							</div>
 							<figcaption className="mt-2 text-center text-xs text-[#3a4a73] md:text-left">
-								<Link href={`/author/${WALC_AUTHOR.slug}`} className="font-semibold text-[#001830] hover:underline">
+								<Link
+									href={`/author/${WALC_AUTHOR.slug}`}
+									className="font-semibold text-[#001830] hover:underline"
+								>
 									{WALC_AUTHOR.name}
 								</Link>
 								<br />
@@ -547,15 +547,13 @@ export default function ImmigrationSupportPage() {
 			{/* ───── 追従 CTA バー(モバイル最優先)───── */}
 			<div className="fixed inset-x-0 bottom-0 z-50 border-t border-[#e6eaf3] bg-white/95 backdrop-blur md:hidden">
 				<div className="mx-auto flex max-w-5xl items-center gap-2 px-3 py-2.5">
-					<a
-						href={emergencyCallHref("stickybar")}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#06c755] px-4 py-2.5 text-sm font-bold text-white"
+					<span
+						aria-disabled="true"
+						className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-1.5 rounded-full bg-slate-500 px-4 py-2.5 text-sm font-bold text-white"
 					>
 						<Phone className="h-4 w-4" aria-hidden />
-						無料通話で相談
-					</a>
+						新規受付一時停止
+					</span>
 					<a
 						href={friendAddHref("stickybar")}
 						target="_blank"

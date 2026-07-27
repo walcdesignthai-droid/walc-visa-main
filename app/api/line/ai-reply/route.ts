@@ -25,24 +25,25 @@
 import { waitUntil } from "@vercel/functions";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseConciergeResponse } from "@/lib/concierge/cta-parser";
-import { geminiGenerate } from "@/lib/concierge/gemini-client";
+import { conciergeGenerate } from "@/lib/concierge/provider";
 import { getConciergeSystemPrompt } from "@/lib/concierge/system-prompt";
 import {
 	buildCustomerContext,
 	getOrCreateCustomerByLine,
 	listApplicationsByCustomer,
 } from "@/lib/crm/client";
-import { ctaToFlexMessage } from "@/lib/line/flex-cta";
 import {
 	getLineProfile,
+	type LineMessage,
 	notifyModeChange,
 	notifyStaffMessageInHumanMode,
 	notifyStaffMessageInKillSwitch,
 	replyOrPush,
-	type LineMessage,
 } from "@/lib/line/fetch-client";
+import { ctaToFlexMessage } from "@/lib/line/flex-cta";
 import { getLineModeFull } from "@/lib/line/mode-store";
 import { handlePostback } from "@/lib/line/postback-handler";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -303,12 +304,13 @@ async function processAiReply(input: AiReplyInput): Promise<void> {
 		}
 		console.log(`[ai-reply] CRM context ${Date.now() - tCrm0}ms`);
 
-		const tGemini0 = Date.now();
-		const { text: rawText } = await geminiGenerate({
-			systemPrompt: getConciergeSystemPrompt(customerContext),
+		const content = await getDtvPublicContent();
+		const tAi0 = Date.now();
+		const { text: rawText } = await conciergeGenerate({
+			systemPrompt: getConciergeSystemPrompt(customerContext, content),
 			messages: [{ role: "user", content: userText }],
 		});
-		console.log(`[ai-reply] Gemini ${Date.now() - tGemini0}ms`);
+		console.log(`[ai-reply] AI ${Date.now() - tAi0}ms`);
 
 		const parsed = parseConciergeResponse(rawText);
 

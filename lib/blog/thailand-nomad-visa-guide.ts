@@ -10,17 +10,17 @@
  *
  * 事実の出典(推測ゼロ / YMYL):
  *   - DTV 制度事実 = タイ政府一次出典(e-Visa 公式 / 外務省 DTV チェックリスト・情報 PDF)を references に可視掲載。
- *   - WALC 実績 = lib/walc-data/stats.ts(getDtvAcquisitionStats)SOT を interpolate(件数+母数+期間+免責のみ・成功率/保証表現は使わない)。
+ *   - WALC 実績 = CRM 公開コンテンツの検証済みフォールバックを interpolate。
  *   - Thailand Privilege のプラン/費用は thailand-privilege-overview 記事に委譲(clusterLink)。比較は概況に留める。
  *   - 政府費用の日本円換算等の未確定は placeholders に残す。
  *   - 既存 DTV pillar(dtv-visa-thailand-guide)とは KW/インテントで差別化(本記事=通称KW・横断比較)。
  * ----------------------------------------------------------------------------
  */
 
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { VERIFIED_DTV_FALLBACK } from "@/lib/walc-data/public-content";
 import type { Article } from "./types";
 
-const stats = getDtvAcquisitionStats();
+const trackRecord = VERIFIED_DTV_FALLBACK.trackRecord;
 
 export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 	slug: "thailand-nomad-visa-guide",
@@ -37,7 +37,13 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 	heroEyebrow: "ノマドビザ 完全ガイド",
 	// WI 指定カテゴリ「制度比較・ビザ選び」= compare。
 	category: "compare",
-	tags: ["ノマドビザ", "DTV", "Destination Thailand Visa", "デジタルノマド", "Thailand Privilege"],
+	tags: [
+		"ノマドビザ",
+		"DTV",
+		"Destination Thailand Visa",
+		"デジタルノマド",
+		"Thailand Privilege",
+	],
 	readingMinutes: 9,
 	cover: {
 		motif: "map-pin",
@@ -112,8 +118,8 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 
 	// --- 統計(SOT 由来 + 免責) ----------------------------------------------
 	statsNote: [
-		`WALC の DTV 取得実績は ${stats.acquired} 件中 ${stats.acquired} 件(母数 ${stats.totalAttempts} / ${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
-		"これは過去の実績であり、将来の取得を保証するものではありません。要件充足の可否は個別事情・申請時点の運用により異なります。",
+		`WALC には${trackRecord.display}の${trackRecord.label}があります。対象範囲は${trackRecord.scope}です。`,
+		trackRecord.disclaimer,
 	],
 
 	// --- 専門家見解(現場の知見) ---------------------------------------------
@@ -253,7 +259,8 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 	// --- 事実 → 出典 ---------------------------------------------------------
 	sources: [
 		{
-			claim: "DTV(通称ノマドビザ)= 2024 年 7 月 15 日施行 / 5 年マルチプル / 1 回 180 日(+延長 180 日)",
+			claim:
+				"DTV(通称ノマドビザ)= 2024 年 7 月 15 日施行 / 5 年マルチプル / 1 回 180 日(+延長 180 日)",
 			source: "タイ外務省 DTV 情報 PDF / e-Visa 公式(thaievisa.go.th)",
 		},
 		{
@@ -274,12 +281,13 @@ export const THAILAND_NOMAD_VISA_GUIDE: Article = {
 			source: "タイ外務省 DTV 情報 PDF / DTV チェックリスト",
 		},
 		{
-			claim: `WALC DTV 実績 ${stats.acquired}/${stats.totalAttempts}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
-			source: "lib/walc-data/stats.ts getDtvAcquisitionStats(SOT)",
+			claim: `WALC DTV実績 ${trackRecord.display}の${trackRecord.label}`,
+			source: "CRM public content contract (owner_confirmed)",
 		},
 		{
 			claim: "Thailand Privilege のプラン期間・費用の詳細",
-			source: "thailand-privilege-overview 記事(社内 SOT)/ Thailand Privilege 公式",
+			source:
+				"thailand-privilege-overview 記事(社内 SOT)/ Thailand Privilege 公式",
 		},
 	],
 

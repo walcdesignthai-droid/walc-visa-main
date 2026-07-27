@@ -16,18 +16,6 @@
  * ----------------------------------------------------------------------------
  */
 
-import { useState } from "react";
-import {
-	ALL_VISA_CATEGORIES,
-	type DurationTab,
-	type VisaCategory,
-	categoryFromPrice,
-	categoryRecommendedPlan,
-	formatTHB,
-	visasByTab,
-	AIRPORT_IMMIGRATION_SUPPORT,
-	VISA_RUN_SUPPORT,
-} from "@/lib/walc-data/pricing";
 import {
 	ArrowUpRight,
 	Award,
@@ -44,6 +32,23 @@ import {
 	Users,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import {
+	categoryFromPrice,
+	categoryRecommendedPlan,
+	type DurationTab,
+	formatTHB,
+	VISA_RUN_SUPPORT,
+	type VisaCategory,
+	visasByTab,
+} from "@/lib/walc-data/pricing";
+
+interface DtvPrice {
+	id: "softpower" | "nomad" | "freelance";
+	name: string;
+	audience: string;
+	priceThb: number;
+}
 
 // アイコンマップ (slug → icon)
 const ICON_MAP: Record<string, typeof Briefcase> = {
@@ -61,7 +66,7 @@ const TABS: { id: DurationTab; label: string; sublabel: string }[] = [
 	{ id: "long_term", label: "5 年以上滞在", sublabel: "★ DTV 第一推奨" },
 ];
 
-export function VisaTypes() {
+export function VisaTypes({ dtvPricing }: { dtvPricing: DtvPrice[] }) {
 	const [activeTab, setActiveTab] = useState<DurationTab>("long_term");
 	const visas = visasByTab(activeTab);
 
@@ -139,7 +144,7 @@ export function VisaTypes() {
 					<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
 						{visas.map((visa) => (
 							<li key={visa.slug}>
-								<VisaCard visa={visa} />
+								<VisaCard visa={visa} dtvPricing={dtvPricing} />
 							</li>
 						))}
 					</ul>
@@ -148,7 +153,8 @@ export function VisaTypes() {
 				{/* 補助テキスト + 訴求 */}
 				<div className="mt-10 md:mt-12 pt-8 border-t border-border-subtle">
 					<p className="text-sm text-text-tertiary text-center max-w-2xl mx-auto leading-relaxed">
-						※ 料金はすべてタイバーツ (THB) 表示・税込です。為替レートにより日本円換算額は変動します。
+						※ 料金はすべてタイバーツ (THB)
+						表示・税込です。為替レートにより日本円換算額は変動します。
 						<br />
 						最新の正確なお見積もりは LINE 相談で即時お伝えします。
 					</p>
@@ -162,15 +168,27 @@ export function VisaTypes() {
 // VISA カード (長期・1年タブ用)
 // ============================================================================
 
-function VisaCard({ visa }: { visa: VisaCategory }) {
+function VisaCard({
+	visa,
+	dtvPricing,
+}: {
+	visa: VisaCategory;
+	dtvPricing: DtvPrice[];
+}) {
 	const Icon = ICON_MAP[visa.slug] ?? Briefcase;
 	const fromPrice = categoryFromPrice(visa);
 	const recommendedPlan = categoryRecommendedPlan(visa);
 	// recommended が設定されていればその価格を「最小料金/メイン」表示。
 	// 設定がなければ plans 全体の min を使う (Privilege 等)。
 	// → LTR (DWP 3K でなく WALC 手数料 180K を表示) / リタイア (13K) / DTV (60K) 正しく動く
-	const displayPrice = recommendedPlan?.walcFee ?? fromPrice;
 	const isDtv = visa.slug === "dtv";
+	const dtvFromPrice =
+		dtvPricing.length > 0
+			? Math.min(...dtvPricing.map((plan) => plan.priceThb))
+			: null;
+	const displayPrice = isDtv
+		? dtvFromPrice
+		: (recommendedPlan?.walcFee ?? fromPrice);
 	const isDisabled = visa.linkDisabled ?? false;
 
 	const cardClass = `group relative flex flex-col h-full p-6 md:p-7 rounded-xl border transition-all duration-300 ${
@@ -267,7 +285,12 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 				<span>
 					{/* WI-034: 無出典の規制日付主張(2026/4 制度変更)を中立表示へ。
 					    口座開設可否は申請時点の運用により異なるため、不可断定は避ける。 */}
-					銀行口座開設: {visa.bankAccountAvailable ? "可" : "要確認"}
+					銀行口座開設:{" "}
+					{isDtv
+						? "取得者限定オプション（要確認）"
+						: visa.bankAccountAvailable
+							? "可"
+							: "要確認"}
 				</span>
 			</div>
 
@@ -293,8 +316,9 @@ function VisaCard({ visa }: { visa: VisaCategory }) {
 									visa.recommended ? "text-white/60" : "text-text-tertiary"
 								}`}
 							>
-								{recommendedPlan.label}
-								{isDtv && " (3 プランから選択)"}
+								{isDtv
+									? `${dtvPricing.length} プランから選択`
+									: recommendedPlan.label}
 							</div>
 						)}
 					</>
@@ -377,59 +401,30 @@ function ShortStaySection() {
 						<div className="text-2xl font-bold text-brand tabular-nums">
 							合計 90 日
 						</div>
-						<div className="text-xs text-text-secondary mt-1">
-							最大連続滞在
-						</div>
+						<div className="text-xs text-text-secondary mt-1">最大連続滞在</div>
 					</div>
 				</div>
 			</div>
 
-			{/* 空港イミグレサポート */}
-			<div className="bg-white border border-border-subtle rounded-xl p-6 md:p-8">
+			{/* 空港イミグレサポート（受付停止中） */}
+			<div className="bg-amber-50 border border-amber-200 rounded-xl p-6 md:p-8">
 				<div className="flex items-start gap-3 mb-4">
 					<div className="w-10 h-10 rounded-lg bg-brand/5 flex items-center justify-center">
 						<Plane className="w-5 h-5 text-brand" strokeWidth={1.8} />
 					</div>
 					<div className="flex-1">
 						<h3 className="text-lg md:text-xl font-bold text-text-primary">
-							空港イミグレサポート
+							空港イミグレ入国サポート
 						</h3>
 						<p className="text-xs text-text-tertiary mt-0.5">
-							{AIRPORT_IMMIGRATION_SUPPORT.description}
+							現在、新規受付を一時停止しています
 						</p>
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-					{AIRPORT_IMMIGRATION_SUPPORT.plans.map((plan) => (
-						<div
-							key={plan.id}
-							className={`flex items-baseline justify-between p-3 rounded-lg ${
-								plan.dtvDiscount
-									? "bg-amber-50 border border-amber-200"
-									: "bg-bg-secondary"
-							}`}
-						>
-							<div className="flex-1 min-w-0 pr-3">
-								<div className="text-sm font-medium text-text-primary">
-									{plan.label}
-								</div>
-								{plan.notes && (
-									<div className="text-[11px] text-text-tertiary mt-0.5">
-										{plan.notes}
-									</div>
-								)}
-							</div>
-							<div className="text-sm font-bold text-brand tabular-nums whitespace-nowrap">
-								{formatTHB(plan.walcFee)}
-							</div>
-						</div>
-					))}
-				</div>
-
-				<p className="text-[11px] text-text-tertiary mt-4 leading-relaxed">
-					※ アラート保有者・ビザラン疲れ・取得済み顧客の任意利用にも対応。原則 DTV
-					取得が長期解決策となります。
+				<p className="text-sm text-text-secondary mt-4 leading-relaxed">
+					入国履歴・拒否歴・オーバーステイ歴がある方も、まず状況を確認し、DTV
+					を含む長期滞在方法をご案内します。空港での入国を保証するサービスではありません。
 				</p>
 			</div>
 

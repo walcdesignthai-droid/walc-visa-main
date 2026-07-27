@@ -7,11 +7,11 @@
 
 import { ArrowRight, Clock, MessageCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { buildApplicationUrl, getLineAddUrl } from "@/lib/walc-links";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
-export function FinalCta() {
-	const lineUrl = getLineAddUrl();
-	const applyUrl = buildApplicationUrl({ source: "main-final-cta" });
+export async function FinalCta() {
+	const content = await getDtvPublicContent();
+	const lineUrl = content.consultationUrl;
 
 	return (
 		<section className="bg-bg-secondary border-y border-border-subtle">
@@ -42,15 +42,28 @@ export function FinalCta() {
 
 					{/* CTA 2 つ */}
 					<div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-						<Button asChild variant="line" size="xl" className="w-full sm:w-auto">
+						<Button
+							asChild
+							variant="line"
+							size="xl"
+							className="w-full sm:w-auto"
+						>
 							<a href={lineUrl} target="_blank" rel="noopener noreferrer">
 								<MessageCircle className="w-5 h-5" />
 								LINE で 3 分相談
 							</a>
 						</Button>
-						<Button asChild size="xl" className="w-full sm:w-auto bg-brand text-white hover:bg-brand-deep border border-brand">
-							<a href={applyUrl} target="_blank" rel="noopener noreferrer">
-								申込フォームへ
+						<Button
+							asChild
+							size="xl"
+							className="w-full sm:w-auto bg-brand text-white hover:bg-brand-deep border border-brand"
+						>
+							<a
+								href={content.consultationUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								LINE で申込相談
 								<ArrowRight className="w-5 h-5" />
 							</a>
 						</Button>

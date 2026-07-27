@@ -1,5 +1,5 @@
 /**
- * lib/concierge/gemini-client.ts — v3.0 (WALC DESIGN 同期)
+ * lib/concierge/gemini-client.ts — v4.0
  * ----------------------------------------------------------------------------
  * 修正履歴:
  *   v3.0 (2026-05-26) — WALC DESIGN の本番稼働実装に完全同期。
@@ -14,7 +14,7 @@
 import { GoogleGenAI } from "@google/genai";
 import type { ConciergeMessage } from "./types";
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
+const MODEL = "gemini-3.6-flash";
 const MAX_OUTPUT_TOKENS = 2048;
 const INPUT_LIMIT = 4000;
 
@@ -38,13 +38,14 @@ function toGeminiContents(messages: ConciergeMessage[]) {
 	}));
 }
 
-export interface GeminiGenerateOptions {
+export interface ConciergeGenerateOptions {
 	systemPrompt: string;
 	messages: ConciergeMessage[];
 	maxOutputTokens?: number;
+	gatewayToken?: string;
 }
 
-function buildConfig(options: GeminiGenerateOptions) {
+function buildConfig(options: ConciergeGenerateOptions) {
 	return {
 		systemInstruction: options.systemPrompt,
 		maxOutputTokens: options.maxOutputTokens ?? MAX_OUTPUT_TOKENS,
@@ -55,7 +56,7 @@ function buildConfig(options: GeminiGenerateOptions) {
 }
 
 export async function geminiGenerate(
-	options: GeminiGenerateOptions,
+	options: ConciergeGenerateOptions,
 ): Promise<{ text: string }> {
 	const ai = getClient();
 	const response = await ai.models.generateContent({
@@ -68,7 +69,7 @@ export async function geminiGenerate(
 }
 
 export async function* geminiGenerateStream(
-	options: GeminiGenerateOptions,
+	options: ConciergeGenerateOptions,
 ): AsyncGenerator<string, void, unknown> {
 	const ai = getClient();
 	const stream = await ai.models.generateContentStream({

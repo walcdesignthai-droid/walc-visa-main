@@ -6,7 +6,7 @@
  * 方針(v1.3 §11 厳守):
  *   - llms.txt は AI/agent manifest であって「ランキング保証シグナル」ではない。
  *   - 記載は事実ベースのみ。保証・ランキング・断定表現は禁止。
- *   - 実績数値は SOT(lib/walc-data/stats.ts)から取得し直書きしない(F-1 drift 防止)。
+ *   - 実績数値は CRM 公開コンテンツ API から取得し直書きしない(F-1 drift 防止)。
  *   - 個別の料金は drift 防止のため llms.txt に直書きせず、サイト本体を参照させる。
  *   - 代表者名・設立は canonical(walc-studio/knowledge/CANONICAL-OWNER-PROFILE.md)に準拠。
  * ----------------------------------------------------------------------------
@@ -14,9 +14,9 @@
 
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
-import { getDtvAcquisitionStats } from "@/lib/walc-data/stats";
+import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
-export const dynamic = "force-static";
+export const revalidate = 60;
 
 const ORIGIN = "https://walc-visa.online";
 
@@ -44,8 +44,8 @@ function buildBlogSection(): string {
 	return lines.join("\n");
 }
 
-export function GET(): Response {
-	const stats = getDtvAcquisitionStats();
+export async function GET(): Promise<Response> {
+	const content = await getDtvPublicContent();
 	const blogSection = buildBlogSection();
 
 	const body = `# WALC VISA Consulting — タイ VISA 取得代行
@@ -67,14 +67,13 @@ export function GET(): Response {
 - LTR(Long-Term Resident Visa)
 - 学生 VISA(NON-ED)
 - 結婚・家族 VISA(NON-O / Marriage / Family / Guardian)
-- 空港イミグレサポート / ビザランサポート
+- 空港イミグレ入国サポート: 現在、新規受付を一時停止中
 - 各 VISA の最新料金・条件はサイト本体および各 VISA ページに記載。
 
-## 実績(自社実績 / 母数明示)
-- DTV 申請実績: ${stats.totalAttempts} 件中 ${stats.acquired} 件が取得(母数: ${stats.totalAttempts} / 対象期間: ${stats.periodLabel})。
-- WALC 全体の VISA 取得実績: 累計 ${stats.walcTotalAcquired}+ 件。
-- 上記は過去実績であり、将来の取得を保証するものではありません。
-- 最終更新: ${stats.lastUpdated}
+## 実績(自社実績)
+- ${content.trackRecord.label}: ${content.trackRecord.display}。
+- 対象範囲: ${content.trackRecord.scope}。
+- ${content.trackRecord.disclaimer}
 
 ## 主要ページ
 - トップ: https://walc-visa.online/
@@ -82,12 +81,13 @@ export function GET(): Response {
 - リタイアメント(NON-O)Visa: https://walc-visa.online/visas/retirement
 - 入国・イミグレ緊急サポート(入国拒否/別室/オーバーステイ/強制送還の相談): https://walc-visa.online/immigration-support
 - DTV 専門サイト: https://dtv.walc-visa.online
+- DTV 取得者ガイド: ${content.guideUrl}
 
 ## ガイド記事(ブログ / 事実ベース解説・一次出典付き)
 ${blogSection}
 
 ## 連絡
-- 問い合わせはサイト本体の導線より受付。
+- LINE 無料相談: ${content.consultationUrl}
 `;
 
 	return new Response(body, {

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 		template: "%s | WALC VISA Consulting",
 	},
 	description:
-		"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR / 学生 / 結婚 など全種別に対応。専用CRMアプリで申込から取得後の管理まで一気通貫サポート。",
+		"DTV / リタイア / Thailand Privilege / LTR / 学生 / 結婚など、タイ長期VISA全種別に対応。専用CRMで申込から取得後まで一気通貫サポート。",
 	keywords: [
 		"タイ ビザ",
 		"タイ VISA",
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 		siteName: "WALC VISA Consulting",
 		title: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
 		description:
-			"タイで300件以上のVISA取得実績。DTV / リタイア / Thailand Privilege / LTR など全種別に対応。",
+			"DTV / リタイア / Thailand Privilege / LTRなど、タイ長期VISAの申請から取得後まで日本語で伴走。",
 		images: [
 			{
 				url: "/images/AdobeStock_494541408.jpeg",
@@ -83,7 +83,8 @@ export const metadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		title: "WALC VISA Consulting",
-		description: "タイVISA取得・運用の専門コンサル。300件超の取得実績。",
+		description:
+			"タイVISA取得・運用の専門コンサル。申請から取得後まで一気通貫で支援。",
 		images: ["/images/AdobeStock_494541408.jpeg"],
 	},
 	robots: {
