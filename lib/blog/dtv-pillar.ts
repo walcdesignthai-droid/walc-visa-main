@@ -64,7 +64,7 @@ export const DTV_PILLAR: Article = {
 
 	// --- 統計(SOT 由来 + 免責。成功率/保証表現は使わない) ------------------
 	statsNote: [
-		`WALC の DTV 申請通過実績は ${stats.successfulApplicationsLabel}(${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
+		`WALC の DTV 取得実績は ${stats.acquired} 件中 ${stats.acquired} 件(母数 ${stats.totalAttempts} / ${stats.periodLabel} / 最終更新 ${stats.lastUpdated})。WALC 全体では累計 ${stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験があります。`,
 		"これは過去の実績であり、将来の取得を保証するものではありません。要件充足の可否は個別事情・申請時点の運用により異なります。",
 	],
 
@@ -182,7 +182,7 @@ export const DTV_PILLAR: Article = {
 			source: "lib/walc-data/pricing.ts VISA_DTV.plans(SOT)",
 		},
 		{
-			claim: `WALC DTV 申請通過実績 ${stats.successfulApplicationsLabel}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
+			claim: `WALC DTV 実績 ${stats.acquired}/${stats.totalAttempts}(${stats.periodLabel})・累計 ${stats.walcTotalAcquired}+`,
 			source: "lib/walc-data/stats.ts getDtvAcquisitionStats(SOT)",
 		},
 		{

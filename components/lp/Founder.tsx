@@ -14,10 +14,7 @@ import { Quote } from "lucide-react";
 
 export function Founder() {
 	return (
-		<section
-			id="founder"
-			className="bg-brand text-white relative overflow-hidden"
-		>
+		<section id="founder" className="bg-brand text-white relative overflow-hidden">
 			<div className="absolute -bottom-20 -right-20 opacity-[0.04] pointer-events-none">
 				<Quote className="w-[500px] h-[500px]" strokeWidth={0.5} />
 			</div>
@@ -68,11 +65,9 @@ export function Founder() {
 								一方で、VISA・税務・銀行口座など、制度面の複雑さで一歩踏み出せない方も少なくありません。
 							</p>
 							<p>
-								WALC VISA Consulting
-								は、その「複雑さ」を私たちが代わりに引き受け、
+								WALC VISA Consulting は、その「複雑さ」を私たちが代わりに引き受け、
 								お客様には「タイで何をするか」だけに集中していただけるよう設計しました。
-								200 件以上の DTV 申請通過実績、専用 CRM
-								での一気通貫管理、バンコク現地法人 6 年の経験——
+								212 件中 212 件取得の実績、専用 CRM での一気通貫管理、バンコク現地法人 6 年の経験——
 								すべては、お客様の思いを確かな形にするためにあります。
 							</p>
 							<p className="text-amber-200/90 text-sm md:text-base font-semibold">

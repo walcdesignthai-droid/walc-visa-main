@@ -163,8 +163,8 @@ export default function BlogIndexPage() {
 								実績
 							</p>
 							<p className="mt-2 text-sm leading-relaxed text-[var(--vb-body)]">
-								DTV 申請通過実績 {stats.successfulApplicationsLabel}（
-								{stats.periodLabel}）。 WALC 全体で累計{" "}
+								DTV {stats.acquired} 件中 {stats.acquired} 件取得(母数{" "}
+								{stats.totalAttempts} / {stats.periodLabel})。 WALC 全体で累計{" "}
 								{stats.walcTotalAcquired} 件超のタイ VISA 取得サポート経験。
 							</p>
 							<p className="mt-2 text-[11px] text-[var(--vb-faint)]">
