@@ -83,7 +83,7 @@ export function GET(): Response {
 - タイ政府広報は 2026-06-06、資金不足・旅程不備・不審なビザラン等を理由に外国人 29,490 人を入国拒否したと公表。
 - 29,490 人は日本人だけの人数でも、2025 年の年間人数として確認された数値でもない。
 - 過去の入国拒否・オーバーステイ・注意歴がある方も DTV 相談可能。ただし、VISA 取得や入国を保証しない。
-- 一次出典: https://thailand.prd.go.th/en/content/category/detail/id/48/iid/394313
+- 一次出典: https://thailand.prd.go.th/en/content/category/detail/id/43/cid/2078/iid/509718
 
 ## 主要ページ
 - トップ: https://walc-visa.online/
