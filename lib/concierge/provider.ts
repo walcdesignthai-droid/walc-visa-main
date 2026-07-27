@@ -15,6 +15,8 @@ const FALLBACK_MODEL = "anthropic/claude-sonnet-5";
 export async function* conciergeGenerateStream(
 	options: ConciergeGenerateOptions,
 ): AsyncGenerator<string, void, unknown> {
+	let directProviderError: unknown;
+
 	if (process.env.GEMINI_API_KEY) {
 		const iterator = geminiGenerateStream(options)[Symbol.asyncIterator]();
 		try {
@@ -28,21 +30,26 @@ export async function* conciergeGenerateStream(
 				}
 			}
 		} catch (error) {
-			if (!process.env.ANTHROPIC_API_KEY) throw error;
+			directProviderError = error;
 		}
 	}
 
 	if (process.env.ANTHROPIC_API_KEY) {
-		const text = await claudeGenerate(options);
-		if (text) yield text;
-		return;
+		try {
+			const text = await claudeGenerate(options);
+			if (text) yield text;
+			return;
+		} catch (error) {
+			directProviderError = error;
+		}
 	}
 
 	const token =
-		process.env.AI_GATEWAY_API_KEY ??
 		options.gatewayToken ??
-		process.env.VERCEL_OIDC_TOKEN;
+		process.env.VERCEL_OIDC_TOKEN ??
+		process.env.AI_GATEWAY_API_KEY;
 	if (!token) {
+		if (directProviderError) throw directProviderError;
 		throw new Error("AI Gateway authentication is unavailable");
 	}
 

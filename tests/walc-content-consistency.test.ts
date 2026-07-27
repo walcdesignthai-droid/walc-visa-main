@@ -68,6 +68,16 @@ describe("WALC VISA public content consistency", () => {
 		expect(prompt).not.toContain("取得率 100%");
 	});
 
+	it("prefers Vercel's deployment OIDC token over a legacy gateway key", async () => {
+		const provider = await read("lib/concierge/provider.ts");
+		const oidcToken = provider.indexOf("options.gatewayToken");
+		const legacyKey = provider.indexOf("process.env.AI_GATEWAY_API_KEY");
+
+		expect(oidcToken).toBeGreaterThan(-1);
+		expect(legacyKey).toBeGreaterThan(-1);
+		expect(oidcToken).toBeLessThan(legacyKey);
+	});
+
 	it("excludes superseded sales claims from the generated AI knowledge", async () => {
 		const knowledge = await read("lib/concierge/knowledge.ts");
 
