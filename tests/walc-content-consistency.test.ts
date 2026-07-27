@@ -85,6 +85,19 @@ describe("WALC VISA public content consistency", () => {
 		expect(oidcToken).toBeLessThan(legacyKey);
 	});
 
+	it("returns current official facts instead of a raw provider error", async () => {
+		const [route, fallback] = await Promise.all([
+			read("app/api/concierge/route.ts"),
+			read("lib/concierge/fallback.ts"),
+		]);
+
+		expect(route).toContain("buildConciergeFallback");
+		expect(fallback).toContain("content.trackRecord.display");
+		expect(fallback).toContain("content.pricing");
+		expect(fallback).toContain("新規受付を一時停止");
+		expect(fallback).toContain("[CTA:line]");
+	});
+
 	it("excludes superseded sales claims from the generated AI knowledge", async () => {
 		const knowledge = await read("lib/concierge/knowledge.ts");
 

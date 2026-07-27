@@ -11,6 +11,7 @@
 
 import type { NextRequest } from "next/server";
 import { parseConciergeResponse } from "@/lib/concierge/cta-parser";
+import { buildConciergeFallback } from "@/lib/concierge/fallback";
 import { conciergeGenerateStream } from "@/lib/concierge/provider";
 import { getConciergeSystemPrompt } from "@/lib/concierge/system-prompt";
 import type {
@@ -104,7 +105,16 @@ export async function POST(req: NextRequest) {
 			} catch (error: unknown) {
 				const message =
 					error instanceof Error ? error.message : "Unknown error";
-				controller.enqueue(encoder.encode(sse({ type: "error", message })));
+				console.error("[concierge] provider fallback", { message });
+				const fallback = parseConciergeResponse(
+					buildConciergeFallback(body.messages, content),
+				);
+				controller.enqueue(
+					encoder.encode(sse({ type: "delta", text: fallback.text })),
+				);
+				controller.enqueue(
+					encoder.encode(sse({ type: "done", cta: fallback.cta })),
+				);
 			} finally {
 				controller.close();
 			}

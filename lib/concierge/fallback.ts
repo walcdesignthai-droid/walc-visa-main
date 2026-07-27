@@ -1,0 +1,54 @@
+import type { DtvPublicContent } from "@/lib/walc-data/public-content";
+import type { ConciergeMessage } from "./types";
+
+function formatThb(amount: number): string {
+	return `${new Intl.NumberFormat("en-US").format(amount)} THB`;
+}
+
+/**
+ * AIプロバイダー障害時も、CRMの公開APIで確認済みの事実だけを返す。
+ * 個別審査や取得可否は断定せず、LINEの有人相談へ引き継ぐ。
+ */
+export function buildConciergeFallback(
+	messages: ConciergeMessage[],
+	content: DtvPublicContent,
+): string {
+	const latestQuestion =
+		[...messages].reverse().find((message) => message.role === "user")
+			?.content ?? "";
+	const asksAboutDtv = /DTV|料金|費用|実績|銀行|口座|空港|イミグレ|入国/i.test(
+		latestQuestion,
+	);
+
+	const lines = [
+		"ただいまAIの詳細回答が混み合っているため、WALC公式データから確認できる最新情報を先にご案内します。",
+	];
+
+	if (asksAboutDtv) {
+		lines.push(
+			"",
+			`・実績: ${content.trackRecord.display}の${content.trackRecord.label}（${content.trackRecord.scope}）`,
+			"・料金:",
+			...content.pricing.map(
+				(plan) => `  - ${plan.name}: ${formatThb(plan.priceThb)}`,
+			),
+			"・銀行口座: DTV取得者限定オプションとして相談可能です。開設を保証するものではなく、銀行の審査・運用により変わります。",
+			"・空港イミグレ入国サポート: 現在、新規受付を一時停止しています。",
+			"",
+			content.trackRecord.disclaimer,
+		);
+	} else {
+		lines.push(
+			"",
+			"VISAの条件や必要書類は、国籍・入国歴・現在の滞在資格・申請先によって変わります。",
+		);
+	}
+
+	lines.push(
+		"",
+		"個別の取得可能性と最新条件は、公式LINEでスタッフが確認します。",
+		"[CTA:line]",
+	);
+
+	return lines.join("\n");
+}

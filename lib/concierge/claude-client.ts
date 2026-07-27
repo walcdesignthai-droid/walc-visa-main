@@ -1,6 +1,6 @@
 import type { ConciergeGenerateOptions } from "./gemini-client";
 
-const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
+const MODEL = "claude-sonnet-5";
 
 interface ClaudeTextBlock {
 	type: "text";
