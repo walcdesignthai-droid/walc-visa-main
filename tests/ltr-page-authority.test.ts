@@ -8,7 +8,10 @@ describe("LTR page authority and public claims", () => {
 	it("lets the root metadata template append the site name once", async () => {
 		const source = await readFile(PAGE_PATH, "utf8");
 
-		expect(source).toContain('title: "LTR Visa(Long-Term Resident)",');
+		expect(source).toContain(
+			'const LTR_TITLE = "LTR Visa(Long-Term Resident)";',
+		);
+		expect(source).toContain("title: LTR_TITLE");
 		expect(source).not.toContain(
 			'title: "LTR Visa(Long-Term Resident)| WALC VISA Consulting",',
 		);
@@ -38,5 +41,14 @@ describe("LTR page authority and public claims", () => {
 		);
 		expect(source).toContain("<BreadcrumbJsonLd");
 		expect(source).toContain("https://walc-visa.online/visas/ltr");
+	});
+
+	it("publishes a page-specific canonical and social URL", async () => {
+		const source = await readFile(PAGE_PATH, "utf8");
+
+		expect(source).toContain("const LTR_URL");
+		expect(source).toContain('"https://walc-visa.online/visas/ltr"');
+		expect(source).toContain("alternates: { canonical: LTR_URL }");
+		expect(source).toContain("url: LTR_URL");
 	});
 });

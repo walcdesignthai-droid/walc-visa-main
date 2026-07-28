@@ -36,10 +36,27 @@ import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
 import { formatTHB, VISA_LTR } from "@/lib/walc-data/pricing";
 
+const LTR_URL = "https://walc-visa.online/visas/ltr";
+const LTR_TITLE = "LTR Visa(Long-Term Resident)";
+const LTR_DESCRIPTION =
+	"最大10年のタイ長期滞在を目指すLTR Visa。4カテゴリの条件、カテゴリ別の税制優遇、料金、BOI申請の流れを公式一次情報とともに案内します。";
+
 export const metadata: Metadata = {
-	title: "LTR Visa(Long-Term Resident)",
-	description:
-		"最大10年のタイ長期滞在を目指すLTR Visa。4カテゴリの条件、カテゴリ別の税制優遇、料金、BOI申請の流れを公式一次情報とともに案内します。",
+	title: LTR_TITLE,
+	description: LTR_DESCRIPTION,
+	alternates: { canonical: LTR_URL },
+	openGraph: {
+		type: "website",
+		title: `${LTR_TITLE} | WALC VISA Consulting`,
+		description: LTR_DESCRIPTION,
+		url: LTR_URL,
+		siteName: "WALC VISA Consulting",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${LTR_TITLE} | WALC VISA Consulting`,
+		description: LTR_DESCRIPTION,
+	},
 };
 
 const LTR_OFFICIAL_SOURCES = [
