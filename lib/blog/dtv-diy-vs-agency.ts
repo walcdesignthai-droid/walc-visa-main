@@ -15,6 +15,7 @@
  */
 
 import { formatTHB, VISA_DTV } from "@/lib/walc-data/pricing";
+import { VERIFIED_DTV_FALLBACK } from "@/lib/walc-data/public-content";
 import type { Article } from "./types";
 
 const fee = (id: string): string => {
@@ -25,6 +26,7 @@ const fee = (id: string): string => {
 const FEE_NOMAD = fee("dtv-nomad");
 const FEE_FREELANCE = fee("dtv-freelance");
 const FEE_SOFT_POWER = fee("dtv-soft-power");
+const FEE_SUMMARY = VERIFIED_DTV_FALLBACK.fees.summary;
 
 export const DTV_DIY_VS_AGENCY: Article = {
 	slug: "dtv-diy-vs-agency",
@@ -70,7 +72,7 @@ export const DTV_DIY_VS_AGENCY: Article = {
 			items: [
 				"書類整備・英文対応・申請までを WALC がサポート",
 				"タイ宿泊証明やソフトパワーのアクティビティ証明など、WALC で用意できる書類がある",
-				`WALC 手数料: ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}(いずれも申請費込み)`,
+				`WALC 申請サポート料金: ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}。${FEE_SUMMARY}`,
 				"申請区分別の追加書類や個別事情への対応を個別に案内",
 			],
 		},
@@ -102,7 +104,7 @@ export const DTV_DIY_VS_AGENCY: Article = {
 		},
 		{
 			question: "WALC の手数料はいくらですか?",
-			answer: `ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}(いずれも申請費込み)です。`,
+			answer: `申請サポート料金は、ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}です。${FEE_SUMMARY}`,
 		},
 		{
 			question: "自分で申請するか迷っています",

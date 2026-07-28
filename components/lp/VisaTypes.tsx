@@ -42,13 +42,7 @@ import {
 	type VisaCategory,
 	visasByTab,
 } from "@/lib/walc-data/pricing";
-
-interface DtvPrice {
-	id: "softpower" | "nomad" | "freelance";
-	name: string;
-	audience: string;
-	priceThb: number;
-}
+import type { DtvPublicContent } from "@/lib/walc-data/public-content";
 
 // アイコンマップ (slug → icon)
 const ICON_MAP: Record<string, typeof Briefcase> = {
@@ -66,7 +60,7 @@ const TABS: { id: DurationTab; label: string; sublabel: string }[] = [
 	{ id: "long_term", label: "5 年以上滞在", sublabel: "★ DTV 第一推奨" },
 ];
 
-export function VisaTypes({ dtvPricing }: { dtvPricing: DtvPrice[] }) {
+export function VisaTypes({ content }: { content: DtvPublicContent }) {
 	const [activeTab, setActiveTab] = useState<DurationTab>("long_term");
 	const visas = visasByTab(activeTab);
 
@@ -144,7 +138,7 @@ export function VisaTypes({ dtvPricing }: { dtvPricing: DtvPrice[] }) {
 					<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
 						{visas.map((visa) => (
 							<li key={visa.slug}>
-								<VisaCard visa={visa} dtvPricing={dtvPricing} />
+								<VisaCard visa={visa} content={content} />
 							</li>
 						))}
 					</ul>
@@ -170,10 +164,10 @@ export function VisaTypes({ dtvPricing }: { dtvPricing: DtvPrice[] }) {
 
 function VisaCard({
 	visa,
-	dtvPricing,
+	content,
 }: {
 	visa: VisaCategory;
-	dtvPricing: DtvPrice[];
+	content: DtvPublicContent;
 }) {
 	const Icon = ICON_MAP[visa.slug] ?? Briefcase;
 	const fromPrice = categoryFromPrice(visa);
@@ -183,8 +177,8 @@ function VisaCard({
 	// → LTR (DWP 3K でなく WALC 手数料 180K を表示) / リタイア (13K) / DTV (60K) 正しく動く
 	const isDtv = visa.slug === "dtv";
 	const dtvFromPrice =
-		dtvPricing.length > 0
-			? Math.min(...dtvPricing.map((plan) => plan.priceThb))
+		content.pricing.length > 0
+			? Math.min(...content.pricing.map((plan) => plan.priceThb))
 			: null;
 	const displayPrice = isDtv
 		? dtvFromPrice
@@ -317,9 +311,17 @@ function VisaCard({
 								}`}
 							>
 								{isDtv
-									? `${dtvPricing.length} プランから選択`
+									? `${content.pricing.length} プランから選択`
 									: recommendedPlan.label}
 							</div>
+						)}
+						{isDtv && (
+							<p className="mt-3 text-[11px] leading-relaxed text-white/75">
+								{content.fees.summary}
+								<br />
+								{content.fees.governmentFee.payee}へ
+								{content.fees.governmentFee.paymentMethod}です。
+							</p>
 						)}
 					</>
 				) : (

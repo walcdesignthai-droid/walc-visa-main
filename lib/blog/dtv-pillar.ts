@@ -29,6 +29,7 @@ const fee = (id: string): string => {
 const FEE_SOFT_POWER = fee("dtv-soft-power");
 const FEE_NOMAD = fee("dtv-nomad");
 const FEE_FREELANCE = fee("dtv-freelance");
+const FEE_SUMMARY = VERIFIED_DTV_FALLBACK.fees.summary;
 
 export const DTV_PILLAR: Article = {
 	slug: "dtv-visa-thailand-guide",
@@ -58,7 +59,7 @@ export const DTV_PILLAR: Article = {
 	answerFirst: [
 		"DTV(Destination Thailand Visa)は、2024 年に導入されたタイの長期滞在ビザです。海外企業のリモートワークやソフトパワー領域(ムエタイ等)の活動を想定し、5 年マルチプル・1 回の滞在は最長 180 日(国内で 180 日の延長を行えば最大 360 日連続滞在)という設計です(タイ外務省 DTV 情報・e-Visa 公式)。",
 		"申請にあたっては、50 万 THB 相当の残高が求められます(タイ外務省 DTV チェックリスト)。活動はタイ国内での就労ではなく、海外企業のリモートワークやソフトパワー領域が前提です。必要書類はチェックリストに定められており、本記事末尾の一次出典から確認できます。",
-		`WALC では DTV を、ソフトパワー枠 ${FEE_SOFT_POWER}・ノマド ${FEE_NOMAD}・フリーランス ${FEE_FREELANCE}(いずれも申請費・書類サポート込み)で取り扱っています。本ガイドでは要件・費用・滞在ルールを、一次出典に沿って整理します。`,
+		`WALC では DTV を、ソフトパワー枠 ${FEE_SOFT_POWER}・ノマド ${FEE_NOMAD}・フリーランス ${FEE_FREELANCE}の申請サポート料金で取り扱っています。${FEE_SUMMARY} 本ガイドでは要件・費用・滞在ルールを、一次出典に沿って整理します。`,
 	],
 
 	// --- 統計(SOT 由来 + 免責。成功率/保証表現は使わない) ------------------
@@ -85,7 +86,7 @@ export const DTV_PILLAR: Article = {
 		},
 		{
 			heading: "3. 申請・取得",
-			body: "必要書類を整え、e-Visa ルートで申請します。WALC では書類作成サポートと申請費を料金に含めて対応します。",
+			body: `必要書類を整え、e-Visa ルートで申請します。WALC の表示料金は書類作成・申請サポートの料金です。${FEE_SUMMARY}`,
 		},
 	],
 

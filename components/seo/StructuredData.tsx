@@ -1,221 +1,155 @@
 /**
- * components/seo/StructuredData.tsx — walc-visa.online 用 JSON-LD
- * ----------------------------------------------------------------------------
- * 全 VISA 種別対応版 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)。
+ * Page-specific, connected JSON-LD for the public WALC VISA home page.
  *
- * 含まれるスキーマ:
- *   - Organization (WALC DESIGN Co., Ltd.)
- *   - ProfessionalService (VISA 取得代行・全種別)
- *   - FAQPage (主要 FAQ 5 件)
- *   - WebSite
- *   - LocalBusiness (バンコク拠点)
- *
- * 出典: walc-studio/knowledge/01_walc_company_info.md / 02_pricing_master.md
- * ----------------------------------------------------------------------------
+ * The graph deliberately excludes portal/CRM hosts from sameAs because they
+ * are applications, not independent public identities.
  */
 
 import { WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 import {
 	categoryFromPrice,
 	categoryRecommendedPlan,
-	formatTHB,
 	VISA_LTR,
 	VISA_PRIVILEGE,
 	VISA_RETIREMENT,
 	type VisaCategory,
 } from "@/lib/walc-data/pricing";
-import {
-	type DtvPublicContent,
-	getDtvPublicContent,
-} from "@/lib/walc-data/public-content";
+import type { DtvPublicContent } from "@/lib/walc-data/public-content";
 
-const ORG_BASE = {
-	"@type": "Organization",
-	name: "WALC VISA Consulting",
-	legalName: "WALC DESIGN Co., Ltd.",
-	url: "https://walc-visa.online",
-	logo: "https://walc-visa.online/walc-visa-logo.png",
-	foundingDate: "2021-08-27",
-	founder: {
-		"@type": "Person",
-		name: "小野寺 陽介",
-		givenName: "Yosuke",
-		familyName: "Onodera",
-	},
-	address: {
-		"@type": "PostalAddress",
-		addressCountry: "TH",
-		addressRegion: "Bangkok",
-		streetAddress: "30 Sukhumvit 61, Wattana",
-		postalCode: "10110",
-	},
-	email: WALC_ORGANIZATION.email,
-	// WI-031: canonical 確定の固定電話 (2026-05-30 Owner 確認 / 旧 084 は不使用)。
-	telephone: WALC_ORGANIZATION.telephone,
-	// WI-031: 法人登記番号は env 供給時のみ出力 (未設定 = TBD / 推測値ゼロ)。
-	...(WALC_ORGANIZATION.registrationNumber
-		? {
-				identifier: {
-					"@type": "PropertyValue",
-					propertyID: "TH-company-registration",
-					value: WALC_ORGANIZATION.registrationNumber,
-				},
-			}
-		: {}),
-	sameAs: [
-		"https://dtv.walc-visa.online",
-		"https://crm.walc-visa.online",
-		"https://walc-consulting.com",
-	],
-	// WI-031: 連絡導線。電話は canonical 確定値を併記。
-	contactPoint: {
-		"@type": "ContactPoint",
-		contactType: "customer support",
-		telephone: WALC_ORGANIZATION.telephone,
-		email: WALC_ORGANIZATION.email,
-		url: "https://walc-visa.online/",
-		availableLanguage: ["ja"],
-	},
-};
+const ORIGIN = "https://walc-visa.online";
+const ORGANIZATION_ID = `${ORIGIN}/#organization`;
+const WEBSITE_ID = `${ORIGIN}/#website`;
+const WEBPAGE_ID = `${ORIGIN}/#webpage`;
+const SERVICE_ID = `${ORIGIN}/#visa-consulting`;
 
-/** 各 VISA カテゴリを Offer に変換 (recommended plan があればそれを優先) */
-function visaToOffer(cat: VisaCategory) {
-	const recommended = categoryRecommendedPlan(cat);
-	const minPrice = recommended?.walcFee ?? categoryFromPrice(cat);
-	if (minPrice == null) return null;
+function visaToOffer(category: VisaCategory) {
+	const recommended = categoryRecommendedPlan(category);
+	const price = recommended?.walcFee ?? categoryFromPrice(category);
+	if (price == null) return null;
+
 	return {
 		"@type": "Offer",
-		name: `${cat.shortName} (${cat.duration})`,
-		price: String(minPrice),
+		name: `${category.shortName} (${category.duration})`,
+		price: String(price),
 		priceCurrency: "THB",
-		description: cat.primaryDesc,
+		description: category.primaryDesc,
+		url: category.externalUrl ?? `${ORIGIN}/visas/${category.slug}`,
 	};
 }
 
-function buildProfessionalService(content: DtvPublicContent) {
-	return {
-		"@context": "https://schema.org",
-		"@type": "ProfessionalService",
-		name: "WALC VISA Consulting - タイ VISA 取得代行",
-		provider: ORG_BASE,
+function buildGraph(content: DtvPublicContent) {
+	const organization = {
+		"@type": ["Organization", "ProfessionalService"],
+		"@id": ORGANIZATION_ID,
+		name: "WALC VISA Consulting",
+		legalName: "WALC DESIGN Co., Ltd.",
+		url: ORIGIN,
+		logo: {
+			"@type": "ImageObject",
+			url: `${ORIGIN}/walc-visa-logo.png`,
+		},
+		foundingDate: "2021-08-27",
+		founder: {
+			"@type": "Person",
+			name: "小野寺 陽介",
+			alternateName: "Yosuke Onodera",
+		},
+		address: {
+			"@type": "PostalAddress",
+			streetAddress: "30 Sukhumvit 61, Wattana",
+			addressRegion: "Bangkok",
+			postalCode: "10110",
+			addressCountry: "TH",
+		},
+		email: WALC_ORGANIZATION.email,
+		telephone: WALC_ORGANIZATION.telephone,
+		...(WALC_ORGANIZATION.registrationNumber
+			? {
+					identifier: {
+						"@type": "PropertyValue",
+						propertyID: "TH-company-registration",
+						value: WALC_ORGANIZATION.registrationNumber,
+					},
+				}
+			: {}),
+		sameAs: ["https://dtv.walc-visa.online", "https://walc-consulting.com"],
+		contactPoint: {
+			"@type": "ContactPoint",
+			contactType: "customer support",
+			telephone: WALC_ORGANIZATION.telephone,
+			email: WALC_ORGANIZATION.email,
+			url: content.consultationUrl,
+			availableLanguage: ["ja"],
+		},
+	};
+
+	const website = {
+		"@type": "WebSite",
+		"@id": WEBSITE_ID,
+		url: ORIGIN,
+		name: "WALC VISA Consulting",
+		inLanguage: "ja-JP",
+		publisher: { "@id": ORGANIZATION_ID },
+	};
+
+	const webpage = {
+		"@type": "WebPage",
+		"@id": WEBPAGE_ID,
+		url: `${ORIGIN}/`,
+		name: "WALC VISA Consulting — タイVISA取得・運用の専門コンサルティング",
+		description:
+			"DTV、リタイアメント、Thailand Privilege、LTRなど、タイ長期VISAの申請から取得後まで日本語で伴走します。",
+		inLanguage: "ja-JP",
+		isPartOf: { "@id": WEBSITE_ID },
+		about: { "@id": SERVICE_ID },
+		primaryImageOfPage: {
+			"@type": "ImageObject",
+			url: `${ORIGIN}/images/AdobeStock_494541408.jpeg`,
+		},
+	};
+
+	const visaService = {
+		"@type": "Service",
+		"@id": SERVICE_ID,
+		name: "タイ長期VISA申請サポート",
 		serviceType:
-			"タイ長期 VISA 取得代行 (DTV / リタイア / Privilege / LTR / 結婚 / 学生)",
+			"タイ長期VISA申請サポート (DTV / リタイアメント / Privilege / LTR)",
+		provider: { "@id": ORGANIZATION_ID },
 		areaServed: { "@type": "Country", name: "Thailand" },
-		priceRange: `${formatTHB(45_000)} - ${formatTHB(5_000_000)}`,
+		url: `${ORIGIN}/`,
 		offers: [
 			...content.pricing.map((plan) => ({
 				"@type": "Offer",
-				name: `DTV ${plan.name}`,
+				name: `DTV ${plan.name} WALC申請サポート`,
 				price: String(plan.priceThb),
 				priceCurrency: "THB",
-				description: plan.audience,
+				description: `${plan.audience}。${content.fees.summary} ${content.fees.governmentFee.payee}へ${content.fees.governmentFee.paymentMethod}。`,
+				url: "https://dtv.walc-visa.online",
 			})),
 			visaToOffer(VISA_RETIREMENT),
 			visaToOffer(VISA_LTR),
 			visaToOffer(VISA_PRIVILEGE),
 		].filter((offer): offer is NonNullable<typeof offer> => offer !== null),
 	};
-}
 
-function buildFaqPage(content: DtvPublicContent) {
 	return {
 		"@context": "https://schema.org",
-		"@type": "FAQPage",
-		mainEntity: [
-			{
-				"@type": "Question",
-				name: "タイの長期 VISA はどんな種類がありますか?",
-				acceptedAnswer: {
-					"@type": "Answer",
-					text: "DTV (5 年マルチプル・WALC 第一推奨)・Thailand Privilege (5〜20 年)・LTR (10 年・税優遇)・NON-O リタイアメント (50 歳以上)・NON-O 結婚 / 家族・NON-ED 学生など。WALC では全種別に対応しております。",
-				},
-			},
-			{
-				"@type": "Question",
-				name: "DTV ビザの料金はいくらですか?",
-				acceptedAnswer: {
-					"@type": "Answer",
-					text: content.pricing
-						.map(
-							(plan) =>
-								`${plan.name} ${plan.priceThb.toLocaleString("en-US")} THB`,
-						)
-						.join("、"),
-				},
-			},
-			{
-				"@type": "Question",
-				name: "WALC の VISA 取得実績は?",
-				acceptedAnswer: {
-					"@type": "Answer",
-					text: `${content.trackRecord.display}の${content.trackRecord.label}があります。${content.trackRecord.disclaimer}`,
-				},
-			},
-			{
-				"@type": "Question",
-				name: "オーバーステイや入国拒否の相談もできますか?",
-				acceptedAnswer: {
-					"@type": "Answer",
-					text: "はい。WALC は VISA トラブル全般 (オーバーステイ・イミグレ拒否・アラート保有・ビザラン疲れ) に対応しております。LINE で 24 時間以内に初回応答いたします。",
-				},
-			},
-			{
-				"@type": "Question",
-				name: "タイ国内で銀行口座を開設したいです",
-				acceptedAnswer: {
-					"@type": "Answer",
-					text: "WALCではDTV取得者限定の銀行口座開設サポートをオプションで相談できます。開設可否は銀行等の判断と個別状況によるため保証されません。最新の対応状況と料金はLINEで個別にご確認ください。",
-				},
-			},
-		],
+		"@graph": [organization, website, webpage, visaService],
 	};
 }
 
-const WEBSITE = {
-	"@context": "https://schema.org",
-	"@type": "WebSite",
-	name: "WALC VISA Consulting - タイ VISA 取得・運用の専門コンサルティング",
-	url: "https://walc-visa.online",
-	publisher: ORG_BASE,
-	inLanguage: "ja-JP",
-};
-
-const LOCAL_BUSINESS = {
-	...ORG_BASE,
-	"@context": "https://schema.org",
-	"@type": "LocalBusiness",
-	priceRange: "฿13,000 - ฿5,000,000",
-	openingHoursSpecification: [
-		{
-			"@type": "OpeningHoursSpecification",
-			dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-			opens: "09:00",
-			closes: "18:00",
-		},
-	],
-};
-
-export async function StructuredData() {
-	const content = await getDtvPublicContent();
-	const schemas = [
-		buildProfessionalService(content),
-		buildFaqPage(content),
-		WEBSITE,
-		LOCAL_BUSINESS,
-	];
+export function MainStructuredData({
+	content,
+}: {
+	content: DtvPublicContent;
+}) {
 	return (
-		<>
-			{schemas.map((schema, i) => (
-				<script
-					// biome-ignore lint/suspicious/noArrayIndexKey: schemas は固定長・順序が安定
-					key={i}
-					type="application/ld+json"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は検証済み公開データのみ
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(schema),
-					}}
-				/>
-			))}
-		</>
+		<script
+			type="application/ld+json"
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: server-generated JSON-LD from validated public content
+			dangerouslySetInnerHTML={{
+				__html: JSON.stringify(buildGraph(content)).replace(/</g, "\\u003c"),
+			}}
+		/>
 	);
 }

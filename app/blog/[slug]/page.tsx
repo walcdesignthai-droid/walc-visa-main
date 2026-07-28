@@ -426,6 +426,17 @@ export default async function ArticlePage({
 									無料 VISA 適性診断
 									<ArrowRight className="h-4 w-4" />
 								</a>
+								{article.tags.includes("DTV") && (
+									<a
+										href={SITE_URLS.dtv}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white"
+									>
+										DTV申請サポートを見る
+										<ArrowRight className="h-4 w-4" />
+									</a>
+								)}
 							</div>
 						</section>
 					</article>

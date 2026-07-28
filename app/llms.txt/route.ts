@@ -38,7 +38,7 @@ function buildBlogSection(): string {
 		if (arts.length === 0) continue;
 		lines.push(`\n### ${CATEGORY_LABEL[cat]}`);
 		for (const a of arts) {
-			lines.push(`- ${a.title}: ${ORIGIN}${articleHref(a.slug)}`);
+			lines.push(`- [${a.title}](${ORIGIN}${articleHref(a.slug)})`);
 		}
 	}
 	return lines.join("\n");
@@ -58,10 +58,10 @@ export async function GET(): Promise<Response> {
 - 所在地: 30 Sukhumvit 61, Wattana, Bangkok 10110, Thailand
 - 法人設立: 2021-08-27(タイでの事業活動は 2020 年〜)
 - 対応言語: 日本語
-- サイト: https://walc-visa.online
+- [公式サイト](${ORIGIN})
 
 ## 提供サービス(取り扱い VISA カテゴリ)
-- DTV(Destination Thailand Visa): 5 年マルチプル / リモートワーカー・ソフトパワー領域向け。WALC 第一推奨。専門サイト: https://dtv.walc-visa.online
+- DTV(Destination Thailand Visa): 5 年マルチプル / リモートワーカー・ソフトパワー領域向け。WALC 第一推奨。[DTV専門サイト](https://dtv.walc-visa.online)
 - NON-O リタイアメント(50 歳以上)
 - Thailand Privilege(旧 Thailand Elite Visa)
 - LTR(Long-Term Resident Visa)
@@ -70,24 +70,31 @@ export async function GET(): Promise<Response> {
 - 空港イミグレ入国サポート: 現在、新規受付を一時停止中
 - 各 VISA の最新料金・条件はサイト本体および各 VISA ページに記載。
 
+## DTV料金の区分
+- ${content.fees.summary}
+- 政府申請費の支払先: ${content.fees.governmentFee.payee}
+- 支払方法: ${content.fees.governmentFee.paymentMethod}
+- 日本申請の確認済み参考額: ${content.fees.governmentFee.japan.amount.toLocaleString("ja-JP")} ${content.fees.governmentFee.japan.currency} (${content.fees.governmentFee.japan.reviewedAt}確認)
+- 申請先により金額が異なるため、必ず申請先の最新案内を確認してください。
+
 ## 実績(自社実績)
 - ${content.trackRecord.label}: ${content.trackRecord.display}。
 - 対象範囲: ${content.trackRecord.scope}。
 - ${content.trackRecord.disclaimer}
 
 ## 主要ページ
-- トップ: https://walc-visa.online/
-- LTR(Long-Term Resident)Visa: https://walc-visa.online/visas/ltr
-- リタイアメント(NON-O)Visa: https://walc-visa.online/visas/retirement
-- 入国・イミグレ緊急サポート(入国拒否/別室/オーバーステイ/強制送還の相談): https://walc-visa.online/immigration-support
-- DTV 専門サイト: https://dtv.walc-visa.online
-- DTV 取得者ガイド: ${content.guideUrl}
+- [トップ](${ORIGIN}/)
+- [LTR Visa](${ORIGIN}/visas/ltr)
+- [リタイアメント Visa](${ORIGIN}/visas/retirement)
+- [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
+- [DTV専門サイト](https://dtv.walc-visa.online)
+- [DTV取得者ガイド](${content.guideUrl})
 
 ## ガイド記事(ブログ / 事実ベース解説・一次出典付き)
 ${blogSection}
 
 ## 連絡
-- LINE 無料相談: ${content.consultationUrl}
+- [LINE無料相談](${content.consultationUrl})
 `;
 
 	return new Response(body, {

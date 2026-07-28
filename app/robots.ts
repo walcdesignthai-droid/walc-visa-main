@@ -10,13 +10,13 @@ import type { MetadataRoute } from "next";
 const BASE_URL = "https://walc-visa.online";
 
 export default function robots(): MetadataRoute.Robots {
-	const aiCrawlerDisallow = ["/api/", "/_next/"];
+	const aiCrawlerDisallow = ["/api/"];
 	return {
 		rules: [
 			{
 				userAgent: "*",
 				allow: "/",
-				disallow: ["/api/", "/_next/"],
+				disallow: ["/api/"],
 			},
 			// AI クローラー(LLMO: 引用獲得目的で明示許可)
 			// User-Agent 名は 2026-05 時点で WebSearch verify 済(クローラ名も変化するため要再確認)。
