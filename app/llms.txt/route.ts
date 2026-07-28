@@ -72,10 +72,10 @@ export async function GET(): Promise<Response> {
 
 ## DTV料金の区分
 - ${content.fees.summary}
-- 政府申請費の支払先: ${content.fees.governmentFee.payee}
-- 支払方法: ${content.fees.governmentFee.paymentMethod}
-- 日本申請の確認済み参考額: ${content.fees.governmentFee.japan.amount.toLocaleString("ja-JP")} ${content.fees.governmentFee.japan.currency} (${content.fees.governmentFee.japan.reviewedAt}確認)
-- 申請先により金額が異なるため、必ず申請先の最新案内を確認してください。
+- 各プランの表示料金には、${content.fees.governmentFee.payee}への申請費用と標準の書類作成サポートが含まれます。
+- タイソフトパワーには、ムエタイ学校費と対象期間の宿泊施設費も含まれます。
+- ${content.fees.postAcquisitionNotice}
+- ${content.fees.additionalCostNotice}
 
 ## 実績(自社実績)
 - ${content.trackRecord.label}: ${content.trackRecord.display}。

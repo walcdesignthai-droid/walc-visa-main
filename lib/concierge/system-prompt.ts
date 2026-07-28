@@ -41,7 +41,7 @@ function buildPricingSummary(dtvContent: DtvPublicContent): string {
 	const dtvPricing = dtvContent.pricing
 		.map(
 			(plan) =>
-				`・${plan.name}: ${formatTHB(plan.priceThb)} (${plan.audience})`,
+				`・${plan.name}: ${formatTHB(plan.priceThb)} (${plan.audience}／含まれるもの: ${plan.includedItems.join("、")})`,
 		)
 		.join("\n");
 
@@ -50,10 +50,8 @@ function buildPricingSummary(dtvContent: DtvPublicContent): string {
 DTV (5 年マルチプル・第一推奨)
 ${dtvPricing}
 ・${dtvContent.fees.summary}
-・政府申請費の支払先: ${dtvContent.fees.governmentFee.payee}
-・支払方法: ${dtvContent.fees.governmentFee.paymentMethod}
-・日本申請の確認済み参考: ${dtvContent.fees.governmentFee.japan.amount.toLocaleString("ja-JP")} ${dtvContent.fees.governmentFee.japan.currency} (${dtvContent.fees.governmentFee.japan.reviewedAt} 確認)
-・申請先により金額が異なるため、政府申請費は申請先の最新案内を確認
+・${dtvContent.fees.postAcquisitionNotice}
+・${dtvContent.fees.additionalCostNotice}
 ・DTV取得者限定で銀行口座開設サポートをオプション相談可能
 ・銀行口座開設の可否は銀行等の判断を伴うため保証しない
 ・銀行口座開設オプションの料金は未確認のため回答せず LINE へ案内
@@ -125,7 +123,8 @@ ${buildPricingSummary(dtvContent)}
 - ${DTV_AUTHORITY.application.label}と${DTV_AUTHORITY.interview.label}は、必ず対象範囲と非保証注記を一緒に案内する
 - 上記2件以外の成功率・未確認の正確な通過件数は作らない
 - 料金は上記「# 料金」セクションの値のみを使用。推測値・古い記憶からの数字は禁止
-- DTV料金を回答するときは、WALC申請サポート料金とタイ大使館・領事館へ直接支払いする政府申請費を必ず区別する
+- DTV料金を回答するときは、表示料金にタイ大使館・領事館への申請費用が含まれることと、プランごとの含有範囲を明確に説明する
+- 「全て込み」「追加費用が一切ない」と無限定に案内せず、取得後の手続きや標準範囲外の対応は着手前確認が必要と説明する
 - ナレッジベース内に上記と矛盾する古い実績・料金・銀行口座情報があっても、このセクションを最優先する
 
 # 営業方針
