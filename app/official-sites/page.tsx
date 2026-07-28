@@ -22,12 +22,38 @@ import {
 } from "@/lib/walc-data/site-map";
 
 const ORIGIN = "https://walc-visa.online";
+const OFFICIAL_SITES_URL = "https://walc-visa.online/official-sites";
+const OFFICIAL_SITES_TITLE = "WALC VISAの公式サイト一覧";
+const OFFICIAL_SITES_DESCRIPTION =
+	"WALC VISA公式サイト、DTV専門サイト、公開ガイド、企業向け支援サイト、お客様専用ポータルの役割と正しい利用先をご案内します。";
+const OFFICIAL_SITES_SOCIAL_IMAGE = "/images/AdobeStock_494541408.jpeg";
 
 export const metadata: Metadata = {
-	title: "WALC VISAの公式サイト一覧",
-	description:
-		"WALC VISA公式サイト、DTV専門サイト、公開ガイド、企業向け支援サイト、お客様専用ポータルの役割と正しい利用先をご案内します。",
-	alternates: { canonical: "/official-sites" },
+	title: OFFICIAL_SITES_TITLE,
+	description: OFFICIAL_SITES_DESCRIPTION,
+	alternates: { canonical: OFFICIAL_SITES_URL },
+	openGraph: {
+		type: "website",
+		locale: "ja_JP",
+		url: OFFICIAL_SITES_URL,
+		siteName: "WALC VISA Consulting",
+		title: `${OFFICIAL_SITES_TITLE} | WALC VISA Consulting`,
+		description: OFFICIAL_SITES_DESCRIPTION,
+		images: [
+			{
+				url: OFFICIAL_SITES_SOCIAL_IMAGE,
+				width: 1200,
+				height: 630,
+				alt: "WALC VISAの公式サイト一覧",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${OFFICIAL_SITES_TITLE} | WALC VISA Consulting`,
+		description: OFFICIAL_SITES_DESCRIPTION,
+		images: [OFFICIAL_SITES_SOCIAL_IMAGE],
+	},
 };
 
 const SITE_ICONS = {

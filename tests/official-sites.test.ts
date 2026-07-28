@@ -33,8 +33,17 @@ describe("official WALC site directory", () => {
 
 		expect(footer).toContain('href: "/official-sites"');
 		expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/official-sites`/);
-		expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/immigration-support`/);
+		expect(sitemap).not.toMatch(/url: `\$\{BASE_URL\}\/immigration-support`/);
 		expect(llms).toContain("[WALC公式サイト一覧]");
 		expect(llms).toMatch(/\$\{ORIGIN\}\/official-sites/);
+	});
+
+	it("publishes a page-specific social URL", async () => {
+		const page = await read("app/official-sites/page.tsx");
+
+		expect(page).toContain("const OFFICIAL_SITES_URL");
+		expect(page).toContain('"https://walc-visa.online/official-sites"');
+		expect(page).toContain("alternates: { canonical: OFFICIAL_SITES_URL }");
+		expect(page).toContain("url: OFFICIAL_SITES_URL");
 	});
 });
