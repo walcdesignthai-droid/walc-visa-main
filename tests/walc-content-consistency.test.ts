@@ -183,7 +183,7 @@ describe("WALC VISA public content consistency", () => {
 		]);
 
 		expect(`${pillar}\n${comparison}`).not.toContain("申請費込み");
-		expect(articlePage).toContain('article.tags.includes("DTV")');
+		expect(articlePage).toContain('article.tags?.includes("DTV")');
 		expect(articlePage).toContain("SITE_URLS.dtv");
 	});
 

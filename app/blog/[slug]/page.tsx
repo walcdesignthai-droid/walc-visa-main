@@ -426,7 +426,7 @@ export default async function ArticlePage({
 									無料 VISA 適性診断
 									<ArrowRight className="h-4 w-4" />
 								</a>
-								{article.tags.includes("DTV") && (
+								{article.tags?.includes("DTV") && (
 									<a
 										href={SITE_URLS.dtv}
 										target="_blank"

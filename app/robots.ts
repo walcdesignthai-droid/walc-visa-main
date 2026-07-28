@@ -26,7 +26,11 @@ export default function robots(): MetadataRoute.Robots {
 			{ userAgent: "ChatGPT-User", allow: "/", disallow: aiCrawlerDisallow }, // user
 			// Anthropic
 			{ userAgent: "ClaudeBot", allow: "/", disallow: aiCrawlerDisallow }, // training
-			{ userAgent: "Claude-SearchBot", allow: "/", disallow: aiCrawlerDisallow }, // search
+			{
+				userAgent: "Claude-SearchBot",
+				allow: "/",
+				disallow: aiCrawlerDisallow,
+			}, // search
 			{ userAgent: "Claude-User", allow: "/", disallow: aiCrawlerDisallow }, // user
 			{ userAgent: "anthropic-ai", allow: "/", disallow: aiCrawlerDisallow }, // legacy
 			// Perplexity

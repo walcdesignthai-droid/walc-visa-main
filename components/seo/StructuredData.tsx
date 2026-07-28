@@ -138,11 +138,7 @@ function buildGraph(content: DtvPublicContent) {
 	};
 }
 
-export function MainStructuredData({
-	content,
-}: {
-	content: DtvPublicContent;
-}) {
+export function MainStructuredData({ content }: { content: DtvPublicContent }) {
 	return (
 		<script
 			type="application/ld+json"
