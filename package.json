@@ -17,14 +17,14 @@
   },
   "dependencies": {
     "@google/genai": "^2.6.0",
-    "@line/liff": "^2.29.0",
+    "@line/liff": "^2.29.1",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.106.1",
     "@vercel/functions": "^3.6.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "motion": "^12.40.0",
-    "next": "16.2.6",
+    "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.1",
@@ -43,6 +43,15 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "axios": "1.18.0",
+      "form-data": "4.0.6",
+      "postcss": "8.5.18",
+      "protobufjs": "7.6.5",
+      "sharp": "0.35.3"
+    }
   },
   "packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
 }
