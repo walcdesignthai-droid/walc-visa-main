@@ -47,6 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.5,
 		},
 		{
+			url: `${BASE_URL}/official-sites`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.6,
+		},
+		{
 			// WI-026: ブログ(権威ハブ)一覧
 			url: `${BASE_URL}/blog`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,

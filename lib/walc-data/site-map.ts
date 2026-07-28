@@ -65,6 +65,70 @@ export interface NavLink {
 	highlight?: boolean;
 }
 
+export interface OfficialSiteEntry {
+	id: "main" | "dtv" | "guide" | "corporate" | "portal";
+	name: string;
+	url: string;
+	role: string;
+	audience: string;
+	badge: string;
+	publicInformation: boolean;
+}
+
+/**
+ * WALC VISA の公式サイト体系。
+ *
+ * 検索・AI・利用者に各サイトの役割を同じ表現で伝えるための正本。
+ * 社内 CRM は公開ディレクトリへ掲載しない。
+ */
+export const OFFICIAL_SITE_DIRECTORY: readonly OfficialSiteEntry[] = [
+	{
+		id: "main",
+		name: "WALC VISA 公式サイト",
+		url: SITE_URLS.main,
+		role: "運営情報とVISAサービス全体の第一正本",
+		audience: "WALCの運営者、サービス、公式見解を確認したい方",
+		badge: "公式本体",
+		publicInformation: true,
+	},
+	{
+		id: "dtv",
+		name: "DTV VISA 専門サイト",
+		url: SITE_URLS.dtv,
+		role: "DTVの条件・料金・実績・相談をまとめた専門LP",
+		audience: "DTVの取得方法を比較し、申請相談をしたい方",
+		badge: "DTV専門",
+		publicInformation: true,
+	},
+	{
+		id: "guide",
+		name: "WALC VISA 公開ガイド",
+		url: "https://guide.walc-visa.online",
+		role: "必要書類と申請実務を確認するための公開ガイド",
+		audience: "申請前後の準備内容を具体的に確認したい方",
+		badge: "実務ガイド",
+		publicInformation: true,
+	},
+	{
+		id: "corporate",
+		name: "WALC タイ進出・法人支援",
+		url: SITE_URLS.corporate,
+		role: "法人設立・会計・税務・事業支援の企業向け窓口",
+		audience: "タイでの法人設立や事業運営を検討している企業・経営者",
+		badge: "法人向け",
+		publicInformation: true,
+	},
+	{
+		id: "portal",
+		name: "WALC お客様専用ポータル",
+		url: SITE_URLS.portal,
+		role: "申込後の進捗確認と追加書類提出を行う顧客専用画面",
+		audience: "WALCへ申込済みのお客様",
+		badge: "顧客専用",
+		publicInformation: false,
+	},
+] as const;
+
 /** Header メインナビ */
 export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },

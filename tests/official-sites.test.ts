@@ -32,8 +32,8 @@ describe("official WALC site directory", () => {
 		]);
 
 		expect(footer).toContain('href: "/official-sites"');
-		expect(sitemap).toContain('url: `${BASE_URL}/official-sites`');
+		expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/official-sites`/);
 		expect(llms).toContain("[WALC公式サイト一覧]");
-		expect(llms).toContain("${ORIGIN}/official-sites");
+		expect(llms).toMatch(/\$\{ORIGIN\}\/official-sites/);
 	});
 });
