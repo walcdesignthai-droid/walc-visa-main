@@ -25,7 +25,7 @@ import {
 } from "@/lib/walc-data/eeat";
 
 export const metadata: Metadata = {
-	title: "運営責任者 小野寺 陽介 | WALC VISA Consulting",
+	title: "運営責任者 小野寺 陽介",
 	description:
 		"WALC VISA Consulting 運営責任者・小野寺 陽介(WALC DESIGN Co., Ltd. 代表取締役)のプロフィール。タイ長期 VISA の取得・運用コンサルティングを統括。",
 	alternates: { canonical: "/author/yosuke-onodera" },
