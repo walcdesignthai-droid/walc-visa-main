@@ -40,12 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.9,
 		},
 		{
-			url: `${BASE_URL}/immigration-support`,
-			lastModified: CORE_CONTENT_LAST_MODIFIED,
-			changeFrequency: "monthly",
-			priority: 0.8,
-		},
-		{
 			// WI-031: 著者 / 運営責任者ページ (E-E-A-T)
 			url: `${BASE_URL}/author/yosuke-onodera`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,
@@ -53,17 +47,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.5,
 		},
 		{
-			url: `${BASE_URL}/official-sites`,
-			lastModified: CORE_CONTENT_LAST_MODIFIED,
-			changeFrequency: "monthly",
-			priority: 0.6,
-		},
-		{
 			// WI-026: ブログ(権威ハブ)一覧
 			url: `${BASE_URL}/blog`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,
 			changeFrequency: "weekly",
 			priority: 0.7,
+		},
+		{
+			url: `${BASE_URL}/immigration-support`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.8,
+		},
+		{
+			url: `${BASE_URL}/official-sites`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.6,
 		},
 		...blogEntries,
 	];
