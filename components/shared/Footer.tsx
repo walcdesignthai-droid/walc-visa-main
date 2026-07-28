@@ -33,6 +33,7 @@ const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
 	{ href: "/#consult", label: "AI コンシェルジュ + 無料相談" },
 	{ href: "/#company-info", label: "会社概要" },
+	{ href: "/reviews/transparency", label: "お客様の声・レビュー掲載方針" },
 ];
 
 export function Footer() {
@@ -160,7 +161,8 @@ export function Footer() {
 
 				<div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 					<p className="text-xs text-white/50">
-						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA Consulting. All rights reserved.
+						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA
+						Consulting. All rights reserved.
 					</p>
 					<div className="flex items-center gap-4 text-xs text-white/50">
 						<a
