@@ -135,11 +135,18 @@ describe("WALC VISA public content consistency", () => {
 		expect(content).toContain("supportFeeIncludesGovernmentFee");
 		expect(content).toContain("governmentFee");
 		expect(content).toContain("reviewedAt");
-		expect(pricing).toContain("govFeeIncluded: false");
-		expect(pricing).not.toContain("申請費・政府費用込み");
+		expect(content).toContain("supportFeeIncludesGovernmentFee: true");
+		expect(content).toContain("includedInDisplayedPrice: true");
+		expect(content).toContain("includedItems");
+		expect(
+			pricing.match(
+				/id: "dtv-(?:soft-power|nomad|freelance)"[\s\S]{0,220}?govFeeIncluded: true/g,
+			),
+		).toHaveLength(3);
 		expect(combined).toContain("content.fees");
 		expect(combined).toContain("タイ大使館・領事館");
-		expect(combined).toContain("直接支払い");
+		expect(combined).not.toContain("直接支払い");
+		expect(combined).not.toContain("申請費用は含まれません");
 	});
 
 	it("keeps home structured data page-specific and linked", async () => {
@@ -175,14 +182,16 @@ describe("WALC VISA public content consistency", () => {
 		expect(llms).toContain("content.fees");
 	});
 
-	it("removes obsolete included-fee copy and links DTV articles to the specialist site", async () => {
+	it("publishes included-fee copy and links DTV articles to the specialist site", async () => {
 		const [pillar, comparison, articlePage] = await Promise.all([
 			read("lib/blog/dtv-pillar.ts"),
 			read("lib/blog/dtv-diy-vs-agency.ts"),
 			read("app/blog/[slug]/page.tsx"),
 		]);
 
-		expect(`${pillar}\n${comparison}`).not.toContain("申請費込み");
+		expect(`${pillar}\n${comparison}`).toContain(
+			"VERIFIED_DTV_FALLBACK.fees.summary",
+		);
 		expect(articlePage).toContain('article.tags?.includes("DTV")');
 		expect(articlePage).toContain("SITE_URLS.dtv");
 	});

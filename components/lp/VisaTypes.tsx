@@ -318,9 +318,6 @@ function VisaCard({
 						{isDtv && (
 							<p className="mt-3 text-[11px] leading-relaxed text-white/75">
 								{content.fees.summary}
-								<br />
-								{content.fees.governmentFee.payee}へ
-								{content.fees.governmentFee.paymentMethod}です。
 							</p>
 						)}
 					</>

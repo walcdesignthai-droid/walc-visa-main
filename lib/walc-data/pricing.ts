@@ -71,30 +71,29 @@ export const VISA_DTV: VisaCategory = {
 	recommended: true,
 	bankAccountAvailable: false, // DTV取得者限定オプション。可否は個別確認のため UI は「要確認」
 	primaryDesc:
-		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。表示料金はWALC申請サポート料金です。",
+		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。表示料金は大使館・領事館への申請費用を含む総額です。",
 	plans: [
 		{
 			id: "dtv-soft-power",
 			label: "タイソフトパワー (ムエタイ)",
 			walcFee: 60_000,
-			govFeeIncluded: false,
-			notes:
-				"申請サポート料金。大使館・領事館申請費用と活動先等の追加費用は別途ご案内",
+			govFeeIncluded: true,
+			notes: "申請費・書類作成・ムエタイ学校費・対象期間の宿泊施設費込み",
 			recommended: true,
 		},
 		{
 			id: "dtv-nomad",
 			label: "ワーケーション (ノマド)",
 			walcFee: 45_000,
-			govFeeIncluded: false,
-			notes: "書類作成・申請サポート料金。大使館・領事館申請費用は別途",
+			govFeeIncluded: true,
+			notes: "申請費・書類作成サポート込み",
 		},
 		{
 			id: "dtv-freelance",
 			label: "ワーケーション (フリーランス)",
 			walcFee: 48_000,
-			govFeeIncluded: false,
-			notes: "書類作成・申請サポート料金。大使館・領事館申請費用は別途",
+			govFeeIncluded: true,
+			notes: "申請費・書類作成サポート込み",
 		},
 	],
 	bookingNote: "DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。",

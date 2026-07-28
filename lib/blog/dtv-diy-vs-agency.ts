@@ -72,7 +72,7 @@ export const DTV_DIY_VS_AGENCY: Article = {
 			items: [
 				"書類整備・英文対応・申請までを WALC がサポート",
 				"タイ宿泊証明やソフトパワーのアクティビティ証明など、WALC で用意できる書類がある",
-				`WALC 申請サポート料金: ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}。${FEE_SUMMARY}`,
+				`WALC 表示料金: ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}。${FEE_SUMMARY}`,
 				"申請区分別の追加書類や個別事情への対応を個別に案内",
 			],
 		},
@@ -103,8 +103,8 @@ export const DTV_DIY_VS_AGENCY: Article = {
 				"書類整備・英文対応・申請サポートに加え、宿泊証明やアクティビティ証明など WALC で用意できる書類があります。申請区分別の追加書類にも個別に対応します。",
 		},
 		{
-			question: "WALC の手数料はいくらですか?",
-			answer: `申請サポート料金は、ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}です。${FEE_SUMMARY}`,
+			question: "WALC の表示料金はいくらですか?",
+			answer: `表示料金は、ノマド ${FEE_NOMAD} / フリーランス ${FEE_FREELANCE} / ソフトパワー ${FEE_SOFT_POWER}です。${FEE_SUMMARY}`,
 		},
 		{
 			question: "自分で申請するか迷っています",

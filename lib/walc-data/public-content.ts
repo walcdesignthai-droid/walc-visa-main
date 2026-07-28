@@ -27,25 +27,18 @@ const DtvContentSchema = z.object({
 				name: z.string().min(1),
 				audience: z.string().min(1),
 				priceThb: z.number().int().positive(),
+				includedItems: z.array(z.string().min(1)).min(1),
 			}),
 		),
 		fees: z.object({
-			supportFeeIncludesGovernmentFee: z.literal(false),
+			supportFeeIncludesGovernmentFee: z.literal(true),
 			summary: z.string().min(1),
+			postAcquisitionNotice: z.string().min(1),
+			additionalCostNotice: z.string().min(1),
 			governmentFee: z.object({
 				payee: z.string().min(1),
-				paymentMethod: z.string().min(1),
+				includedInDisplayedPrice: z.literal(true),
 				variesByApplicationPost: z.boolean(),
-				japan: z.object({
-					amount: z.number().int().positive(),
-					currency: z.literal("JPY"),
-					reviewedAt: z.string().date(),
-				}),
-				thbReference: z.object({
-					amount: z.number().int().positive(),
-					currency: z.literal("THB"),
-					label: z.string().min(1),
-				}),
 				sourceUrl: z.string().url(),
 			}),
 		}),
@@ -93,38 +86,40 @@ export const VERIFIED_DTV_FALLBACK: DtvPublicContent = {
 			name: "タイソフトパワー",
 			audience: "ムエタイ・タイ料理など、タイ文化活動を目的とする方",
 			priceThb: 60_000,
+			includedItems: [
+				"タイ大使館・領事館への申請費用",
+				"書類作成サポート",
+				"ムエタイ学校費",
+				"対象期間の宿泊施設費",
+			],
 		},
 		{
 			id: "nomad",
 			name: "ワーケーション（ノマド・会社員）",
 			audience: "海外企業の仕事をタイからリモートで行う方",
 			priceThb: 45_000,
+			includedItems: ["タイ大使館・領事館への申請費用", "書類作成サポート"],
 		},
 		{
 			id: "freelance",
 			name: "ワーケーション（フリーランス）",
 			audience: "海外顧客との取引や実績を証明できる個人事業主",
 			priceThb: 48_000,
+			includedItems: ["タイ大使館・領事館への申請費用", "書類作成サポート"],
 		},
 	],
 	fees: {
-		supportFeeIncludesGovernmentFee: false,
+		supportFeeIncludesGovernmentFee: true,
 		summary:
-			"表示料金はWALCの申請サポート料金です。タイ大使館・領事館へ支払う申請費用は含まれません。",
+			"表示料金は、タイ大使館・領事館へ支払う申請費用を含む総額です。標準の申請サポートも含みます。",
+		postAcquisitionNotice:
+			"DTV取得後に発生する延長・再入国許可・90日報告などの手続きは、必要に応じて別途ご案内します。",
+		additionalCostNotice:
+			"標準範囲外の翻訳・公証・追加書類・個別対応が必要な場合は、着手前に内容と費用をご案内します。",
 		governmentFee: {
 			payee: "タイ大使館・領事館",
-			paymentMethod: "申請者が申請先へ直接支払い",
+			includedInDisplayedPrice: true,
 			variesByApplicationPost: true,
-			japan: {
-				amount: 52_000,
-				currency: "JPY",
-				reviewedAt: "2026-07-28",
-			},
-			thbReference: {
-				amount: 10_000,
-				currency: "THB",
-				label: "制度上の参考額",
-			},
 			sourceUrl:
 				"https://image.mfa.go.th/mfa/0/RzaiZWKBzF/consular/Visa/18.Destination_Thailand_Visa_%28DTV%29.pdf",
 		},
