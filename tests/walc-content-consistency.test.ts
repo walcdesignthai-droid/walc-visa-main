@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { buildMainStructuredDataGraph } from "../lib/walc-data/structured-data";
 import type { DtvPublicContent } from "../lib/walc-data/public-content";
+import { buildMainStructuredDataGraph } from "../lib/walc-data/structured-data";
 
 const ROOT = resolve(import.meta.dirname, "..");
 
@@ -15,8 +15,7 @@ const DTV_CONTENT_FIXTURE = {
 		display: "200件以上",
 		label: "DTV申請通過実績",
 		scope: "WALC VISA Consultingの申請サポート実績",
-		disclaimer:
-			"過去の実績であり、将来の取得を保証するものではありません。",
+		disclaimer: "過去の実績であり、将来の取得を保証するものではありません。",
 	},
 	pricing: [
 		{
@@ -213,14 +212,16 @@ describe("WALC VISA public content consistency", () => {
 	});
 
 	it("keeps home structured data page-specific and linked", async () => {
-		const [layout, page, structured] = await Promise.all([
+		const [layout, page, component, structured] = await Promise.all([
 			read("app/layout.tsx"),
 			read("app/page.tsx"),
 			read("components/seo/StructuredData.tsx"),
+			read("lib/walc-data/structured-data.ts"),
 		]);
 
 		expect(layout).not.toContain("<StructuredData");
 		expect(page).toContain("<MainStructuredData content={content}");
+		expect(component).toContain("buildMainStructuredDataGraph(content)");
 		expect(structured).toContain('"@graph"');
 		expect(structured).toContain('"@id"');
 		expect(structured).not.toContain("https://crm.walc-visa.online");
