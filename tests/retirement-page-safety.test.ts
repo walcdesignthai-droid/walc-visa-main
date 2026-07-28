@@ -29,4 +29,15 @@ describe("retirement page public claims", () => {
 			"銀行口座の開設可否は、各金融機関の審査・運用により決まります。",
 		);
 	});
+
+	it("lets the root metadata template append the site name once", async () => {
+		const source = await readFile(PAGE_PATH, "utf8");
+
+		expect(source).toContain(
+			'title: "リタイアメント VISA(NON-O / 50 歳以上)",',
+		);
+		expect(source).not.toContain(
+			'title: "リタイアメント VISA(NON-O / 50 歳以上)| WALC VISA Consulting",',
+		);
+	});
 });
