@@ -12,7 +12,6 @@ import {
 	Noto_Sans_JP,
 	Plus_Jakarta_Sans,
 } from "next/font/google";
-import { StructuredData } from "@/components/seo/StructuredData";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -110,10 +109,6 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 			lang="ja"
 			className={`${jakarta.variable} ${notoSansJp.variable} ${cormorant.variable} h-full antialiased`}
 		>
-			<head>
-				{/* SEO 構造化データ (JSON-LD) — ProfessionalService / FAQPage / WebSite / LocalBusiness */}
-				<StructuredData />
-			</head>
 			<body className="min-h-full flex flex-col bg-bg-primary text-text-primary">
 				{children}
 			</body>

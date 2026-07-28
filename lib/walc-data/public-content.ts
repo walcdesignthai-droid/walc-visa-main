@@ -29,6 +29,27 @@ const DtvContentSchema = z.object({
 				priceThb: z.number().int().positive(),
 			}),
 		),
+		fees: z.object({
+			supportFeeIncludesGovernmentFee: z.literal(false),
+			summary: z.string().min(1),
+			governmentFee: z.object({
+				payee: z.string().min(1),
+				paymentMethod: z.string().min(1),
+				variesByApplicationPost: z.boolean(),
+				japan: z.object({
+					amount: z.number().int().positive(),
+					currency: z.literal("JPY"),
+					reviewedAt: z.string().date(),
+				}),
+				thbReference: z.object({
+					amount: z.number().int().positive(),
+					currency: z.literal("THB"),
+					label: z.string().min(1),
+				}),
+				sourceUrl: z.string().url(),
+			}),
+		}),
+		reviewedAt: z.string().date(),
 		guideUrl: z.string().url(),
 		consultationUrl: z.string().url(),
 		applicationStatus: z.literal("line_first"),
@@ -86,6 +107,29 @@ export const VERIFIED_DTV_FALLBACK: DtvPublicContent = {
 			priceThb: 48_000,
 		},
 	],
+	fees: {
+		supportFeeIncludesGovernmentFee: false,
+		summary:
+			"表示料金はWALCの申請サポート料金です。タイ大使館・領事館へ支払う申請費用は含まれません。",
+		governmentFee: {
+			payee: "タイ大使館・領事館",
+			paymentMethod: "申請者が申請先へ直接支払い",
+			variesByApplicationPost: true,
+			japan: {
+				amount: 52_000,
+				currency: "JPY",
+				reviewedAt: "2026-07-28",
+			},
+			thbReference: {
+				amount: 10_000,
+				currency: "THB",
+				label: "制度上の参考額",
+			},
+			sourceUrl:
+				"https://image.mfa.go.th/mfa/0/RzaiZWKBzF/consular/Visa/18.Destination_Thailand_Visa_%28DTV%29.pdf",
+		},
+	},
+	reviewedAt: "2026-07-28",
 	guideUrl: "https://guide.walc-visa.online/guide/dtv/owner",
 	consultationUrl: "https://lin.ee/PGFYVNZ",
 	applicationStatus: "line_first",

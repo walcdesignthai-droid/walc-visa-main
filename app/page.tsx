@@ -17,6 +17,7 @@ import { TroubleSupport } from "@/components/lp/TroubleSupport";
 import { TrustStrip } from "@/components/lp/TrustStrip";
 import { VisaTypes } from "@/components/lp/VisaTypes";
 import { WhyWalc } from "@/components/lp/WhyWalc";
+import { MainStructuredData } from "@/components/seo/StructuredData";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
@@ -26,11 +27,12 @@ export default async function HomePage() {
 
 	return (
 		<>
+			<MainStructuredData content={content} />
 			<Header />
 			<main className="flex-1 pt-16 md:pt-20">
 				<Hero />
 				<TrustStrip />
-				<VisaTypes dtvPricing={content.pricing} />
+				<VisaTypes content={content} />
 				<TroubleSupport />
 				<ConsultBlock />
 				<WhyWalc />

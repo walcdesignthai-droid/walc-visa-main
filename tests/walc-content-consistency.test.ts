@@ -119,4 +119,79 @@ describe("WALC VISA public content consistency", () => {
 		expect(knowledge).not.toContain("DTVでは銀行口座を開設できなくなりました");
 		expect(knowledge).not.toContain("空港サポート必須");
 	});
+
+	it("publishes one explicit DTV fee contract across the main site and AI", async () => {
+		const [content, pricing, visaTypes, prompt, fallback, structured] =
+			await Promise.all([
+				read("lib/walc-data/public-content.ts"),
+				read("lib/walc-data/pricing.ts"),
+				read("components/lp/VisaTypes.tsx"),
+				read("lib/concierge/system-prompt.ts"),
+				read("lib/concierge/fallback.ts"),
+				read("components/seo/StructuredData.tsx"),
+			]);
+		const combined = `${visaTypes}\n${prompt}\n${fallback}\n${structured}`;
+
+		expect(content).toContain("supportFeeIncludesGovernmentFee");
+		expect(content).toContain("governmentFee");
+		expect(content).toContain("reviewedAt");
+		expect(pricing).toContain("govFeeIncluded: false");
+		expect(pricing).not.toContain("申請費・政府費用込み");
+		expect(combined).toContain("content.fees");
+		expect(combined).toContain("タイ大使館・領事館");
+		expect(combined).toContain("直接支払い");
+	});
+
+	it("keeps home structured data page-specific and linked", async () => {
+		const [layout, page, structured] = await Promise.all([
+			read("app/layout.tsx"),
+			read("app/page.tsx"),
+			read("components/seo/StructuredData.tsx"),
+		]);
+
+		expect(layout).not.toContain("<StructuredData");
+		expect(page).toContain("<MainStructuredData content={content}");
+		expect(structured).toContain('"@graph"');
+		expect(structured).toContain('"@id"');
+		expect(structured).not.toContain("https://crm.walc-visa.online");
+	});
+
+	it("keeps crawlable assets and truthful sitemap dates", async () => {
+		const [robots, sitemap] = await Promise.all([
+			read("app/robots.ts"),
+			read("app/sitemap.ts"),
+		]);
+
+		expect(robots).not.toContain('"/_next/"');
+		expect(sitemap).toContain("CORE_CONTENT_LAST_MODIFIED");
+		expect(sitemap).not.toContain("new Date()");
+	});
+
+	it("uses Markdown links and fee semantics in llms.txt", async () => {
+		const llms = await read("app/llms.txt/route.ts");
+
+		expect(llms).toContain("[DTV専門サイト]");
+		expect(llms).toContain("[LINE無料相談]");
+		expect(llms).toContain("content.fees");
+	});
+
+	it("removes obsolete included-fee copy and links DTV articles to the specialist site", async () => {
+		const [pillar, comparison, articlePage] = await Promise.all([
+			read("lib/blog/dtv-pillar.ts"),
+			read("lib/blog/dtv-diy-vs-agency.ts"),
+			read("app/blog/[slug]/page.tsx"),
+		]);
+
+		expect(`${pillar}\n${comparison}`).not.toContain("申請費込み");
+		expect(articlePage).toContain('article.tags?.includes("DTV")');
+		expect(articlePage).toContain("SITE_URLS.dtv");
+	});
+
+	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
+		const paymentsRoute = await read("app/payments/route.ts");
+
+		expect(paymentsRoute).toContain("status: 410");
+		expect(paymentsRoute).toContain('"X-Robots-Tag": "noindex, nofollow"');
+		expect(paymentsRoute).toContain('"Cache-Control": "no-store"');
+	});
 });

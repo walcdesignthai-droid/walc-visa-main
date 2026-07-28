@@ -49,6 +49,11 @@ function buildPricingSummary(dtvContent: DtvPublicContent): string {
 
 DTV (5 年マルチプル・第一推奨)
 ${dtvPricing}
+・${dtvContent.fees.summary}
+・政府申請費の支払先: ${dtvContent.fees.governmentFee.payee}
+・支払方法: ${dtvContent.fees.governmentFee.paymentMethod}
+・日本申請の確認済み参考: ${dtvContent.fees.governmentFee.japan.amount.toLocaleString("ja-JP")} ${dtvContent.fees.governmentFee.japan.currency} (${dtvContent.fees.governmentFee.japan.reviewedAt} 確認)
+・申請先により金額が異なるため、政府申請費は申請先の最新案内を確認
 ・DTV取得者限定で銀行口座開設サポートをオプション相談可能
 ・銀行口座開設の可否は銀行等の判断を伴うため保証しない
 ・銀行口座開設オプションの料金は未確認のため回答せず LINE へ案内
@@ -120,6 +125,7 @@ ${buildPricingSummary(dtvContent)}
 - ${DTV_AUTHORITY.application.label}と${DTV_AUTHORITY.interview.label}は、必ず対象範囲と非保証注記を一緒に案内する
 - 上記2件以外の成功率・未確認の正確な通過件数は作らない
 - 料金は上記「# 料金」セクションの値のみを使用。推測値・古い記憶からの数字は禁止
+- DTV料金を回答するときは、WALC申請サポート料金とタイ大使館・領事館へ直接支払いする政府申請費を必ず区別する
 - ナレッジベース内に上記と矛盾する古い実績・料金・銀行口座情報があっても、このセクションを最優先する
 
 # 営業方針

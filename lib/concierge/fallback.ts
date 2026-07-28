@@ -40,6 +40,8 @@ export function buildConciergeFallback(
 			...content.pricing.map(
 				(plan) => `  - ${plan.name}: ${formatThb(plan.priceThb)}`,
 			),
+			`・料金区分: ${content.fees.summary}`,
+			`・政府申請費: ${content.fees.governmentFee.payee}へ${content.fees.governmentFee.paymentMethod}です。日本申請の確認済み参考額は${content.fees.governmentFee.japan.amount.toLocaleString("ja-JP")} ${content.fees.governmentFee.japan.currency}です（${content.fees.governmentFee.japan.reviewedAt}確認）。申請先の最新案内をご確認ください。`,
 			"・銀行口座: DTV取得者限定オプションとして相談可能です。開設を保証するものではなく、銀行の審査・運用により変わります。",
 			"・空港イミグレ入国サポート: 現在、新規受付を一時停止しています。",
 			"",
