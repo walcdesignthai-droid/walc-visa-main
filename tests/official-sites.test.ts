@@ -33,6 +33,7 @@ describe("official WALC site directory", () => {
 
 		expect(footer).toContain('href: "/official-sites"');
 		expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/official-sites`/);
+		expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/immigration-support`/);
 		expect(llms).toContain("[WALC公式サイト一覧]");
 		expect(llms).toMatch(/\$\{ORIGIN\}\/official-sites/);
 	});
