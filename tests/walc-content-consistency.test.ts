@@ -60,10 +60,11 @@ describe("WALC VISA public content consistency", () => {
 	});
 
 	it("keeps the AI concierge on the shared content and current model fallback", async () => {
-		const [route, provider, prompt] = await Promise.all([
+		const [route, provider, prompt, authority] = await Promise.all([
 			read("app/api/concierge/route.ts"),
 			read("lib/concierge/provider.ts"),
 			read("lib/concierge/system-prompt.ts"),
+			read("lib/walc-data/dtv-authority.ts"),
 		]);
 
 		expect(route).toContain("getDtvPublicContent");
@@ -72,7 +73,13 @@ describe("WALC VISA public content consistency", () => {
 		expect(provider).toContain("anthropic/claude-sonnet-5");
 		expect(prompt).toContain("dtvContent.trackRecord.display");
 		expect(prompt).not.toMatch(/\b212\b/);
-		expect(prompt).not.toContain("取得率 100%");
+		expect(authority).toContain("2025年4月の大幅な制度変更以降");
+		expect(authority).toContain("申請通過率100%");
+		expect(authority).toContain("オンライン面談通過率100%");
+		expect(authority).toContain("タイ在住13年");
+		expect(prompt).toContain("DTV_AUTHORITY.application");
+		expect(prompt).toContain("DTV_AUTHORITY.interview");
+		expect(prompt).not.toContain("バンコク在住 10 年以上");
 	});
 
 	it("prefers Vercel's deployment OIDC token over a legacy gateway key", async () => {
@@ -94,6 +101,10 @@ describe("WALC VISA public content consistency", () => {
 		expect(route).toContain("buildConciergeFallback");
 		expect(fallback).toContain("content.trackRecord.display");
 		expect(fallback).toContain("content.pricing");
+		expect(fallback).toContain("DTV_AUTHORITY.application");
+		expect(fallback).toContain("DTV_AUTHORITY.interview");
+		expect(fallback).toContain("Non-B");
+		expect(fallback).toContain("オーバーステイ");
 		expect(fallback).toContain("新規受付を一時停止");
 		expect(fallback).toContain("[CTA:line]");
 	});
