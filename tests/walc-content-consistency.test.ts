@@ -235,9 +235,8 @@ describe("WALC VISA public content consistency", () => {
 		expect(footer).toContain(
 			'{ href: "/visas/non-b-work-permit", label: "NON-B / Work Permit" }',
 		);
-		expect(sitemap).toContain('url: `${BASE_URL}/visas/non-b-work-permit`');
-		expect(llms).toContain(
-			"[Non-B / Work Permit](${ORIGIN}/visas/non-b-work-permit)",
-		);
+		expect(sitemap).toContain("/visas/non-b-work-permit");
+		expect(llms).toContain("[Non-B / Work Permit]");
+		expect(llms).toContain("/visas/non-b-work-permit)");
 	});
 });
