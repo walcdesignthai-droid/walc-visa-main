@@ -186,4 +186,12 @@ describe("WALC VISA public content consistency", () => {
 		expect(articlePage).toContain('article.tags.includes("DTV")');
 		expect(articlePage).toContain("SITE_URLS.dtv");
 	});
+
+	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
+		const paymentsRoute = await read("app/payments/route.ts");
+
+		expect(paymentsRoute).toContain("status: 410");
+		expect(paymentsRoute).toContain('"X-Robots-Tag": "noindex, nofollow"');
+		expect(paymentsRoute).toContain('"Cache-Control": "no-store"');
+	});
 });
