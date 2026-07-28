@@ -30,10 +30,27 @@ import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
 import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
 
+const RETIREMENT_URL = "https://walc-visa.online/visas/retirement";
+const RETIREMENT_TITLE = "リタイアメント VISA(NON-O / 50 歳以上)";
+const RETIREMENT_DESCRIPTION =
+	"50 歳以上の方向けタイ長期 VISA。新規 13,000 THB〜 / 更新 22,000 THB〜。残高要件に不安がある方や銀行口座開設サポートも個別にご相談いただけます。";
+
 export const metadata: Metadata = {
-	title: "リタイアメント VISA(NON-O / 50 歳以上)",
-	description:
-		"50 歳以上の方向けタイ長期 VISA。新規 13,000 THB〜 / 更新 22,000 THB〜。残高要件に不安がある方や銀行口座開設サポートも個別にご相談いただけます。",
+	title: RETIREMENT_TITLE,
+	description: RETIREMENT_DESCRIPTION,
+	alternates: { canonical: RETIREMENT_URL },
+	openGraph: {
+		type: "website",
+		title: `${RETIREMENT_TITLE} | WALC VISA Consulting`,
+		description: RETIREMENT_DESCRIPTION,
+		url: RETIREMENT_URL,
+		siteName: "WALC VISA Consulting",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${RETIREMENT_TITLE} | WALC VISA Consulting`,
+		description: RETIREMENT_DESCRIPTION,
+	},
 };
 
 // ---------------------------------------------------------------------------

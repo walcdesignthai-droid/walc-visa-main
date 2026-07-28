@@ -34,10 +34,20 @@ describe("retirement page public claims", () => {
 		const source = await readFile(PAGE_PATH, "utf8");
 
 		expect(source).toContain(
-			'title: "リタイアメント VISA(NON-O / 50 歳以上)",',
+			'const RETIREMENT_TITLE = "リタイアメント VISA(NON-O / 50 歳以上)";',
 		);
+		expect(source).toContain("title: RETIREMENT_TITLE");
 		expect(source).not.toContain(
 			'title: "リタイアメント VISA(NON-O / 50 歳以上)| WALC VISA Consulting",',
 		);
+	});
+
+	it("publishes a page-specific canonical and social URL", async () => {
+		const source = await readFile(PAGE_PATH, "utf8");
+
+		expect(source).toContain("const RETIREMENT_URL");
+		expect(source).toContain('"https://walc-visa.online/visas/retirement"');
+		expect(source).toContain("alternates: { canonical: RETIREMENT_URL }");
+		expect(source).toContain("url: RETIREMENT_URL");
 	});
 });
