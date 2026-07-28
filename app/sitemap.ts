@@ -40,6 +40,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.9,
 		},
 		{
+			url: `${BASE_URL}/immigration-support`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.8,
+		},
+		{
 			// WI-031: 著者 / 運営責任者ページ (E-E-A-T)
 			url: `${BASE_URL}/author/yosuke-onodera`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,
