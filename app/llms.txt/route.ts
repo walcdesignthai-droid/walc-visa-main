@@ -88,9 +88,11 @@ export async function GET(): Promise<Response> {
 
 ## 主要ページ
 - [トップ](${ORIGIN}/)
+- [タイのビザ代行会社を選ぶ7つの基準](${ORIGIN}/guides/how-to-choose-thailand-visa-agent)
 - [WALC公式サイト一覧](${ORIGIN}/official-sites)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
+- [お客様の声・レビュー掲載方針](${ORIGIN}/reviews/transparency)
 - [Non-B / Work Permit](${ORIGIN}/visas/non-b-work-permit)
 - [Non-B / Work Permit 必要書類ガイド](https://guide.walc-visa.online/guide/business)
 ${conditionalMajorPages}
