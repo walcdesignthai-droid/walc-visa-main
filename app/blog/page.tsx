@@ -21,12 +21,38 @@ import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 const ORIGIN = "https://walc-visa.online";
+const BLOG_URL = "https://walc-visa.online/blog";
+const BLOG_TITLE = "WALC VISA Journal｜タイ VISA の実務ガイド";
+const BLOG_DESCRIPTION =
+	"タイ長期 VISA(DTV / LTR / リタイア / Privilege 等)の要件・費用・滞在ルール・手続きを、一次情報と実務知見に基づき解説するガイド集。";
+const BLOG_SOCIAL_IMAGE = "/images/AdobeStock_494541408.jpeg";
 
 export const metadata: Metadata = {
-	title: "WALC VISA Journal｜タイ VISA の実務ガイド",
-	description:
-		"タイ長期 VISA(DTV / LTR / リタイア / Privilege 等)の要件・費用・滞在ルール・手続きを、一次情報と実務知見に基づき解説するガイド集。",
-	alternates: { canonical: "/blog" },
+	title: BLOG_TITLE,
+	description: BLOG_DESCRIPTION,
+	alternates: { canonical: BLOG_URL },
+	openGraph: {
+		type: "website",
+		locale: "ja_JP",
+		url: BLOG_URL,
+		siteName: "WALC VISA Consulting",
+		title: `${BLOG_TITLE} | WALC VISA Consulting`,
+		description: BLOG_DESCRIPTION,
+		images: [
+			{
+				url: BLOG_SOCIAL_IMAGE,
+				width: 1200,
+				height: 630,
+				alt: "WALC VISA Journal - タイ VISA の実務ガイド",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${BLOG_TITLE} | WALC VISA Consulting`,
+		description: BLOG_DESCRIPTION,
+		images: [BLOG_SOCIAL_IMAGE],
+	},
 };
 
 const CATEGORY_ORDER: Array<NonNullable<ReturnType<typeof articleCategory>>> = [
