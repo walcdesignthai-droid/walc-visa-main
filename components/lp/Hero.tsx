@@ -112,13 +112,7 @@ export async function Hero() {
 								size="lg"
 								className="w-full sm:w-auto bg-white text-brand hover:bg-white/90 border border-white"
 							>
-								<a
-									href={content.consultationUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									専門家に相談する
-								</a>
+								<a href="#visa-types">対応VISAを見る</a>
 							</Button>
 						</div>
 
