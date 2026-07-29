@@ -22,9 +22,9 @@ import {
 	resolveCover,
 } from "@/lib/blog/presentation";
 import {
-	ALL_ARTICLES,
 	articleHref,
 	getArticleBySlug,
+	PUBLISHED_ARTICLES,
 } from "@/lib/blog/registry";
 import type { Article } from "@/lib/blog/types";
 import {
@@ -53,7 +53,7 @@ const IMMIGRATION_LP_ANCHORS: Record<string, string> = {
 };
 
 export function generateStaticParams() {
-	return ALL_ARTICLES.map((a) => ({ slug: a.slug }));
+	return PUBLISHED_ARTICLES.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({
@@ -63,7 +63,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { slug } = await params;
 	const article = getArticleBySlug(slug);
-	if (!article) return {};
+	if (!article || article.draft) return {};
 	return {
 		title: article.title,
 		description: article.description,
@@ -110,7 +110,7 @@ export default async function ArticlePage({
 }) {
 	const { slug } = await params;
 	const article = getArticleBySlug(slug);
-	if (!article) notFound();
+	if (!article || article.draft) notFound();
 
 	const url = `${ORIGIN}${articleHref(article.slug)}`;
 	const cover = resolveCover(article);
