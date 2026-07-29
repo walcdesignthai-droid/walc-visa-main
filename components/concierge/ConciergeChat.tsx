@@ -93,16 +93,12 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 			const first = focusable[0];
 			const last = focusable[focusable.length - 1];
 			const active = document.activeElement;
-			if (
-				event.shiftKey &&
-				(active === first || !dialogRef.current.contains(active))
-			) {
+			const activeIsFocusable =
+				active instanceof HTMLElement && focusable.includes(active);
+			if (event.shiftKey && (active === first || !activeIsFocusable)) {
 				event.preventDefault();
 				last.focus();
-			} else if (
-				!event.shiftKey &&
-				(active === last || !dialogRef.current.contains(active))
-			) {
+			} else if (!event.shiftKey && (active === last || !activeIsFocusable)) {
 				event.preventDefault();
 				first.focus();
 			}
@@ -225,6 +221,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		<div className="fixed inset-0 z-50 md:inset-auto md:bottom-5 md:right-5 md:w-[420px] md:h-[640px] md:max-h-[calc(100vh-2.5rem)]">
 			<button
 				type="button"
+				tabIndex={-1}
 				aria-label="閉じる"
 				onClick={onClose}
 				className="md:hidden absolute inset-0 bg-black/50 backdrop-blur-sm"

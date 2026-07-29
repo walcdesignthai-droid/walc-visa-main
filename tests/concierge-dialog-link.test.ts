@@ -53,9 +53,10 @@ describe("AI concierge public links", () => {
 		expect(chat).toContain('event.key === "Escape"');
 		expect(chat).toContain('event.key !== "Tab"');
 		expect(chat).toContain("FOCUSABLE_SELECTOR");
-		expect(chat).toContain("dialogRef.current.contains(active)");
+		expect(chat).toContain("focusable.includes(active)");
 		expect(chat).toContain("last.focus()");
 		expect(chat).toContain("first.focus()");
+		expect(chat).toContain("tabIndex={-1}");
 		expect(chat).toContain('window.addEventListener("keydown"');
 		expect(chat).toContain('window.removeEventListener("keydown"');
 	});
