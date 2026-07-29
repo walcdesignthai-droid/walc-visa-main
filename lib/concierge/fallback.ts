@@ -1,5 +1,5 @@
-import { DTV_AUTHORITY } from "@/lib/walc-data/dtv-authority";
-import type { DtvPublicContent } from "@/lib/walc-data/public-content";
+import { DTV_AUTHORITY } from "../walc-data/dtv-authority";
+import type { DtvPublicContent } from "../walc-data/public-content";
 import type { ConciergeMessage } from "./types";
 
 function formatThb(amount: number): string {
@@ -18,7 +18,11 @@ export function buildConciergeFallback(
 		[...messages].reverse().find((message) => message.role === "user")
 			?.content ?? "";
 	const asksAboutDtv =
-		/DTV|料金|費用|実績|通過|面談|面接|50万|残高|銀行|口座|空港|イミグレ|入国|オーバーステイ|Non-?B|WP|退職|リタイアメント|切り替|日本語|専門家/i.test(
+		/DTV|Destination Thailand|ノマド|ワーケーション|ソフトパワー|50万THB|50万バーツ|DTV面談|DTV申請/i.test(
+			latestQuestion,
+		);
+	const asksAboutOtherVisa =
+		/Non-?B|Work Permit|WP|リタイアメント|Non-?O|LTR|Thailand Privilege|結婚ビザ|学生ビザ/i.test(
 			latestQuestion,
 		);
 
@@ -48,10 +52,16 @@ export function buildConciergeFallback(
 			"",
 			content.trackRecord.disclaimer,
 		);
+	} else if (asksAboutOtherVisa) {
+		lines.push(
+			"",
+			"ご指定のVISAは、現在の滞在資格・年齢・タイでの活動や就労形態によって条件と必要書類が変わります。",
+			"AIでは未確認の料金や取得可否を断定せず、公式LINEで最新条件と見積もりを確認します。",
+		);
 	} else {
 		lines.push(
 			"",
-			"VISAの条件や必要書類は、国籍・入国歴・現在の滞在資格・申請先によって変わります。",
+			"どのVISAについて知りたいか、現在の滞在資格とタイでの主な活動を教えてください。条件や必要書類は、国籍・入国歴・申請先によっても変わります。",
 		);
 	}
 
