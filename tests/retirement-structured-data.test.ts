@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { buildRetirementWebPageSchema } from "@/lib/walc-data/retirement-structured-data";
+import { buildRetirementWebPageSchema } from "../lib/walc-data/retirement-structured-data";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const RETIREMENT_URL = "https://walc-visa.online/visas/retirement";
@@ -39,7 +39,7 @@ describe("retirement page structured data", () => {
 		expect(page.match(/<JsonLdScript/g)).toHaveLength(1);
 		expect(page.match(/<BreadcrumbJsonLd/g)).toHaveLength(1);
 		expect(page).toContain("buildRetirementWebPageSchema");
-		expect(page).toContain('id={`${RETIREMENT_URL}#breadcrumb`}');
+		expect(page).toContain("id={`$" + "{RETIREMENT_URL}#breadcrumb`}");
 		expect(breadcrumb).toContain("id?: string");
 		expect(breadcrumb).toContain('...(id ? { "@id": id } : {})');
 	});

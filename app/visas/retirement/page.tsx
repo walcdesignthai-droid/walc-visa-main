@@ -26,14 +26,17 @@ import {
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
 import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
-
-const RETIREMENT_URL = "https://walc-visa.online/visas/retirement";
-const RETIREMENT_TITLE = "リタイアメント VISA(NON-O / 50 歳以上)";
-const RETIREMENT_DESCRIPTION =
-	"50 歳以上の方向けタイ長期 VISA。新規 13,000 THB〜 / 更新 22,000 THB〜。残高要件に不安がある方や銀行口座開設サポートも個別にご相談いただけます。";
+import {
+	buildRetirementWebPageSchema,
+	RETIREMENT_DESCRIPTION,
+	RETIREMENT_TITLE,
+	RETIREMENT_URL,
+} from "@/lib/walc-data/retirement-structured-data";
 
 export const metadata: Metadata = {
 	title: RETIREMENT_TITLE,
@@ -204,6 +207,14 @@ const CASE_GUIDE: {
 export default function RetirementPage() {
 	return (
 		<>
+			<JsonLdScript data={buildRetirementWebPageSchema()} />
+			<BreadcrumbJsonLd
+				id={`${RETIREMENT_URL}#breadcrumb`}
+				items={[
+					{ name: "ホーム", url: "https://walc-visa.online/" },
+					{ name: "リタイアメント VISA", url: RETIREMENT_URL },
+				]}
+			/>
 			<Header />
 			<main className="flex-1 pt-16 md:pt-20">
 				{/* Hero */}
