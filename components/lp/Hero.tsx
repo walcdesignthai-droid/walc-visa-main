@@ -92,7 +92,7 @@ export async function Hero() {
 							<br className="hidden md:block" />
 							タイの全 VISA 種別に対応する専門コンサルティング。
 							<br />
-							取得から取得後の運用まで、専用 CRM で一気通貫サポート。
+							相談から取得後の手続きまで、LINEとお客様専用画面で連携サポート。
 						</p>
 
 						<div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -168,7 +168,7 @@ export async function Hero() {
 							</div>
 							<div className="text-2xl font-bold tracking-tight">一元管理</div>
 							<div className="text-xs text-white/70 mt-2">
-								申込・書類・進捗・取得後まで
+								LINE相談・申込後の進捗・追加書類
 							</div>
 						</div>
 
