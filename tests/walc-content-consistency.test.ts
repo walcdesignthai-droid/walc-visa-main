@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { DtvPublicContent } from "../lib/walc-data/public-content";
@@ -262,6 +262,67 @@ describe("WALC VISA public content consistency", () => {
 		);
 		expect(articlePage).toContain('article.tags?.includes("DTV")');
 		expect(articlePage).toContain("SITE_URLS.dtv");
+	});
+
+	it("keeps articles with pending primary sources out of the public index", async () => {
+		const blogDir = resolve(ROOT, "lib/blog");
+		const files = (await readdir(blogDir)).filter((file) =>
+			file.endsWith(".ts"),
+		);
+		const pendingArticles: string[] = [];
+
+		for (const file of files) {
+			const source = await read(`lib/blog/${file}`);
+			if (source.includes("primaryPending: true")) {
+				pendingArticles.push(file);
+				expect(source).toContain("draft: true");
+				expect(source).not.toContain("draft: false");
+			}
+		}
+
+		expect(pendingArticles.sort()).toEqual([
+			"marriage-visa-thailand.ts",
+			"retirement-health-insurance.ts",
+			"thailand-bank-account.ts",
+		]);
+
+		const [registry, sitemap, articlePage] = await Promise.all([
+			read("lib/blog/registry.ts"),
+			read("app/sitemap.ts"),
+			read("app/blog/[slug]/page.tsx"),
+		]);
+		expect(registry).toContain("ALL_ARTICLES.filter");
+		expect(registry).toContain("!a.draft");
+		expect(sitemap).toContain("PUBLISHED_ARTICLES");
+		expect(articlePage).toContain("PUBLISHED_ARTICLES.map");
+		expect(articlePage).toContain("if (!article || article.draft) return {};");
+		expect(articlePage).toContain("if (!article || article.draft) notFound();");
+	});
+
+	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
+		const article = await read("lib/blog/immigration-office-bangkok.ts");
+
+		expect(article).toContain("draft: false");
+		expect(article).not.toContain("primaryPending: true");
+		expect(article).toContain("https://www.mrta.co.th/en/the-pink-line");
+		expect(article).toContain(
+			"https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		);
+		expect(article).toContain(
+			"https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		);
+		expect(article).toContain(
+			"https://tm47.immigration.go.th/manual/IndexForeign.html",
+		);
+		expect(article).toContain(
+			"https://phitsanulok.immigration.go.th/en/e-extension-online-application-for-temporary-stay-extension-in-3-minutes/",
+		);
+		expect(article).not.toContain('"バス:');
+		expect(article).not.toContain("初回の届出は本人または代理人");
+		expect(article).not.toContain(
+			"再入国許可の窓口は受付時間が一般窓口と異なる",
+		);
+		expect(article).not.toContain("平日 10:30–18:30");
 	});
 
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
