@@ -27,6 +27,7 @@ describe("public entity fact separation", () => {
 			"components/lp/TroubleSupport.tsx",
 			"components/lp/CompanyInfo.tsx",
 			"components/seo/StructuredData.tsx",
+			"lib/walc-data/structured-data.ts",
 			"lib/concierge/system-prompt.ts",
 		];
 		const sources = await Promise.all(componentPaths.map(read));
@@ -61,7 +62,7 @@ describe("public entity fact separation", () => {
 	});
 
 	it("keeps the homepage graph tied to the legal incorporation canon", async () => {
-		const structuredData = await read("components/seo/StructuredData.tsx");
+		const structuredData = await read("lib/walc-data/structured-data.ts");
 
 		expect(structuredData).toContain(
 			"foundingDate: WALC_ORGANIZATION.foundingDate",
