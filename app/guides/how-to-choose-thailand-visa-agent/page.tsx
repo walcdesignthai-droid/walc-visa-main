@@ -198,6 +198,23 @@ const pageSchema = {
 	inLanguage: "ja-JP",
 	datePublished: REVIEWED_AT,
 	dateModified: REVIEWED_AT,
+	about: [
+		{ "@type": "Thing", name: "Thailand visa agents" },
+		{ "@type": "Thing", name: "Destination Thailand Visa" },
+		{ "@type": "Thing", name: "Non-Immigrant Visa B" },
+		{ "@type": "Thing", name: "Thailand Work Permit" },
+	],
+	citation: OFFICIAL_SOURCES.map((source) => source.href),
+	mainEntity: {
+		"@type": "ItemList",
+		numberOfItems: CRITERIA.length,
+		itemListElement: CRITERIA.map((criterion, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			name: criterion.title,
+			description: criterion.summary,
+		})),
+	},
 	author: {
 		"@type": "Person",
 		"@id": `${WALC_AUTHOR.url}#person`,

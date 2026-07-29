@@ -221,6 +221,8 @@ describe("WALC VISA public content consistency", () => {
 		);
 		expect(page).toContain("https://eworkpermit.doe.go.th/");
 		expect(page).toContain('"@type": "WebPage"');
+		expect(page).toContain('"@type": "ItemList"');
+		expect(page).toContain("citation:");
 		expect(page).toContain("<BreadcrumbJsonLd");
 		expect(page).toContain("WALC_AUTHOR");
 		expect(page).toContain("2026-07-29");
