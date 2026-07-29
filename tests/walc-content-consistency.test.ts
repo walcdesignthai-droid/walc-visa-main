@@ -219,6 +219,8 @@ describe("WALC VISA public content consistency", () => {
 		expect(page).toContain("<BreadcrumbJsonLd");
 		expect(page).toContain("WALC_AUTHOR");
 		expect(page).toContain("2026-07-29");
+		expect(page).toContain('href: "/visas/non-b-work-permit"');
+		expect(page).not.toContain("href: SITE_URLS.guideBusiness");
 		expect(page).not.toContain("AggregateRating");
 		expect(page).not.toContain('"@type": "Review"');
 		expect(page).not.toMatch(/絶対|必ず取れる|No\\.?1|業界一/);
