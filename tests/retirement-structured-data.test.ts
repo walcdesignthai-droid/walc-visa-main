@@ -76,12 +76,16 @@ describe("retirement page structured data", () => {
 	});
 
 	it("preserves fail-closed schema suppression for paused immigration support", async () => {
-		const [data, page] = await Promise.all([
+		const [data, page, publicationState] = await Promise.all([
 			read("app/immigration-support/data.ts"),
 			read("app/immigration-support/page.tsx"),
+			read("lib/walc-data/publication-state.ts"),
 		]);
 
-		expect(data).toContain("export const DRAFT = true");
+		expect(data).toContain(
+			"export const DRAFT = !IMMIGRATION_SUPPORT_PUBLICATION.published",
+		);
+		expect(publicationState).toContain("published: false");
 		expect(page).toContain("{!DRAFT && (");
 	});
 });
