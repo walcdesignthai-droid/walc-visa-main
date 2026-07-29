@@ -24,11 +24,35 @@ import {
 	WALC_ORGANIZATION,
 } from "@/lib/walc-data/eeat";
 
+const AUTHOR_PAGE_URL = WALC_AUTHOR.url;
+const AUTHOR_PAGE_TITLE = "運営責任者 小野寺 陽介";
+const AUTHOR_PAGE_DESCRIPTION =
+	"WALC VISA Consulting 運営責任者・小野寺 陽介(WALC DESIGN Co., Ltd. 代表取締役)のプロフィール。タイ長期 VISA の取得・運用コンサルティングを統括。";
+
 export const metadata: Metadata = {
-	title: "運営責任者 小野寺 陽介 | WALC VISA Consulting",
-	description:
-		"WALC VISA Consulting 運営責任者・小野寺 陽介(WALC DESIGN Co., Ltd. 代表取締役)のプロフィール。タイ長期 VISA の取得・運用コンサルティングを統括。",
+	title: AUTHOR_PAGE_TITLE,
+	description: AUTHOR_PAGE_DESCRIPTION,
 	alternates: { canonical: "/author/yosuke-onodera" },
+	openGraph: {
+		type: "profile",
+		locale: "ja_JP",
+		url: AUTHOR_PAGE_URL,
+		siteName: "WALC VISA Consulting",
+		title: `${AUTHOR_PAGE_TITLE} | WALC VISA Consulting`,
+		description: AUTHOR_PAGE_DESCRIPTION,
+		images: [
+			{
+				url: WALC_AUTHOR.imagePath,
+				alt: WALC_AUTHOR.imageAlt,
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${AUTHOR_PAGE_TITLE} | WALC VISA Consulting`,
+		description: AUTHOR_PAGE_DESCRIPTION,
+		images: [WALC_AUTHOR.imagePath],
+	},
 };
 
 const orgFacts: Array<{
