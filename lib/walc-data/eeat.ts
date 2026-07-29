@@ -59,6 +59,10 @@ export const WALC_AUTHOR = {
 	givenName: "Yosuke",
 	familyName: "Onodera",
 	jobTitle: "WALC VISA Consulting 代表",
+	experience: {
+		thailandResidency: "タイ在住13年",
+		visaSupport: "VISAサポート事業7年目",
+	},
 	/**
 	 * SOT: CANONICAL-OWNER-PROFILE.md(在住年数・事業年数 = Owner 確定 2026-06-03)。
 	 * 設計§8 バイライン「タイ在住13年、VISAサポート事業7年目のプロフェッショナル」。
