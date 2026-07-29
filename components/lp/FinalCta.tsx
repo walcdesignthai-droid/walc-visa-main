@@ -1,13 +1,15 @@
 /**
  * components/lp/FinalCta.tsx — 最終 CTA 帯(フッター直前)
  * ----------------------------------------------------------------------------
- * 行動への最後のひと押し。LINE 相談 + 申込フォームの 2 つ。
+ * 行動への最後のひと押し。新規相談の LINE と申込済み顧客の専用画面を
+ * 対象者別に提示。
  * ----------------------------------------------------------------------------
  */
 
-import { ArrowRight, Clock, MessageCircle, ShieldCheck } from "lucide-react";
+import { Clock, ExternalLink, MessageCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
+import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 export async function FinalCta() {
 	const content = await getDtvPublicContent();
@@ -59,12 +61,12 @@ export async function FinalCta() {
 							className="w-full sm:w-auto bg-brand text-white hover:bg-brand-deep border border-brand"
 						>
 							<a
-								href={content.consultationUrl}
+								href={SITE_URLS.portal}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								LINE で申込相談
-								<ArrowRight className="w-5 h-5" />
+								申込済みの方：進捗確認
+								<ExternalLink className="w-4 h-4" />
 							</a>
 						</Button>
 					</div>

@@ -35,7 +35,11 @@ export async function TrustStrip() {
 			label: "必要書類から追加対応まで伴走",
 		},
 		{ Icon: Clock, value: "24 h 以内", label: "初回応答(LINE 即レス)" },
-		{ Icon: Smartphone, value: "専用 CRM", label: "申込〜運用まで一気通貫" },
+		{
+			Icon: Smartphone,
+			value: "LINE＋専用画面",
+			label: "相談〜申込後の進捗を連携",
+		},
 	] as const;
 
 	return (
