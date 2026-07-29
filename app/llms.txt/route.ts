@@ -84,6 +84,7 @@ export async function GET(): Promise<Response> {
 
 ## 主要ページ
 - [トップ](${ORIGIN}/)
+- [WALC公式サイト一覧](${ORIGIN}/official-sites)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
