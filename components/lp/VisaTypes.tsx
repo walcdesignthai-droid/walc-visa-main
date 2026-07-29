@@ -28,14 +28,84 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import {
-	type DurationTab,
-	formatTHB,
-	type VisaCategory,
-	visasByTab,
-} from "@/lib/walc-data/pricing";
 import type { DtvPublicContent } from "@/lib/walc-data/public-content";
 import { SITE_URLS } from "@/lib/walc-data/site-map";
+
+type DurationTab = "short" | "one_year" | "long_term";
+
+interface PublicVisaCategory {
+	slug: "dtv" | "privilege" | "ltr" | "retirement" | "student" | "family";
+	shortName: string;
+	fullName: string;
+	duration: string;
+	durationTab: Exclude<DurationTab, "short">;
+	linkDisabled?: boolean;
+	externalUrl?: string;
+}
+
+/**
+ * Public selector data must remain independent from the internal pricing
+ * registry. This component is a Client Component, so every imported module can
+ * become browser-readable JavaScript. Keep only owner-reviewed display facts
+ * here and receive current DTV pricing through the CRM-backed `content` prop.
+ */
+const PUBLIC_VISA_CATEGORIES: readonly PublicVisaCategory[] = [
+	{
+		slug: "dtv",
+		shortName: "DTV",
+		fullName: "Destination Thailand Visa",
+		duration: "5年マルチプル / 1回最長180日",
+		durationTab: "long_term",
+		externalUrl: SITE_URLS.dtv,
+	},
+	{
+		slug: "privilege",
+		shortName: "Thailand Privilege",
+		fullName: "旧 Thailand Elite Visa",
+		duration: "長期滞在会員プログラム",
+		durationTab: "long_term",
+		linkDisabled: true,
+	},
+	{
+		slug: "ltr",
+		shortName: "LTR",
+		fullName: "Long-Term Resident Visa",
+		duration: "最長10年（認定・更新条件あり）",
+		durationTab: "long_term",
+	},
+	{
+		slug: "retirement",
+		shortName: "リタイアメント",
+		fullName: "NON-O Retirement（50歳以上）",
+		duration: "更新型",
+		durationTab: "one_year",
+	},
+	{
+		slug: "student",
+		shortName: "学生 VISA",
+		fullName: "NON-ED",
+		duration: "教育機関・履修内容により確認",
+		durationTab: "one_year",
+		linkDisabled: true,
+	},
+	{
+		slug: "family",
+		shortName: "結婚・家族 VISA",
+		fullName: "NON-O（Marriage / Family / Guardian）",
+		duration: "更新条件を個別確認",
+		durationTab: "one_year",
+		linkDisabled: true,
+	},
+] as const;
+
+function publicVisasByTab(tab: DurationTab): readonly PublicVisaCategory[] {
+	if (tab === "short") return [];
+	return PUBLIC_VISA_CATEGORIES.filter((visa) => visa.durationTab === tab);
+}
+
+function formatTHB(amount: number): string {
+	return `${amount.toLocaleString()} THB`;
+}
 
 // アイコンマップ (slug → icon)
 const ICON_MAP: Record<string, typeof Briefcase> = {
@@ -73,7 +143,7 @@ export function VisaTypes({ content }: { content: DtvPublicContent }) {
 		one_year: null,
 		long_term: null,
 	});
-	const visas = visasByTab(activeTab);
+	const visas = publicVisasByTab(activeTab);
 
 	const handleTabKeyDown = (
 		event: React.KeyboardEvent<HTMLButtonElement>,
@@ -236,7 +306,7 @@ function VisaCard({
 	visa,
 	content,
 }: {
-	visa: VisaCategory;
+	visa: PublicVisaCategory;
 	content: DtvPublicContent;
 }) {
 	const Icon = ICON_MAP[visa.slug] ?? Briefcase;

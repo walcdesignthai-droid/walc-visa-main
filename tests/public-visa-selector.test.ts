@@ -13,6 +13,9 @@ describe("public VISA selector facts", () => {
 		const selector = await read("components/lp/VisaTypes.tsx");
 
 		expect(selector).toContain("content.pricing");
+		expect(selector).not.toContain("@/lib/walc-data/pricing");
+		expect(selector).toContain("PUBLIC_VISA_CATEGORIES");
+		expect(selector).toContain("publicVisasByTab");
 		expect(selector).toContain(
 			"const displayPrice = isDtv ? dtvFromPrice : null",
 		);
@@ -21,6 +24,21 @@ describe("public VISA selector facts", () => {
 		expect(selector).not.toContain("recommendedPlan?.walcFee");
 		expect(selector).not.toContain("VISA_RUN_SUPPORT");
 		expect(selector).toContain("DTV以外の料金・対応可否はLINEで個別確認");
+	});
+
+	it("does not ship the internal price registry through the client component", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		for (const legacyPublicBundleString of [
+			"残高サポート付",
+			"WALC 独自",
+			"タイ国内フルサポート",
+			"650_000",
+			"5_000_000",
+			"17_600",
+		]) {
+			expect(selector).not.toContain(legacyPublicBundleString);
+		}
 	});
 
 	it("uses needs-first descriptions instead of internal sales copy", async () => {
