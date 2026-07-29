@@ -154,11 +154,6 @@ export const FOOTER_RELATED_SITES: readonly NavLink[] = [
 		external: true,
 	},
 	{
-		href: SITE_URLS.corporate,
-		label: "企業進出向けサイト",
-		external: true,
-	},
-	{
 		href: SITE_URLS.portal,
 		label: "顧客ポータル (会員ログイン)",
 		external: true,
