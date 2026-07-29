@@ -21,6 +21,7 @@ import {
 	Video,
 } from "lucide-react";
 import Image from "next/image";
+import { ConciergeOpenLink } from "@/components/concierge/ConciergeOpenLink";
 
 interface ChannelBadge {
 	icon: React.ReactNode;
@@ -139,7 +140,7 @@ export function ConsultBlock() {
 						const { Icon } = ch;
 						const isAi = ch.id === "ai";
 						return (
-							<a
+							<ConciergeOpenLink
 								key={ch.id}
 								href={ch.cta.href}
 								target={isAi ? undefined : "_blank"}
@@ -258,7 +259,7 @@ export function ConsultBlock() {
 									{ch.cta.label}
 									<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
 								</div>
-							</a>
+							</ConciergeOpenLink>
 						);
 					})}
 				</div>
@@ -275,8 +276,8 @@ export function ConsultBlock() {
 									どちらから始めても OK
 								</p>
 								<p className="text-xs md:text-sm text-text-secondary leading-relaxed">
-									すぐ知りたい方は AI コンシェルジュ、しっかり相談したい方は LINE で日程調整。
-									24 時間以内に初回応答いたします。
+									すぐ知りたい方は AI コンシェルジュ、しっかり相談したい方は
+									LINE で日程調整。 24 時間以内に初回応答いたします。
 								</p>
 							</div>
 						</div>
