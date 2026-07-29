@@ -30,7 +30,7 @@ export const THAILAND_BANK_ACCOUNT: Article = {
 		"タイで外国人が銀行口座を開設する際の必要書類・ビザ種別による可否・よくある断られ方・実務上のコツを、2026 年時点の運用の傾向に基づいて整理します。銀行・支店・時期で運用が大きく異なるため、最終的には対象の銀行に事前確認してください。",
 	datePublished: "2026-06-04",
 	dateModified: "2026-06-04",
-	draft: false,
+	draft: true,
 	heroEyebrow: "暮らしの Q&A｜銀行口座",
 	category: "qa",
 	tags: ["銀行口座", "必要書類", "ワークパーミット"],

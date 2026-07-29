@@ -1,9 +1,10 @@
 /**
  * lib/blog/immigration-office-bangkok.ts — 手続き・暮らしのQ&A(WI-visa-content-consolidation §2)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT。バンコク・イミグレ(Chaengwattana / Immigration Division 1)の行き方・予約・
+ * バンコク・イミグレ(Chaengwattana / Immigration Division 1)の行き方・予約・
  * 持ち物・混雑回避の実務ガイド。YMYL ゲート 0(景表法 NG 表現を排除)。
  * 推測ゼロ: 所在地・受付時間・オンライン予約は一次出典(公式)で確認できたもののみ。
+ * 公共交通は MRTA/NBM、庁舎内移動は Government Complex の公式案内を参照。
  * 変動しやすい受付時間/予約枠/管轄階は placeholders(要確認)へ逃がす。
  * 内部リンクは clusterLinks に集約。監修 = Yosuke Onodera。
  * ----------------------------------------------------------------------------
@@ -19,9 +20,9 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		"バンコクのイミグレ(Chaengwattana)行き方と予約｜持ち物・混雑回避ガイド",
 	h1: "バンコクのイミグレ(Chaengwattana)行き方と予約",
 	description:
-		"バンコクのイミグレーション(Immigration Division 1 / Chaengwattana・Government Complex Building B)への行き方、オンライン予約(Online Appointment)、持ち物、混雑回避、各手続きの窓口を実務目線で整理。行く前に知っておくと一度で終わる準備ポイントをまとめます。",
+		"バンコクのイミグレーション(Immigration Division 1 / Chaengwattana・Government Complex Building B)への行き方、オンライン予約(Online Appointment)、持ち物、各手続きの窓口を実務目線で整理。二度手間を減らす準備ポイントをまとめます。",
 	datePublished: "2026-06-04",
-	dateModified: "2026-06-04",
+	dateModified: "2026-07-29",
 	draft: false,
 	heroEyebrow: "手続き・暮らしのQ&A ・ 在住手続き",
 	category: "qa",
@@ -36,7 +37,7 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 
 	answerFirst: [
 		"バンコクで多くの長期滞在手続き(ビザ延長・90日レポート・再入国許可など)を扱う窓口は、ラクシー区チェーンワッタナーの政府合同庁舎(Government Complex)B棟にある入国管理局・第1課(Immigration Division 1)です。郊外にあり、来所者も多いため、行く前の準備で待ち時間と二度手間が大きく変わります。",
-		"事前に押さえておきたいのは4点です。(1) 場所はB棟(管轄・手続きにより受付フロアが分かれます)、(2) 公式のオンライン予約(Online Appointment)を取れる手続きがある、(3) 受付は平日のみで昼休みがあり、当日の整理券(キュー)発行は終了時刻が早い、(4) 書類はコピーと署名が必要なものが多い。受付時間・予約枠・手続きごとの窓口は変わることがあるため、来所前に公式で最新を確認してください。",
+		"事前に押さえておきたいのは4点です。(1) 場所はB棟(管轄・手続きにより受付フロアが分かれます)、(2) 公式のオンライン予約(Online Appointment)を取れる手続きがある、(3) 受付は平日のみで昼休みがあり、ウォークインの整理券には受付時間がある、(4) 書類はコピーと署名が必要なものが多い。受付時間・予約枠・手続きごとの窓口は変わることがあるため、来所前に公式で最新を確認してください。",
 	],
 
 	bodySections: [
@@ -47,20 +48,19 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 				"名称: 入国管理局・第1課(Immigration Division 1 / บก.ตม.1)",
 				"場所: 政府合同庁舎(The Government Complex)B棟、チェーンワッタナー通り、ラクシー区、バンコク",
 				"受付時間: 08:30–12:00 / 13:00–16:30(昼休みあり・平日のみ、公式記載)",
-				"整理券(ウォークイン): 公式記載では 08:30–15:30 と案内。当日分は早めに締め切られることがあるため午前来所が無難",
+				"整理券(ウォークイン): 公式記載では 08:30–15:30 と案内",
 				"電話: 0-2141-9889(公式記載)",
 				"受付時間・整理券の締切・祝日対応は変わることがあります。来所前に公式サイトでご確認ください。",
 			],
 		},
 		{
-			heading: "行き方(MRTピンクライン・タクシー・バス)",
-			lead: "中心部から距離があるため、ルートを決めてから出ると迷いません。公式情報と公共交通の案内に基づく実務ルートです。",
+			heading: "行き方(MRTピンクライン・タクシー)",
+			lead: "中心部から距離があるため、ルートを決めてから出ると迷いません。MRTA・NBM・Government Complexの公式案内に基づく実務ルートです。",
 			items: [
-				"MRTピンクライン: 「Government Complex(政府合同庁舎)」駅で下車。駅から徒歩のうえ、庁舎内の無料シャトルバスでB棟へ向かうのが分かりやすいルート",
-				"中心部から: BTSスクンビット線でワットプラシーマハタート駅へ→MRTピンクラインに乗り換え→Government Complex駅、という乗り継ぎが代表例",
+				"MRTピンクライン: 「Government Complex(政府合同庁舎)」駅で下車。MRTA公式のピンクライン案内でも、路線がチェーンワッタナーのGovernment Complexを通ることを確認できます",
+				"中心部から: BTSスクンビット線のワットプラシーマハタート駅でMRTピンクラインに乗り換え、Government Complex駅へ。NBM公式路線図でも両路線の接続と両駅を確認できます",
 				"タクシー: 庁舎内に入ったら「B棟・ゲート2(Building B, Gate 2)」と伝えると分かりやすい。所要・料金は出発地と渋滞で変動",
-				"バス: 庁舎方面へ向かう路線あり。ただし所要時間が読みにくいため、時間に余裕がない日は鉄道+シャトルが堅い",
-				"庁舎は広く、B棟まで距離があります。シャトルや庁舎内の案内表示を活用し、開門直後の混雑も見込んで早めの到着を。",
+				"Government Complex公式は、スカイウォーク等からA・B・C棟へ向かう無料EVシャトルを案内しています。運行時間や乗り場は変わり得るため、来所当日の公式案内も確認してください",
 			],
 		},
 		{
@@ -81,11 +81,11 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 			items: [
 				"オンライン提出: 公式のオンライン窓口(TM47 のオンラインシステム)で届出できる対象があります",
 				"オンライン受付期間: 公式案内では「次回の届出期日の15日前から」インターネットで届出可能とされています(公式記載)",
-				"初回は対面/代理: 公式案内では、初回の届出は本人または代理人が居住地の管轄イミグレで行い、その後の90日届出からオンライン利用が可能とされています(公式記載)",
+				"オンライン対象外になる例: 新しいパスポートの場合や、Re-entry Permitを取得せず出国して再入国した場合などは、本人または代理人が居住地の管轄イミグレで届出するよう現行マニュアルで案内されています",
 				"対象範囲: Immigration Division 1 のオンライン届出はバンコク管轄分のみ対象(公式記載)",
 				"郵送: 所定の書式を郵送する方法も従来から案内されています",
 				"窓口: 直接または代理人による届出も可能",
-				"処理: オンライン提出後はメールで受理(Pending)が通知され、審査結果は登録メールに概ね3日以内に届く運用とされています(公式記載)。次回期日も期限15日前にメール通知される案内です",
+				"処理: オンライン提出後は審査中となり、現行マニュアルでは結果が登録メールアドレスへ3営業日以内に送られる案内です。オンライン上でも申請状況を確認できます",
 				"オンラインは受付できる期間が窓口・郵送と異なる運用です。対象地域・受付期間・必要書類は変わることがあるため、事前に公式でご確認ください。",
 				"90日レポートはビザの延長とは別の手続きです。違いの整理は関連記事を参照してください。",
 			],
@@ -107,10 +107,9 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 			lead: "郊外の大型窓口ゆえ、来所のタイミングと段取りで待ち時間が大きく変わります。",
 			items: [
 				"オンライン予約に対応する手続きは予約を取ってから行く",
-				"行く必要があるなら午前の早い時間帯を狙う(当日整理券は早く締め切られることがある)",
-				"月初・月末や連休前後、午後遅い時間は混みやすい傾向。可能なら避ける",
+				"ウォークインの場合は、公式の整理券受付時間(08:30–15:30)に間に合うよう余裕を持って移動する",
+				"祝日・臨時休業・受付時間の変更がないか、来所当日に公式サイトを確認する",
 				"書類は前夜にコピー・署名まで済ませ、手続きごとに分けてクリアファイルへ",
-				"同じ来所で複数手続き(例: 延長と再入国許可)をまとめると、来所回数を減らせます。",
 			],
 		},
 		{
@@ -121,7 +120,7 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 				"90日レポート(TM47)",
 				"再入国許可(Re-entry Permit)",
 				"ビザのキャンセル など",
-				"再入国許可の窓口は受付時間が一般窓口と異なる点に注意。公式案内では平日 10:30–18:30(祝日休み)とされています(公式記載)。来所前に最新を確認してください",
+				"再入国許可を含むウォークイン手続きの受付時間は、Immigration Division 1 の公式Contactページで来所前に確認してください",
 				"手続きごとの受付フロア・必要書類・手数料は時期や管轄で変わります。最新は公式でご確認ください。",
 			],
 		},
@@ -144,7 +143,7 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		{
 			question: "受付時間と整理券(キュー)の締切は?",
 			answer:
-				"公式記載では受付は平日 08:30–12:00 / 13:00–16:30(昼休みあり)、整理券(ウォークイン)は 08:30–15:30 と案内されています。当日分は早めに締め切られることがあるため、午前の早い時間に行くのが無難です。時間は変わることがあるため来所前に公式で確認してください。",
+				"公式記載では受付は平日 08:30–12:00 / 13:00–16:30(昼休みあり)、整理券(ウォークイン)は 08:30–15:30 と案内されています。時間は変わることがあるため来所前に公式で確認してください。",
 		},
 		{
 			question: "オンラインで予約してから行けますか?",
@@ -154,7 +153,7 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		{
 			question: "90日レポートのためだけにイミグレへ行く必要がありますか?",
 			answer:
-				"来所が前提とは限りません。90日レポート(住所の届出)は、オンライン提出・郵送・窓口/代理人といった方法が用意されています。公式案内では、オンラインは次回期日の15日前から届出でき、対象はバンコク管轄分のみ、初回は本人/代理人が対面で行いその後オンライン利用が可能とされています。対象地域・受付期間・必要書類は変わることがあるため、事前に公式でご確認ください。",
+				"来所が前提とは限りません。90日レポート(住所の届出)は、オンライン提出・郵送・窓口/代理人といった方法が用意されています。公式案内ではオンラインは次回期日の15日前から届出できますが、新しいパスポートの場合やRe-entry Permitなしで出国・再入国した場合など、対面届出が必要になる条件があります。対象地域・受付期間・必要書類は変わることがあるため、事前に公式でご確認ください。",
 		},
 		{
 			question: "持ち物は何を用意すればいいですか?",
@@ -203,21 +202,21 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		},
 		{
 			claim:
-				"90日レポート オンラインは次回期日の15日前から届出可・バンコク管轄のみ・初回は対面/代理人・結果メール通知は概ね3日以内",
+				"90日レポート オンラインは次回期日の15日前から届出可・結果は登録メールへ3営業日以内・新しいパスポート等は対面届出",
 			source:
-				"Immigration Division 1 公式サイト Notification of staying over 90 Days / TM47 オンラインシステム",
+				"Immigration Division 1 公式サイト Notification of staying over 90 Days / TM47 Online Instruction Manual",
 		},
 		{
 			claim:
-				"再入国許可(Re-entry Permit)窓口の受付時間 平日10:30–18:30(祝日休み)",
+				"再入国許可(Re-entry Permit)の手続き・必要書類・Immigration Division 1での受付",
 			source:
 				"Immigration Division 1 公式サイト Re-entry Permit / Contact ページ",
 		},
 		{
 			claim:
-				"MRTピンクライン Government Complex 駅・庁舎内シャトルでのアクセス",
-			source: "公共交通アクセス情報(要・公式/現地最新確認)",
-			primaryPending: true,
+				"MRTピンクライン Government Complex 駅・BTSとの接続・庁舎内シャトルでのアクセス",
+			source:
+				"Mass Rapid Transit Authority of Thailand ピンクライン公式案内 / Northern Bangkok Monorail公式路線図 / Government Complex EV Shuttle Bus公式案内",
 		},
 	],
 
@@ -254,6 +253,26 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 			label: "90日レポート オンラインシステム(TM47)",
 			url: "https://tm47.immigration.go.th",
 		},
+		{
+			label: "90日レポート オンライン公式マニュアル(TM47)",
+			url: "https://tm47.immigration.go.th/manual/IndexForeign.html",
+		},
+		{
+			label: "e-Extension 対象12区分(タイ入国管理局地方公式サイト)",
+			url: "https://phitsanulok.immigration.go.th/en/e-extension-online-application-for-temporary-stay-extension-in-3-minutes/",
+		},
+		{
+			label: "MRTA ピンクライン公式案内",
+			url: "https://www.mrta.co.th/en/the-pink-line",
+		},
+		{
+			label: "NBM ピンクライン公式路線図",
+			url: "https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		},
+		{
+			label: "Government Complex 無料EVシャトル公式案内",
+			url: "https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		},
 	],
 
 	placeholders: [
@@ -268,10 +287,6 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		{
 			key: "service-floor-by-procedure",
 			note: "B棟内の手続き別受付フロア(90日レポート/居住/延長/再入国 等)は一次で未確認。フロア配置は変更されうるため、確定情報が取れた場合のみ具体フロアを追記。",
-		},
-		{
-			key: "access-pink-line-detail",
-			note: "MRTピンクライン駅からB棟までの徒歩/シャトル詳細(出口番号・スカイウォーク・シャトル運行間隔)は一次で未確認・現地運用で変わりうる。一次/現地最新で確認のうえ詳細化。",
 		},
 	],
 };

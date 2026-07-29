@@ -21,7 +21,7 @@ export const MARRIAGE_VISA_THAILAND: Article = {
 		"タイ人配偶者に基づく滞在延長(Non-Immigrant O)の資金条件は、タイの銀行口座に40万バーツの預金、または月4万バーツの収入が一般的な目安とされます。寝かせ期間・必要書類・毎年更新・就労との関係・リタイアメントビザとの違いを、確認できた範囲で整理します(金額・運用は管轄により異なるため最新は公式で確認)。",
 	datePublished: "2026-06-04",
 	dateModified: "2026-06-04",
-	draft: false,
+	draft: true,
 	heroEyebrow: "ビザ別ガイド / 結婚ビザ(Non-O)",
 	category: "guide",
 	tags: [
