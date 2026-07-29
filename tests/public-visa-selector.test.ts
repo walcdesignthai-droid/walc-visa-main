@@ -17,6 +17,7 @@ describe("public VISA selector facts", () => {
 		expect(selector).not.toContain("categoryFromPrice");
 		expect(selector).not.toContain("categoryRecommendedPlan");
 		expect(selector).not.toContain("recommendedPlan?.walcFee");
+		expect(selector).not.toContain("VISA_RUN_SUPPORT");
 		expect(selector).toContain("DTV以外の料金・対応可否はLINEで個別確認");
 	});
 
