@@ -227,8 +227,16 @@ describe("WALC VISA public content consistency", () => {
 		expect(data).toContain("APPLICANT_DOCUMENTS");
 		expect(data).toContain("COMPANY_DOCUMENTS");
 		expect(data).toContain("WORK_PERMIT_DOCUMENTS");
+		expect(data).toContain("NON_B_PRIMARY_SOURCES");
+		expect(data).toContain("https://www.mfa.go.th/en/page/non-immigrant-visa-b");
+		expect(data).toContain(
+			"https://www.doe.go.th/prd/main/downloads/param/site/1/cat/14/sub/0/pull/category/view/list-label/object_id/6062",
+		);
+		expect(data).toContain('lastReviewed: "2026-07-29"');
 		expect(data.match(/group: "company"/g)).toHaveLength(12);
 		expect(data).toContain("事業内容や会社・申請者の状況");
+		expect(page).toContain("公式一次情報");
+		expect(page).toContain("NON_B_PRIMARY_SOURCES.map");
 		expect(navigation).toContain(
 			'{ href: "/visas/non-b-work-permit", label: "NON-B / WP" }',
 		);
