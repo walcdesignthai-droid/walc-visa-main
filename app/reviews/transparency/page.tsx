@@ -262,7 +262,7 @@ export default function ReviewTransparencyPage() {
 											<p className="text-sm leading-6 text-text-primary">
 												{row.definition}
 											</p>
-											<p className="mt-2 text-xs leading-6 text-text-tertiary">
+											<p className="mt-2 text-xs leading-6 text-text-secondary">
 												確認項目：{row.required}
 											</p>
 										</div>
@@ -395,7 +395,7 @@ export default function ReviewTransparencyPage() {
 										href={SITE_URLS.social.line}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="inline-flex min-h-12 items-center justify-center gap-2 bg-line px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-line-hover"
+										className="inline-flex min-h-12 items-center justify-center gap-2 bg-line px-5 py-3 text-sm font-bold text-brand-deep transition-colors hover:bg-line-hover"
 									>
 										<MessageCircle className="h-4 w-4" />
 										LINEで連絡
@@ -414,7 +414,7 @@ export default function ReviewTransparencyPage() {
 									<li>・訂正を希望する理由</li>
 									<li>・公開元を確認できる URL（ある場合）</li>
 								</ul>
-								<p className="mt-6 border-t border-border-subtle pt-5 text-xs leading-6 text-text-tertiary">
+								<p className="mt-6 border-t border-border-subtle pt-5 text-xs leading-6 text-text-secondary">
 									本人確認が必要な場合も、この公開ページへ個人情報を掲載することはありません。
 								</p>
 							</aside>

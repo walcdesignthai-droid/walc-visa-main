@@ -44,4 +44,16 @@ describe("WALC VISA review transparency page", () => {
 		expect(llms).toContain("[お客様の声・レビュー掲載方針]");
 		expect(llms).toContain("/reviews/transparency)");
 	});
+
+	it("keeps small copy and the LINE action at WCAG AA contrast", async () => {
+		const page = await read("app/reviews/transparency/page.tsx");
+
+		expect(page).not.toContain("text-text-tertiary");
+		expect(page).not.toContain(
+			"bg-line px-5 py-3 text-sm font-bold text-white",
+		);
+		expect(page).toContain(
+			"bg-line px-5 py-3 text-sm font-bold text-brand-deep",
+		);
+	});
 });
