@@ -15,7 +15,8 @@ export type LineMode = "ai" | "human";
 export const HUMAN_MODE_DURATION_HOURS = 6;
 
 /** Human モード継続時間 (ms) — setLineMode 内部用 */
-export const HUMAN_MODE_DURATION_MS = HUMAN_MODE_DURATION_HOURS * 60 * 60 * 1000;
+export const HUMAN_MODE_DURATION_MS =
+	HUMAN_MODE_DURATION_HOURS * 60 * 60 * 1000;
 
 interface LineUserModeRow {
 	line_user_id: string;

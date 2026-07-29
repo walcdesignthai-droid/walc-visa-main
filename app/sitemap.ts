@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
+import { getIndexableConditionalRoutes } from "@/lib/walc-data/publication-state";
 
 /**
  * app/sitemap.ts
@@ -19,6 +20,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		changeFrequency: "monthly",
 		priority: a.kind === "pillar" ? 0.8 : 0.6,
 	}));
+	const conditionalEntries: MetadataRoute.Sitemap =
+		getIndexableConditionalRoutes().map((route) => ({
+			url: `${BASE_URL}${route.path}`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: route.changeFrequency,
+			priority: route.priority,
+		}));
 
 	return [
 		{
@@ -40,6 +48,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.9,
 		},
 		{
+			url: `${BASE_URL}/visas/non-b-work-permit`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.9,
+		},
+		{
 			// WI-031: 著者 / 運営責任者ページ (E-E-A-T)
 			url: `${BASE_URL}/author/yosuke-onodera`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,
@@ -53,6 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.7,
 		},
+		...conditionalEntries,
 		...blogEntries,
 	];
 }
