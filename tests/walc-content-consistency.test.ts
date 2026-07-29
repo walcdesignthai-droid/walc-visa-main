@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { DtvPublicContent } from "../lib/walc-data/public-content";
+import { SITE_URLS } from "../lib/walc-data/site-map";
 import { buildMainStructuredDataGraph } from "../lib/walc-data/structured-data";
 
 const ROOT = resolve(import.meta.dirname, "..");
@@ -72,7 +73,15 @@ describe("WALC VISA public content consistency", () => {
 
 		const graphText = JSON.stringify(graph);
 		expect(graphText).toContain("https://dtv.walc-visa.online");
-		expect(graphText).not.toContain("https://walc-consulting.com");
+		expect(graphText).toContain("https://walc-consulting.com");
+		expect(graphText).not.toContain("https://crm.walc-visa.online");
+		expect(graphText).not.toContain("https://my.walc-visa.online");
+		expect(graphText).not.toContain("https://guide.walc-visa.online");
+
+		const organization = graph["@graph"].find(
+			(node) => node["@id"] === "https://walc-visa.online/#organization",
+		);
+		expect(organization?.sameAs).toEqual([SITE_URLS.dtv, SITE_URLS.corporate]);
 	});
 
 	it("uses the shared public content API with a verified fallback", async () => {
