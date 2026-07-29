@@ -6,6 +6,38 @@ export interface NonBRequiredDocument {
 	description: string;
 }
 
+export interface NonBPrimarySource {
+	title: string;
+	publisher: string;
+	url: string;
+	scope: string;
+	lastReviewed: string;
+}
+
+export const NON_B_PRIMARY_SOURCES: readonly NonBPrimarySource[] = [
+	{
+		title: "Non-Immigrant Visa “B”",
+		publisher: "タイ王国外務省",
+		url: "https://www.mfa.go.th/en/page/non-immigrant-visa-b",
+		scope: "Non-Bの目的、申請者・雇用企業が準備する基本資料",
+		lastReviewed: "2026-07-29",
+	},
+	{
+		title: "外国人就労許可の申請書・添付書類一覧",
+		publisher: "タイ王国雇用局（Department of Employment）",
+		url: "https://www.doe.go.th/prd/main/downloads/param/site/1/cat/14/sub/0/pull/category/view/list-label/object_id/6062",
+		scope: "Work Permitの申請区分別フォームと公式添付書類",
+		lastReviewed: "2026-07-29",
+	},
+	{
+		title: "海外在住者に代わるWork Permit申請（บต.32）添付書類",
+		publisher: "タイ王国雇用局（Department of Employment）",
+		url: "https://www.doe.go.th/prd/download/download_by_pool_file/103502",
+		scope: "บต.32申請で求められる本人・雇用企業・事業所資料",
+		lastReviewed: "2026-07-29",
+	},
+] as const;
+
 export const APPLICANT_DOCUMENTS: readonly NonBRequiredDocument[] = [
 	{
 		id: "passport",

@@ -1,6 +1,7 @@
 import {
 	ArrowRight,
 	BadgeCheck,
+	BookOpenCheck,
 	BriefcaseBusiness,
 	Check,
 	CircleAlert,
@@ -25,6 +26,7 @@ import {
 	COMPANY_DOCUMENTS,
 	NON_B_DOCUMENT_NOTICE,
 	NON_B_FAQ,
+	NON_B_PRIMARY_SOURCES,
 	NON_B_PROCESS,
 	type NonBRequiredDocument,
 	WORK_PERMIT_DOCUMENTS,
@@ -450,6 +452,53 @@ export default function NonBWorkPermitPage() {
 						<div className="mt-6 flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-amber-950">
 							<CircleAlert className="mt-0.5 h-5 w-5 min-w-5" />
 							<p className="text-sm leading-relaxed">{NON_B_DOCUMENT_NOTICE}</p>
+						</div>
+
+						<div className="mt-8 overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary">
+							<div className="grid gap-7 p-6 md:grid-cols-[0.72fr_1.28fr] md:p-8">
+								<div>
+									<BookOpenCheck className="h-7 w-7 text-accent-blue" />
+									<p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-blue">
+										Primary sources
+									</p>
+									<h3 className="mt-2 text-2xl font-bold text-text-primary">
+										公式一次情報
+									</h3>
+									<p className="mt-3 text-sm leading-relaxed text-text-secondary">
+										公開リストは一般的な準備項目です。実際の要求書類は申請先公館、Work
+										Permitの申請区分、会社・職種によって異なります。
+									</p>
+									<p className="mt-4 text-xs font-semibold text-text-tertiary">
+										最終確認: {NON_B_PRIMARY_SOURCES[0]?.lastReviewed}
+									</p>
+								</div>
+
+								<ul className="divide-y divide-border-subtle border-y border-border-subtle">
+									{NON_B_PRIMARY_SOURCES.map((source) => (
+										<li key={source.url} className="py-4">
+											<a
+												href={source.url}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="group flex items-start justify-between gap-4"
+											>
+												<span>
+													<span className="block text-[11px] font-bold text-text-tertiary">
+														{source.publisher}
+													</span>
+													<span className="mt-1 block text-sm font-bold text-text-primary group-hover:text-accent-blue">
+														{source.title}
+													</span>
+													<span className="mt-1.5 block text-xs leading-relaxed text-text-secondary">
+														{source.scope}
+													</span>
+												</span>
+												<ExternalLink className="mt-1 h-4 w-4 min-w-4 text-accent-blue" />
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
 						</div>
 
 						<div className="mt-8 text-center">
