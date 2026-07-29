@@ -29,6 +29,8 @@ describe("Hero image quality", () => {
 			Number.parseInt(match[1], 10),
 		);
 
+		expect(allowed).toContain(75);
+		expect(requested).toEqual([]);
 		for (const quality of requested) {
 			expect(allowed).toContain(quality);
 		}
