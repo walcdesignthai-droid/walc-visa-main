@@ -2,7 +2,8 @@
  * app/api/concierge/route.ts — Web AI Concierge v5.0 (Edge Runtime)
  * ----------------------------------------------------------------------------
  * Vercel Edge Runtime で SSE ストリーミング配信。
- *   - ストリーミング 25 分まで OK (Serverless の 10 秒制限を回避)
+ *   - 25秒以内に応答を開始し、最大300秒までストリーミング可能
+ *   - アプリ側はプロバイダー無通信15秒で安全にフォールバック
  *   - Gemini 3.6 Flash を低遅延の第一候補として使用
  *   - Claude Sonnet 5 をフォールバックに使用
  *   - CRM の共通公開コンテンツを回答ナレッジとして使用
@@ -11,7 +12,10 @@
 
 import type { NextRequest } from "next/server";
 import { parseConciergeResponse } from "@/lib/concierge/cta-parser";
-import { buildConciergeFallback } from "@/lib/concierge/fallback";
+import {
+	buildConciergeFallback,
+	buildConciergeInterruption,
+} from "@/lib/concierge/fallback";
 import { conciergeGenerateStream } from "@/lib/concierge/provider";
 import { getConciergeSystemPrompt } from "@/lib/concierge/system-prompt";
 import type {
@@ -106,11 +110,19 @@ export async function POST(req: NextRequest) {
 				const message =
 					error instanceof Error ? error.message : "Unknown error";
 				console.error("[concierge] provider fallback", { message });
+				const hasPartialAnswer = fullText.length > 0;
 				const fallback = parseConciergeResponse(
-					buildConciergeFallback(body.messages, content),
+					hasPartialAnswer
+						? buildConciergeInterruption()
+						: buildConciergeFallback(body.messages, content),
 				);
 				controller.enqueue(
-					encoder.encode(sse({ type: "delta", text: fallback.text })),
+					encoder.encode(
+						sse({
+							type: "delta",
+							text: hasPartialAnswer ? `\n\n${fallback.text}` : fallback.text,
+						}),
+					),
 				);
 				controller.enqueue(
 					encoder.encode(sse({ type: "done", cta: fallback.cta })),

@@ -63,3 +63,15 @@ export function buildConciergeFallback(
 
 	return lines.join("\n");
 }
+
+/**
+ * 途中まで表示した別プロバイダーの回答へ、別の全文回答を連結しない。
+ * 不完全な文章を事実として補完せず、有人確認へ安全に引き継ぐ。
+ */
+export function buildConciergeInterruption(): string {
+	return [
+		"回答の途中で接続が不安定になったため、誤った内容を続けず停止しました。",
+		"個別の条件と最新情報は、公式LINEでスタッフが確認します。",
+		"[CTA:line]",
+	].join("\n");
+}
