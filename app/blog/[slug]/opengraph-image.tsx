@@ -202,7 +202,7 @@ export default async function OgImage({
 							}}
 						/>
 						<span style={{ color: "#a0a9b8", fontSize: 12, letterSpacing: 2 }}>
-							OFFICIAL
+							WALC GUIDE
 						</span>
 					</div>
 					<div
