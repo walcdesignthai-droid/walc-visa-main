@@ -51,4 +51,21 @@ describe("LTR page authority and public claims", () => {
 		expect(source).toContain("alternates: { canonical: LTR_URL }");
 		expect(source).toContain("url: LTR_URL");
 	});
+
+	it("matches the current BOI category and dependent criteria", async () => {
+		const source = await readFile(PAGE_PATH, "utf8");
+
+		expect(source).toContain("直近3年合計売上 50,000,000 USD以上");
+		expect(source).toContain("BOI対象産業・指定専門分野");
+		expect(source).not.toContain("BOI 指定 10 産業");
+		expect(source).not.toContain("修士号 / IP / Series A 資金調達");
+		expect(source).toContain("配偶者・20歳未満の子を合わせて最大4名");
+		expect(source).not.toContain("配偶者 + 20 歳未満の子 4 名まで");
+		expect(source).toContain(
+			"https://ltr.boi.go.th/page/targeted-industries.html",
+		);
+		expect(source).toContain(
+			"https://ltr.boi.go.th/page/opening-bank-account-in-thailand.html",
+		);
+	});
 });
