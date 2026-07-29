@@ -24,7 +24,7 @@ const ORIGIN = "https://walc-visa.online";
 const OFFICIAL_SITES_URL = "https://walc-visa.online/official-sites";
 const OFFICIAL_SITES_TITLE = "WALC VISAの公式サイト一覧";
 const OFFICIAL_SITES_DESCRIPTION =
-	"WALC VISA公式サイト、DTV専門サイト、公開ガイド、お客様専用ポータルの役割と正しい利用先をご案内します。";
+	"WALC VISA公式サイト、法人・事業支援サイト、DTV専門サイト、公開ガイド、お客様専用ポータルの役割と正しい利用先をご案内します。";
 const OFFICIAL_SITES_SOCIAL_IMAGE = "/images/AdobeStock_494541408.jpeg";
 
 export const metadata: Metadata = {
@@ -129,6 +129,9 @@ export default function OfficialSitesPage() {
 							<div className="mt-8 flex flex-wrap gap-3 text-xs text-white/70">
 								<span className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">
 									運営・サービスの第一正本
+								</span>
+								<span className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">
+									法人・事業支援
 								</span>
 								<span className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5">
 									DTV専門情報

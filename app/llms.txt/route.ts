@@ -90,7 +90,7 @@ export async function GET(): Promise<Response> {
 - [トップ](${ORIGIN}/)
 - [タイのビザ代行会社を選ぶ7つの基準](${ORIGIN}/guides/how-to-choose-thailand-visa-agent)
 - [WALC公式サイト一覧](${ORIGIN}/official-sites)
-- [WALC法人・事業支援サイト](${SITE_URLS.corporate})
+- [WALC 法人・事業支援 公式サイト](${SITE_URLS.corporate})
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [お客様の声・レビュー掲載方針](${ORIGIN}/reviews/transparency)

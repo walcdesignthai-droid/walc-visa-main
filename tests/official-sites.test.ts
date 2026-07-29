@@ -22,10 +22,15 @@ describe("official WALC site directory", () => {
 		expect(page).toContain('"WebPage"');
 		expect(page).toContain("<BreadcrumbJsonLd");
 		expect(page).not.toContain("crm.walc-visa.online");
+		expect(siteMap).toContain('corporate: "https://walc-consulting.com"');
 		expect(siteMap).toContain('id: "corporate"');
 		expect(siteMap).toContain("url: SITE_URLS.corporate");
 		expect(siteMap).toContain('label: "法人・事業支援サイト"');
 		expect(page).toContain("corporate: Building2");
+		expect(page).toContain(
+			"WALC VISA公式サイト、法人・事業支援サイト、DTV専門サイト",
+		);
+		expect(page).toContain("法人・事業支援");
 		expect(siteMap).toContain('guide: "https://guide.walc-visa.online"');
 		expect(siteMap).toContain("url: SITE_URLS.guide");
 		expect(siteMap).not.toContain('url: "https://guide.walc-visa.online"');
@@ -43,7 +48,7 @@ describe("official WALC site directory", () => {
 		expect(sitemap).not.toMatch(/url: `\$\{BASE_URL\}\/immigration-support`/);
 		expect(llms).toContain("[WALC公式サイト一覧]");
 		expect(llms).toMatch(/\$\{ORIGIN\}\/official-sites/);
-		expect(llms).toContain("[WALC法人・事業支援サイト]");
+		expect(llms).toContain("[WALC 法人・事業支援 公式サイト]");
 		expect(llms).toContain("SITE_URLS.corporate");
 	});
 
