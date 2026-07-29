@@ -34,6 +34,7 @@ const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
 	{ href: "/#consult", label: "AI コンシェルジュ + 無料相談" },
 	{ href: "/#company-info", label: "会社概要" },
+	{ href: "/reviews/transparency", label: "お客様の声・レビュー掲載方針" },
 	{ href: "/official-sites", label: "WALC 公式サイト一覧" },
 ];
 
