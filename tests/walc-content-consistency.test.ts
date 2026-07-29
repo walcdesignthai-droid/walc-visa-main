@@ -69,6 +69,10 @@ describe("WALC VISA public content consistency", () => {
 		expect(offers.map((offer) => offer.url)).not.toContain(
 			"https://walc-visa.online/visas/privilege",
 		);
+
+		const graphText = JSON.stringify(graph);
+		expect(graphText).toContain("https://dtv.walc-visa.online");
+		expect(graphText).not.toContain("https://walc-consulting.com");
 	});
 
 	it("uses the shared public content API with a verified fallback", async () => {

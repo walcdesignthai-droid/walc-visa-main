@@ -72,7 +72,7 @@ export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 					},
 				}
 			: {}),
-		sameAs: ["https://dtv.walc-visa.online", "https://walc-consulting.com"],
+		sameAs: ["https://dtv.walc-visa.online"],
 		contactPoint: {
 			"@type": "ContactPoint",
 			contactType: "customer support",
