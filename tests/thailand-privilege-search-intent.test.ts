@@ -28,9 +28,13 @@ describe("Thailand Privilege difference-intent guide", () => {
 	it("distinguishes current applicants from legacy members without implying automatic conversion", () => {
 		const earlyCopy = [
 			...THAILAND_PRIVILEGE_OVERVIEW.answerFirst,
-			...THAILAND_PRIVILEGE_OVERVIEW.bodySections
+			...(THAILAND_PRIVILEGE_OVERVIEW.bodySections ?? [])
 				.slice(0, 2)
-				.flatMap((section) => [section.heading, section.lead, ...(section.items ?? [])]),
+				.flatMap((section) => [
+					section.heading,
+					section.lead,
+					...(section.items ?? []),
+				]),
 		].join("\n");
 
 		expect(earlyCopy).toContain("旧プランの会員は従来区分のまま継続");
@@ -55,7 +59,7 @@ describe("Thailand Privilege difference-intent guide", () => {
 	});
 
 	it("keeps the current five official packages and truthful internal-link state", () => {
-		const packageCopy = THAILAND_PRIVILEGE_OVERVIEW.bodySections
+		const packageCopy = (THAILAND_PRIVILEGE_OVERVIEW.bodySections ?? [])
 			.flatMap((section) => section.items ?? [])
 			.join("\n");
 

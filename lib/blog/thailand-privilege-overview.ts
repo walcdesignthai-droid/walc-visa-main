@@ -14,8 +14,7 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 	slug: "thailand-privilege-overview",
 	kind: "cluster",
 	promptKey: "gd-thailand-privilege",
-	title:
-		"Thailand PrivilegeとThailand Eliteの違い｜現行5プラン・旧会員の扱い",
+	title: "Thailand PrivilegeとThailand Eliteの違い｜現行5プラン・旧会員の扱い",
 	h1: "Thailand PrivilegeとThailand Eliteの違い｜現行5プランと旧会員の扱い",
 	description:
 		"Thailand PrivilegeとThailand Eliteの違いを、2023年の名称・ロゴ刷新、旧プラン会員の継続・任意アップグレード、新規申込向け現行5区分、料金・年数・就労可否まで公式情報で整理します。",
@@ -154,8 +153,7 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 
 	sources: [
 		{
-			claim:
-				"2023年のThailand EliteからThailand Privilegeへの名称・ロゴ変更",
+			claim: "2023年のThailand EliteからThailand Privilegeへの名称・ロゴ変更",
 			source:
 				"Thailand Privilege 公式「Your freedom of choices to endless privileges」",
 			primaryPending: false,
