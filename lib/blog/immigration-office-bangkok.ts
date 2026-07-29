@@ -1,9 +1,10 @@
 /**
  * lib/blog/immigration-office-bangkok.ts — 手続き・暮らしのQ&A(WI-visa-content-consolidation §2)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT。バンコク・イミグレ(Chaengwattana / Immigration Division 1)の行き方・予約・
+ * バンコク・イミグレ(Chaengwattana / Immigration Division 1)の行き方・予約・
  * 持ち物・混雑回避の実務ガイド。YMYL ゲート 0(景表法 NG 表現を排除)。
  * 推測ゼロ: 所在地・受付時間・オンライン予約は一次出典(公式)で確認できたもののみ。
+ * 公共交通は MRTA/NBM、庁舎内移動は Government Complex の公式案内を参照。
  * 変動しやすい受付時間/予約枠/管轄階は placeholders(要確認)へ逃がす。
  * 内部リンクは clusterLinks に集約。監修 = Yosuke Onodera。
  * ----------------------------------------------------------------------------
@@ -21,8 +22,8 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 	description:
 		"バンコクのイミグレーション(Immigration Division 1 / Chaengwattana・Government Complex Building B)への行き方、オンライン予約(Online Appointment)、持ち物、混雑回避、各手続きの窓口を実務目線で整理。行く前に知っておくと一度で終わる準備ポイントをまとめます。",
 	datePublished: "2026-06-04",
-	dateModified: "2026-06-04",
-	draft: true,
+	dateModified: "2026-07-29",
+	draft: false,
 	heroEyebrow: "手続き・暮らしのQ&A ・ 在住手続き",
 	category: "qa",
 	tags: ["イミグレーション", "Chaengwattana", "オンライン予約", "在住手続き"],
@@ -53,14 +54,13 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 			],
 		},
 		{
-			heading: "行き方(MRTピンクライン・タクシー・バス)",
-			lead: "中心部から距離があるため、ルートを決めてから出ると迷いません。公式情報と公共交通の案内に基づく実務ルートです。",
+			heading: "行き方(MRTピンクライン・タクシー)",
+			lead: "中心部から距離があるため、ルートを決めてから出ると迷いません。MRTA・NBM・Government Complexの公式案内に基づく実務ルートです。",
 			items: [
-				"MRTピンクライン: 「Government Complex(政府合同庁舎)」駅で下車。駅から徒歩のうえ、庁舎内の無料シャトルバスでB棟へ向かうのが分かりやすいルート",
-				"中心部から: BTSスクンビット線でワットプラシーマハタート駅へ→MRTピンクラインに乗り換え→Government Complex駅、という乗り継ぎが代表例",
+				"MRTピンクライン: 「Government Complex(政府合同庁舎)」駅で下車。MRTA公式のピンクライン案内でも、路線がチェーンワッタナーのGovernment Complexを通ることを確認できます",
+				"中心部から: BTSスクンビット線のワットプラシーマハタート駅でMRTピンクラインに乗り換え、Government Complex駅へ。NBM公式路線図でも両路線の接続と両駅を確認できます",
 				"タクシー: 庁舎内に入ったら「B棟・ゲート2(Building B, Gate 2)」と伝えると分かりやすい。所要・料金は出発地と渋滞で変動",
-				"バス: 庁舎方面へ向かう路線あり。ただし所要時間が読みにくいため、時間に余裕がない日は鉄道+シャトルが堅い",
-				"庁舎は広く、B棟まで距離があります。シャトルや庁舎内の案内表示を活用し、開門直後の混雑も見込んで早めの到着を。",
+				"Government Complex公式は、スカイウォーク等からA・B・C棟へ向かう無料EVシャトルを案内しています。運行時間や乗り場は変わり得るため、来所当日の公式案内も確認してください",
 			],
 		},
 		{
@@ -215,9 +215,9 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		},
 		{
 			claim:
-				"MRTピンクライン Government Complex 駅・庁舎内シャトルでのアクセス",
-			source: "公共交通アクセス情報(要・公式/現地最新確認)",
-			primaryPending: true,
+				"MRTピンクライン Government Complex 駅・BTSとの接続・庁舎内シャトルでのアクセス",
+			source:
+				"Mass Rapid Transit Authority of Thailand ピンクライン公式案内 / Northern Bangkok Monorail公式路線図 / Government Complex EV Shuttle Bus公式案内",
 		},
 	],
 
@@ -254,6 +254,18 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 			label: "90日レポート オンラインシステム(TM47)",
 			url: "https://tm47.immigration.go.th",
 		},
+		{
+			label: "MRTA ピンクライン公式案内",
+			url: "https://www.mrta.co.th/en/the-pink-line",
+		},
+		{
+			label: "NBM ピンクライン公式路線図",
+			url: "https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		},
+		{
+			label: "Government Complex 無料EVシャトル公式案内",
+			url: "https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		},
 	],
 
 	placeholders: [
@@ -268,10 +280,6 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		{
 			key: "service-floor-by-procedure",
 			note: "B棟内の手続き別受付フロア(90日レポート/居住/延長/再入国 等)は一次で未確認。フロア配置は変更されうるため、確定情報が取れた場合のみ具体フロアを追記。",
-		},
-		{
-			key: "access-pink-line-detail",
-			note: "MRTピンクライン駅からB棟までの徒歩/シャトル詳細(出口番号・スカイウォーク・シャトル運行間隔)は一次で未確認・現地運用で変わりうる。一次/現地最新で確認のうえ詳細化。",
 		},
 	],
 };
