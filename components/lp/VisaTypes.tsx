@@ -35,6 +35,7 @@ import {
 	visasByTab,
 } from "@/lib/walc-data/pricing";
 import type { DtvPublicContent } from "@/lib/walc-data/public-content";
+import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 // アイコンマップ (slug → icon)
 const ICON_MAP: Record<string, typeof Briefcase> = {
@@ -60,7 +61,7 @@ const PUBLIC_VISA_DESCRIPTIONS: Record<string, string> = {
 };
 
 const TABS: { id: DurationTab; label: string; sublabel: string }[] = [
-	{ id: "short", label: "短期滞在", sublabel: "〜90 日" },
+	{ id: "short", label: "短期滞在", sublabel: "渡航時点で確認" },
 	{ id: "one_year", label: "1 年滞在", sublabel: "更新型" },
 	{ id: "long_term", label: "5 年以上滞在", sublabel: "目的別に確認" },
 ];
@@ -89,6 +90,32 @@ export function VisaTypes({ content }: { content: DtvPublicContent }) {
 						<br className="hidden md:block" />
 						就労・家族・学習など、活動目的に合わないVISAを一律に勧めることはありません。
 					</p>
+				</div>
+
+				<div className="mb-8 md:mb-10 rounded-2xl border border-brand/15 bg-brand px-5 py-5 text-white shadow-sm md:flex md:items-center md:justify-between md:gap-8 md:px-7">
+					<div className="flex items-start gap-4">
+						<div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+							<Briefcase className="h-5 w-5 text-amber-300" />
+						</div>
+						<div>
+							<p className="text-xs font-semibold tracking-[0.16em] text-amber-200 uppercase">
+								Work in Thailand
+							</p>
+							<h3 className="mt-1 text-lg font-bold md:text-xl">
+								タイで働く方は、Non-B・Work Permitを先に確認
+							</h3>
+							<p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/75">
+								タイ国内企業での就労を予定する場合は、活動内容と雇用条件に合う在留資格・就労許可を整理します。
+							</p>
+						</div>
+					</div>
+					<Link
+						href="/visas/non-b-work-permit"
+						className="mt-4 inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-brand transition hover:bg-amber-50 md:mt-0"
+					>
+						Non-B・WPを確認
+						<ArrowUpRight className="h-4 w-4" />
+					</Link>
 				</div>
 
 				{/* タブナビゲーション */}
@@ -188,7 +215,7 @@ function VisaCard({
 		isDtv
 			? "bg-brand text-white border-brand hover:shadow-xl hover:-translate-y-1"
 			: isDisabled
-				? "bg-white/60 border-border-subtle cursor-default"
+				? "bg-white/70 border-border-subtle hover:border-brand/40 hover:shadow-lg hover:-translate-y-0.5"
 				: "bg-white border-border-subtle hover:border-brand/40 hover:shadow-lg hover:-translate-y-0.5"
 	}`;
 
@@ -221,13 +248,11 @@ function VisaCard({
 						strokeWidth={1.8}
 					/>
 				</div>
-				{!isDisabled && (
-					<ArrowUpRight
-						className={`w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-							isDtv ? "text-white/60" : "text-text-tertiary"
-						}`}
-					/>
-				)}
+				<ArrowUpRight
+					className={`w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+						isDtv ? "text-white/60" : "text-text-tertiary"
+					}`}
+				/>
 			</div>
 
 			{/* タイトル */}
@@ -313,9 +338,19 @@ function VisaCard({
 		</>
 	);
 
-	// リンク無効カテゴリは div、外部 URL ありなら <a target="_blank">、それ以外は内部 Link
+	// 専用ページがないカテゴリはLINE相談へつなぎ、行き止まりを作らない。
 	if (isDisabled) {
-		return <div className={cardClass}>{inner}</div>;
+		return (
+			<a
+				href={SITE_URLS.social.line}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={`${visa.shortName}の料金・対応可否をLINEで個別確認`}
+				className={cardClass}
+			>
+				{inner}
+			</a>
+		);
 	}
 	if (visa.externalUrl) {
 		return (
@@ -343,7 +378,7 @@ function VisaCard({
 function ShortStaySection() {
 	return (
 		<div className="space-y-6">
-			{/* 短期滞在の現状サマリー */}
+			{/* 制度変更中のため、渡航時点の公式情報へfail closedする。 */}
 			<div className="bg-white border border-border-subtle rounded-xl p-6 md:p-8">
 				<div className="flex items-start gap-3 mb-4">
 					<div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
@@ -351,36 +386,54 @@ function ShortStaySection() {
 					</div>
 					<div>
 						<h3 className="text-lg md:text-xl font-bold text-text-primary">
-							短期滞在は、まずノービザで OK
+							短期滞在は、渡航日と国籍ごとに条件確認
 						</h3>
 						<p className="text-xs text-text-tertiary mt-0.5">
-							日本パスポートは VISA 免除 (Visa Exemption)
+							VISA免除・VoA・e-Visaの適用条件は改定されることがあります
 						</p>
 					</div>
 				</div>
+				<p className="text-sm leading-relaxed text-text-secondary">
+					タイ政府は2026年5月にVISA免除制度の見直しを承認しています。許可日数・延長可否・施行状況は、渡航時点の公式情報と入国審査によって変わるため、固定日数では案内しません。
+				</p>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
 					<div className="bg-bg-secondary rounded-lg p-4">
-						<div className="text-2xl font-bold text-brand tabular-nums">
-							60 日
-						</div>
-						<div className="text-xs text-text-secondary mt-1">
-							ノービザで滞在可能
+						<div className="text-sm font-bold text-brand">パスポート国籍</div>
+						<div className="text-xs text-text-secondary mt-2">
+							VISA免除・VoA・e-Visaの対象を確認
 						</div>
 					</div>
 					<div className="bg-bg-secondary rounded-lg p-4">
-						<div className="text-2xl font-bold text-brand tabular-nums">
-							+30 日
-						</div>
-						<div className="text-xs text-text-secondary mt-1">
-							タイ国内イミグレで延長 (1,900 THB)
+						<div className="text-sm font-bold text-brand">渡航予定日</div>
+						<div className="text-xs text-text-secondary mt-2">
+							制度改定の施行状況と適用条件を確認
 						</div>
 					</div>
 					<div className="bg-bg-secondary rounded-lg p-4">
-						<div className="text-2xl font-bold text-brand tabular-nums">
-							合計 90 日
+						<div className="text-sm font-bold text-brand">入国歴・活動目的</div>
+						<div className="text-xs text-text-secondary mt-2">
+							短期滞在か長期VISAかを個別に整理
 						</div>
-						<div className="text-xs text-text-secondary mt-1">最大連続滞在</div>
 					</div>
+				</div>
+				<div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+					<a
+						href={SITE_URLS.social.line}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-light"
+					>
+						LINEで個別確認
+					</a>
+					<a
+						href="https://consular.mfa.go.th/th/content/20-5-69-0000"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex min-h-11 items-center justify-center gap-2 px-2 text-sm font-semibold text-brand hover:underline"
+					>
+						タイ外務省領事局の発表
+						<ArrowUpRight className="h-4 w-4" />
+					</a>
 				</div>
 			</div>
 
