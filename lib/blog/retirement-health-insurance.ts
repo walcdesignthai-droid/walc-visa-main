@@ -27,7 +27,7 @@ export const RETIREMENT_HEALTH_INSURANCE: Article = {
 		"タイのリタイアメントビザ(Non-OA)で求められる健康保険の要件を解説。補償額の目安(外来/入院・総額)、対象となる保険、海外公館で取る Non-OA とタイ国内で切り替える Non-O の違い、更新時の注意、保険切れリスクまで、推測を避け公式確認前提でまとめました。",
 	datePublished: "2026-06-04",
 	dateModified: "2026-06-04",
-	draft: false,
+	draft: true,
 	heroEyebrow: "ビザ別ガイド ・ リタイアメント",
 	category: "guide",
 	tags: ["リタイアメントビザ", "Non-OA", "Non-O", "健康保険", "更新"],
