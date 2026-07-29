@@ -26,7 +26,8 @@ describe("blog Open Graph image identity", () => {
 			JSON.stringify(descriptor),
 		);
 
-		expect(descriptors).toHaveLength(24);
+		expect(PUBLISHED_ARTICLES.length).toBeGreaterThan(0);
+		expect(descriptors).toHaveLength(PUBLISHED_ARTICLES.length);
 		expect(new Set(fingerprints).size).toBe(descriptors.length);
 		expect(descriptors.every((descriptor) => !descriptor.fallback)).toBe(true);
 	});
