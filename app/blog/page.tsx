@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogCover } from "@/components/blog/BlogCover";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import { buildBlogIndexStructuredData } from "@/lib/blog/index-structured-data";
 import {
 	articleCategory,
 	CATEGORY_LABEL,
@@ -60,6 +61,7 @@ export default async function BlogIndexPage() {
 
 	return (
 		<>
+			<JsonLdScript data={buildBlogIndexStructuredData(PUBLISHED_ARTICLES)} />
 			<JsonLdScript data={breadcrumbSchema} />
 			<main className="mx-auto max-w-6xl px-5 md:px-8 pb-20">
 				{/* ブランドヘッダー */}
