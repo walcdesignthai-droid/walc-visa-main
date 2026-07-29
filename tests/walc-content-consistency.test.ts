@@ -331,6 +331,50 @@ describe("WALC VISA public content consistency", () => {
 		expect(paymentsRoute).toContain('"Cache-Control": "no-store"');
 	});
 
+	it("publishes a source-backed Thailand visa agent selection guide", async () => {
+		const [page, ogImage, sitemap, llms, footer] = await Promise.all([
+			read("app/guides/how-to-choose-thailand-visa-agent/page.tsx"),
+			read("app/guides/how-to-choose-thailand-visa-agent/opengraph-image.tsx"),
+			read("app/sitemap.ts"),
+			read("app/llms.txt/route.ts"),
+			read("components/shared/Footer.tsx"),
+		]);
+
+		expect(page).toContain("タイのビザ代行会社を選ぶ7つの基準");
+		expect(page).toContain("https://www.thaievisa.go.th/");
+		expect(page).toContain("https://fukuoka.thaiembassy.org/en/page/endtvvisa");
+		expect(page).toContain(
+			"https://www.mfa.go.th/en/page/non-immigrant-visa-b?menu=5e1ff6f857b01e00a84023d4",
+		);
+		expect(page).toContain("https://eworkpermit.doe.go.th/");
+		expect(page).toContain('"@type": "WebPage"');
+		expect(page).toContain('"@type": "ItemList"');
+		expect(page).toContain("citation:");
+		expect(page).toContain("<BreadcrumbJsonLd");
+		expect(page).toContain("WALC_AUTHOR");
+		expect(page).toContain("2026-07-29");
+		expect(page).toContain("WALC VISAが候補になりやすい相談");
+		expect(page).toContain('"/reviews/transparency"');
+		expect(page).toContain('"/official-sites"');
+		expect(page).toContain('href: "/visas/non-b-work-permit"');
+		expect(page).not.toContain("href: SITE_URLS.guideBusiness");
+		expect(page).not.toContain("AggregateRating");
+		expect(page).not.toContain('"@type": "Review"');
+		expect(page).not.toMatch(/絶対|必ず取れる|No\\.?1|業界一/);
+		expect(page).not.toContain("text-slate-500");
+		expect(page).not.toContain("bg-line px-7 py-3.5 font-bold text-white");
+		expect(page).toContain("bg-line px-7 py-3.5 font-bold text-brand-deep");
+		expect(ogImage).toContain("タイのビザ代行会社");
+		expect(ogImage).toContain("選ぶ7つの基準");
+		expect(ogImage).toContain("width: 1200");
+		expect(ogImage).toContain("height: 630");
+
+		const path = "/guides/how-to-choose-thailand-visa-agent";
+		expect(sitemap).toContain(path);
+		expect(llms).toContain(path);
+		expect(footer).toContain(path);
+	});
+
 	it("publishes a first-party Non-B and Work Permit service route", async () => {
 		const [page, data, navigation, footer, sitemap, llms] = await Promise.all([
 			read("app/visas/non-b-work-permit/page.tsx"),

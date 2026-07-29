@@ -32,6 +32,10 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 
 const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
+	{
+		href: "/guides/how-to-choose-thailand-visa-agent",
+		label: "ビザ代行会社の選び方",
+	},
 	{ href: "/#consult", label: "AI コンシェルジュ + 無料相談" },
 	{ href: "/#company-info", label: "会社概要" },
 	{ href: "/reviews/transparency", label: "お客様の声・レビュー掲載方針" },
