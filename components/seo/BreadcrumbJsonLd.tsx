@@ -19,12 +19,13 @@ interface BreadcrumbItem {
 	url: string;
 }
 
-interface BreadcrumbJsonLdProps {
+export function BreadcrumbJsonLd({
+	items,
+	id,
+}: {
 	items: ReadonlyArray<BreadcrumbItem>;
 	id?: string;
-}
-
-export function BreadcrumbJsonLd({ items, id }: BreadcrumbJsonLdProps) {
+}) {
 	const schema = {
 		"@context": "https://schema.org",
 		"@type": "BreadcrumbList",
