@@ -1,206 +1,92 @@
-# INDEX — 全ファイル索引・参照関係マップ
-
-> プロジェクト内の全ファイルとその役割・参照関係を一覧化したもの。
-> 新しいファイルを追加・編集する際は、本ファイルも必ず更新すること。
-
+---
+title: WALC VISA knowledge-source index
+version: 2.0
+updated: 2026-07-29
+status: active
+priority: critical
 ---
 
-## 全ファイル一覧
+# WALC VISA knowledge-source index
 
-### トップレベル(4ファイル)
+## Runtime public-answer canon
 
-| ファイル | 役割 | 必読度 |
+AIランタイムへ組み込む公開正本は次の2ファイルだけである。
+両方とも `status: owner_confirmed` が必要。
+
+| File | Role | Runtime |
 |---|---|---|
-| `CLAUDE.md` | エージェント命令書 | ⭐⭐⭐ 必須 |
-| `README.md` | プロジェクト概要 | ⭐⭐⭐ 必須 |
-| `INDEX.md` | 全ファイル索引(本ファイル) | ⭐⭐ 推奨 |
-| `CHANGELOG.md` | プロジェクト全体改訂履歴 | ⭐ 任意 |
-| `00_master_spec.md` | 全事業マスター仕様書 | ⭐⭐⭐ 必須 |
+| `knowledge_base/00_current_operations.md` | 現行サービス、申込導線、受付状態、回答原則 | included |
+| `knowledge_base/07_bank_account_current.md` | DTV取得者限定の銀行口座開設サポート運用 | included |
 
-### knowledge_base/(8ファイル・共通知識リポジトリ)
+DTVの料金・申請通過実績・受付状態などの動的情報は、
+CRM公開コンテンツAPIを正本とする。
+VISA制度・必要書類・審査・税務は、回答時点の公式一次情報で確認する。
 
-| ファイル | 役割 | 重要度 |
+`scripts/build-knowledge.mjs` のallowlistと本表が一致しない場合は、
+ビルドを公開せずIssueを作成する。
+
+この表の対象は、生成される `KNOWLEDGE_BASE` セクションである。
+AIコンシェルジュ全体では、`lib/walc-data/public-content.ts`、
+`lib/walc-data/dtv-authority.ts`、`lib/walc-data/pricing.ts` も
+`lib/concierge/system-prompt.ts` から参照される。これらは別の公開情報面として
+個別に監査し、このallowlistへの記載だけで正本化しない。
+
+## legacy / internal-only
+
+次のファイルは履歴参照専用の **legacy / internal-only** である。
+AI回答、公開ページ、営業文面、価格、実績、推奨ロジックへ使用しない。
+
+| File | Historical scope | Current public use |
 |---|---|---|
-| `00_walc_principles.md` | WALC最重要営業方針 | ⭐⭐⭐ 最上位原則 |
-| `01_walc_company_info.md` | 会社情報・実績データ | ⭐⭐⭐ |
-| `02_pricing_master.md` | 全事業価格マスター | ⭐⭐⭐ |
-| `03_thai_visa_glossary.md` | タイVISA全種別辞書 | ⭐⭐⭐ |
-| `04_immigration_practice.md` | イミグレ入国実務 | ⭐⭐ |
-| `05_overstay_practice.md` | オーバーステイ実務 | ⭐⭐ |
-| `06_tax_180day_rule.md` | 税法・180日ルール | ⭐⭐ |
-| `07_bank_account_2026.md` | 2026/4 口座開設変更 | ⭐⭐⭐ |
+| `knowledge_base/00_walc_principles.md` | 旧営業方針 | prohibited |
+| `knowledge_base/01_walc_company_info.md` | 旧会社情報・実績 | prohibited |
+| `knowledge_base/02_pricing_master.md` | 旧価格表 | prohibited |
+| `knowledge_base/03_thai_visa_glossary.md` | 旧VISA辞書・制度解釈 | prohibited |
+| `knowledge_base/04_immigration_practice.md` | 旧イミグレ実務 | prohibited |
+| `knowledge_base/05_overstay_practice.md` | 旧オーバーステイ実務 | prohibited |
+| `knowledge_base/06_tax_180day_rule.md` | 旧税務解釈 | prohibited |
+| `knowledge_base/07_bank_account_2026.md` | 旧銀行口座開設運用 | prohibited |
 
-### spec/(事業別仕様書)
+legacy資料の情報を復活させる場合は、項目ごとに一次情報と所有者確認を取得し、
+新しい `owner_confirmed` ファイルとして追加する。
 
-| ファイル | 役割 | ステータス |
+## Dependency map
+
+```text
+CRM public content API
+  └─ dynamic DTV prices, application track record and availability
+
+00_current_operations.md
+  └─ current service and intake rules
+
+07_bank_account_current.md
+  └─ current DTV-holder bank support rules
+
+official primary sources
+  └─ visa law, eligibility, documents, review, tax and employment
+
+scripts/build-knowledge.mjs
+  └─ owner-confirmed allowlist
+      └─ lib/concierge/knowledge.ts
+          └─ AI concierge
+
+structured public-data modules
+  └─ public-content.ts / dtv-authority.ts / pricing.ts
+      └─ system-prompt.ts
+```
+
+## Change checklist
+
+- Confirm whether the change belongs in CRM, owner-confirmed knowledge, or a legacy archive.
+- Record the primary source URL and verification date for government rules.
+- Never copy an entire legacy file back into the runtime allowlist.
+- Run `pnpm knowledge:build`.
+- Run `pnpm test`, `pnpm typecheck`, and `pnpm build`.
+- Update `CHANGELOG.md`.
+
+## Revision history
+
+| version | date | change |
 |---|---|---|
-| `01_dtv_spec.md` | DTV専用仕様書 | ✅ 完成 |
-| `02_airport_support_spec.md` | 空港サポート仕様書 | ⏳ Phase 2で作成 |
-| `03_retirement_visa_spec.md` | リタイア仕様書 | ⏳ Phase 2で作成 |
-| `04_thailand_privilege_spec.md` | エリート仕様書 | ⏳ Phase 3で作成 |
-| `05_ltr_visa_spec.md` | LTR仕様書 | ⏳ Phase 3で作成 |
-| `06_overstay_spec.md` | オーバーステイ仕様書 | ⏳ Phase 2で作成 |
-| `07_visarun_spec.md` | ビザラン仕様書 | ⏳ Phase 3で作成 |
-| `08_non_b_spec.md` | NON-B仕様書 | ⏳ Phase 4で作成 |
-| `09_marriage_family_spec.md` | 結婚・家族VISA仕様書 | ⏳ Phase 4で作成 |
-| `10_company_registration_spec.md` | 会社登記仕様書 | ⏳ Phase 4で作成 |
-
----
-
-## 参照関係マップ(依存関係)
-
-### knowledge_base 内の依存
-
-```
-                  00_walc_principles
-                  (最上位・全てが参照)
-                          │
-        ┌─────────┬───────┴──────┬────────────────┐
-        ▼         ▼              ▼                ▼
-   01_walc_   02_pricing_   03_thai_visa_    07_bank_account_
-   company    master        glossary         2026
-        │                        │                 │
-        │         ┌──────────────┼─────────────────┤
-        ▼         ▼              ▼                 ▼
-   全マニュアル   06_tax_180day   04_immigration   全マニュアル
-                                  │
-                                  ▼
-                                  05_overstay
-```
-
-### spec → knowledge_base の依存
-
-各仕様書は以下の knowledge_base ファイルを必ず参照する:
-
-| 仕様書 | 必須参照 |
-|---|---|
-| `01_dtv_spec.md` | 00 / 01 / 02 / 03 / 04 / 06 / 07 |
-| `02_airport_support_spec.md` | 00 / 01 / 02 / 04 / 05 |
-| `03_retirement_visa_spec.md` | 00 / 01 / 02 / 03 / 06 / 07 |
-| `04_thailand_privilege_spec.md` | 00 / 01 / 02 / 03 / 06 / 07 |
-| `05_ltr_visa_spec.md` | 00 / 01 / 02 / 03 / 06 / 07 |
-| `06_overstay_spec.md` | 00 / 01 / 02 / 04 / 05 |
-| `07_visarun_spec.md` | 00 / 01 / 02 / 04 |
-| `08_non_b_spec.md` | 00 / 01 / 02 / 03 / 06 / 07 |
-| `09_marriage_family_spec.md` | 00 / 01 / 02 / 03 |
-| `10_company_registration_spec.md` | 00 / 01 / 02 |
-
----
-
-## ファイル別のユースケース早見表
-
-### 「価格を確認したい」
-
-→ `knowledge_base/02_pricing_master.md`
-
-### 「DTV vs エリートを比較したい」
-
-→ `knowledge_base/00_walc_principles.md` §3 + `knowledge_base/03_thai_visa_glossary.md`
-
-### 「顧客に最適なVISAを提案したい」
-
-→ `knowledge_base/03_thai_visa_glossary.md` §8(顧客像→最適VISA早見表)
-
-### 「銀行口座開設について顧客に説明したい」
-
-→ `knowledge_base/07_bank_account_2026.md`
-
-### 「税務・居住者判定の質問が来た」
-
-→ `knowledge_base/06_tax_180day_rule.md`
-
-### 「ノービザ・ビザランのリスク評価」
-
-→ `knowledge_base/04_immigration_practice.md`
-
-### 「オーバーステイ顧客への対応」
-
-→ `knowledge_base/05_overstay_practice.md`
-
-### 「WALCの強み・実績を訴求したい」
-
-→ `knowledge_base/01_walc_company_info.md`
-
-### 「DTVマニュアルを生成したい」
-
-→ `spec/01_dtv_spec.md` + 上記knowledge_base全て
-
----
-
-## 変更時の影響範囲(チェックリスト)
-
-### 価格が変わった場合
-
-```
-☐ knowledge_base/02_pricing_master.md を更新
-☐ 影響を受ける knowledge_base ファイル確認
-   - 00_walc_principles.md(DTV vs エリート比較)
-   - 07_bank_account_2026.md(リタイア訴求の数値)
-☐ 影響を受ける spec ファイル確認(該当事業の§3)
-☐ 既存マニュアルHTML の Ch.3 を再生成
-☐ CHANGELOG.md に記録
-```
-
-### 制度変更があった場合
-
-```
-☐ 該当 knowledge_base ファイルを更新
-☐ 影響を受ける全 spec ファイルを確認
-☐ 全マニュアルの Ch.12「最新制度情報」を更新
-☐ CHANGELOG.md に記録
-```
-
-### WALC会社情報・実績が変わった場合
-
-```
-☐ knowledge_base/01_walc_company_info.md を更新
-☐ 全マニュアルの Ch.9「WALC強み」を再生成
-☐ CHANGELOG.md に記録
-```
-
----
-
-## 制作優先順序(現行)
-
-```
-[完成済み]
-   ✅ CLAUDE.md
-   ✅ README.md
-   ✅ INDEX.md(本ファイル)
-   ✅ 00_master_spec.md
-   ✅ knowledge_base/00 - 07(8ファイル)
-   ✅ spec/01_dtv_spec.md
-
-[次に作成]
-   ⏳ CHANGELOG.md
-   ⏳ shared/styles/ (CSS整備)
-   ⏳ DTVマニュアル HTML(3版)
-   ⏳ spec/02_airport_support_spec.md
-
-[Phase 2]
-   ⏳ spec/03_retirement_visa_spec.md
-   ⏳ spec/06_overstay_spec.md
-
-[Phase 3以降]
-   spec/04, 05, 07 - 10 を順次
-```
-
----
-
-## ファイル命名規則(再掲)
-
-| 種別 | パターン | 例 |
-|---|---|---|
-| トップレベル | `UPPERCASE.md` | `README.md`, `CLAUDE.md` |
-| マスター仕様 | `{2桁}_master_spec.md` | `00_master_spec.md` |
-| 知識ベース | `{2桁}_{snake_case}.md` | `00_walc_principles.md` |
-| 事業別仕様 | `{2桁}_{snake_case}_spec.md` | `01_dtv_spec.md` |
-| マニュアル本体 | `ch{2桁}_{snake_case}.html` | `ch01_dtv_overview.html` |
-
----
-
-## バージョン
-
-- **INDEX.md version**: 1.0
-- **最終更新**: 2026-05-14
-- **次回更新**: ファイル追加・削除時に必須更新
+| 2.0 | 2026-07-29 | Separated the two runtime sources from eight legacy / internal-only files |
+| 1.0 | 2026-05-14 | Initial index |

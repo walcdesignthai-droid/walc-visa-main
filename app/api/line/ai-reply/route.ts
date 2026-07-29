@@ -307,7 +307,7 @@ async function processAiReply(input: AiReplyInput): Promise<void> {
 		const content = await getDtvPublicContent();
 		const tAi0 = Date.now();
 		const { text: rawText } = await conciergeGenerate({
-			systemPrompt: getConciergeSystemPrompt(customerContext, content),
+			systemPrompt: getConciergeSystemPrompt(content, customerContext),
 			messages: [{ role: "user", content: userText }],
 		});
 		console.log(`[ai-reply] AI ${Date.now() - tAi0}ms`);
