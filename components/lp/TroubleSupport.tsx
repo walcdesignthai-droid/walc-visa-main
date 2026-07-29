@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { WALC_AUTHOR } from "@/lib/walc-data/eeat";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 interface TroubleItem {
@@ -75,7 +76,9 @@ export async function TroubleSupport() {
 					<p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
 						オーバーステイ・イミグレ拒否・アラート保有・ビザラン疲れ——
 						<br className="hidden md:block" />
-						現地法人 6 年の実務経験をもとに、状況に合う選択肢を整理します。
+						{WALC_AUTHOR.experience.thailandResidency}・
+						{WALC_AUTHOR.experience.visaSupport}
+						の現地実務をもとに、状況に合う選択肢を整理します。
 					</p>
 					<div className="mx-auto mt-5 max-w-2xl rounded-xl border border-amber-300 bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-950">
 						空港イミグレ入国サポートは、現在新規受付を一時停止しています。

@@ -13,12 +13,17 @@ import {
 	ShieldCheck,
 	Smartphone,
 } from "lucide-react";
+import { WALC_AUTHOR } from "@/lib/walc-data/eeat";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 export async function TrustStrip() {
 	const content = await getDtvPublicContent();
 	const items = [
-		{ Icon: MapPin, value: "6 年", label: "バンコク現地法人運営" },
+		{
+			Icon: MapPin,
+			value: WALC_AUTHOR.experience.thailandResidency,
+			label: WALC_AUTHOR.experience.visaSupport,
+		},
 		{
 			Icon: CheckCircle2,
 			value: content.trackRecord.display,

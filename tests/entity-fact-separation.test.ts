@@ -13,11 +13,9 @@ describe("public entity fact separation", () => {
 		const eeat = await read("lib/walc-data/eeat.ts");
 
 		expect(eeat).toContain('businessStartedAt: "2020"');
-		expect(eeat).toContain('businessStartedDisplay: "2020年 タイ事業開始"');
+		expect(eeat).toContain('businessStartedDisplay: "2020年"');
 		expect(eeat).toContain('foundingDate: "2021-08-27"');
-		expect(eeat).toContain(
-			'incorporatedDisplay: "2021年8月27日 法人設立"',
-		);
+		expect(eeat).toContain('incorporatedDisplay: "2021年8月27日"');
 	});
 
 	it("renders owner experience and organization dates from canonical objects", async () => {

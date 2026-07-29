@@ -34,7 +34,7 @@ const STEPS = [
 		Icon: ShieldCheck,
 		title: "取得後の継続サポート",
 		body: "90 日レポート・更新通知・トラブル対応など、取得後の運用もアプリで継続サポート。",
-		note: "最大 6 年間のリレーション",
+		note: "必要な手続きを継続案内",
 	},
 ] as const;
 
@@ -81,7 +81,10 @@ export function Process() {
 									{step.num}
 								</span>
 								<div className="w-11 h-11 rounded-lg bg-brand/5 flex items-center justify-center">
-									<step.Icon className="w-4.5 h-4.5 text-brand" strokeWidth={1.8} />
+									<step.Icon
+										className="w-4.5 h-4.5 text-brand"
+										strokeWidth={1.8}
+									/>
 								</div>
 							</div>
 
