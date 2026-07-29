@@ -22,19 +22,20 @@ const ROOT = join(__dirname, "..");
 
 const KNOWLEDGE_FILES = [
 	"00_current_operations.md",
-	"03_thai_visa_glossary.md",
 	"07_bank_account_current.md",
 ];
 
 const blocks = KNOWLEDGE_FILES.map((file) => {
 	const path = join(ROOT, "docs/walc-knowledge-source/knowledge_base", file);
-	try {
-		const content = readFileSync(path, "utf-8");
-		return `<file path="knowledge_base/${file}">\n${content}\n</file>`;
-	} catch (_e) {
-		console.warn(`! ${file} not found`);
-		return `<file path="knowledge_base/${file}" status="not_found"></file>`;
+	const content = readFileSync(path, "utf-8");
+
+	if (!/^status:\s*owner_confirmed\s*$/m.test(content)) {
+		throw new Error(
+			`Runtime knowledge source must be owner_confirmed: ${file}`,
+		);
 	}
+
+	return `<file path="knowledge_base/${file}">\n${content}\n</file>`;
 }).join("\n\n");
 
 // テンプレートリテラル衝突回避: バッククォート・${} をエスケープ
@@ -44,7 +45,7 @@ const output = `/**
  * lib/concierge/knowledge.ts
  * ----------------------------------------------------------------------------
  * AUTO-GENERATED — Do not edit manually.
- * Source: docs/walc-knowledge-source/knowledge_base/*.md
+ * Source: owner-confirmed allowlist in scripts/build-knowledge.mjs
  * Build:  pnpm knowledge:build (or pnpm knowledge:sync)
  * ----------------------------------------------------------------------------
  */
