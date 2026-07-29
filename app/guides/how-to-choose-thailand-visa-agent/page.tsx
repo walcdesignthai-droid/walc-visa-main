@@ -169,6 +169,18 @@ const OFFICIAL_SOURCES = [
 		note: "DTVの対象・必要書類・申請案内",
 	},
 	{
+		label: "Non-Immigrant Visa B",
+		organization: "タイ王国外務省",
+		href: "https://www.mfa.go.th/en/page/non-immigrant-visa-b?menu=5e1ff6f857b01e00a84023d4",
+		note: "Non-Bの目的・申請書類に関する公式案内",
+	},
+	{
+		label: "e-WorkPermit",
+		organization: "タイ雇用局",
+		href: "https://eworkpermit.doe.go.th/",
+		note: "Work Permitのオンライン申請・手続き入口",
+	},
+	{
 		label: "LTR Visa 公式サイト",
 		organization: "Thailand Board of Investment",
 		href: "https://ltr.boi.go.th/",
@@ -496,11 +508,42 @@ export default function VisaAgentSelectionGuidePage() {
 								<p className="mt-4 text-sm leading-7 text-text-secondary">
 									当社は、サービス別の料金・支援範囲、会社情報、法務ページ、DTV専門情報、取得後ガイドを公開しています。不明点は契約前にLINEでご確認ください。
 								</p>
+								<div className="mt-6 rounded-2xl border border-sky-200 bg-sky-50 p-5">
+									<h3 className="font-bold text-brand-deep">
+										WALC VISAが候補になりやすい相談
+									</h3>
+									<ul className="mt-3 space-y-2 text-sm leading-7 text-text-secondary">
+										<li className="flex gap-2">
+											<Check className="mt-1.5 h-4 w-4 shrink-0 text-accent-blue" />
+											<span>
+												DTVのカテゴリ整理、書類準備、追加照会・面談準備を日本語で進めたい
+											</span>
+										</li>
+										<li className="flex gap-2">
+											<Check className="mt-1.5 h-4 w-4 shrink-0 text-accent-blue" />
+											<span>
+												Non-BとWork
+												Permitを、申請者と企業側の必要書類を確認しながら進めたい
+											</span>
+										</li>
+										<li className="flex gap-2">
+											<Check className="mt-1.5 h-4 w-4 shrink-0 text-accent-blue" />
+											<span>
+												料金範囲、公式情報、契約条件を確認してから相談先を決めたい
+											</span>
+										</li>
+									</ul>
+									<p className="mt-3 text-xs leading-6 text-slate-500">
+										対応可否・必要書類・正式見積もりは個別状況の確認後にご案内します。審査・発給・入国の最終判断は関係当局が行います。
+									</p>
+								</div>
 								<div className="mt-6 space-y-3">
 									{[
 										["会社情報を見る", "/#company-info"],
 										["VISA一覧・料金を見る", "/#visa-types"],
 										["DTV専門サイトを見る", SITE_URLS.dtv],
+										["レビュー掲載方針を見る", "/reviews/transparency"],
+										["WALC公式サイト一覧を見る", "/official-sites"],
 										["プライバシーポリシーを見る", SITE_URLS.legal.privacy],
 									].map(([label, href]) =>
 										href.startsWith("http") ? (
@@ -537,7 +580,7 @@ export default function VisaAgentSelectionGuidePage() {
 						title="制度の確認は、公式情報から"
 						description="公館や制度ごとに案内・運用が変わることがあります。相談時には、参照した公式ページと確認日も合わせて確認してください。"
 					/>
-					<div className="mt-8 grid gap-4 md:grid-cols-3">
+					<div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{OFFICIAL_SOURCES.map((source) => (
 							<a
 								key={source.href}
