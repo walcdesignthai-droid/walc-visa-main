@@ -294,7 +294,9 @@ describe("WALC VISA public content consistency", () => {
 		expect(registry).toContain("ALL_ARTICLES.filter");
 		expect(registry).toContain("!a.draft");
 		expect(sitemap).toContain("PUBLISHED_ARTICLES");
-		expect(articlePage).toContain("!article.draft");
+		expect(articlePage).toContain("PUBLISHED_ARTICLES.map");
+		expect(articlePage).toContain("if (!article || article.draft) return {};");
+		expect(articlePage).toContain("if (!article || article.draft) notFound();");
 	});
 
 	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
