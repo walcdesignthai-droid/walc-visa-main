@@ -309,7 +309,18 @@ describe("WALC VISA public content consistency", () => {
 		expect(article).toContain(
 			"https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
 		);
+		expect(article).toContain(
+			"https://tm47.immigration.go.th/manual/IndexForeign.html",
+		);
+		expect(article).toContain(
+			"https://phitsanulok.immigration.go.th/en/e-extension-online-application-for-temporary-stay-extension-in-3-minutes/",
+		);
 		expect(article).not.toContain('"バス:');
+		expect(article).not.toContain("初回の届出は本人または代理人");
+		expect(article).not.toContain(
+			"再入国許可の窓口は受付時間が一般窓口と異なる",
+		);
+		expect(article).not.toContain("平日 10:30–18:30");
 	});
 
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
