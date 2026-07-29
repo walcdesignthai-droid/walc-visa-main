@@ -8,6 +8,7 @@ import {
 	type VisaCategory,
 } from "./pricing";
 import type { DtvPublicContent } from "./public-content";
+import { SITE_URLS } from "./site-map";
 
 const ORIGIN = "https://walc-visa.online";
 const ORGANIZATION_ID = `${ORIGIN}/#organization`;
@@ -72,7 +73,7 @@ export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 					},
 				}
 			: {}),
-		sameAs: ["https://dtv.walc-visa.online"],
+		sameAs: [SITE_URLS.dtv, SITE_URLS.corporate],
 		contactPoint: {
 			"@type": "ContactPoint",
 			contactType: "customer support",
