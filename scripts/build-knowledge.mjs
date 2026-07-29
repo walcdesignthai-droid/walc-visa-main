@@ -16,6 +16,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { hasOwnerConfirmedFrontmatter } from "./knowledge-frontmatter.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -29,7 +30,7 @@ const blocks = KNOWLEDGE_FILES.map((file) => {
 	const path = join(ROOT, "docs/walc-knowledge-source/knowledge_base", file);
 	const content = readFileSync(path, "utf-8");
 
-	if (!/^status:\s*owner_confirmed\s*$/m.test(content)) {
+	if (!hasOwnerConfirmedFrontmatter(content)) {
 		throw new Error(
 			`Runtime knowledge source must be owner_confirmed: ${file}`,
 		);
