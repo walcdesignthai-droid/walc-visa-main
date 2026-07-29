@@ -17,19 +17,46 @@ describe("LTR page structured data", () => {
 	it("builds a connected WebPage and Service graph", () => {
 		const schema = buildLtrStructuredData();
 		const graph = schema["@graph"];
+		const organization = graph.find(
+			(node) => node["@id"] === "https://walc-visa.online/#organization",
+		);
+		const website = graph.find(
+			(node) => node["@id"] === "https://walc-visa.online/#website",
+		);
+		const reviewer = graph.find(
+			(node) =>
+				node["@id"] === "https://walc-visa.online/author/yosuke-onodera#person",
+		);
 		const webPage = graph.find((node) => node["@type"] === "WebPage");
 		const service = graph.find((node) => node["@type"] === "Service");
 
+		expect(organization).toMatchObject({
+			"@type": "Organization",
+			url: "https://walc-visa.online",
+		});
+		expect(website).toMatchObject({
+			"@type": "WebSite",
+			publisher: { "@id": "https://walc-visa.online/#organization" },
+		});
+		expect(reviewer).toMatchObject({
+			"@type": "Person",
+			name: "Yosuke Onodera",
+			worksFor: { "@id": "https://walc-visa.online/#organization" },
+		});
 		expect(webPage).toMatchObject({
 			"@id": `${LTR_URL}#webpage`,
 			url: LTR_URL,
 			inLanguage: "ja-JP",
 			isPartOf: { "@id": "https://walc-visa.online/#website" },
+			publisher: { "@id": "https://walc-visa.online/#organization" },
 			breadcrumb: { "@id": `${LTR_URL}#breadcrumb` },
 			mainEntity: { "@id": `${LTR_URL}#service` },
+			about: {
+				"@type": "Thing",
+				name: "タイのLong-Term Resident Visa（LTR Visa）",
+			},
 			reviewedBy: {
 				"@id": "https://walc-visa.online/author/yosuke-onodera#person",
-				name: "Yosuke Onodera",
 			},
 		});
 		expect(service).toMatchObject({
@@ -37,26 +64,55 @@ describe("LTR page structured data", () => {
 			url: LTR_URL,
 			provider: { "@id": "https://walc-visa.online/#organization" },
 			areaServed: { "@type": "Country", name: "Thailand" },
+			mainEntityOfPage: { "@id": `${LTR_URL}#webpage` },
 		});
 	});
 
-	it("cites only the three visible official BOI sources", () => {
+	it("cites only the five visible official BOI sources", () => {
 		const schema = buildLtrStructuredData();
 		const webPage = schema["@graph"].find(
 			(node) => node["@type"] === "WebPage",
 		);
 
-		expect(LTR_OFFICIAL_SOURCES).toHaveLength(3);
-		expect(webPage?.citation).toEqual(
-			LTR_OFFICIAL_SOURCES.map((source) => ({
+		expect(LTR_OFFICIAL_SOURCES).toHaveLength(5);
+		expect(webPage).toMatchObject({
+			citation: LTR_OFFICIAL_SOURCES.map((source) => ({
 				"@type": "CreativeWork",
 				name: source.label,
 				url: source.href,
 			})),
-		);
+		});
 		for (const source of LTR_OFFICIAL_SOURCES) {
 			expect(new URL(source.href).hostname).toBe("ltr.boi.go.th");
 		}
+	});
+
+	it("resolves every graph @id reference emitted by the page graph", () => {
+		const graph = buildLtrStructuredData()["@graph"];
+		const definedIds = new Set(
+			graph.map((node) => node["@id"]).filter((id) => typeof id === "string"),
+		);
+		definedIds.add(`${LTR_URL}#breadcrumb`);
+		const referencedIds: string[] = [];
+
+		function collectReferences(value: unknown) {
+			if (!value || typeof value !== "object") return;
+			if (
+				!Array.isArray(value) &&
+				Object.keys(value).length === 1 &&
+				"@id" in value &&
+				typeof value["@id"] === "string"
+			) {
+				referencedIds.push(value["@id"]);
+			}
+			for (const nested of Object.values(value)) {
+				collectReferences(nested);
+			}
+		}
+
+		for (const node of graph) collectReferences(node);
+
+		expect(referencedIds.filter((id) => !definedIds.has(id))).toEqual([]);
 	});
 
 	it("does not publish promotional or unsupported schema claims", () => {
@@ -77,6 +133,7 @@ describe("LTR page structured data", () => {
 		expect(page.match(/<BreadcrumbJsonLd/g)).toHaveLength(1);
 		expect(page).toContain("buildLtrStructuredData");
 		expect(page).toContain("id={`$" + "{LTR_URL}#breadcrumb`}");
+		expect(page).toContain("Yosuke Onodera（WALC VISA Consulting 代表）");
 		expect(breadcrumb).toContain("id?: string");
 		expect(breadcrumb).toContain('...(id ? { "@id": id } : {})');
 	});

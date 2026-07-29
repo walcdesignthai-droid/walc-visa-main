@@ -86,7 +86,7 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		requirements: [
 			"個人名義資産 100 万 USD 以上(グローバル資産)",
 			"タイ投資 50 万 USD 以上(国債 / 直接投資 / 不動産)",
-			"健康保険への加入",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 			"年齢制限なし",
 		],
 		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
@@ -103,6 +103,7 @@ const LTR_CATEGORIES: LtrCategory[] = [
 			"パッシブ所得 80,000 USD/年(年金・配当・賃料・利息)",
 			"代替: 40,000 USD + タイ投資 250,000 USD",
 			"給与所得・役員報酬は対象外",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
 		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
 		highlight: true,
@@ -112,12 +113,13 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		name: "Work-from-Thailand Professionals",
 		subname: "WFTP・リモートワーカー",
 		Icon: Briefcase,
-		target: "海外の確立された大企業に勤務・年収 80,000 USD",
+		target: "海外上場企業・一定要件を満たす私企業等に勤務・年収 80,000 USD",
 		requirements: [
-			"海外の上場 or 大規模私企業に勤務",
-			"年収 80,000 USD/年(過去 2 年間)",
-			"代替: 40,000 USD + 修士号 / IP / Series A 資金調達",
+			"海外上場企業、または3年以上運営・直近3年合計売上 50,000,000 USD以上の私企業等に勤務",
+			"年収 80,000 USD/年(過去2年間の平均)",
+			"代替: 40,000 USD以上 + 修士号以上",
 			"タイでの就労は海外企業向けリモートワーク前提",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
 		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
 		highlight: true,
@@ -127,13 +129,14 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		name: "Highly-Skilled Professionals",
 		subname: "HSP・高度専門人材",
 		Icon: Award,
-		target: "BOI 指定 10 産業のタイ企業・政府・教育機関に勤務",
+		target: "BOI対象産業・指定専門分野の企業、政府機関、教育・研究機関等に勤務",
 		requirements: [
-			"業界: EV / バイオ / デジタル等(BOI 指定 10 産業)",
-			"雇用先: タイ企業・政府・教育機関",
-			"所得 80,000 USD/年",
-			"代替: 40,000 USD + 修士号",
-			"学界の場合は一部例外あり",
+			"業界・専門性: BOI対象産業、またはBOIが指定する専門分野",
+			"雇用先: 対象企業・政府機関・教育・研究・専門研修機関等",
+			"所得 80,000 USD/年(過去2年間の平均)",
+			"代替: 40,000 USD以上 + 科学技術分野の修士号以上",
+			"タイ政府機関勤務者には所得要件の例外あり",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
 		taxBenefit: "対象所得に17%（所定条件）",
 	},
@@ -170,7 +173,7 @@ const COMMON_BENEFITS: {
 	{
 		Icon: Users,
 		label: "扶養家族 最大 4 名",
-		desc: "配偶者 + 20 歳未満の子 4 名まで同時取得",
+		desc: "配偶者・20歳未満の子を合わせて最大4名",
 	},
 	{
 		Icon: Globe2,
@@ -472,6 +475,15 @@ export default function LtrPage() {
 									<p className="mt-1 text-xs leading-relaxed text-text-tertiary">
 										最終確認日:
 										2026年7月29日。制度・審査・税務上の取扱いは変更される場合があります。
+									</p>
+									<p className="mt-1 text-xs leading-relaxed text-text-tertiary">
+										監修:
+										<Link
+											href="/author/yosuke-onodera"
+											className="font-semibold text-brand underline decoration-brand/30 underline-offset-4 hover:text-brand-deep"
+										>
+											Yosuke Onodera（WALC VISA Consulting 代表）
+										</Link>
 									</p>
 									<ul className="mt-4 space-y-2">
 										{LTR_OFFICIAL_SOURCES.map((source) => (
