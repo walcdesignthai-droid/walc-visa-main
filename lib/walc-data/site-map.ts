@@ -21,6 +21,9 @@ export const SITE_URLS = {
 	/** DTV LP (dtv-walc-visa) */
 	dtv: "https://dtv.walc-visa.online",
 
+	/** 公開ガイド (申請前後の必要書類・実務情報) */
+	guide: "https://guide.walc-visa.online",
+
 	/** DTV VISA 適性診断 (全ページから誘導) */
 	diagnosis: "https://dtv.walc-visa.online/diagnosis",
 
@@ -103,7 +106,7 @@ export const OFFICIAL_SITE_DIRECTORY: readonly OfficialSiteEntry[] = [
 	{
 		id: "guide",
 		name: "WALC VISA 公開ガイド",
-		url: "https://guide.walc-visa.online",
+		url: SITE_URLS.guide,
 		role: "必要書類と申請実務を確認するための公開ガイド",
 		audience: "申請前後の準備内容を具体的に確認したい方",
 		badge: "実務ガイド",
