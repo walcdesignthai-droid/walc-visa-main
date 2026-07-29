@@ -125,9 +125,9 @@ const PURPOSES = [
 		goal: "Non-BとWork Permitを進めたい",
 		lookFor:
 			"会社書類、雇用・税務、VISAと就労許可を分断せず、企業側担当者と連携できる体制",
-		next: "Non-B・WPガイドを見る",
-		href: SITE_URLS.guideBusiness,
-		external: true,
+		next: "Non-B・WPサポートを見る",
+		href: "/visas/non-b-work-permit",
+		external: false,
 	},
 	{
 		goal: "リタイアメントなどを更新したい",
