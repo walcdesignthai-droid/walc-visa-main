@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -194,6 +194,40 @@ describe("WALC VISA public content consistency", () => {
 		);
 		expect(articlePage).toContain('article.tags?.includes("DTV")');
 		expect(articlePage).toContain("SITE_URLS.dtv");
+	});
+
+	it("keeps articles with pending primary sources out of the public index", async () => {
+		const blogDir = resolve(ROOT, "lib/blog");
+		const files = (await readdir(blogDir)).filter((file) =>
+			file.endsWith(".ts"),
+		);
+		const pendingArticles: string[] = [];
+
+		for (const file of files) {
+			const source = await read(`lib/blog/${file}`);
+			if (source.includes("primaryPending: true")) {
+				pendingArticles.push(file);
+				expect(source).toContain("draft: true");
+				expect(source).not.toContain("draft: false");
+			}
+		}
+
+		expect(pendingArticles.sort()).toEqual([
+			"immigration-office-bangkok.ts",
+			"marriage-visa-thailand.ts",
+			"retirement-health-insurance.ts",
+			"thailand-bank-account.ts",
+		]);
+
+		const [registry, sitemap, articlePage] = await Promise.all([
+			read("lib/blog/registry.ts"),
+			read("app/sitemap.ts"),
+			read("app/blog/[slug]/page.tsx"),
+		]);
+		expect(registry).toContain("ALL_ARTICLES.filter");
+		expect(registry).toContain("!a.draft");
+		expect(sitemap).toContain("PUBLISHED_ARTICLES");
+		expect(articlePage).toContain("!article.draft");
 	});
 
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {

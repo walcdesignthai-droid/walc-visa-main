@@ -22,7 +22,7 @@ export const IMMIGRATION_OFFICE_BANGKOK: Article = {
 		"バンコクのイミグレーション(Immigration Division 1 / Chaengwattana・Government Complex Building B)への行き方、オンライン予約(Online Appointment)、持ち物、混雑回避、各手続きの窓口を実務目線で整理。行く前に知っておくと一度で終わる準備ポイントをまとめます。",
 	datePublished: "2026-06-04",
 	dateModified: "2026-06-04",
-	draft: false,
+	draft: true,
 	heroEyebrow: "手続き・暮らしのQ&A ・ 在住手続き",
 	category: "qa",
 	tags: ["イミグレーション", "Chaengwattana", "オンライン予約", "在住手続き"],
