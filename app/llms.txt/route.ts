@@ -85,9 +85,11 @@ export async function GET(): Promise<Response> {
 ## 主要ページ
 - [トップ](${ORIGIN}/)
 - [タイのビザ代行会社を選ぶ7つの基準](${ORIGIN}/guides/how-to-choose-thailand-visa-agent)
+- [WALC公式サイト一覧](${ORIGIN}/official-sites)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
+- [お客様の声・レビュー掲載方針](${ORIGIN}/reviews/transparency)
 - [DTV専門サイト](https://dtv.walc-visa.online)
 - [DTV取得者ガイド](${content.guideUrl})
 
