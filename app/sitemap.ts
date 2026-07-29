@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
+import { getIndexableConditionalRoutes } from "@/lib/walc-data/publication-state";
 
 /**
  * app/sitemap.ts
@@ -19,6 +20,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		changeFrequency: "monthly",
 		priority: a.kind === "pillar" ? 0.8 : 0.6,
 	}));
+	const conditionalEntries: MetadataRoute.Sitemap =
+		getIndexableConditionalRoutes().map((route) => ({
+			url: `${BASE_URL}${route.path}`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: route.changeFrequency,
+			priority: route.priority,
+		}));
 
 	return [
 		{
@@ -59,6 +67,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.7,
 		},
+		{
+			url: `${BASE_URL}/official-sites`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.6,
+		},
+		...conditionalEntries,
 		...blogEntries,
 	];
 }

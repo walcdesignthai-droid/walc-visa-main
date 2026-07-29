@@ -41,14 +41,24 @@ export interface CrmCustomer {
 }
 
 export type CrmApplicationStatus =
-	| "inquiry" | "consulting"
-	| "deposit_pending" | "deposit_paid"
-	| "form_pending" | "docs_collecting"
-	| "muaythai_requested" | "muaythai_received"
-	| "evisa_preparing" | "evisa_submitted" | "evisa_additional_docs"
-	| "awaiting_customer" | "interview_scheduled" | "pending_approval"
-	| "visa_issued" | "final_payment_pending"
-	| "completed" | "cancelled";
+	| "inquiry"
+	| "consulting"
+	| "deposit_pending"
+	| "deposit_paid"
+	| "form_pending"
+	| "docs_collecting"
+	| "muaythai_requested"
+	| "muaythai_received"
+	| "evisa_preparing"
+	| "evisa_submitted"
+	| "evisa_additional_docs"
+	| "awaiting_customer"
+	| "interview_scheduled"
+	| "pending_approval"
+	| "visa_issued"
+	| "final_payment_pending"
+	| "completed"
+	| "cancelled";
 
 export interface CrmApplication {
 	id: string;
@@ -86,7 +96,11 @@ export async function getOrCreateCustomerByLine(
 		}),
 	});
 	if (!res.ok) {
-		console.error("CRM by-line failed:", res.status, await res.text().catch(() => ""));
+		console.error(
+			"CRM by-line failed:",
+			res.status,
+			await res.text().catch(() => ""),
+		);
 		return null;
 	}
 	const json = (await res.json()) as { data?: CrmCustomer };
@@ -186,7 +200,8 @@ export function buildCustomerContext(
 
 	const lines: string[] = [];
 	lines.push(`顧客名: ${customer.full_name}`);
-	if (customer.is_line_pending) lines.push("ステータス: LINE 経由・仮登録(正規顧客マージ前)");
+	if (customer.is_line_pending)
+		lines.push("ステータス: LINE 経由・仮登録(正規顧客マージ前)");
 
 	if (applications.length === 0) {
 		lines.push("申請: なし(まだ申請手続き未開始)");

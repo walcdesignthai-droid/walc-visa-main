@@ -15,6 +15,7 @@
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
+import { renderConditionalLlmsLinks } from "@/lib/walc-data/publication-state";
 
 export const revalidate = 60;
 
@@ -47,6 +48,7 @@ function buildBlogSection(): string {
 export async function GET(): Promise<Response> {
 	const content = await getDtvPublicContent();
 	const blogSection = buildBlogSection();
+	const conditionalMajorPages = renderConditionalLlmsLinks(ORIGIN);
 
 	const body = `# WALC VISA Consulting — タイ VISA 取得代行
 
@@ -86,11 +88,12 @@ export async function GET(): Promise<Response> {
 
 ## 主要ページ
 - [トップ](${ORIGIN}/)
+- [WALC公式サイト一覧](${ORIGIN}/official-sites)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [Non-B / Work Permit](${ORIGIN}/visas/non-b-work-permit)
 - [Non-B / Work Permit 必要書類ガイド](https://guide.walc-visa.online/guide/business)
-- [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
+${conditionalMajorPages}
 - [DTV専門サイト](https://dtv.walc-visa.online)
 - [DTV取得者ガイド](${content.guideUrl})
 
