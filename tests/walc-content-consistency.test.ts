@@ -213,7 +213,6 @@ describe("WALC VISA public content consistency", () => {
 		}
 
 		expect(pendingArticles.sort()).toEqual([
-			"immigration-office-bangkok.ts",
 			"marriage-visa-thailand.ts",
 			"retirement-health-insurance.ts",
 			"thailand-bank-account.ts",
@@ -237,13 +236,16 @@ describe("WALC VISA public content consistency", () => {
 			"image.mfa.go.th",
 			"immigration.go.th",
 			"ltr.boi.go.th",
+			"nbm.co.th",
 			"tdac.immigration.go.th",
 			"tm47.immigration.go.th",
 			"www.boi.go.th",
 			"www.doe.go.th",
+			"www.governmentcomplex.com",
 			"www.immigration.go.th",
 			"www.mfa.go.th",
 			"www.mol.go.th",
+			"www.mrta.co.th",
 			"www.rd.go.th",
 			"www.thaievisa.go.th",
 			"www.thailand.go.th",
@@ -273,6 +275,21 @@ describe("WALC VISA public content consistency", () => {
 		expect(publishedSource).not.toContain("2026年7月28日");
 		expect(publishedSource).not.toContain("fragomen.com");
 		expect(publishedSource).not.toContain("pcecnews.com");
+	});
+
+	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
+		const article = await read("lib/blog/immigration-office-bangkok.ts");
+
+		expect(article).toContain("draft: false");
+		expect(article).not.toContain("primaryPending: true");
+		expect(article).toContain("https://www.mrta.co.th/en/the-pink-line");
+		expect(article).toContain(
+			"https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		);
+		expect(article).toContain(
+			"https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		);
+		expect(article).not.toContain('"バス:');
 	});
 
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
