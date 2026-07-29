@@ -27,6 +27,10 @@ describe("retirement page public claims", () => {
 		expect(source).not.toContain("確実に取得");
 		expect(source).not.toContain("未満の方も更新可");
 		expect(source).not.toContain("申請可能");
+		expect(source).not.toContain("DTV のほうがおすすめです");
+		expect(source).toContain(
+			"どちらが適するかは、滞在目的、タイでの活動内容、入出国計画、資金証明の状況によって異なります。",
+		);
 		expect(source).toContain(
 			"取得・更新の可否は、入国管理局・タイ大使館・領事館等の審査により決まります。",
 		);

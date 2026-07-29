@@ -1,8 +1,8 @@
 /**
  * components/shared/Footer.tsx — 共通フッター (全 LP / 詳細ページ)
  * ----------------------------------------------------------------------------
- * v2.0 (2026-05-26) — 全 WALC サイトの相互リンク + CRM 法務 (Yosuke 指示)
- *   - 関連サイト: メイン / DTV / 企業向け / 顧客ポータル
+ * v2.0 (2026-05-26) — WALC VISA 公開面の相互リンク + CRM 法務
+ *   - 関連サイト: メイン / DTV / 公開ガイド / 顧客ポータル
  *   - 法務: 利用規約 / プライバシー / キャンセル規定 (CRM 直リンク)
  *   - VISA ナビ: 内部詳細ページへの導線統一
  * ----------------------------------------------------------------------------
@@ -23,6 +23,7 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 		label: "DTV 専門サイト",
 		external: true,
 	},
+	{ href: "/visas/non-b-work-permit", label: "NON-B / Work Permit" },
 	{ href: "/visas/retirement", label: "リタイアメント VISA" },
 	{ href: "/visas/ltr", label: "LTR Visa" },
 	{ href: "/#visa-types", label: "Thailand Privilege / 他 VISA 一覧" },
@@ -31,8 +32,14 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 
 const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
+	{
+		href: "/guides/how-to-choose-thailand-visa-agent",
+		label: "ビザ代行会社の選び方",
+	},
 	{ href: "/#consult", label: "AI コンシェルジュ + 無料相談" },
 	{ href: "/#company-info", label: "会社概要" },
+	{ href: "/reviews/transparency", label: "お客様の声・レビュー掲載方針" },
+	{ href: "/official-sites", label: "WALC 公式サイト一覧" },
 ];
 
 export function Footer() {
@@ -160,7 +167,8 @@ export function Footer() {
 
 				<div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 					<p className="text-xs text-white/50">
-						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA Consulting. All rights reserved.
+						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA
+						Consulting. All rights reserved.
 					</p>
 					<div className="flex items-center gap-4 text-xs text-white/50">
 						<a

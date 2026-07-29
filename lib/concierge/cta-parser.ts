@@ -18,12 +18,19 @@ export function parseConciergeResponse(raw: string): ParsedConciergeResponse {
 
 function toCta(kind: string, arg?: string): ConciergeCtaType | null {
 	switch (kind) {
-		case "line": return "line";
-		case "diagnosis": return "diagnosis";
-		case "human": return "human";
-		case "portal_login": return "portal_login";
-		case "portal_reset": return "portal_reset";
-		case "apply": return arg ? { type: "apply", visaId: arg } : null;
-		default: return null;
+		case "line":
+			return "line";
+		case "diagnosis":
+			return "diagnosis";
+		case "human":
+			return "human";
+		case "portal_login":
+			return "portal_login";
+		case "portal_reset":
+			return "portal_reset";
+		case "apply":
+			return arg ? { type: "apply", visaId: arg } : null;
+		default:
+			return null;
 	}
 }
