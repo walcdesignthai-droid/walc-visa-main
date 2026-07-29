@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 	}
 
 	const content = await getDtvPublicContent();
-	const systemPrompt = getConciergeSystemPrompt(undefined, content);
+	const systemPrompt = getConciergeSystemPrompt(content);
 
 	const stream = new ReadableStream<Uint8Array>({
 		async start(controller) {
