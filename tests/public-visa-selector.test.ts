@@ -48,4 +48,25 @@ describe("public VISA selector facts", () => {
 		expect(llms).toContain("目的・活動内容・条件に応じて個別確認");
 		expect(llms).toContain("DTV以外の料金");
 	});
+
+	it("fails closed on changing visa-exemption periods", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).not.toContain("短期滞在は、まずノービザで OK");
+		expect(selector).not.toContain("ノービザで滞在可能");
+		expect(selector).not.toContain("合計 90 日");
+		expect(selector).not.toContain("タイ国内イミグレで延長 (1,900 THB)");
+		expect(selector).toContain("2026年5月");
+		expect(selector).toContain("渡航時点の公式情報");
+	});
+
+	it("provides actionable routes for employment and individual assessment", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toContain('href="/visas/non-b-work-permit"');
+		expect(selector).toContain("タイで働く方");
+		expect(selector).toContain("Non-B・Work Permit");
+		expect(selector).toContain("SITE_URLS.social.line");
+		expect(selector).toContain("LINEで個別確認");
+	});
 });
