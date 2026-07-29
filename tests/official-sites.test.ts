@@ -23,6 +23,7 @@ describe("official WALC site directory", () => {
 		expect(page).toContain("<BreadcrumbJsonLd");
 		expect(page).not.toContain("crm.walc-visa.online");
 		expect(siteMap).not.toContain('id: "corporate"');
+		expect(siteMap).not.toContain('label: "企業進出向けサイト"');
 		expect(page).not.toContain("企業向け支援サイト");
 	});
 
