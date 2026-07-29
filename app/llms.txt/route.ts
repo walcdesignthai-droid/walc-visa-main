@@ -15,6 +15,7 @@
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
+import { renderConditionalLlmsLinks } from "@/lib/walc-data/publication-state";
 
 export const revalidate = 60;
 
@@ -47,6 +48,7 @@ function buildBlogSection(): string {
 export async function GET(): Promise<Response> {
 	const content = await getDtvPublicContent();
 	const blogSection = buildBlogSection();
+	const conditionalMajorPages = renderConditionalLlmsLinks(ORIGIN);
 
 	const body = `# WALC VISA Consulting — タイ VISA 取得代行
 
@@ -86,7 +88,7 @@ export async function GET(): Promise<Response> {
 - [トップ](${ORIGIN}/)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
-- [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
+${conditionalMajorPages}
 - [DTV専門サイト](https://dtv.walc-visa.online)
 - [DTV取得者ガイド](${content.guideUrl})
 

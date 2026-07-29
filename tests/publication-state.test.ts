@@ -34,10 +34,7 @@ describe("conditional public route state", () => {
 
 		expect(getIndexableConditionalRoutes(publishedRoutes)).toHaveLength(1);
 		expect(
-			renderConditionalLlmsLinks(
-				"https://walc-visa.online",
-				publishedRoutes,
-			),
+			renderConditionalLlmsLinks("https://walc-visa.online", publishedRoutes),
 		).toContain(
 			"[入国・イミグレ緊急サポート](https://walc-visa.online/immigration-support)",
 		);
