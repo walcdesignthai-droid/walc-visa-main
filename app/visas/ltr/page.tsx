@@ -28,19 +28,59 @@ import {
 	TrendingUp,
 	Users,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
-import { formatTHB, VISA_LTR } from "@/lib/walc-data/pricing";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { formatTHB, VISA_LTR } from "@/lib/walc-data/pricing";
+
+const LTR_URL = "https://walc-visa.online/visas/ltr";
+const LTR_TITLE = "LTR Visa(Long-Term Resident)";
+const LTR_DESCRIPTION =
+	"最大10年のタイ長期滞在を目指すLTR Visa。4カテゴリの条件、カテゴリ別の税制優遇、料金、BOI申請の流れを公式一次情報とともに案内します。";
 
 export const metadata: Metadata = {
-	title: "LTR Visa(Long-Term Resident)| WALC VISA Consulting",
-	description:
-		"10 年タイ滞在 + 外国所得非課税。高所得・富裕層・年金生活者向けの長期カテゴリ。WALC 手数料 180,000 THB で BOI endorsement から VISA 取得まで一括サポート。",
+	title: LTR_TITLE,
+	description: LTR_DESCRIPTION,
+	alternates: { canonical: LTR_URL },
+	openGraph: {
+		type: "website",
+		title: `${LTR_TITLE} | WALC VISA Consulting`,
+		description: LTR_DESCRIPTION,
+		url: LTR_URL,
+		siteName: "WALC VISA Consulting",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${LTR_TITLE} | WALC VISA Consulting`,
+		description: LTR_DESCRIPTION,
+	},
 };
+
+const LTR_OFFICIAL_SOURCES = [
+	{
+		label: "BOI / LTR Visa 公式概要",
+		href: "https://ltr.boi.go.th/",
+	},
+	{
+		label: "LTR Visa発給・5年目の再確認",
+		href: "https://ltr.boi.go.th/page/visa-issuance-info.html",
+	},
+	{
+		label: "HSP対象産業・指定専門分野",
+		href: "https://ltr.boi.go.th/page/targeted-industries.html",
+	},
+	{
+		label: "LTR保有者の銀行口座開設案内",
+		href: "https://ltr.boi.go.th/page/opening-bank-account-in-thailand.html",
+	},
+	{
+		label: "LTR保有者向け Tax Essentials（2026）",
+		href: "https://ltr.boi.go.th/documents/PPT_Tax_Essentialsfor_LTR_Visa_Holders.pdf",
+	},
+] as const;
 
 // ---------------------------------------------------------------------------
 // LTR 4 カテゴリ
@@ -66,10 +106,10 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		requirements: [
 			"個人名義資産 100 万 USD 以上(グローバル資産)",
 			"タイ投資 50 万 USD 以上(国債 / 直接投資 / 不動産)",
-			"健康保険への加入",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 			"年齢制限なし",
 		],
-		taxBenefit: "外国所得が非課税",
+		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
 		highlight: true,
 	},
 	{
@@ -83,8 +123,9 @@ const LTR_CATEGORIES: LtrCategory[] = [
 			"パッシブ所得 80,000 USD/年(年金・配当・賃料・利息)",
 			"代替: 40,000 USD + タイ投資 250,000 USD",
 			"給与所得・役員報酬は対象外",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
-		taxBenefit: "外国所得が非課税",
+		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
 		highlight: true,
 	},
 	{
@@ -92,14 +133,15 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		name: "Work-from-Thailand Professionals",
 		subname: "WFTP・リモートワーカー",
 		Icon: Briefcase,
-		target: "海外の確立された大企業に勤務・年収 80,000 USD",
+		target: "海外上場企業・一定要件を満たす私企業等に勤務・年収 80,000 USD",
 		requirements: [
-			"海外の上場 or 大規模私企業に勤務",
-			"年収 80,000 USD/年(過去 2 年間)",
-			"代替: 40,000 USD + 修士号 / IP / Series A 資金調達",
+			"海外上場企業、または3年以上運営・直近3年合計売上 50,000,000 USD以上の私企業等に勤務",
+			"年収 80,000 USD/年(過去2年間の平均)",
+			"代替: 40,000 USD以上 + 修士号以上",
 			"タイでの就労は海外企業向けリモートワーク前提",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
-		taxBenefit: "外国所得が非課税",
+		taxBenefit: "外国源泉所得の所得税免除（所定条件）",
 		highlight: true,
 	},
 	{
@@ -107,54 +149,58 @@ const LTR_CATEGORIES: LtrCategory[] = [
 		name: "Highly-Skilled Professionals",
 		subname: "HSP・高度専門人材",
 		Icon: Award,
-		target: "BOI 指定 10 産業のタイ企業・政府・教育機関に勤務",
+		target: "BOI対象産業・指定専門分野の企業、政府機関、教育・研究機関等に勤務",
 		requirements: [
-			"業界: EV / バイオ / デジタル等(BOI 指定 10 産業)",
-			"雇用先: タイ企業・政府・教育機関",
-			"所得 80,000 USD/年",
-			"代替: 40,000 USD + 修士号",
-			"学界の場合は一部例外あり",
+			"業界・専門性: BOI対象産業、またはBOIが指定する専門分野",
+			"雇用先: 対象企業・政府機関・教育・研究・専門研修機関等",
+			"所得 80,000 USD/年(過去2年間の平均)",
+			"代替: 40,000 USD以上 + 科学技術分野の修士号以上",
+			"タイ政府機関勤務者には所得要件の例外あり",
+			"健康保険 50,000 USD以上、タイ社会保障、または12か月維持した預金 100,000 USD以上",
 		],
-		taxBenefit: "17% フラット税率",
+		taxBenefit: "対象所得に17%（所定条件）",
 	},
 ];
 
 // ---------------------------------------------------------------------------
 // 共通ベネフィット
 // ---------------------------------------------------------------------------
-const COMMON_BENEFITS: { Icon: typeof CheckCircle2; label: string; desc: string }[] =
-	[
-		{
-			Icon: Clock,
-			label: "10 年マルチプル",
-			desc: "5 年 + 5 年延長で最大 10 年滞在可能",
-		},
-		{
-			Icon: TrendingUp,
-			label: "税優遇",
-			desc: "WGC / WP / WFTP は外国所得非課税。HSP は 17% フラット",
-		},
-		{
-			Icon: FileText,
-			label: "年次レポート",
-			desc: "90 日レポート不要・年 1 回の報告のみ",
-		},
-		{
-			Icon: CreditCard,
-			label: "銀行口座開設可能",
-			desc: "2026/4 制度変更後も開設可・コンシェルジュサポート",
-		},
-		{
-			Icon: Users,
-			label: "扶養家族 最大 4 名",
-			desc: "配偶者 + 20 歳未満の子 4 名まで同時取得",
-		},
-		{
-			Icon: Globe2,
-			label: "空港ファストトラック",
-			desc: "VIP 入国レーンを常時利用可能",
-		},
-	];
+const COMMON_BENEFITS: {
+	Icon: typeof CheckCircle2;
+	label: string;
+	desc: string;
+}[] = [
+	{
+		Icon: Clock,
+		label: "10 年マルチプル",
+		desc: "最初の5年後に資格・条件の再確認を受け、要件を満たす場合は最大10年",
+	},
+	{
+		Icon: TrendingUp,
+		label: "カテゴリ別の税制優遇",
+		desc: "WGC / WP / WFTPとHSPでは対象となる優遇・適用条件が異なります",
+	},
+	{
+		Icon: FileText,
+		label: "年次レポート",
+		desc: "90 日レポート不要・年 1 回の報告のみ",
+	},
+	{
+		Icon: CreditCard,
+		label: "銀行口座開設手続き",
+		desc: "LTR保有者向けの公式案内を確認し、必要書類の準備をサポート",
+	},
+	{
+		Icon: Users,
+		label: "扶養家族 最大 4 名",
+		desc: "配偶者・20歳未満の子を合わせて最大4名",
+	},
+	{
+		Icon: Globe2,
+		label: "空港ファストトラック",
+		desc: "BOIが案内するFast Trackサービス（当局の最新運用に従います）",
+	},
+];
 
 // ---------------------------------------------------------------------------
 // 申請プロセス
@@ -194,6 +240,15 @@ export default function LtrPage() {
 	return (
 		<>
 			<Header />
+			<BreadcrumbJsonLd
+				items={[
+					{ name: "ホーム", url: "https://walc-visa.online/" },
+					{
+						name: "LTR Visa",
+						url: "https://walc-visa.online/visas/ltr",
+					},
+				]}
+			/>
 			<main className="flex-1 pt-16 md:pt-20">
 				{/* Hero */}
 				<section className="bg-brand text-white relative overflow-hidden">
@@ -237,15 +292,14 @@ export default function LtrPage() {
 								LTR Visa
 								<br />
 								<span className="text-amber-300 text-2xl md:text-3xl font-semibold">
-									10 年滞在 + 外国所得非課税の長期カテゴリ
+									最長10年・カテゴリ別の税制優遇
 								</span>
 							</h1>
 							<p className="text-base md:text-lg text-white/85 leading-relaxed mb-8">
-								高所得者・富裕層・年金生活者のための最長期 VISA。
-								税優遇 + 年次レポート + 銀行口座開設可で
-								長期居住に必要なメリットを 1 枚で実現します。
+								高所得者・富裕層・年金生活者・高度専門人材向けの長期VISA。
+								カテゴリに応じた税制上の取扱い、年次報告、銀行口座開設手続きなどを確認できます。
 								<br className="hidden md:block" />
-								要件は高めですが、該当する方には他のどの VISA よりもお勧めです。
+								条件に合う方にとって、タイでの長期滞在を検討する有力な選択肢です。
 							</p>
 							<div className="flex flex-wrap gap-3">
 								<a
@@ -286,7 +340,10 @@ export default function LtrPage() {
 									>
 										<div className="flex items-start gap-3">
 											<div className="w-10 h-10 rounded-lg bg-brand/5 flex items-center justify-center shrink-0">
-												<Icon className="w-5 h-5 text-brand" strokeWidth={1.8} />
+												<Icon
+													className="w-5 h-5 text-brand"
+													strokeWidth={1.8}
+												/>
 											</div>
 											<div className="flex-1 min-w-0">
 												<h3 className="text-sm md:text-base font-bold text-text-primary mb-1">
@@ -318,8 +375,8 @@ export default function LtrPage() {
 								4 つのカテゴリから該当を選択
 							</h2>
 							<p className="text-sm md:text-base text-text-secondary leading-relaxed">
-								いずれか 1 つを満たせば LTR 取得対象となります。
-								要件にご不安があれば LINE 無料相談で診断いたします。
+								4カテゴリのうち、いずれかの所定条件を満たす方が申請対象です。
+								最終的な資格認定はBOI等の関係機関が行います。
 							</p>
 						</div>
 						<ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -330,10 +387,13 @@ export default function LtrPage() {
 										key={cat.id}
 										className="bg-white border border-border-subtle rounded-xl p-6 md:p-7 hover:border-brand/30 hover:shadow-md transition-all"
 									>
-										<div className="flex items-start justify-between gap-4 mb-4">
+										<div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
 											<div className="flex items-start gap-3">
 												<div className="w-12 h-12 rounded-lg bg-brand/5 flex items-center justify-center shrink-0">
-													<Icon className="w-6 h-6 text-brand" strokeWidth={1.8} />
+													<Icon
+														className="w-6 h-6 text-brand"
+														strokeWidth={1.8}
+													/>
 												</div>
 												<div className="flex-1 min-w-0">
 													<h3 className="text-lg md:text-xl font-bold text-text-primary">
@@ -344,11 +404,11 @@ export default function LtrPage() {
 													</p>
 												</div>
 											</div>
-											<div className="text-right shrink-0">
+											<div className="text-left sm:shrink-0 sm:text-right">
 												<div className="text-[10px] tracking-wider uppercase text-text-tertiary font-semibold">
 													税優遇
 												</div>
-												<div className="text-xs font-bold text-brand mt-0.5">
+												<div className="mt-0.5 max-w-full break-words text-xs font-bold text-brand">
 													{cat.taxBenefit}
 												</div>
 											</div>
@@ -415,6 +475,57 @@ export default function LtrPage() {
 						<p className="text-xs text-text-tertiary mt-4 leading-relaxed">
 							{VISA_LTR.bookingNote}
 						</p>
+					</div>
+				</section>
+
+				{/* 一次情報・免責 */}
+				<section className="bg-bg-primary">
+					<div className="mx-auto max-w-content px-5 md:px-8 py-12 md:py-16">
+						<div className="rounded-xl border border-border-subtle bg-white p-6 md:p-7">
+							<div className="flex items-start gap-3">
+								<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/5">
+									<FileText className="h-5 w-5 text-brand" strokeWidth={1.8} />
+								</div>
+								<div className="min-w-0 flex-1">
+									<h2 className="text-lg font-bold text-text-primary">
+										公式一次情報・重要事項
+									</h2>
+									<p className="mt-1 text-xs leading-relaxed text-text-tertiary">
+										最終確認日:
+										2026年7月29日。制度・審査・税務上の取扱いは変更される場合があります。
+									</p>
+									<ul className="mt-4 space-y-2">
+										{LTR_OFFICIAL_SOURCES.map((source) => (
+											<li key={source.href}>
+												<a
+													href={source.href}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-sm font-semibold text-brand underline decoration-brand/30 underline-offset-4 hover:text-brand-deep"
+												>
+													{source.label}
+												</a>
+											</li>
+										))}
+									</ul>
+									<div className="mt-5 border-t border-border-subtle pt-4 text-xs leading-relaxed text-text-tertiary">
+										<p>
+											税制上の取扱いは、LTRカテゴリ、所得の種類、適用条件、居住者判定等により異なります。
+										</p>
+										<p className="mt-1">
+											本ページは一般的な情報であり、個別の税務助言ではありません。BOI/LTR
+											Unit、タイ歳入局および税務専門家の最新案内をご確認ください。
+										</p>
+										<p className="mt-1">
+											取得の可否はBOI・入国管理局・タイ大使館・領事館等の審査により決まり、WALCは結果を保証しません。
+										</p>
+										<p className="mt-1">
+											銀行口座の開設可否は、各金融機関の審査・運用により決まります。
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 
