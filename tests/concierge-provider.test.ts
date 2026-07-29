@@ -39,8 +39,10 @@ describe("concierge provider failover", () => {
 
 	afterEach(() => {
 		vi.useRealTimers();
+		vi.unstubAllGlobals();
 		delete process.env.GEMINI_API_KEY;
 		delete process.env.ANTHROPIC_API_KEY;
+		delete process.env.AI_GATEWAY_API_KEY;
 	});
 
 	it("falls back to Claude when Gemini fails before the first visible token", async () => {
@@ -96,5 +98,24 @@ describe("concierge provider failover", () => {
 
 		await expect(pending).resolves.toEqual(["Claude after timeout"]);
 		expect(providerMocks.claudeGenerate).toHaveBeenCalledOnce();
+	});
+
+	it("rejects an empty AI Gateway stream so the route can render its safe fallback", async () => {
+		delete process.env.GEMINI_API_KEY;
+		delete process.env.ANTHROPIC_API_KEY;
+		process.env.AI_GATEWAY_API_KEY = "test-gateway-key";
+		vi.stubGlobal(
+			"fetch",
+			vi.fn().mockResolvedValue(
+				new Response("data: [DONE]\n\n", {
+					status: 200,
+					headers: { "Content-Type": "text/event-stream" },
+				}),
+			),
+		);
+
+		await expect(collectStream()).rejects.toThrow(
+			"AI Gateway returned no text",
+		);
 	});
 });

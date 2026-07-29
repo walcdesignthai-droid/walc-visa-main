@@ -142,6 +142,7 @@ export async function* conciergeGenerateStream(
 	const reader = response.body.getReader();
 	const decoder = new TextDecoder();
 	let buffer = "";
+	let hasYielded = false;
 
 	try {
 		while (true) {
@@ -164,10 +165,17 @@ export async function* conciergeGenerateStream(
 					choices?: Array<{ delta?: { content?: string } }>;
 				};
 				const text = event.choices?.[0]?.delta?.content;
-				if (text) yield text;
+				if (text) {
+					hasYielded = true;
+					yield text;
+				}
 			}
 
 			if (done) break;
+		}
+
+		if (!hasYielded) {
+			throw new Error("AI Gateway returned no text");
 		}
 	} finally {
 		timeout.clear();
