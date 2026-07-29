@@ -84,6 +84,7 @@ export async function GET(): Promise<Response> {
 
 ## 主要ページ
 - [トップ](${ORIGIN}/)
+- [タイのビザ代行会社を選ぶ7つの基準](${ORIGIN}/guides/how-to-choose-thailand-visa-agent)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
