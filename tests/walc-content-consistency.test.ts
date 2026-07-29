@@ -307,6 +307,7 @@ describe("WALC VISA public content consistency", () => {
 			"immigration.go.th",
 			"ltr.boi.go.th",
 			"nbm.co.th",
+			"phitsanulok.immigration.go.th",
 			"tdac.immigration.go.th",
 			"tm47.immigration.go.th",
 			"www.boi.go.th",
