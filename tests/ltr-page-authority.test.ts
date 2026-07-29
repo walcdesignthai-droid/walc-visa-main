@@ -3,16 +3,24 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const PAGE_PATH = resolve(import.meta.dirname, "..", "app/visas/ltr/page.tsx");
+const DATA_PATH = resolve(
+	import.meta.dirname,
+	"..",
+	"lib/walc-data/ltr-structured-data.ts",
+);
 
 describe("LTR page authority and public claims", () => {
 	it("lets the root metadata template append the site name once", async () => {
-		const source = await readFile(PAGE_PATH, "utf8");
+		const [page, data] = await Promise.all([
+			readFile(PAGE_PATH, "utf8"),
+			readFile(DATA_PATH, "utf8"),
+		]);
 
-		expect(source).toContain(
-			'const LTR_TITLE = "LTR Visa(Long-Term Resident)";',
+		expect(data).toContain(
+			'export const LTR_TITLE = "LTR Visa(Long-Term Resident)";',
 		);
-		expect(source).toContain("title: LTR_TITLE");
-		expect(source).not.toContain(
+		expect(page).toContain("title: LTR_TITLE");
+		expect(page).not.toContain(
 			'title: "LTR Visa(Long-Term Resident)| WALC VISA Consulting",',
 		);
 	});
@@ -30,25 +38,31 @@ describe("LTR page authority and public claims", () => {
 	});
 
 	it("links official BOI/LTR sources and renders breadcrumbs", async () => {
-		const source = await readFile(PAGE_PATH, "utf8");
+		const [page, data] = await Promise.all([
+			readFile(PAGE_PATH, "utf8"),
+			readFile(DATA_PATH, "utf8"),
+		]);
 
-		expect(source).toContain("https://ltr.boi.go.th/");
-		expect(source).toContain(
+		expect(data).toContain("https://ltr.boi.go.th/");
+		expect(data).toContain(
 			"https://ltr.boi.go.th/page/visa-issuance-info.html",
 		);
-		expect(source).toContain(
+		expect(data).toContain(
 			"https://ltr.boi.go.th/documents/PPT_Tax_Essentialsfor_LTR_Visa_Holders.pdf",
 		);
-		expect(source).toContain("<BreadcrumbJsonLd");
-		expect(source).toContain("https://walc-visa.online/visas/ltr");
+		expect(page).toContain("<BreadcrumbJsonLd");
+		expect(data).toContain("https://walc-visa.online/visas/ltr");
 	});
 
 	it("publishes a page-specific canonical and social URL", async () => {
-		const source = await readFile(PAGE_PATH, "utf8");
+		const [page, data] = await Promise.all([
+			readFile(PAGE_PATH, "utf8"),
+			readFile(DATA_PATH, "utf8"),
+		]);
 
-		expect(source).toContain("const LTR_URL");
-		expect(source).toContain('"https://walc-visa.online/visas/ltr"');
-		expect(source).toContain("alternates: { canonical: LTR_URL }");
-		expect(source).toContain("url: LTR_URL");
+		expect(data).toContain("export const LTR_URL");
+		expect(data).toContain('"https://walc-visa.online/visas/ltr"');
+		expect(page).toContain("alternates: { canonical: LTR_URL }");
+		expect(page).toContain("url: LTR_URL");
 	});
 });

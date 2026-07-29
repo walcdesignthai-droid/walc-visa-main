@@ -32,14 +32,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
+import {
+	buildLtrStructuredData,
+	LTR_DESCRIPTION,
+	LTR_OFFICIAL_SOURCES,
+	LTR_TITLE,
+	LTR_URL,
+} from "@/lib/walc-data/ltr-structured-data";
 import { formatTHB, VISA_LTR } from "@/lib/walc-data/pricing";
-
-const LTR_URL = "https://walc-visa.online/visas/ltr";
-const LTR_TITLE = "LTR Visa(Long-Term Resident)";
-const LTR_DESCRIPTION =
-	"最大10年のタイ長期滞在を目指すLTR Visa。4カテゴリの条件、カテゴリ別の税制優遇、料金、BOI申請の流れを公式一次情報とともに案内します。";
 
 export const metadata: Metadata = {
 	title: LTR_TITLE,
@@ -58,21 +61,6 @@ export const metadata: Metadata = {
 		description: LTR_DESCRIPTION,
 	},
 };
-
-const LTR_OFFICIAL_SOURCES = [
-	{
-		label: "BOI / LTR Visa 公式概要",
-		href: "https://ltr.boi.go.th/",
-	},
-	{
-		label: "LTR Visa発給・5年目の再確認",
-		href: "https://ltr.boi.go.th/page/visa-issuance-info.html",
-	},
-	{
-		label: "LTR保有者向け Tax Essentials（2026）",
-		href: "https://ltr.boi.go.th/documents/PPT_Tax_Essentialsfor_LTR_Visa_Holders.pdf",
-	},
-] as const;
 
 // ---------------------------------------------------------------------------
 // LTR 4 カテゴリ
@@ -229,12 +217,14 @@ export default function LtrPage() {
 	return (
 		<>
 			<Header />
+			<JsonLdScript data={buildLtrStructuredData()} />
 			<BreadcrumbJsonLd
+				id={`${LTR_URL}#breadcrumb`}
 				items={[
 					{ name: "ホーム", url: "https://walc-visa.online/" },
 					{
 						name: "LTR Visa",
-						url: "https://walc-visa.online/visas/ltr",
+						url: LTR_URL,
 					},
 				]}
 			/>
