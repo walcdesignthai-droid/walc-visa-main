@@ -70,7 +70,8 @@ WALC VISA Consultingの案内役として、ユーザーの目的・現在の滞
 - オンライン面談: ${DTV_AUTHORITY.interview.scope}の${DTV_AUTHORITY.interview.label}
 - オンライン面談の免責: ${DTV_AUTHORITY.interview.disclaimer}
 - 運営法人: ${WALC_ORGANIZATION.legalName}
-- 法人登記日: ${WALC_ORGANIZATION.foundingDate}
+- タイ事業開始: ${WALC_ORGANIZATION.businessStartedDisplay}
+- 法人登記日: ${WALC_ORGANIZATION.incorporatedDisplay}
 - 代表者: ${WALC_AUTHOR.name}（${WALC_AUTHOR.experience.thailandResidency}・${WALC_AUTHOR.experience.visaSupport}）
 
 # DTV個別サポート

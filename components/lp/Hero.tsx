@@ -12,6 +12,7 @@
 import { ArrowRight, CheckCircle2, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { WALC_AUTHOR } from "@/lib/walc-data/eeat";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 // v3.3 (2026-05-26) — 飛行機画像は微妙との指示で v3.0 のバンコク夜景に復帰
@@ -175,19 +176,14 @@ export async function Hero() {
 							<div className="flex items-center gap-1.5 mb-2">
 								<MapPin className="w-3 h-3 text-brand" />
 								<span className="text-[10px] tracking-widest uppercase text-text-tertiary font-bold">
-									タイ法人運営
+									代表の現地経験
 								</span>
 							</div>
-							<div className="flex items-baseline gap-1">
-								<span className="text-5xl font-bold tabular-nums text-brand tracking-tight">
-									6
-								</span>
-								<span className="text-lg font-medium text-text-secondary">
-									年
-								</span>
+							<div className="text-2xl font-bold text-brand tracking-tight">
+								{WALC_AUTHOR.experience.thailandResidency}
 							</div>
 							<div className="text-xs text-text-secondary mt-1">
-								バンコク現地法人
+								{WALC_AUTHOR.experience.visaSupport}
 							</div>
 						</div>
 					</div>
