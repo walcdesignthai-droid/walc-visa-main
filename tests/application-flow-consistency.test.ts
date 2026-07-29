@@ -10,8 +10,9 @@ async function read(path: string) {
 
 describe("public application flow", () => {
 	it("keeps LINE as the public consultation and application channel", async () => {
-		const [content, process, finalCta] = await Promise.all([
+		const [content, hero, process, finalCta] = await Promise.all([
 			read("lib/walc-data/public-content.ts"),
+			read("components/lp/Hero.tsx"),
 			read("components/lp/Process.tsx"),
 			read("components/lp/FinalCta.tsx"),
 		]);
@@ -20,6 +21,8 @@ describe("public application flow", () => {
 		expect(process).toContain('title: "LINEで正式申込のご案内"');
 		expect(process).toContain("申込窓口はLINEに統一");
 		expect(finalCta).toContain("content.consultationUrl");
+		expect(hero).toContain('href="#visa-types"');
+		expect(hero).toContain("対応VISAを見る");
 		expect(process).not.toContain("専用 CRM で申込");
 		expect(process).not.toContain("WALC アプリ(my.walc-visa.online)");
 	});
