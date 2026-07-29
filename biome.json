@@ -31,7 +31,8 @@
 			"enabled": false
 		},
 		"parser": {
-			"allowWrongLineComments": true
+			"allowWrongLineComments": true,
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {
