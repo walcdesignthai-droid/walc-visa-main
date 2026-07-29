@@ -7,6 +7,8 @@
  */
 
 import { Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
 import "./blog-theme.css";
 
 const notoSans = Noto_Sans_JP({
@@ -23,10 +25,20 @@ const notoSerif = Noto_Serif_JP({
 	variable: "--font-vb-serif",
 });
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
+export default function BlogLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	return (
-		<div className={`vb-theme ${notoSans.variable} ${notoSerif.variable}`}>
-			{children}
-		</div>
+		<>
+			<Header />
+			<div
+				className={`vb-theme ${notoSans.variable} ${notoSerif.variable} flex-1 pt-16 md:pt-20`}
+			>
+				{children}
+			</div>
+			<Footer />
+		</>
 	);
 }
