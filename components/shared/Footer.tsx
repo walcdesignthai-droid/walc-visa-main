@@ -1,8 +1,8 @@
 /**
  * components/shared/Footer.tsx — 共通フッター (全 LP / 詳細ページ)
  * ----------------------------------------------------------------------------
- * v2.0 (2026-05-26) — 全 WALC サイトの相互リンク + CRM 法務 (Yosuke 指示)
- *   - 関連サイト: メイン / DTV / 企業向け / 顧客ポータル
+ * v2.0 (2026-05-26) — WALC VISA 公開面の相互リンク + CRM 法務
+ *   - 関連サイト: メイン / DTV / 公開ガイド / 顧客ポータル
  *   - 法務: 利用規約 / プライバシー / キャンセル規定 (CRM 直リンク)
  *   - VISA ナビ: 内部詳細ページへの導線統一
  * ----------------------------------------------------------------------------
@@ -34,6 +34,7 @@ const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
 	{ href: "/#consult", label: "AI コンシェルジュ + 無料相談" },
 	{ href: "/#company-info", label: "会社概要" },
+	{ href: "/official-sites", label: "WALC 公式サイト一覧" },
 ];
 
 export function Footer() {

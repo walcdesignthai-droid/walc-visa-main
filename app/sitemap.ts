@@ -67,6 +67,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.7,
 		},
+		{
+			url: `${BASE_URL}/official-sites`,
+			lastModified: CORE_CONTENT_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.6,
+		},
 		...conditionalEntries,
 		...blogEntries,
 	];
