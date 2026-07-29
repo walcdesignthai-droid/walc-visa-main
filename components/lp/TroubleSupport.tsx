@@ -20,7 +20,7 @@ import {
 	ShieldAlert,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { ConciergeOpenLink } from "@/components/concierge/ConciergeOpenLink";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 interface TroubleItem {
@@ -163,12 +163,12 @@ export async function TroubleSupport() {
 									LINE で相談する
 									<ArrowRight className="w-4 h-4" />
 								</a>
-								<Link
+								<ConciergeOpenLink
 									href="#concierge"
 									className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/25 text-white/90 font-semibold text-sm hover:bg-white/5 transition-colors"
 								>
 									AI コンシェルジュに聞く
-								</Link>
+								</ConciergeOpenLink>
 							</div>
 						</div>
 					</div>

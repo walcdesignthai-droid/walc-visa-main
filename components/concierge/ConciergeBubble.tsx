@@ -8,13 +8,15 @@
 
 "use client";
 
-import { MessageCircle, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MessageCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { ConciergeChat } from "./ConciergeChat";
+import { OPEN_CONCIERGE_EVENT } from "./ConciergeOpenLink";
 
 export function ConciergeBubble() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
+	const returnFocusRef = useRef<HTMLElement | null>(null);
 
 	// 3 秒後にフェードイン
 	useEffect(() => {
@@ -22,13 +24,65 @@ export function ConciergeBubble() {
 		return () => clearTimeout(t);
 	}, []);
 
+	useEffect(() => {
+		const openDialog = () => {
+			const activeElement = document.activeElement;
+			if (
+				activeElement instanceof HTMLElement &&
+				activeElement !== document.body
+			) {
+				returnFocusRef.current = activeElement;
+			}
+			setIsVisible(true);
+			setIsOpen(true);
+		};
+		const openFromHash = () => {
+			if (window.location.hash === "#concierge") {
+				openDialog();
+			}
+		};
+
+		openFromHash();
+		const initialHashCheck = window.setTimeout(openFromHash, 100);
+		window.addEventListener("hashchange", openFromHash);
+		window.addEventListener(OPEN_CONCIERGE_EVENT, openDialog);
+		return () => {
+			window.clearTimeout(initialHashCheck);
+			window.removeEventListener("hashchange", openFromHash);
+			window.removeEventListener(OPEN_CONCIERGE_EVENT, openDialog);
+		};
+	}, []);
+
+	const handleOpen = () => {
+		returnFocusRef.current =
+			document.activeElement instanceof HTMLElement
+				? document.activeElement
+				: null;
+		setIsOpen(true);
+	};
+
+	const handleClose = () => {
+		setIsOpen(false);
+		if (window.location.hash === "#concierge") {
+			const nextUrl = `${window.location.pathname}${window.location.search}`;
+			window.history.replaceState(null, "", nextUrl);
+		}
+		window.setTimeout(() => {
+			(returnFocusRef.current ?? document.getElementById("concierge"))?.focus();
+		}, 0);
+	};
+
 	return (
 		<>
 			{/* フローティングボタン */}
 			<button
+				id="concierge"
 				type="button"
-				onClick={() => setIsOpen(true)}
+				onClick={handleOpen}
 				aria-label="AI コンシェルジュに質問する"
+				aria-haspopup="dialog"
+				aria-controls="concierge-dialog"
+				aria-expanded={isOpen}
 				className={`fixed bottom-5 right-5 md:bottom-6 md:right-6 z-40 group ${
 					isVisible
 						? "opacity-100 translate-y-0"
@@ -53,7 +107,7 @@ export function ConciergeBubble() {
 			</button>
 
 			{/* ダイアログ */}
-			<ConciergeChat isOpen={isOpen} onClose={() => setIsOpen(false)} />
+			<ConciergeChat isOpen={isOpen} onClose={handleClose} />
 		</>
 	);
 }

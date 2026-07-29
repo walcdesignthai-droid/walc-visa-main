@@ -37,9 +37,20 @@ const INITIAL_GREETING: UiMessage = {
 };
 
 const CTA_TAG_PATTERN = /\[CTA:[a-z]+(?::[a-z0-9-_]+)?\]/gi;
+const FOCUSABLE_SELECTOR = [
+	"a[href]",
+	"button:not([disabled])",
+	"input:not([disabled])",
+	"select:not([disabled])",
+	"textarea:not([disabled])",
+	'[tabindex]:not([tabindex="-1"])',
+].join(",");
 
 function stripCtaTags(text: string): string {
-	return text.replace(CTA_TAG_PATTERN, "").replace(/\n{3,}/g, "\n\n").trim();
+	return text
+		.replace(CTA_TAG_PATTERN, "")
+		.replace(/\n{3,}/g, "\n\n")
+		.trim();
 }
 
 export function ConciergeChat({ isOpen, onClose }: Props) {
@@ -48,12 +59,57 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const scrollRef = useRef<HTMLDivElement>(null);
+	const dialogRef = useRef<HTMLDivElement>(null);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: transcript and loading changes require scrolling the message viewport
 	useEffect(() => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
 		}
 	}, [messages, isLoading]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const focusFrame = window.requestAnimationFrame(() => {
+			dialogRef.current?.focus();
+		});
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				onClose();
+				return;
+			}
+			if (event.key !== "Tab" || !dialogRef.current) return;
+
+			const focusable = Array.from(
+				dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+			).filter((element) => element.getClientRects().length > 0);
+			if (focusable.length === 0) {
+				event.preventDefault();
+				dialogRef.current.focus();
+				return;
+			}
+
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			const active = document.activeElement;
+			const activeIsFocusable =
+				active instanceof HTMLElement && focusable.includes(active);
+			if (event.shiftKey && (active === first || !activeIsFocusable)) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && (active === last || !activeIsFocusable)) {
+				event.preventDefault();
+				first.focus();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.cancelAnimationFrame(focusFrame);
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [isOpen, onClose]);
 
 	const sendMessage = async (text: string) => {
 		const userMsg: UiMessage = { role: "user", content: text };
@@ -64,10 +120,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		setError(null);
 
 		const assistantIndex = next.length;
-		setMessages([
-			...next,
-			{ role: "assistant", content: "", streaming: true },
-		]);
+		setMessages([...next, { role: "assistant", content: "", streaming: true }]);
 
 		try {
 			const apiMessages: ConciergeMessage[] = next
@@ -168,12 +221,21 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 		<div className="fixed inset-0 z-50 md:inset-auto md:bottom-5 md:right-5 md:w-[420px] md:h-[640px] md:max-h-[calc(100vh-2.5rem)]">
 			<button
 				type="button"
+				tabIndex={-1}
 				aria-label="閉じる"
 				onClick={onClose}
 				className="md:hidden absolute inset-0 bg-black/50 backdrop-blur-sm"
 			/>
 
-			<div className="absolute inset-0 md:inset-auto md:bottom-0 md:right-0 md:w-full md:h-full bg-white md:rounded-2xl shadow-2xl border border-border-subtle flex flex-col overflow-hidden">
+			<div
+				ref={dialogRef}
+				id="concierge-dialog"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="concierge-dialog-title"
+				tabIndex={-1}
+				className="absolute inset-0 md:inset-auto md:bottom-0 md:right-0 md:w-full md:h-full bg-white md:rounded-2xl shadow-2xl border border-border-subtle flex flex-col overflow-hidden focus:outline-none"
+			>
 				<div className="flex items-center justify-between px-5 py-4 bg-brand text-white border-b border-white/10">
 					<div className="flex items-center gap-3">
 						<div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
@@ -183,7 +245,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 							<div className="text-[10px] tracking-[0.18em] uppercase text-amber-300 font-bold">
 								WALC AI Concierge
 							</div>
-							<div className="text-sm font-bold">
+							<div id="concierge-dialog-title" className="text-sm font-bold">
 								タイ VISA 専門アシスタント
 							</div>
 						</div>
@@ -203,6 +265,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 					className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-bg-secondary"
 				>
 					{messages.map((msg, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: transcript entries are append-only while message text mutates during streaming
 						<div key={i}>
 							<ConciergeMessageBubble
 								role={msg.role}
@@ -233,7 +296,10 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 						)}
 
 					{error && (
-						<div className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+						<div
+							role="alert"
+							className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700"
+						>
 							{error}
 						</div>
 					)}
@@ -251,6 +317,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 				>
 					<input
 						type="text"
+						aria-label="タイ VISA の質問"
 						value={input}
 						onChange={(e) => setInput(e.target.value)}
 						placeholder="タイ VISA について質問する..."
@@ -270,7 +337,8 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 
 				<div className="px-4 py-2 bg-bg-secondary border-t border-border-subtle">
 					<p className="text-[10px] text-text-tertiary text-center leading-relaxed">
-						AI による回答です。最終判断は LINE で WALC スタッフへご確認ください。
+						AI による回答です。最終判断は LINE で WALC
+						スタッフへご確認ください。
 					</p>
 				</div>
 			</div>
