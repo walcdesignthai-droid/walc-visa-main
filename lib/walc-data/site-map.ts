@@ -21,6 +21,9 @@ export const SITE_URLS = {
 	/** DTV LP (dtv-walc-visa) */
 	dtv: "https://dtv.walc-visa.online",
 
+	/** 公開ガイド (申請前後の必要書類・実務情報) */
+	guide: "https://guide.walc-visa.online",
+
 	/** DTV VISA 適性診断 (全ページから誘導) */
 	diagnosis: "https://dtv.walc-visa.online/diagnosis",
 
@@ -65,11 +68,66 @@ export interface NavLink {
 	highlight?: boolean;
 }
 
+export interface OfficialSiteEntry {
+	id: "main" | "dtv" | "guide" | "portal";
+	name: string;
+	url: string;
+	role: string;
+	audience: string;
+	badge: string;
+	publicInformation: boolean;
+}
+
+/**
+ * WALC VISA の公式サイト体系。
+ *
+ * 検索・AI・利用者に各サイトの役割を同じ表現で伝えるための正本。
+ * 社内 CRM は公開ディレクトリへ掲載しない。
+ */
+export const OFFICIAL_SITE_DIRECTORY: readonly OfficialSiteEntry[] = [
+	{
+		id: "main",
+		name: "WALC VISA 公式サイト",
+		url: SITE_URLS.main,
+		role: "運営情報とVISAサービス全体の第一正本",
+		audience: "WALCの運営者、サービス、公式見解を確認したい方",
+		badge: "公式本体",
+		publicInformation: true,
+	},
+	{
+		id: "dtv",
+		name: "DTV VISA 専門サイト",
+		url: SITE_URLS.dtv,
+		role: "DTVの条件・料金・実績・相談をまとめた専門LP",
+		audience: "DTVの取得方法を比較し、申請相談をしたい方",
+		badge: "DTV専門",
+		publicInformation: true,
+	},
+	{
+		id: "guide",
+		name: "WALC VISA 公開ガイド",
+		url: SITE_URLS.guide,
+		role: "必要書類と申請実務を確認するための公開ガイド",
+		audience: "申請前後の準備内容を具体的に確認したい方",
+		badge: "実務ガイド",
+		publicInformation: true,
+	},
+	{
+		id: "portal",
+		name: "WALC お客様専用ポータル",
+		url: SITE_URLS.portal,
+		role: "申込後の進捗確認と追加書類提出を行う顧客専用画面",
+		audience: "WALCへ申込済みのお客様",
+		badge: "顧客専用",
+		publicInformation: false,
+	},
+] as const;
+
 /** Header メインナビ */
 export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },
 	{ href: SITE_URLS.dtv, label: "DTV", external: true },
-	{ href: SITE_URLS.guideBusiness, label: "NON-B / WP", external: true },
+	{ href: "/visas/non-b-work-permit", label: "NON-B / WP" },
 	{ href: SITE_URLS.guideDtv, label: "取得者ガイド", external: true },
 	{ href: "/#trouble-support", label: "トラブル対応" },
 	{ href: "/#consult", label: "AI 相談" },
@@ -96,11 +154,6 @@ export const FOOTER_RELATED_SITES: readonly NavLink[] = [
 	{
 		href: SITE_URLS.dtv,
 		label: "DTV 専門サイト",
-		external: true,
-	},
-	{
-		href: SITE_URLS.corporate,
-		label: "企業進出向けサイト",
 		external: true,
 	},
 	{
