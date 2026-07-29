@@ -9,14 +9,38 @@ const PRIMARY_MODEL = "google/gemini-3.6-flash";
 const FALLBACK_MODEL = "anthropic/claude-sonnet-5";
 const PROVIDER_IDLE_TIMEOUT_MS = 15_000;
 
-function createIdleTimeout() {
+function abortReason(signal: AbortSignal): Error {
+	return signal.reason instanceof Error
+		? signal.reason
+		: new DOMException("The request was aborted", "AbortError");
+}
+
+function throwIfCallerAborted(signal?: AbortSignal) {
+	if (signal?.aborted) {
+		throw abortReason(signal);
+	}
+}
+
+function createIdleTimeout(parentSignal?: AbortSignal) {
 	const controller = new AbortController();
 	let timeout: ReturnType<typeof setTimeout> | undefined;
+	const abortFromParent = () => {
+		if (!controller.signal.aborted && parentSignal) {
+			controller.abort(abortReason(parentSignal));
+		}
+	};
+
+	if (parentSignal?.aborted) {
+		abortFromParent();
+	} else {
+		parentSignal?.addEventListener("abort", abortFromParent, { once: true });
+	}
 
 	return {
 		signal: controller.signal,
 		arm() {
 			if (timeout) clearTimeout(timeout);
+			if (controller.signal.aborted) return;
 			timeout = setTimeout(() => {
 				controller.abort(
 					new Error(`AI provider idle timeout (${PROVIDER_IDLE_TIMEOUT_MS}ms)`),
@@ -26,6 +50,11 @@ function createIdleTimeout() {
 		clear() {
 			if (timeout) clearTimeout(timeout);
 			timeout = undefined;
+		},
+		dispose() {
+			if (timeout) clearTimeout(timeout);
+			timeout = undefined;
+			parentSignal?.removeEventListener("abort", abortFromParent);
 		},
 	};
 }
@@ -38,9 +67,10 @@ export async function* conciergeGenerateStream(
 	options: ConciergeGenerateOptions,
 ): AsyncGenerator<string, void, unknown> {
 	let directProviderError: unknown;
+	throwIfCallerAborted(options.abortSignal);
 
 	if (process.env.GEMINI_API_KEY) {
-		const timeout = createIdleTimeout();
+		const timeout = createIdleTimeout(options.abortSignal);
 		const iterator = geminiGenerateStream({
 			...options,
 			abortSignal: timeout.signal,
@@ -66,15 +96,17 @@ export async function* conciergeGenerateStream(
 			}
 			directProviderError = new Error("Gemini returned no text");
 		} catch (error) {
+			throwIfCallerAborted(options.abortSignal);
 			if (hasYielded) throw error;
 			directProviderError = error;
 		} finally {
-			timeout.clear();
+			timeout.dispose();
 		}
 	}
 
+	throwIfCallerAborted(options.abortSignal);
 	if (process.env.ANTHROPIC_API_KEY) {
-		const timeout = createIdleTimeout();
+		const timeout = createIdleTimeout(options.abortSignal);
 		try {
 			timeout.arm();
 			const text = await claudeGenerate({
@@ -86,12 +118,14 @@ export async function* conciergeGenerateStream(
 			if (text) return;
 			directProviderError = new Error("Claude returned no text");
 		} catch (error) {
+			throwIfCallerAborted(options.abortSignal);
 			directProviderError = error;
 		} finally {
-			timeout.clear();
+			timeout.dispose();
 		}
 	}
 
+	throwIfCallerAborted(options.abortSignal);
 	const token =
 		options.gatewayToken ??
 		process.env.VERCEL_OIDC_TOKEN ??
@@ -101,7 +135,7 @@ export async function* conciergeGenerateStream(
 		throw new Error("AI Gateway authentication is unavailable");
 	}
 
-	const timeout = createIdleTimeout();
+	const timeout = createIdleTimeout(options.abortSignal);
 	let response: Response;
 	try {
 		timeout.arm();
@@ -130,12 +164,13 @@ export async function* conciergeGenerateStream(
 		});
 		timeout.clear();
 	} catch (error) {
-		timeout.clear();
+		timeout.dispose();
+		throwIfCallerAborted(options.abortSignal);
 		throw error;
 	}
 
 	if (!response.ok || !response.body) {
-		timeout.clear();
+		timeout.dispose();
 		throw new Error(`AI Gateway request failed (${response.status})`);
 	}
 
@@ -178,7 +213,7 @@ export async function* conciergeGenerateStream(
 			throw new Error("AI Gateway returned no text");
 		}
 	} finally {
-		timeout.clear();
+		timeout.dispose();
 	}
 }
 

@@ -95,6 +95,7 @@ export async function POST(req: NextRequest) {
 					systemPrompt,
 					messages: body.messages,
 					gatewayToken: req.headers.get("x-vercel-oidc-token") ?? undefined,
+					abortSignal: req.signal,
 				})) {
 					fullText += chunk;
 					controller.enqueue(
@@ -107,6 +108,7 @@ export async function POST(req: NextRequest) {
 					encoder.encode(sse({ type: "done", cta: parsed.cta })),
 				);
 			} catch (error: unknown) {
+				if (req.signal.aborted) return;
 				const message =
 					error instanceof Error ? error.message : "Unknown error";
 				console.error("[concierge] provider fallback", { message });
@@ -128,7 +130,9 @@ export async function POST(req: NextRequest) {
 					encoder.encode(sse({ type: "done", cta: fallback.cta })),
 				);
 			} finally {
-				controller.close();
+				if (!req.signal.aborted) {
+					controller.close();
+				}
 			}
 		},
 	});

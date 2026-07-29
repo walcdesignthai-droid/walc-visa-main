@@ -20,9 +20,14 @@ const options = {
 	messages: [{ role: "user" as const, content: "DTVについて教えて" }],
 };
 
-async function collectStream() {
+async function collectStream(
+	overrides: Partial<Parameters<typeof conciergeGenerateStream>[0]> = {},
+) {
 	const chunks: string[] = [];
-	for await (const chunk of conciergeGenerateStream(options)) {
+	for await (const chunk of conciergeGenerateStream({
+		...options,
+		...overrides,
+	})) {
 		chunks.push(chunk);
 	}
 	return chunks;
@@ -98,6 +103,30 @@ describe("concierge provider failover", () => {
 
 		await expect(pending).resolves.toEqual(["Claude after timeout"]);
 		expect(providerMocks.claudeGenerate).toHaveBeenCalledOnce();
+	});
+
+	it("stops without provider fallback when the caller disconnects", async () => {
+		providerMocks.geminiGenerateStream.mockImplementation(
+			async function* (requestOptions) {
+				await new Promise((_, reject) => {
+					requestOptions.abortSignal?.addEventListener(
+						"abort",
+						() => reject(requestOptions.abortSignal?.reason),
+						{ once: true },
+					);
+				});
+				yield "unreachable";
+			},
+		);
+		providerMocks.claudeGenerate.mockResolvedValue("unwanted fallback");
+		const requestController = new AbortController();
+
+		const pending = collectStream({ abortSignal: requestController.signal });
+		await Promise.resolve();
+		requestController.abort(new Error("client disconnected"));
+
+		await expect(pending).rejects.toThrow("client disconnected");
+		expect(providerMocks.claudeGenerate).not.toHaveBeenCalled();
 	});
 
 	it("rejects an empty AI Gateway stream so the route can render its safe fallback", async () => {
