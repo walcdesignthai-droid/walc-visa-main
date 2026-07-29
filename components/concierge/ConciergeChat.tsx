@@ -37,6 +37,14 @@ const INITIAL_GREETING: UiMessage = {
 };
 
 const CTA_TAG_PATTERN = /\[CTA:[a-z]+(?::[a-z0-9-_]+)?\]/gi;
+const FOCUSABLE_SELECTOR = [
+	"a[href]",
+	"button:not([disabled])",
+	"input:not([disabled])",
+	"select:not([disabled])",
+	"textarea:not([disabled])",
+	'[tabindex]:not([tabindex="-1"])',
+].join(",");
 
 function stripCtaTags(text: string): string {
 	return text
@@ -67,7 +75,37 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 			dialogRef.current?.focus();
 		});
 		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "Escape") onClose();
+			if (event.key === "Escape") {
+				onClose();
+				return;
+			}
+			if (event.key !== "Tab" || !dialogRef.current) return;
+
+			const focusable = Array.from(
+				dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+			).filter((element) => element.getClientRects().length > 0);
+			if (focusable.length === 0) {
+				event.preventDefault();
+				dialogRef.current.focus();
+				return;
+			}
+
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			const active = document.activeElement;
+			if (
+				event.shiftKey &&
+				(active === first || !dialogRef.current.contains(active))
+			) {
+				event.preventDefault();
+				last.focus();
+			} else if (
+				!event.shiftKey &&
+				(active === last || !dialogRef.current.contains(active))
+			) {
+				event.preventDefault();
+				first.focus();
+			}
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
@@ -261,7 +299,10 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 						)}
 
 					{error && (
-						<div className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+						<div
+							role="alert"
+							className="ml-9 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700"
+						>
 							{error}
 						</div>
 					)}
@@ -279,6 +320,7 @@ export function ConciergeChat({ isOpen, onClose }: Props) {
 				>
 					<input
 						type="text"
+						aria-label="タイ VISA の質問"
 						value={input}
 						onChange={(e) => setInput(e.target.value)}
 						placeholder="タイ VISA について質問する..."

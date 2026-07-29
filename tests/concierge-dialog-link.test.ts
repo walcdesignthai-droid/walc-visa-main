@@ -51,8 +51,20 @@ describe("AI concierge public links", () => {
 
 		expect(chat).toContain("dialogRef.current?.focus()");
 		expect(chat).toContain('event.key === "Escape"');
+		expect(chat).toContain('event.key !== "Tab"');
+		expect(chat).toContain("FOCUSABLE_SELECTOR");
+		expect(chat).toContain("dialogRef.current.contains(active)");
+		expect(chat).toContain("last.focus()");
+		expect(chat).toContain("first.focus()");
 		expect(chat).toContain('window.addEventListener("keydown"');
 		expect(chat).toContain('window.removeEventListener("keydown"');
+	});
+
+	it("provides accessible names and error announcements inside the dialog", async () => {
+		const chat = await read("components/concierge/ConciergeChat.tsx");
+
+		expect(chat).toContain('aria-label="タイ VISA の質問"');
+		expect(chat).toContain('role="alert"');
 	});
 
 	it("connects both homepage AI CTAs to the interactive opener", async () => {
