@@ -1,16 +1,12 @@
 /**
  * components/lp/Founder.tsx — 代表者メッセージ
  * ----------------------------------------------------------------------------
- * 修正履歴:
- *   v1.1 (2026-05-25) — 漢字修正: 洋介 → 陽介
- *   v1.2 (2026-05-26) — 在住歴修正: 「バンコク在住 6 年」(WALC 社歴と混同)
- *                                  → 「バンコク在住 10 年以上」(Yosuke 本人歴)
- *                                  + 「WALC 創業 6 年」を別途明示
- *                       出典: walc-studio/knowledge/01_walc_company_info.md
+ * 代表者の在住歴・VISA支援歴は WALC_AUTHOR の owner-confirmed data から表示する。
  * ----------------------------------------------------------------------------
  */
 
 import { Quote } from "lucide-react";
+import { WALC_AUTHOR } from "@/lib/walc-data/eeat";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 export async function Founder() {
@@ -48,7 +44,8 @@ export async function Founder() {
 							<br />
 							WALC VISA Consulting 統括
 							<br />
-							バンコク在住 10 年以上 / WALC 創業 6 年
+							{WALC_AUTHOR.experience.thailandResidency} /{" "}
+							{WALC_AUTHOR.experience.visaSupport}
 						</p>
 					</div>
 

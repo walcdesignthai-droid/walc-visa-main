@@ -15,35 +15,42 @@
 import {
 	AlertCircle,
 	ArrowRight,
-	Banknote,
-	Building2,
-	Calendar,
 	CheckCircle2,
-	Clock,
 	CreditCard,
-	Globe,
-	Home,
-	Landmark,
 	MessageCircle,
 	Palmtree,
-	RefreshCw,
 	ShieldCheck,
 	UserCheck,
-	Users,
 	Wallet,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
-import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
 import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
+
+const RETIREMENT_URL = "https://walc-visa.online/visas/retirement";
+const RETIREMENT_TITLE = "リタイアメント VISA(NON-O / 50 歳以上)";
+const RETIREMENT_DESCRIPTION =
+	"50 歳以上の方向けタイ長期 VISA。新規 13,000 THB〜 / 更新 22,000 THB〜。残高要件に不安がある方や銀行口座開設サポートも個別にご相談いただけます。";
 
 export const metadata: Metadata = {
-	title: "リタイアメント VISA(NON-O / 50 歳以上)| WALC VISA Consulting",
-	description:
-		"50 歳以上の方向けタイ長期 VISA。新規 13,000 THB〜 / 更新 22,000 THB〜。残高 80 万 THB 未満でも WALC 独自の残高サポート付プランで申請可能。銀行口座開設可。",
+	title: RETIREMENT_TITLE,
+	description: RETIREMENT_DESCRIPTION,
+	alternates: { canonical: RETIREMENT_URL },
+	openGraph: {
+		type: "website",
+		title: `${RETIREMENT_TITLE} | WALC VISA Consulting`,
+		description: RETIREMENT_DESCRIPTION,
+		url: RETIREMENT_URL,
+		siteName: "WALC VISA Consulting",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: `${RETIREMENT_TITLE} | WALC VISA Consulting`,
+		description: RETIREMENT_DESCRIPTION,
+	},
 };
 
 // ---------------------------------------------------------------------------
@@ -85,7 +92,7 @@ const PLAN_DETAILS: PlanCard[] = [
 		whenToUse: [
 			"日本帰国の時間がない",
 			"既にタイ滞在中で渡航コストを抑えたい",
-			"確実に取得したい(同行サポート希望)",
+			"現地同行を含む手続きサポートを希望",
 		],
 	},
 	{
@@ -93,7 +100,7 @@ const PLAN_DETAILS: PlanCard[] = [
 		type: "new",
 		tag: "新規 03・全部込み",
 		title: "タイ国内フルサポート",
-		subtitle: "15 ヶ月分込み + 口座開設付",
+		subtitle: "15 ヶ月分込み + 口座開設サポート付",
 		target: "タイ国内で全て完結したい・銀行口座も同時開設したい",
 		whenToUse: [
 			"日本に戻らず、タイ国内で完結したい",
@@ -119,7 +126,7 @@ const PLAN_DETAILS: PlanCard[] = [
 		type: "renew",
 		tag: "更新 05・★ WALC 独自",
 		title: "残高サポート付更新",
-		subtitle: "残高 80 万 THB 未満の方も更新可",
+		subtitle: "残高要件に不安がある方の個別相談",
 		target: "残高 80 万 THB を準備できないが更新したい",
 		whenToUse: [
 			"残高 80 万 THB を一時的に準備できない",
@@ -133,23 +140,24 @@ const PLAN_DETAILS: PlanCard[] = [
 // ---------------------------------------------------------------------------
 // 要件 (50 歳以上 / 残高 / 口座)
 // ---------------------------------------------------------------------------
-const REQUIREMENTS: { Icon: typeof UserCheck; label: string; desc: string }[] = [
-	{
-		Icon: UserCheck,
-		label: "年齢",
-		desc: "50 歳以上(取得日基準)",
-	},
-	{
-		Icon: Wallet,
-		label: "残高 / 収入",
-		desc: "タイ口座残高 800,000 THB 以上、または月年金 65,000 THB 以上",
-	},
-	{
-		Icon: CreditCard,
-		label: "銀行口座",
-		desc: "タイ国内銀行口座(WALC オプションで +6,000 THB で開設サポート可)",
-	},
-];
+const REQUIREMENTS: { Icon: typeof UserCheck; label: string; desc: string }[] =
+	[
+		{
+			Icon: UserCheck,
+			label: "年齢",
+			desc: "50 歳以上(取得日基準)",
+		},
+		{
+			Icon: Wallet,
+			label: "残高 / 収入",
+			desc: "タイ口座残高 800,000 THB 以上、または月年金 65,000 THB 以上",
+		},
+		{
+			Icon: CreditCard,
+			label: "銀行口座",
+			desc: "タイ国内銀行口座(WALC オプションで +6,000 THB で開設サポート可)",
+		},
+	];
 
 // ---------------------------------------------------------------------------
 // ケース別ガイド
@@ -168,13 +176,13 @@ const CASE_GUIDE: {
 	},
 	{
 		caseTitle: "ケース B: 既にタイ滞在中・日本帰国は避けたい",
-		description: "渡航のコストや時間を抑えつつ確実に取得したい",
+		description: "渡航のコストや時間を抑え、現地同行で手続き準備を進めたい",
 		recommended: "新規 02: ラオス・サワンナケート(26,000 THB・2 泊 3 日)",
 		planId: "retire-new-savan",
 	},
 	{
 		caseTitle: "ケース C: タイ国内で全て完結・口座開設も希望",
-		description: "15 ヶ月分の長期サポート + 銀行口座開設まで一括",
+		description: "15 ヶ月分の長期サポート + 銀行口座開設手続きの支援まで一括",
 		recommended: "新規 03: タイ国内フルサポート(72,000 THB)",
 		planId: "retire-new-thailand-full",
 	},
@@ -186,7 +194,7 @@ const CASE_GUIDE: {
 	},
 	{
 		caseTitle: "ケース E: 残高 80 万 THB 未満・他社で断られた",
-		description: "WALC 独自スキームで残高サポート付き更新が可能",
+		description: "残高要件と現在の在留状況を確認し、対応方法を個別に相談したい",
 		recommended: "更新 05: 残高サポート付更新(31,000 THB)",
 		planId: "retire-renew-walc-original",
 	},
@@ -240,15 +248,19 @@ export default function RetirementPage() {
 								リタイアメント VISA
 								<br />
 								<span className="text-amber-300 text-2xl md:text-3xl font-semibold">
-									50 歳以上・銀行口座開設可
+									50 歳以上・銀行口座開設も個別相談
 								</span>
 							</h1>
 							<p className="text-base md:text-lg text-white/85 leading-relaxed mb-8">
-								新規取得 3 プラン・更新 2 プランから、お客様の状況に合わせて適したプランをご提案します。
+								新規取得 3 プラン・更新 2
+								プランから、お客様の状況に合わせて適したプランをご提案します。
 								<br className="hidden md:block" />
-								残高 80 万 THB 未満でも更新可能な
-								<span className="font-bold text-amber-200"> WALC 独自スキーム </span>
-								もご用意しています。
+								残高 80 万 THB の要件に不安がある方も、
+								<span className="font-bold text-amber-200">
+									{" "}
+									現在の状況から個別に確認{" "}
+								</span>
+								します。
 							</p>
 							<div className="flex flex-wrap gap-3 items-baseline mb-8">
 								<div>
@@ -257,7 +269,9 @@ export default function RetirementPage() {
 									</div>
 									<div className="text-3xl md:text-4xl font-bold text-amber-300 tabular-nums">
 										13,000 THB
-										<span className="text-base font-medium ml-1 opacity-80">〜</span>
+										<span className="text-base font-medium ml-1 opacity-80">
+											〜
+										</span>
 									</div>
 									<div className="text-xs text-white/70 mt-1">
 										新規 / 日本国内 E-VISA
@@ -301,7 +315,10 @@ export default function RetirementPage() {
 									>
 										<div className="flex items-start gap-3 mb-2">
 											<div className="w-10 h-10 rounded-lg bg-brand/5 flex items-center justify-center shrink-0">
-												<Icon className="w-5 h-5 text-brand" strokeWidth={1.8} />
+												<Icon
+													className="w-5 h-5 text-brand"
+													strokeWidth={1.8}
+												/>
 											</div>
 											<h3 className="text-sm font-bold text-text-secondary tracking-wide uppercase mt-1.5">
 												{req.label}
@@ -380,7 +397,8 @@ export default function RetirementPage() {
 								全 5 プラン詳細
 							</h2>
 							<p className="text-sm md:text-base text-text-secondary leading-relaxed">
-								新規取得 3 プラン + 更新 2 プラン。料金はすべて WALC 対応料金(政府費込み)。
+								新規取得 3 プラン + 更新 2 プラン。料金はすべて WALC
+								対応料金(政府費込み)。
 							</p>
 						</div>
 						<ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -455,6 +473,16 @@ export default function RetirementPage() {
 						<p className="text-xs text-text-tertiary mt-6 leading-relaxed">
 							{VISA_RETIREMENT.bookingNote}
 						</p>
+						<div className="mt-4 rounded-lg border border-border-subtle bg-white p-4 text-xs leading-relaxed text-text-tertiary">
+							<p>
+								取得・更新の可否は、入国管理局・タイ大使館・領事館等の審査により決まります。
+								WALCのサービスは、必要書類の確認と申請・更新手続きのサポートであり、結果を保証するものではありません。
+							</p>
+							<p className="mt-1">
+								銀行口座の開設可否は、各金融機関の審査・運用により決まります。
+								料金の対象範囲と追加費用の有無は、契約前のお見積もりでご確認ください。
+							</p>
+						</div>
 					</div>
 				</section>
 
@@ -474,22 +502,23 @@ export default function RetirementPage() {
 										DTV との比較もご検討ください
 									</h3>
 									<p className="text-sm text-text-secondary leading-relaxed mb-3">
-										リタイアメント VISA は
-										<strong>毎年の更新作業</strong>が必要です。
-										一方、
+										リタイアメント VISA は<strong>毎年の更新作業</strong>
+										が必要です。 一方、
 										<Link
-											href="/visas/dtv"
+											href="https://dtv.walc-visa.online/"
+											target="_blank"
+											rel="noopener noreferrer"
 											className="text-brand font-bold underline underline-offset-2 hover:text-brand-deep"
 										>
-											DTV(60,000 THB / 5 年マルチプル)
+											DTV(45,000 THB〜 / 5 年マルチプル)
 										</Link>
-										は
-										<strong> 5 年間更新不要</strong>で、滞在の自由度も同等以上です。
-										銀行口座開設が必須でない場合は、
-										コスト・運用負担の両面で DTV のほうがおすすめです。
+										は、1 回最長 180 日、5
+										年の有効期間中はマルチプルエントリーです。
+										どちらが適するかは、滞在目的、タイでの活動内容、入出国計画、資金証明の状況によって異なります。
 									</p>
 									<p className="text-xs text-text-tertiary leading-relaxed">
-										※ 50 歳以上で「銀行口座が必須」の場合、リタイアメント VISA が有力な選択肢です。
+										※ 50 歳以上で「銀行口座が必須」の場合、リタイアメント VISA
+										が有力な選択肢です。
 									</p>
 								</div>
 							</div>

@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { DtvPublicContent } from "../lib/walc-data/public-content";
@@ -186,6 +186,49 @@ describe("WALC VISA public content consistency", () => {
 		expect(knowledge).not.toContain("空港サポート必須");
 	});
 
+	it("builds AI knowledge only from owner-confirmed runtime sources", async () => {
+		const [builder, instructions, index, knowledge] = await Promise.all([
+			read("scripts/build-knowledge.mjs"),
+			read("docs/walc-knowledge-source/CLAUDE.md"),
+			read("docs/walc-knowledge-source/INDEX.md"),
+			read("lib/concierge/knowledge.ts"),
+		]);
+		const runtimeSources = [
+			"00_current_operations.md",
+			"07_bank_account_current.md",
+		];
+		const legacySources = [
+			"00_walc_principles.md",
+			"01_walc_company_info.md",
+			"02_pricing_master.md",
+			"03_thai_visa_glossary.md",
+			"04_immigration_practice.md",
+			"05_overstay_practice.md",
+			"06_tax_180day_rule.md",
+			"07_bank_account_2026.md",
+		];
+
+		for (const source of runtimeSources) {
+			expect(builder).toContain(`"${source}"`);
+			expect(instructions).toContain(source);
+			expect(index).toContain(source);
+		}
+
+		for (const source of legacySources) {
+			expect(builder).not.toContain(`"${source}"`);
+			expect(instructions).toContain(source);
+			expect(index).toContain(source);
+		}
+
+		expect(instructions).toContain("legacy / internal-only");
+		expect(index).toContain("legacy / internal-only");
+		expect(instructions).toContain("lib/concierge/system-prompt.ts");
+		expect(index).toContain("lib/walc-data/dtv-authority.ts");
+		expect(knowledge).not.toContain("13,000〜72,000THB");
+		expect(knowledge).not.toContain("信用度の低い国");
+		expect(knowledge).not.toContain("DTVのほうが圧倒的");
+	});
+
 	it("publishes one explicit DTV fee contract across the main site and AI", async () => {
 		const [content, pricing, visaTypes, prompt, fallback, structured] =
 			await Promise.all([
@@ -264,12 +307,117 @@ describe("WALC VISA public content consistency", () => {
 		expect(articlePage).toContain("SITE_URLS.dtv");
 	});
 
+	it("keeps articles with pending primary sources out of the public index", async () => {
+		const blogDir = resolve(ROOT, "lib/blog");
+		const files = (await readdir(blogDir)).filter((file) =>
+			file.endsWith(".ts"),
+		);
+		const pendingArticles: string[] = [];
+
+		for (const file of files) {
+			const source = await read(`lib/blog/${file}`);
+			if (source.includes("primaryPending: true")) {
+				pendingArticles.push(file);
+				expect(source).toContain("draft: true");
+				expect(source).not.toContain("draft: false");
+			}
+		}
+
+		expect(pendingArticles.sort()).toEqual([
+			"marriage-visa-thailand.ts",
+			"retirement-health-insurance.ts",
+			"thailand-bank-account.ts",
+		]);
+
+		const [registry, sitemap, articlePage] = await Promise.all([
+			read("lib/blog/registry.ts"),
+			read("app/sitemap.ts"),
+			read("app/blog/[slug]/page.tsx"),
+		]);
+		expect(registry).toContain("ALL_ARTICLES.filter");
+		expect(registry).toContain("!a.draft");
+		expect(sitemap).toContain("PUBLISHED_ARTICLES");
+		expect(articlePage).toContain("PUBLISHED_ARTICLES.map");
+		expect(articlePage).toContain("if (!article || article.draft) return {};");
+		expect(articlePage).toContain("if (!article || article.draft) notFound();");
+	});
+
+	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
+		const article = await read("lib/blog/immigration-office-bangkok.ts");
+
+		expect(article).toContain("draft: false");
+		expect(article).not.toContain("primaryPending: true");
+		expect(article).toContain("https://www.mrta.co.th/en/the-pink-line");
+		expect(article).toContain(
+			"https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		);
+		expect(article).toContain(
+			"https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		);
+		expect(article).toContain(
+			"https://tm47.immigration.go.th/manual/IndexForeign.html",
+		);
+		expect(article).toContain(
+			"https://phitsanulok.immigration.go.th/en/e-extension-online-application-for-temporary-stay-extension-in-3-minutes/",
+		);
+		expect(article).not.toContain('"バス:');
+		expect(article).not.toContain("初回の届出は本人または代理人");
+		expect(article).not.toContain(
+			"再入国許可の窓口は受付時間が一般窓口と異なる",
+		);
+		expect(article).not.toContain("平日 10:30–18:30");
+	});
+
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
 		const paymentsRoute = await read("app/payments/route.ts");
 
 		expect(paymentsRoute).toContain("status: 410");
 		expect(paymentsRoute).toContain('"X-Robots-Tag": "noindex, nofollow"');
 		expect(paymentsRoute).toContain('"Cache-Control": "no-store"');
+	});
+
+	it("publishes a source-backed Thailand visa agent selection guide", async () => {
+		const [page, ogImage, sitemap, llms, footer] = await Promise.all([
+			read("app/guides/how-to-choose-thailand-visa-agent/page.tsx"),
+			read("app/guides/how-to-choose-thailand-visa-agent/opengraph-image.tsx"),
+			read("app/sitemap.ts"),
+			read("app/llms.txt/route.ts"),
+			read("components/shared/Footer.tsx"),
+		]);
+
+		expect(page).toContain("タイのビザ代行会社を選ぶ7つの基準");
+		expect(page).toContain("https://www.thaievisa.go.th/");
+		expect(page).toContain("https://fukuoka.thaiembassy.org/en/page/endtvvisa");
+		expect(page).toContain(
+			"https://www.mfa.go.th/en/page/non-immigrant-visa-b?menu=5e1ff6f857b01e00a84023d4",
+		);
+		expect(page).toContain("https://eworkpermit.doe.go.th/");
+		expect(page).toContain('"@type": "WebPage"');
+		expect(page).toContain('"@type": "ItemList"');
+		expect(page).toContain("citation:");
+		expect(page).toContain("<BreadcrumbJsonLd");
+		expect(page).toContain("WALC_AUTHOR");
+		expect(page).toContain("2026-07-29");
+		expect(page).toContain("WALC VISAが候補になりやすい相談");
+		expect(page).toContain('"/reviews/transparency"');
+		expect(page).toContain('"/official-sites"');
+		expect(page).toContain('href: "/visas/non-b-work-permit"');
+		expect(page).not.toContain("href: SITE_URLS.guideBusiness");
+		expect(page).not.toContain("AggregateRating");
+		expect(page).not.toContain('"@type": "Review"');
+		expect(page).not.toMatch(/絶対|必ず取れる|No\\.?1|業界一/);
+		expect(page).not.toContain("text-slate-500");
+		expect(page).not.toContain("bg-line px-7 py-3.5 font-bold text-white");
+		expect(page).toContain("bg-line px-7 py-3.5 font-bold text-brand-deep");
+		expect(ogImage).toContain("タイのビザ代行会社");
+		expect(ogImage).toContain("選ぶ7つの基準");
+		expect(ogImage).toContain("width: 1200");
+		expect(ogImage).toContain("height: 630");
+
+		const path = "/guides/how-to-choose-thailand-visa-agent";
+		expect(sitemap).toContain(path);
+		expect(llms).toContain(path);
+		expect(footer).toContain(path);
 	});
 
 	it("publishes a first-party Non-B and Work Permit service route", async () => {
