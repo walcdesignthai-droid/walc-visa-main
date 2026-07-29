@@ -15,6 +15,7 @@
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
+import { renderConditionalLlmsLinks } from "@/lib/walc-data/publication-state";
 
 export const revalidate = 60;
 
@@ -47,6 +48,7 @@ function buildBlogSection(): string {
 export async function GET(): Promise<Response> {
 	const content = await getDtvPublicContent();
 	const blogSection = buildBlogSection();
+	const conditionalMajorPages = renderConditionalLlmsLinks(ORIGIN);
 
 	const body = `# WALC VISA Consulting — タイ VISA 取得代行
 
@@ -65,6 +67,7 @@ export async function GET(): Promise<Response> {
 - NON-O リタイアメント(50 歳以上)
 - Thailand Privilege(旧 Thailand Elite Visa)
 - LTR(Long-Term Resident Visa)
+- Non-Immigrant B / Work Permit: タイで就労する申請者と雇用企業向け。会社書類と申請者書類を確認して申請準備を支援。
 - 学生 VISA(NON-ED)
 - 結婚・家族 VISA(NON-O / Marriage / Family / Guardian)
 - 空港イミグレ入国サポート: 現在、新規受付を一時停止中
@@ -87,7 +90,9 @@ export async function GET(): Promise<Response> {
 - [WALC公式サイト一覧](${ORIGIN}/official-sites)
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
-- [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)
+- [Non-B / Work Permit](${ORIGIN}/visas/non-b-work-permit)
+- [Non-B / Work Permit 必要書類ガイド](https://guide.walc-visa.online/guide/business)
+${conditionalMajorPages}
 - [DTV専門サイト](https://dtv.walc-visa.online)
 - [DTV取得者ガイド](${content.guideUrl})
 
