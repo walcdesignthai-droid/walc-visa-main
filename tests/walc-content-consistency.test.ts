@@ -198,6 +198,49 @@ describe("WALC VISA public content consistency", () => {
 		expect(knowledge).not.toContain("空港サポート必須");
 	});
 
+	it("builds AI knowledge only from owner-confirmed runtime sources", async () => {
+		const [builder, instructions, index, knowledge] = await Promise.all([
+			read("scripts/build-knowledge.mjs"),
+			read("docs/walc-knowledge-source/CLAUDE.md"),
+			read("docs/walc-knowledge-source/INDEX.md"),
+			read("lib/concierge/knowledge.ts"),
+		]);
+		const runtimeSources = [
+			"00_current_operations.md",
+			"07_bank_account_current.md",
+		];
+		const legacySources = [
+			"00_walc_principles.md",
+			"01_walc_company_info.md",
+			"02_pricing_master.md",
+			"03_thai_visa_glossary.md",
+			"04_immigration_practice.md",
+			"05_overstay_practice.md",
+			"06_tax_180day_rule.md",
+			"07_bank_account_2026.md",
+		];
+
+		for (const source of runtimeSources) {
+			expect(builder).toContain(`"${source}"`);
+			expect(instructions).toContain(source);
+			expect(index).toContain(source);
+		}
+
+		for (const source of legacySources) {
+			expect(builder).not.toContain(`"${source}"`);
+			expect(instructions).toContain(source);
+			expect(index).toContain(source);
+		}
+
+		expect(instructions).toContain("legacy / internal-only");
+		expect(index).toContain("legacy / internal-only");
+		expect(instructions).toContain("lib/concierge/system-prompt.ts");
+		expect(index).toContain("lib/walc-data/dtv-authority.ts");
+		expect(knowledge).not.toContain("13,000〜72,000THB");
+		expect(knowledge).not.toContain("信用度の低い国");
+		expect(knowledge).not.toContain("DTVのほうが圧倒的");
+	});
+
 	it("publishes one explicit DTV fee contract across the main site and AI", async () => {
 		const [content, pricing, visaTypes, prompt, fallback, structured] =
 			await Promise.all([
