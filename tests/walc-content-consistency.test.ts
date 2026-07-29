@@ -228,7 +228,9 @@ describe("WALC VISA public content consistency", () => {
 		expect(data).toContain("COMPANY_DOCUMENTS");
 		expect(data).toContain("WORK_PERMIT_DOCUMENTS");
 		expect(data).toContain("NON_B_PRIMARY_SOURCES");
-		expect(data).toContain("https://www.mfa.go.th/en/page/non-immigrant-visa-b");
+		expect(data).toContain(
+			"https://www.mfa.go.th/en/page/non-immigrant-visa-b",
+		);
 		expect(data).toContain(
 			"https://www.doe.go.th/prd/main/downloads/param/site/1/cat/14/sub/0/pull/category/view/list-label/object_id/6062",
 		);
