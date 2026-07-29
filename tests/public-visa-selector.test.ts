@@ -69,4 +69,16 @@ describe("public VISA selector facts", () => {
 		expect(selector).toContain("SITE_URLS.social.line");
 		expect(selector).toContain("LINEで個別確認");
 	});
+
+	it("implements a keyboard-operable tab and tabpanel relationship", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toMatch(/id=\{`visa-tab-\$\{tab\.id\}`\}/);
+		expect(selector).toContain('aria-controls="visa-tabpanel"');
+		expect(selector).toContain('role="tabpanel"');
+		expect(selector).toContain('id="visa-tabpanel"');
+		expect(selector).toMatch(/aria-labelledby=\{`visa-tab-\$\{activeTab\}`\}/);
+		expect(selector).toContain('event.key === "ArrowRight"');
+		expect(selector).toContain('event.key === "ArrowLeft"');
+	});
 });

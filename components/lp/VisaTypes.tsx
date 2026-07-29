@@ -27,7 +27,7 @@ import {
 	Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
 	type DurationTab,
 	formatTHB,
@@ -68,7 +68,31 @@ const TABS: { id: DurationTab; label: string; sublabel: string }[] = [
 
 export function VisaTypes({ content }: { content: DtvPublicContent }) {
 	const [activeTab, setActiveTab] = useState<DurationTab>("long_term");
+	const tabRefs = useRef<Record<DurationTab, HTMLButtonElement | null>>({
+		short: null,
+		one_year: null,
+		long_term: null,
+	});
 	const visas = visasByTab(activeTab);
+
+	const handleTabKeyDown = (
+		event: React.KeyboardEvent<HTMLButtonElement>,
+		index: number,
+	) => {
+		let nextIndex: number | null = null;
+
+		if (event.key === "ArrowRight") nextIndex = (index + 1) % TABS.length;
+		if (event.key === "ArrowLeft")
+			nextIndex = (index - 1 + TABS.length) % TABS.length;
+		if (event.key === "Home") nextIndex = 0;
+		if (event.key === "End") nextIndex = TABS.length - 1;
+		if (nextIndex === null) return;
+
+		event.preventDefault();
+		const nextTab = TABS[nextIndex];
+		setActiveTab(nextTab.id);
+		tabRefs.current[nextTab.id]?.focus();
+	};
 
 	return (
 		<section id="visa-types" className="bg-bg-primary">
@@ -125,15 +149,22 @@ export function VisaTypes({ content }: { content: DtvPublicContent }) {
 						aria-label="滞在期間で VISA を選ぶ"
 						className="inline-flex rounded-xl border border-border-subtle bg-white p-1 shadow-sm flex-wrap gap-1"
 					>
-						{TABS.map((tab) => {
+						{TABS.map((tab, index) => {
 							const isActive = activeTab === tab.id;
 							return (
 								<button
 									key={tab.id}
+									ref={(node) => {
+										tabRefs.current[tab.id] = node;
+									}}
+									id={`visa-tab-${tab.id}`}
 									type="button"
 									role="tab"
 									aria-selected={isActive}
+									aria-controls="visa-tabpanel"
+									tabIndex={isActive ? 0 : -1}
 									onClick={() => setActiveTab(tab.id)}
+									onKeyDown={(event) => handleTabKeyDown(event, index)}
 									className={`relative px-4 md:px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
 										isActive
 											? "bg-brand text-white shadow-md"
@@ -163,19 +194,25 @@ export function VisaTypes({ content }: { content: DtvPublicContent }) {
 					</div>
 				</div>
 
-				{/* 短期タブの特別コンテンツ (VISA カードではなくサービス案内) */}
-				{activeTab === "short" && <ShortStaySection />}
+				<div
+					id="visa-tabpanel"
+					role="tabpanel"
+					aria-labelledby={`visa-tab-${activeTab}`}
+				>
+					{/* 短期タブの特別コンテンツ (VISA カードではなくサービス案内) */}
+					{activeTab === "short" && <ShortStaySection />}
 
-				{/* 1年 / 5年以上タブ: VISA カード一覧 */}
-				{activeTab !== "short" && (
-					<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-						{visas.map((visa) => (
-							<li key={visa.slug}>
-								<VisaCard visa={visa} content={content} />
-							</li>
-						))}
-					</ul>
-				)}
+					{/* 1年 / 5年以上タブ: VISA カード一覧 */}
+					{activeTab !== "short" && (
+						<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+							{visas.map((visa) => (
+								<li key={visa.slug}>
+									<VisaCard visa={visa} content={content} />
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
 
 				{/* 補助テキスト + 訴求 */}
 				<div className="mt-10 md:mt-12 pt-8 border-t border-border-subtle">
