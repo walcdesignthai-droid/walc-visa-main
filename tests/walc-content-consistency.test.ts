@@ -302,6 +302,9 @@ describe("WALC VISA public content consistency", () => {
 		expect(page).not.toContain("AggregateRating");
 		expect(page).not.toContain('"@type": "Review"');
 		expect(page).not.toMatch(/絶対|必ず取れる|No\\.?1|業界一/);
+		expect(page).not.toContain("text-slate-500");
+		expect(page).not.toContain("bg-line px-7 py-3.5 font-bold text-white");
+		expect(page).toContain("bg-line px-7 py-3.5 font-bold text-brand-deep");
 		expect(ogImage).toContain("タイのビザ代行会社");
 		expect(ogImage).toContain("選ぶ7つの基準");
 		expect(ogImage).toContain("width: 1200");

@@ -374,7 +374,7 @@ export default function VisaAgentSelectionGuidePage() {
 											</p>
 										</div>
 										<div className="rounded-xl bg-slate-50 p-4">
-											<p className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+											<p className="text-xs font-bold tracking-wider text-text-secondary uppercase">
 												確認する証拠
 											</p>
 											<p className="mt-2 text-sm leading-7 text-brand-deep">
@@ -550,7 +550,7 @@ export default function VisaAgentSelectionGuidePage() {
 											</span>
 										</li>
 									</ul>
-									<p className="mt-3 text-xs leading-6 text-slate-500">
+									<p className="mt-3 text-xs leading-6 text-text-secondary">
 										対応可否・必要書類・正式見積もりは個別状況の確認後にご案内します。審査・発給・入国の最終判断は関係当局が行います。
 									</p>
 								</div>
@@ -606,7 +606,7 @@ export default function VisaAgentSelectionGuidePage() {
 								rel="noopener noreferrer"
 								className="group rounded-2xl border border-slate-200 p-6 transition hover:border-sky-300 hover:bg-sky-50"
 							>
-								<p className="text-xs font-bold text-slate-500">
+								<p className="text-xs font-bold text-text-secondary">
 									{source.organization}
 								</p>
 								<h3 className="mt-2 font-bold text-brand-deep group-hover:text-accent-blue-deep">
@@ -631,7 +631,7 @@ export default function VisaAgentSelectionGuidePage() {
 								className="h-16 w-16 shrink-0 rounded-full object-cover"
 							/>
 							<div>
-								<p className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+								<p className="text-xs font-bold tracking-wider text-text-secondary uppercase">
 									Author & Reviewer
 								</p>
 								<Link
@@ -645,7 +645,7 @@ export default function VisaAgentSelectionGuidePage() {
 								</p>
 							</div>
 						</div>
-						<p className="max-w-xl text-xs leading-6 text-slate-500">
+						<p className="max-w-xl text-xs leading-6 text-text-secondary">
 							本ページは一般的な比較・確認方法を整理したもので、個別案件の審査結果、ビザ取得、入国を保証するものではありません。最終判断は関係当局が行います。
 						</p>
 					</div>
@@ -666,7 +666,7 @@ export default function VisaAgentSelectionGuidePage() {
 							href={GLOBAL_CTAS.line.href}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="mt-7 inline-flex items-center gap-2 rounded-full bg-line px-7 py-3.5 font-bold text-white transition hover:bg-line-hover"
+							className="mt-7 inline-flex items-center gap-2 rounded-full bg-line px-7 py-3.5 font-bold text-brand-deep transition hover:bg-line-hover"
 						>
 							LINEで無料相談
 							<ArrowRight className="h-4 w-4" />
