@@ -15,6 +15,7 @@
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
+import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 export const revalidate = 60;
 
@@ -85,6 +86,7 @@ export async function GET(): Promise<Response> {
 ## 主要ページ
 - [トップ](${ORIGIN}/)
 - [WALC公式サイト一覧](${ORIGIN}/official-sites)
+- [WALC法人・事業支援サイト](${SITE_URLS.corporate})
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [入国・イミグレ緊急サポート](${ORIGIN}/immigration-support)

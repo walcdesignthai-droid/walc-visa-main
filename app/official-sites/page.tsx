@@ -57,6 +57,7 @@ export const metadata: Metadata = {
 
 const SITE_ICONS = {
 	main: ShieldCheck,
+	corporate: Building2,
 	dtv: FileCheck2,
 	guide: BookOpenCheck,
 	portal: LockKeyhole,

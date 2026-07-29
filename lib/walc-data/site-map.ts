@@ -66,7 +66,7 @@ export interface NavLink {
 }
 
 export interface OfficialSiteEntry {
-	id: "main" | "dtv" | "guide" | "portal";
+	id: "main" | "corporate" | "dtv" | "guide" | "portal";
 	name: string;
 	url: string;
 	role: string;
@@ -89,6 +89,15 @@ export const OFFICIAL_SITE_DIRECTORY: readonly OfficialSiteEntry[] = [
 		role: "運営情報とVISAサービス全体の第一正本",
 		audience: "WALCの運営者、サービス、公式見解を確認したい方",
 		badge: "公式本体",
+		publicInformation: true,
+	},
+	{
+		id: "corporate",
+		name: "WALC 法人・事業支援サイト",
+		url: SITE_URLS.corporate,
+		role: "タイ進出・法人設立・事業運営支援の公式サイト",
+		audience: "タイで法人設立や事業展開、経営支援を検討している方",
+		badge: "法人・事業向け",
 		publicInformation: true,
 	},
 	{
@@ -148,6 +157,11 @@ export const GLOBAL_CTAS = {
 /** Footer 関連サイト */
 export const FOOTER_RELATED_SITES: readonly NavLink[] = [
 	{ href: SITE_URLS.main, label: "個人向けメインサイト", external: true },
+	{
+		href: SITE_URLS.corporate,
+		label: "法人・事業支援サイト",
+		external: true,
+	},
 	{
 		href: SITE_URLS.dtv,
 		label: "DTV 専門サイト",
