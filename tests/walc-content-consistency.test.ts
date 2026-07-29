@@ -228,4 +228,40 @@ describe("WALC VISA public content consistency", () => {
 		expect(llms).toContain(path);
 		expect(footer).toContain(path);
 	});
+
+	it("publishes a first-party Non-B and Work Permit service route", async () => {
+		const [page, data, navigation, footer, sitemap, llms] = await Promise.all([
+			read("app/visas/non-b-work-permit/page.tsx"),
+			read("lib/walc-data/non-b-work-permit.ts"),
+			read("lib/walc-data/site-map.ts"),
+			read("components/shared/Footer.tsx"),
+			read("app/sitemap.ts"),
+			read("app/llms.txt/route.ts"),
+		]);
+
+		expect(page).toContain("<Header />");
+		expect(page).toContain("<Footer />");
+		expect(page).toContain('"@type": "Service"');
+		expect(page).toContain('"@type": "FAQPage"');
+		expect(page).toContain('canonical: "/visas/non-b-work-permit"');
+		expect(page).toContain("SITE_URLS.guideBusiness");
+		expect(page).toContain("SITE_URLS.social.line");
+		expect(page).not.toMatch(/\d{1,3}(?:,\d{3})*\s*THB/);
+		expect(page).not.toMatch(/取得を保証|必ず取得|成功率100%/);
+
+		expect(data).toContain("APPLICANT_DOCUMENTS");
+		expect(data).toContain("COMPANY_DOCUMENTS");
+		expect(data).toContain("WORK_PERMIT_DOCUMENTS");
+		expect(data.match(/group: "company"/g)).toHaveLength(12);
+		expect(data).toContain("事業内容や会社・申請者の状況");
+		expect(navigation).toContain(
+			'{ href: "/visas/non-b-work-permit", label: "NON-B / WP" }',
+		);
+		expect(footer).toContain(
+			'{ href: "/visas/non-b-work-permit", label: "NON-B / Work Permit" }',
+		);
+		expect(sitemap).toContain("/visas/non-b-work-permit");
+		expect(llms).toContain("[Non-B / Work Permit]");
+		expect(llms).toContain("/visas/non-b-work-permit)");
+	});
 });
