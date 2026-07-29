@@ -32,7 +32,7 @@ import { Footer } from "@/components/shared/Footer";
 import { Header } from "@/components/shared/Header";
 import { formatTHB, VISA_RETIREMENT } from "@/lib/walc-data/pricing";
 import {
-	buildRetirementWebPageSchema,
+	buildRetirementStructuredData,
 	RETIREMENT_DESCRIPTION,
 	RETIREMENT_TITLE,
 	RETIREMENT_URL,
@@ -207,7 +207,7 @@ const CASE_GUIDE: {
 export default function RetirementPage() {
 	return (
 		<>
-			<JsonLdScript data={buildRetirementWebPageSchema()} />
+			<JsonLdScript data={buildRetirementStructuredData()} />
 			<BreadcrumbJsonLd
 				id={`${RETIREMENT_URL}#breadcrumb`}
 				items={[
