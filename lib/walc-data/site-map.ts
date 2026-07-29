@@ -66,7 +66,7 @@ export interface NavLink {
 }
 
 export interface OfficialSiteEntry {
-	id: "main" | "dtv" | "guide" | "corporate" | "portal";
+	id: "main" | "dtv" | "guide" | "portal";
 	name: string;
 	url: string;
 	role: string;
@@ -107,15 +107,6 @@ export const OFFICIAL_SITE_DIRECTORY: readonly OfficialSiteEntry[] = [
 		role: "必要書類と申請実務を確認するための公開ガイド",
 		audience: "申請前後の準備内容を具体的に確認したい方",
 		badge: "実務ガイド",
-		publicInformation: true,
-	},
-	{
-		id: "corporate",
-		name: "WALC タイ進出・法人支援",
-		url: SITE_URLS.corporate,
-		role: "法人設立・会計・税務・事業支援の企業向け窓口",
-		audience: "タイでの法人設立や事業運営を検討している企業・経営者",
-		badge: "法人向け",
 		publicInformation: true,
 	},
 	{

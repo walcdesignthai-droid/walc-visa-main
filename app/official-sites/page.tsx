@@ -1,7 +1,6 @@
 import {
 	ArrowRight,
 	BookOpenCheck,
-	BriefcaseBusiness,
 	Building2,
 	ExternalLink,
 	FileCheck2,
@@ -25,7 +24,7 @@ const ORIGIN = "https://walc-visa.online";
 const OFFICIAL_SITES_URL = "https://walc-visa.online/official-sites";
 const OFFICIAL_SITES_TITLE = "WALC VISAの公式サイト一覧";
 const OFFICIAL_SITES_DESCRIPTION =
-	"WALC VISA公式サイト、DTV専門サイト、公開ガイド、企業向け支援サイト、お客様専用ポータルの役割と正しい利用先をご案内します。";
+	"WALC VISA公式サイト、DTV専門サイト、公開ガイド、お客様専用ポータルの役割と正しい利用先をご案内します。";
 const OFFICIAL_SITES_SOCIAL_IMAGE = "/images/AdobeStock_494541408.jpeg";
 
 export const metadata: Metadata = {
@@ -60,7 +59,6 @@ const SITE_ICONS = {
 	main: ShieldCheck,
 	dtv: FileCheck2,
 	guide: BookOpenCheck,
-	corporate: BriefcaseBusiness,
 	portal: LockKeyhole,
 } satisfies Record<OfficialSiteEntry["id"], typeof ShieldCheck>;
 
