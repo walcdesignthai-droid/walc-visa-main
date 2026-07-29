@@ -41,6 +41,16 @@ describe("public VISA selector facts", () => {
 		}
 	});
 
+	it("does not publish the internal price registry through home JSON-LD", async () => {
+		const structuredData = await read("lib/walc-data/structured-data.ts");
+
+		expect(structuredData).not.toContain('from "./pricing"');
+		expect(structuredData).not.toContain("visaToOffer");
+		expect(structuredData).not.toContain("VISA_RETIREMENT");
+		expect(structuredData).not.toContain("VISA_LTR");
+		expect(structuredData).not.toContain("categoryFromPrice");
+	});
+
 	it("uses needs-first descriptions instead of internal sales copy", async () => {
 		const selector = await read("components/lp/VisaTypes.tsx");
 

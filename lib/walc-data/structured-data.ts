@@ -1,12 +1,4 @@
 import { WALC_ORGANIZATION } from "./eeat";
-import {
-	categoryFromPrice,
-	categoryRecommendedPlan,
-	VISA_LTR,
-	VISA_PRIVILEGE,
-	VISA_RETIREMENT,
-	type VisaCategory,
-} from "./pricing";
 import type { DtvPublicContent } from "./public-content";
 
 const ORIGIN = "https://walc-visa.online";
@@ -16,23 +8,6 @@ const WEBPAGE_ID = `${ORIGIN}/#webpage`;
 const SERVICE_ID = `${ORIGIN}/#visa-consulting`;
 
 type JsonLdNode = Record<string, unknown>;
-
-function visaToOffer(category: VisaCategory): JsonLdNode | null {
-	if (category.linkDisabled && !category.externalUrl) return null;
-
-	const recommended = categoryRecommendedPlan(category);
-	const price = recommended?.walcFee ?? categoryFromPrice(category);
-	if (price == null) return null;
-
-	return {
-		"@type": "Offer",
-		name: `${category.shortName} (${category.duration})`,
-		price: String(price),
-		priceCurrency: "THB",
-		description: category.primaryDesc,
-		url: category.externalUrl ?? `${ORIGIN}/visas/${category.slug}`,
-	};
-}
 
 export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 	"@context": "https://schema.org";
@@ -117,20 +92,15 @@ export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 		provider: { "@id": ORGANIZATION_ID },
 		areaServed: { "@type": "Country", name: "Thailand" },
 		url: `${ORIGIN}/`,
-		offers: [
-			...content.pricing.map((plan) => ({
-				"@type": "Offer",
-				name: `DTV ${plan.name} WALC申請サポート`,
-				price: String(plan.priceThb),
-				priceCurrency: "THB",
-				description: `${plan.audience}。含まれるもの: ${plan.includedItems.join("、")}。${content.fees.summary}`,
-				category: "DTV申請サポート（申請費込み）",
-				url: "https://dtv.walc-visa.online",
-			})),
-			visaToOffer(VISA_RETIREMENT),
-			visaToOffer(VISA_LTR),
-			visaToOffer(VISA_PRIVILEGE),
-		].filter((offer): offer is JsonLdNode => offer !== null),
+		offers: content.pricing.map((plan) => ({
+			"@type": "Offer",
+			name: `DTV ${plan.name} WALC申請サポート`,
+			price: String(plan.priceThb),
+			priceCurrency: "THB",
+			description: `${plan.audience}。含まれるもの: ${plan.includedItems.join("、")}。${content.fees.summary}`,
+			category: "DTV申請サポート（申請費込み）",
+			url: "https://dtv.walc-visa.online",
+		})),
 	};
 
 	return {
