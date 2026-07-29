@@ -13,7 +13,9 @@ describe("public VISA selector facts", () => {
 		const selector = await read("components/lp/VisaTypes.tsx");
 
 		expect(selector).toContain("content.pricing");
-		expect(selector).toContain("const displayPrice = isDtv ? dtvFromPrice : null");
+		expect(selector).toContain(
+			"const displayPrice = isDtv ? dtvFromPrice : null",
+		);
 		expect(selector).not.toContain("categoryFromPrice");
 		expect(selector).not.toContain("categoryRecommendedPlan");
 		expect(selector).not.toContain("recommendedPlan?.walcFee");
@@ -35,7 +37,7 @@ describe("public VISA selector facts", () => {
 		const selector = await read("components/lp/VisaTypes.tsx");
 
 		expect(selector).toContain("金融機関の審査・運用により要確認");
-		expect(selector).not.toContain('visa.bankAccountAvailable');
+		expect(selector).not.toContain("visa.bankAccountAvailable");
 		expect(selector).not.toContain('? "可"');
 	});
 
