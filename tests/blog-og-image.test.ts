@@ -18,6 +18,16 @@ describe("blog Open Graph image identity", () => {
 		expect(route).toContain("buildBlogOgDescriptor(slug)");
 	});
 
+	it("identifies the image as a WALC guide without implying government endorsement", async () => {
+		const route = await readFile(
+			resolve(ROOT, "app/blog/[slug]/opengraph-image.tsx"),
+			"utf8",
+		);
+
+		expect(route).toContain("WALC GUIDE");
+		expect(route).not.toContain("OFFICIAL");
+	});
+
 	it("gives every published article a distinct render descriptor", () => {
 		const descriptors = PUBLISHED_ARTICLES.map((article) =>
 			buildBlogOgDescriptor(article.slug),
