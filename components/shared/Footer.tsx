@@ -23,6 +23,7 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 		label: "DTV 専門サイト",
 		external: true,
 	},
+	{ href: "/visas/non-b-work-permit", label: "NON-B / Work Permit" },
 	{ href: "/visas/retirement", label: "リタイアメント VISA" },
 	{ href: "/visas/ltr", label: "LTR Visa" },
 	{ href: "/#visa-types", label: "Thailand Privilege / 他 VISA 一覧" },
