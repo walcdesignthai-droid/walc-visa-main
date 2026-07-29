@@ -23,6 +23,7 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 		label: "DTV 専門サイト",
 		external: true,
 	},
+	{ href: "/visas/non-b-work-permit", label: "NON-B / Work Permit" },
 	{ href: "/visas/retirement", label: "リタイアメント VISA" },
 	{ href: "/visas/ltr", label: "LTR Visa" },
 	{ href: "/#visa-types", label: "Thailand Privilege / 他 VISA 一覧" },
@@ -160,7 +161,8 @@ export function Footer() {
 
 				<div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 					<p className="text-xs text-white/50">
-						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA Consulting. All rights reserved.
+						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA
+						Consulting. All rights reserved.
 					</p>
 					<div className="flex items-center gap-4 text-xs text-white/50">
 						<a

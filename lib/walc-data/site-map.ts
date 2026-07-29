@@ -69,7 +69,7 @@ export interface NavLink {
 export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },
 	{ href: SITE_URLS.dtv, label: "DTV", external: true },
-	{ href: SITE_URLS.guideBusiness, label: "NON-B / WP", external: true },
+	{ href: "/visas/non-b-work-permit", label: "NON-B / WP" },
 	{ href: SITE_URLS.guideDtv, label: "取得者ガイド", external: true },
 	{ href: "/#trouble-support", label: "トラブル対応" },
 	{ href: "/#consult", label: "AI 相談" },
