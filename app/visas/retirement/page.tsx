@@ -514,8 +514,7 @@ export default function RetirementPage() {
 										</Link>
 										は、1 回最長 180 日、5
 										年の有効期間中はマルチプルエントリーです。
-										銀行口座開設が必須でない場合は、 コスト・運用負担の両面で
-										DTV のほうがおすすめです。
+										どちらが適するかは、滞在目的、タイでの活動内容、入出国計画、資金証明の状況によって異なります。
 									</p>
 									<p className="text-xs text-text-tertiary leading-relaxed">
 										※ 50 歳以上で「銀行口座が必須」の場合、リタイアメント VISA
