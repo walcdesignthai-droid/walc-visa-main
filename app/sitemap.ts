@@ -61,11 +61,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.5,
 		},
 		{
+			url: `${BASE_URL}/reviews/transparency`,
+			lastModified: "2026-07-29",
+			changeFrequency: "monthly",
+			priority: 0.5,
+		},
+		{
 			// WI-026: ブログ(権威ハブ)一覧
 			url: `${BASE_URL}/blog`,
 			lastModified: CORE_CONTENT_LAST_MODIFIED,
 			changeFrequency: "weekly",
 			priority: 0.7,
+		},
+		{
+			// WI-20260729-walc-visa-069: ビザ代行会社の中立的な選定ガイド
+			url: `${BASE_URL}/guides/how-to-choose-thailand-visa-agent`,
+			lastModified: "2026-07-29",
+			changeFrequency: "monthly",
+			priority: 0.8,
 		},
 		{
 			url: `${BASE_URL}/official-sites`,
