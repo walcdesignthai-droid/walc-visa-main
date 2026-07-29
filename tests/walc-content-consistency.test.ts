@@ -203,4 +203,29 @@ describe("WALC VISA public content consistency", () => {
 		expect(paymentsRoute).toContain('"X-Robots-Tag": "noindex, nofollow"');
 		expect(paymentsRoute).toContain('"Cache-Control": "no-store"');
 	});
+
+	it("publishes a source-backed Thailand visa agent selection guide", async () => {
+		const [page, sitemap, llms, footer] = await Promise.all([
+			read("app/guides/how-to-choose-thailand-visa-agent/page.tsx"),
+			read("app/sitemap.ts"),
+			read("app/llms.txt/route.ts"),
+			read("components/shared/Footer.tsx"),
+		]);
+
+		expect(page).toContain("タイのビザ代行会社を選ぶ7つの基準");
+		expect(page).toContain("https://www.thaievisa.go.th/");
+		expect(page).toContain("https://fukuoka.thaiembassy.org/en/page/endtvvisa");
+		expect(page).toContain('"@type": "WebPage"');
+		expect(page).toContain("<BreadcrumbJsonLd");
+		expect(page).toContain("WALC_AUTHOR");
+		expect(page).toContain("2026-07-29");
+		expect(page).not.toContain("AggregateRating");
+		expect(page).not.toContain('"@type": "Review"');
+		expect(page).not.toMatch(/絶対|必ず取れる|No\\.?1|業界一/);
+
+		const path = "/guides/how-to-choose-thailand-visa-agent";
+		expect(sitemap).toContain(path);
+		expect(llms).toContain(path);
+		expect(footer).toContain(path);
+	});
 });
