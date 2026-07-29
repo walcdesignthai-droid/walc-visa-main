@@ -213,7 +213,6 @@ describe("WALC VISA public content consistency", () => {
 		}
 
 		expect(pendingArticles.sort()).toEqual([
-			"immigration-office-bangkok.ts",
 			"marriage-visa-thailand.ts",
 			"retirement-health-insurance.ts",
 			"thailand-bank-account.ts",
@@ -228,6 +227,21 @@ describe("WALC VISA public content consistency", () => {
 		expect(registry).toContain("!a.draft");
 		expect(sitemap).toContain("PUBLISHED_ARTICLES");
 		expect(articlePage).toContain("!article.draft");
+	});
+
+	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
+		const article = await read("lib/blog/immigration-office-bangkok.ts");
+
+		expect(article).toContain("draft: false");
+		expect(article).not.toContain("primaryPending: true");
+		expect(article).toContain("https://www.mrta.co.th/en/the-pink-line");
+		expect(article).toContain(
+			"https://www.governmentcomplex.com/detail.php?p=ldHV4Tar",
+		);
+		expect(article).toContain(
+			"https://nbm.co.th/assets/pdf/PK_SystemMap_03.pdf",
+		);
+		expect(article).not.toContain('"バス:');
 	});
 
 	it("retires the obsolete public payments endpoint with a permanent gone response", async () => {
