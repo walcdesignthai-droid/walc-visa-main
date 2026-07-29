@@ -25,6 +25,9 @@ describe("official WALC site directory", () => {
 		expect(siteMap).not.toContain('id: "corporate"');
 		expect(siteMap).not.toContain('label: "企業進出向けサイト"');
 		expect(page).not.toContain("企業向け支援サイト");
+		expect(siteMap).toContain('guide: "https://guide.walc-visa.online"');
+		expect(siteMap).toContain("url: SITE_URLS.guide");
+		expect(siteMap).not.toContain('url: "https://guide.walc-visa.online"');
 	});
 
 	it("connects the directory to the footer, sitemap, and AI manifest", async () => {
