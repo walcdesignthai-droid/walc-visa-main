@@ -18,11 +18,18 @@ AIランタイムへ組み込む公開正本は次の2ファイルだけであ�
 | `knowledge_base/00_current_operations.md` | 現行サービス、申込導線、受付状態、回答原則 | included |
 | `knowledge_base/07_bank_account_current.md` | DTV取得者限定の銀行口座開設サポート運用 | included |
 
-料金・実績・受付状態などの動的情報は、CRM公開コンテンツAPIを正本とする。
+DTVの料金・申請通過実績・受付状態などの動的情報は、
+CRM公開コンテンツAPIを正本とする。
 VISA制度・必要書類・審査・税務は、回答時点の公式一次情報で確認する。
 
 `scripts/build-knowledge.mjs` のallowlistと本表が一致しない場合は、
 ビルドを公開せずIssueを作成する。
+
+この表の対象は、生成される `KNOWLEDGE_BASE` セクションである。
+AIコンシェルジュ全体では、`lib/walc-data/public-content.ts`、
+`lib/walc-data/dtv-authority.ts`、`lib/walc-data/pricing.ts` も
+`lib/concierge/system-prompt.ts` から参照される。これらは別の公開情報面として
+個別に監査し、このallowlistへの記載だけで正本化しない。
 
 ## legacy / internal-only
 
@@ -47,7 +54,7 @@ legacy資料の情報を復活させる場合は、項目ごとに一次情報�
 
 ```text
 CRM public content API
-  └─ dynamic prices, metrics, availability
+  └─ dynamic DTV prices, application track record and availability
 
 00_current_operations.md
   └─ current service and intake rules
@@ -62,6 +69,10 @@ scripts/build-knowledge.mjs
   └─ owner-confirmed allowlist
       └─ lib/concierge/knowledge.ts
           └─ AI concierge
+
+structured public-data modules
+  └─ public-content.ts / dtv-authority.ts / pricing.ts
+      └─ system-prompt.ts
 ```
 
 ## Change checklist

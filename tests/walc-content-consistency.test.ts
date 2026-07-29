@@ -156,6 +156,8 @@ describe("WALC VISA public content consistency", () => {
 
 		expect(instructions).toContain("legacy / internal-only");
 		expect(index).toContain("legacy / internal-only");
+		expect(instructions).toContain("lib/concierge/system-prompt.ts");
+		expect(index).toContain("lib/walc-data/dtv-authority.ts");
 		expect(knowledge).not.toContain("13,000〜72,000THB");
 		expect(knowledge).not.toContain("信用度の低い国");
 		expect(knowledge).not.toContain("DTVのほうが圧倒的");

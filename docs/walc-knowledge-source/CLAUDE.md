@@ -15,7 +15,7 @@ priority: critical
 
 公開サイト、AIコンシェルジュ、営業文面、構造化データで使う情報は、次の順に確認する。
 
-1. 料金・実績・受付状態などの動的情報
+1. DTVの料金・申請通過実績・受付状態などの動的情報
    CRM公開コンテンツAPIを唯一の正本とする。APIにない値は推測しない。
 2. WALCの現行運用
    `knowledge_base/00_current_operations.md`
@@ -28,6 +28,13 @@ priority: critical
 `scripts/build-knowledge.mjs` がAIランタイムへ組み込むのは、上記2つの
 `owner_confirmed` ファイルだけである。ファイルを追加する場合は、
 所有者確認、出典、確認日、回帰テストをそろえた別Issue・PRで審査する。
+
+このディレクトリが管理するのは、システムプロンプト内の
+`KNOWLEDGE_BASE` セクションだけである。AIコンシェルジュには別途、
+`lib/walc-data/public-content.ts`、`lib/walc-data/dtv-authority.ts`、
+`lib/walc-data/pricing.ts` から構造化された公開情報が注入される。
+それらの値は本ファイルで再承認したものとみなさず、各正本と
+`lib/concierge/system-prompt.ts` を別Issueで監査する。
 
 ## 2. legacy / internal-only
 
@@ -61,7 +68,7 @@ priority: critical
 ## 4. 変更手順
 
 1. 変更対象が公開正本かlegacy資料かを確認する。
-2. 動的な料金・実績はCRM公開コンテンツAPI側で更新する。
+2. DTVの動的な料金・申請通過実績はCRM公開コンテンツAPI側で更新する。
 3. 制度情報は一次情報のURLと確認日を記録する。
 4. 公開正本ファイルは `status: owner_confirmed` を必須とする。
 5. `scripts/build-knowledge.mjs` のallowlistを変更する場合は、
