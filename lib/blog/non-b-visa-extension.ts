@@ -1,11 +1,11 @@
 /**
  * lib/blog/non-b-visa-extension.ts — ビザ別ガイド(guide)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT(draft:true)。NON-B(ビジネス)ビザの延長/更新・必要書類に特化。
+ * NON-B(ビジネス)ビザの延長/更新・必要書類に特化。
  * YMYL 推測ゼロ: 料金・条件は一次出典(タイ入国管理局 / MFA / 労働省)で
  * verify できたもののみ本文化。確認不能な細目は一般化 or placeholders に退避。
  * 景表法ゲート 0(NG 表現排除)。監修 = Yosuke Onodera(schema 側で付与)。
- * verify 日: 2026-06-04 / WebSearch + 公式 MFA Non-B ページ
+ * verify 日: 2026-07-29 / タイ入国管理局・MFA 公式資料
  * ----------------------------------------------------------------------------
  */
 
@@ -21,7 +21,7 @@ export const NON_B_VISA_EXTENSION: Article = {
 	description:
 		"タイで働く人のNon-Immigrant B(就労)ビザの1年延長を実務ベースで解説。必要書類・ワークパーミット併用・毎年更新・90日レポートの関係まで、公式情報で確認できる範囲を整理します。",
 	datePublished: "2026-06-04",
-	dateModified: "2026-06-04",
+	dateModified: "2026-07-29",
 	draft: false,
 	heroEyebrow: "ビザ別ガイド ・ 就労(NON-B)",
 	category: "guide",
@@ -222,8 +222,9 @@ export const NON_B_VISA_EXTENSION: Article = {
 			url: "https://bangkok.immigration.go.th/en/fee_en/",
 		},
 		{
-			label: "タイ入国管理局 令 327/2557(滞在延長の基準・条件)英訳",
-			url: "https://www.pcecnews.com/permNL/Immigration%20Bureau%20order%20327-2557%20(2014)%20-%20extension%20criteria%20&%20conditions%20en.pdf",
+			label:
+				"タイ入国管理局 Public Handbook — Order 327/2557 §2.1(事業上の必要性による滞在延長)",
+			url: "https://www.immigration.go.th/wp-content/uploads/2023/01/2-Public-Handbook-2.1-business-necessity.pdf",
 		},
 	],
 

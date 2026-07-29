@@ -299,6 +299,55 @@ describe("WALC VISA public content consistency", () => {
 		expect(articlePage).toContain("if (!article || article.draft) notFound();");
 	});
 
+	it("uses official reference hosts in every indexable VISA article", async () => {
+		const officialHosts = new Set([
+			"bangkok.immigration.go.th",
+			"eworkpermit.doe.go.th",
+			"image.mfa.go.th",
+			"immigration.go.th",
+			"ltr.boi.go.th",
+			"nbm.co.th",
+			"phitsanulok.immigration.go.th",
+			"tdac.immigration.go.th",
+			"tm47.immigration.go.th",
+			"www.boi.go.th",
+			"www.doe.go.th",
+			"www.governmentcomplex.com",
+			"www.immigration.go.th",
+			"www.mfa.go.th",
+			"www.mol.go.th",
+			"www.mrta.co.th",
+			"www.rd.go.th",
+			"www.thaievisa.go.th",
+			"www.thailand.go.th",
+			"www.thailandprivilege.co.th",
+		]);
+		const blogDir = resolve(ROOT, "lib/blog");
+		const files = (await readdir(blogDir)).filter((file) =>
+			file.endsWith(".ts"),
+		);
+		const secondaryReferences: string[] = [];
+		let publishedSource = "";
+
+		for (const file of files) {
+			const source = await read(`lib/blog/${file}`);
+			if (!/^\s*draft:\s*false,/m.test(source)) continue;
+
+			publishedSource += source;
+			for (const match of source.matchAll(/url:\s*"(https?:\/\/[^"]+)"/g)) {
+				const url = match[1];
+				if (!officialHosts.has(new URL(url).hostname)) {
+					secondaryReferences.push(`${file}: ${url}`);
+				}
+			}
+		}
+
+		expect(secondaryReferences).toEqual([]);
+		expect(publishedSource).not.toContain("2026年7月28日");
+		expect(publishedSource).not.toContain("fragomen.com");
+		expect(publishedSource).not.toContain("pcecnews.com");
+	});
+
 	it("keeps the Bangkok immigration guide indexable with official access sources", async () => {
 		const article = await read("lib/blog/immigration-office-bangkok.ts");
 

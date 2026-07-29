@@ -10,7 +10,7 @@ import type { Article } from "./types";
  *
  * 🔴 YMYL 推測ゼロ: 料金・必要書類・期間は一次/準一次出典で verify できたもののみ。
  *    管轄(雇用局事務所)・業種・BOI 有無で変動する事項は「公式で確認」と一般化。
- * verify 実施日: 2026-06-04(WebSearch)。
+ * verify 実施日: 2026-07-29(タイ労働省・雇用局の公式情報)。
  * ----------------------------------------------------------------------------
  */
 
@@ -24,7 +24,7 @@ export const THAILAND_WORK_PERMIT: Article = {
 	description:
 		"タイで就労するには Non-B ビザに加えて労働許可証(Work Permit)が必要です。Non-B との関係、必要書類、申請の流れ、更新、そしてオンライン化された e-Work Permit 制度までを、公式情報の確認を前提に整理します。",
 	datePublished: "2026-06-04",
-	dateModified: "2026-06-04",
+	dateModified: "2026-07-29",
 	draft: false,
 	heroEyebrow: "ビザ別ガイド｜就労",
 	category: "guide",
@@ -41,7 +41,7 @@ export const THAILAND_WORK_PERMIT: Article = {
 	answerFirst: [
 		"タイで就労するには、入国・滞在のための「Non-B ビザ(就労目的の非移民ビザ)」と、実際に働く許可である「労働許可証(Work Permit)」の2つが原則として必要です。Non-B ビザだけでは働けません。",
 		"労働許可証はタイ労働省 雇用局(Department of Employment)が、雇用主(タイで登記された会社など)を通じて発給します。発給には、雇用主側の会社書類、申請者の学歴証明、タイの医療機関が発行する健康診断書などが求められます(必要書類は管轄事務所・業種により異なるため公式で確認)。",
-		"申請・更新はオンライン化され、雇用局の e-Work Permit システム(eworkpermit.doe.go.th)が中心です(2025年10月13日からオンライン手続きが原則とされています)。紙での提出は、システム障害などの場合に限り経過的に認められる扱いで、その期限はこれまで複数回延長されています(取り扱い・期限は変更されうるため最新を公式で確認)。",
+		"労働省は、雇用局の e-Work Permit システム(eworkpermit.doe.go.th)を2025年10月13日から全国で正式運用しています。オンラインで申請・状況確認・結果通知・支払い・来所予約まで進め、承認後は選択したサービスセンターで本人確認と許可証の受領を行う流れが公式に案内されています。対象手続きや来所要否は、申請時点の公式案内で確認してください。",
 		"労働許可証は雇用主・職種に紐づくため、転職した場合は許可証の更新・新規取得が必要になります。詳細・最新の運用は雇用局の公式情報で事前に確認してください。",
 	],
 
@@ -70,9 +70,8 @@ export const THAILAND_WORK_PERMIT: Article = {
 			heading: "e-Work Permit ― オンライン化された申請制度",
 			lead: "労働許可の申請・更新・取消はオンライン化が進められています。",
 			items: [
-				"雇用局は e-Work Permit システム(公式ポータル:eworkpermit.doe.go.th)を導入し、外国人労働者の登録および労働許可の新規・更新・取消・変更をオンラインで扱う運用に移行しました。報道・法律事務所の解説によれば、このオンライン手続きは2025年10月13日から原則として求められています(運用は変更されうるため公式で確認)。",
-				"オンライン申請後、全国の指定サービスセンターで本人確認(生体情報の登録)や許可証カードの受領を行う運用が案内されています。来訪が必要な手順・所要は管轄により異なります。",
-				"紙(マニュアル)での提出は、システム上の技術的問題がある場合などに限って経過的に認められる扱いと案内されています。この経過措置の期限はこれまで複数回延長されており、直近では2026年7月28日までとされています(目安。延長・短縮されうるため、申請前に公式の最新案内を事前に確認してください)。",
+				"タイ労働省は、e-Work Permit システム(公式ポータル:eworkpermit.doe.go.th)の全国運用を2025年10月13日に開始しました。雇用主と外国人労働者はオンラインで登録・申請・書類確認状況の追跡・結果通知・支払い・来所予約を行えます。",
+				"承認後は、予約したサービスセンターで顔・虹彩・指紋などによる本人確認を行い、許可証を受領する流れが公式に案内されています。必要な来所手順や対象となる手続きは、申請時点の公式ポータルで確認してください。",
 				"BOI 奨励企業向けには、従来から Single Window(ワンストップ)系の手続き経路が用意されています。利用可否・手順は BOI の案内に従ってください。",
 			],
 		},
@@ -90,7 +89,7 @@ export const THAILAND_WORK_PERMIT: Article = {
 			heading: "ご利用にあたって(免責)",
 			lead: "本記事は一般的な情報提供を目的とし、特定の申請の可否や結果を保証するものではありません。",
 			items: [
-				"本記事の内容は 2026 年 6 月時点で公開情報を確認して作成したものです。労働許可・ビザに関する制度や運用は変更されることがあります。",
+				"本記事の内容は 2026 年 7 月時点で公開情報を確認して作成したものです。労働許可・ビザに関する制度や運用は変更されることがあります。",
 				"必要書類・料金・期間・手続きは、管轄の雇用局事務所、業種、BOI の有無、個別の事情によって異なります。実際の申請にあたっては、タイ労働省 雇用局などの公式情報、および雇用主・専門家に事前にご確認ください。",
 				"本記事は法務・税務・移民手続きに関する助言を行うものではなく、将来の許可取得・更新・滞在の結果を保証するものではありません。",
 			],
@@ -115,7 +114,7 @@ export const THAILAND_WORK_PERMIT: Article = {
 		{
 			question: "申請はオンラインでできますか?",
 			answer:
-				"雇用局の e-Work Permit システム(eworkpermit.doe.go.th)でオンライン手続きを行う運用に移行しています。一部、本人確認や許可証カードの受領のためにサービスセンターへの来訪が案内される手順があります。紙提出の経過措置の可否・期限は変更されうるため、申請前に公式の最新案内を確認してください。",
+				"雇用局の e-Work Permit システム(eworkpermit.doe.go.th)で、登録・申請・状況確認・結果通知・支払い・来所予約を行う運用です。承認後は、本人確認と許可証の受領のため、予約したサービスセンターへ来所する流れが公式に案内されています。対象手続きや必要書類は申請前に公式ポータルで確認してください。",
 		},
 		{
 			question: "転職したら労働許可証はどうなりますか?",
@@ -159,9 +158,9 @@ export const THAILAND_WORK_PERMIT: Article = {
 		},
 		{
 			claim:
-				"労働許可の新規・更新・取消・変更はオンラインの e-Work Permit システムで扱う運用に移行(公式ポータル eworkpermit.doe.go.th)。オンライン手続きは2025年10月13日から原則とされ、紙提出は技術的問題等の場合に限る経過措置とされ、その期限は複数回延長され直近は2026年7月28日まで。",
+				"労働省は e-Work Permit を2025年10月13日から全国で正式運用。オンラインで登録・申請・状況確認・結果通知・支払い・来所予約を行い、承認後は指定サービスセンターで本人確認と許可証受領を行う流れを案内している。",
 			source:
-				"Department of Employment e-Work Permit portal(eworkpermit.doe.go.th)/ Fragomen・Erickson Immigration Group による制度解説(2026)",
+				"タイ労働省 e-Work Permit 全国運用開始の公式発表 / Department of Employment e-Work Permit 公式ポータル",
 		},
 		{
 			claim:
@@ -205,8 +204,8 @@ export const THAILAND_WORK_PERMIT: Article = {
 		},
 		{
 			label:
-				"Fragomen — Thailand: Mandatory Online Work Permit and Foreign Worker Registration System(e-Work Permit 制度・経過措置期限の解説)",
-			url: "https://www.fragomen.com/insights/thailand-mandatory-online-work-permit-and-foreign-worker-registration-system-forthcoming.html",
+				"タイ労働省 — e-Work Permit 全国運用開始の公式発表(2025年10月13日開始)",
+			url: "https://www.mol.go.th/en/news/labour-minister-launches-e-workpermit-online-system-for-foreign-worker-registration-24-hour-nationwide-service-begins-october-13",
 		},
 	],
 
