@@ -6,12 +6,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-	Clock,
-	ExternalLink,
-	MessageCircle,
-	ShieldCheck,
-} from "lucide-react";
+import { Clock, ExternalLink, MessageCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 import { SITE_URLS } from "@/lib/walc-data/site-map";
