@@ -7,8 +7,10 @@
  * ----------------------------------------------------------------------------
  */
 
+import { IMMIGRATION_SUPPORT_PUBLICATION } from "@/lib/walc-data/publication-state";
+
 /** 新規受付停止中のため、再開・内容再検証までは noindex + JSON-LD 非出力。 */
-export const DRAFT = true;
+export const DRAFT = !IMMIGRATION_SUPPORT_PUBLICATION.published;
 
 export const ORIGIN = "https://walc-visa.online";
 export const LP_PATH = "/immigration-support";
