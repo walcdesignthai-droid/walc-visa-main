@@ -1,0 +1,112 @@
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { describe, expect, it } from "vitest";
+
+const ROOT = resolve(import.meta.dirname, "..");
+
+async function read(path: string) {
+	return readFile(resolve(ROOT, path), "utf8");
+}
+
+describe("public VISA selector facts", () => {
+	it("renders only CRM-backed DTV pricing on the public selector", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toContain("content.pricing");
+		expect(selector).not.toContain("@/lib/walc-data/pricing");
+		expect(selector).toContain("PUBLIC_VISA_CATEGORIES");
+		expect(selector).toContain("publicVisasByTab");
+		expect(selector).toContain(
+			"const displayPrice = isDtv ? dtvFromPrice : null",
+		);
+		expect(selector).not.toContain("categoryFromPrice");
+		expect(selector).not.toContain("categoryRecommendedPlan");
+		expect(selector).not.toContain("recommendedPlan?.walcFee");
+		expect(selector).not.toContain("VISA_RUN_SUPPORT");
+		expect(selector).toContain("DTV以外の料金・対応可否はLINEで個別確認");
+	});
+
+	it("does not ship the internal price registry through the client component", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		for (const legacyPublicBundleString of [
+			"残高サポート付",
+			"WALC 独自",
+			"タイ国内フルサポート",
+			"650_000",
+			"5_000_000",
+			"17_600",
+		]) {
+			expect(selector).not.toContain(legacyPublicBundleString);
+		}
+	});
+
+	it("does not publish the internal price registry through home JSON-LD", async () => {
+		const structuredData = await read("lib/walc-data/structured-data.ts");
+
+		expect(structuredData).not.toContain('from "./pricing"');
+		expect(structuredData).not.toContain("visaToOffer");
+		expect(structuredData).not.toContain("VISA_RETIREMENT");
+		expect(structuredData).not.toContain("VISA_LTR");
+		expect(structuredData).not.toContain("categoryFromPrice");
+	});
+
+	it("uses needs-first descriptions instead of internal sales copy", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toContain("PUBLIC_VISA_DESCRIPTIONS");
+		expect(selector).not.toContain("{visa.primaryDesc}");
+		expect(selector).not.toContain("★ 第一推奨");
+		expect(selector).not.toContain("迷ったらまず DTV");
+		expect(selector).toContain("目的・活動内容・年齢・家族構成");
+	});
+
+	it("does not claim that a bank account is available", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toContain("金融機関の審査・運用により要確認");
+		expect(selector).not.toContain("visa.bankAccountAvailable");
+		expect(selector).not.toContain('? "可"');
+	});
+
+	it("removes blanket DTV recommendation language from llms.txt", async () => {
+		const llms = await read("app/llms.txt/route.ts");
+
+		expect(llms).not.toContain("WALC 第一推奨");
+		expect(llms).toContain("目的・活動内容・条件に応じて個別確認");
+		expect(llms).toContain("DTV以外の料金");
+	});
+
+	it("fails closed on changing visa-exemption periods", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).not.toContain("短期滞在は、まずノービザで OK");
+		expect(selector).not.toContain("ノービザで滞在可能");
+		expect(selector).not.toContain("合計 90 日");
+		expect(selector).not.toContain("タイ国内イミグレで延長 (1,900 THB)");
+		expect(selector).toContain("2026年5月");
+		expect(selector).toContain("渡航時点の公式情報");
+	});
+
+	it("provides actionable routes for employment and individual assessment", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toContain('href="/visas/non-b-work-permit"');
+		expect(selector).toContain("タイで働く方");
+		expect(selector).toContain("Non-B・Work Permit");
+		expect(selector).toContain("SITE_URLS.social.line");
+		expect(selector).toContain("LINEで個別確認");
+	});
+
+	it("implements a keyboard-operable tab and tabpanel relationship", async () => {
+		const selector = await read("components/lp/VisaTypes.tsx");
+
+		expect(selector).toMatch(/id=\{`visa-tab-\$\{tab\.id\}`\}/);
+		expect(selector).toContain('aria-controls="visa-tabpanel"');
+		expect(selector).toContain('role="tabpanel"');
+		expect(selector).toContain('id="visa-tabpanel"');
+		expect(selector).toMatch(/aria-labelledby=\{`visa-tab-\$\{activeTab\}`\}/);
+		expect(selector).toContain('event.key === "ArrowRight"');
+		expect(selector).toContain('event.key === "ArrowLeft"');
+	});
+});

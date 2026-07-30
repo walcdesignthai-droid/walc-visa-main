@@ -47,7 +47,7 @@ const DTV_CONTENT_FIXTURE = {
 } as DtvPublicContent;
 
 describe("WALC VISA public content consistency", () => {
-	it("publishes structured offers only for valid public destinations", () => {
+	it("publishes only CRM-backed DTV offers in home structured data", () => {
 		const graph = buildMainStructuredDataGraph(DTV_CONTENT_FIXTURE);
 		const service = graph["@graph"].find(
 			(node) => node["@id"] === "https://walc-visa.online/#visa-consulting",
@@ -58,21 +58,33 @@ describe("WALC VISA public content consistency", () => {
 			throw new Error("VISA service offers were not published");
 		}
 
-		const offers = service.offers as Array<{ url: string }>;
-		expect(offers.map((offer) => offer.url)).toEqual(
-			expect.arrayContaining([
-				"https://dtv.walc-visa.online",
-				"https://walc-visa.online/visas/retirement",
-				"https://walc-visa.online/visas/ltr",
-			]),
-		);
-		expect(offers.map((offer) => offer.url)).not.toContain(
-			"https://walc-visa.online/visas/privilege",
-		);
+		const offers = service.offers as Array<{
+			url: string;
+			price: string;
+			description: string;
+		}>;
+		expect(offers).toHaveLength(DTV_CONTENT_FIXTURE.pricing.length);
+		expect(
+			offers.every((offer) => offer.url === "https://dtv.walc-visa.online"),
+		).toBe(true);
+		expect(offers.map((offer) => offer.price)).toEqual([
+			"60000",
+			"45000",
+			"48000",
+		]);
 
 		const graphText = JSON.stringify(graph);
 		expect(graphText).toContain("https://dtv.walc-visa.online");
 		expect(graphText).not.toContain("https://walc-consulting.com");
+		expect(graphText).not.toContain(
+			"https://walc-visa.online/visas/retirement",
+		);
+		expect(graphText).not.toContain("https://walc-visa.online/visas/ltr");
+		expect(graphText).not.toContain("https://walc-visa.online/visas/privilege");
+		expect(graphText).not.toContain('"price":"13000"');
+		expect(graphText).not.toContain('"price":"180000"');
+		expect(graphText).not.toContain("銀行口座開設可能");
+		expect(graphText).not.toContain("外国所得非課税");
 	});
 
 	it("uses the shared public content API with a verified fallback", async () => {
