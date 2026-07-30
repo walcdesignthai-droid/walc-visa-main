@@ -10,13 +10,15 @@ import type { MetadataRoute } from "next";
 const BASE_URL = "https://walc-visa.online";
 
 export default function robots(): MetadataRoute.Robots {
-	const aiCrawlerDisallow = ["/api/"];
+	const aiCrawlerDisallow = ["/api/", "/*?*"];
 	return {
 		rules: [
 			{
 				userAgent: "*",
 				allow: "/",
-				disallow: ["/api/"],
+				// "/*?*": 任意のクエリ文字列が 200 を返す無限URL空間（クロールトラップ）を封鎖。
+				// ページ描画に searchParams を使う箇所は存在しない（2026-07-30 実測）。
+				disallow: ["/api/", "/*?*"],
 			},
 			// AI クローラー(LLMO: 引用獲得目的で明示許可)
 			// User-Agent 名は 2026-05 時点で WebSearch verify 済(クローラ名も変化するため要再確認)。
