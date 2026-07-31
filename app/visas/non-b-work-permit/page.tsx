@@ -501,7 +501,7 @@ export default function NonBWorkPermitPage() {
 							</div>
 						</div>
 
-						<div className="mt-8 text-center">
+						<div className="mt-8 flex flex-col items-center gap-4 text-center">
 							<a
 								href={SITE_URLS.guideBusiness}
 								target="_blank"
@@ -511,6 +511,14 @@ export default function NonBWorkPermitPage() {
 								日本語・タイ語併記の詳細ガイドを見る
 								<ExternalLink className="h-4 w-4" />
 							</a>
+							{/* 法人ケースは法人向けページへ逃がす (会社が従業員分を手配する視点) */}
+							<Link
+								href="/corporate/work-permit"
+								className="inline-flex items-center gap-2 text-sm font-bold text-accent-blue underline decoration-accent-blue/30 underline-offset-4 hover:text-accent-blue-deep"
+							>
+								会社が従業員・駐在員の分を手配する場合はこちら
+								<ArrowRight className="h-4 w-4" />
+							</Link>
 						</div>
 					</div>
 				</section>

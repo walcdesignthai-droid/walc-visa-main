@@ -26,7 +26,8 @@ export function Header() {
 				<div className="mx-auto max-w-content px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
 					<WalcLogo className="shrink-0" />
 
-					<nav className="hidden lg:flex items-center gap-5 xl:gap-6">
+					{/* 8 項目 (法人のお客様 追加) を lg でも収めるため gap を一段詰める */}
+					<nav className="hidden lg:flex items-center gap-4 xl:gap-6">
 						{HEADER_NAV.map((item) =>
 							item.external ? (
 								<a

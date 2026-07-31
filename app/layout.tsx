@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import {
 	Cormorant_Garamond,
 	Noto_Sans_JP,
+	Noto_Serif_JP,
 	Plus_Jakarta_Sans,
 } from "next/font/google";
 import "./globals.css";
@@ -26,6 +27,17 @@ const notoSansJp = Noto_Sans_JP({
 	weight: ["400", "500", "700"],
 	display: "swap",
 	variable: "--font-noto-sans-jp",
+});
+
+/**
+ * 法人向け(/corporate/)の見出し専用。明朝で「制作会社ではなく手続きの会社」
+ * の質感を出す。本文はゴシック(font-sans)のまま = 全面明朝にしない。
+ */
+const notoSerifJp = Noto_Serif_JP({
+	subsets: ["latin"],
+	weight: ["500", "600"],
+	display: "swap",
+	variable: "--font-noto-serif-jp",
 });
 
 const cormorant = Cormorant_Garamond({
@@ -107,7 +119,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 	return (
 		<html
 			lang="ja"
-			className={`${jakarta.variable} ${notoSansJp.variable} ${cormorant.variable} h-full antialiased`}
+			className={`${jakarta.variable} ${notoSansJp.variable} ${notoSerifJp.variable} ${cormorant.variable} h-full antialiased`}
 		>
 			<body className="min-h-full flex flex-col bg-bg-primary text-text-primary">
 				{children}

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
+import { CORPORATE_PAGES } from "@/lib/walc-data/corporate";
 import { getIndexableConditionalRoutes } from "@/lib/walc-data/publication-state";
 
 /**
@@ -12,6 +13,7 @@ import { getIndexableConditionalRoutes } from "@/lib/walc-data/publication-state
 
 const BASE_URL = "https://walc-visa.online";
 const CORE_CONTENT_LAST_MODIFIED = "2026-07-28";
+const CORPORATE_LAST_MODIFIED = "2026-07-30";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const blogEntries: MetadataRoute.Sitemap = PUBLISHED_ARTICLES.map((a) => ({
@@ -27,6 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: route.changeFrequency,
 			priority: route.priority,
 		}));
+	/**
+	 * 法人向け下層 5 ページ。トップ (/corporate) は conditionalEntries 側で
+	 * 公開制御しているため、ここには含めない (二重掲載を避ける)。
+	 */
+	const corporateEntries: MetadataRoute.Sitemap = CORPORATE_PAGES.map(
+		(page) => ({
+			url: `${BASE_URL}${page.path}`,
+			lastModified: CORPORATE_LAST_MODIFIED,
+			changeFrequency: "monthly",
+			priority: 0.7,
+		}),
+	);
 
 	return [
 		{
@@ -87,6 +101,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.6,
 		},
 		...conditionalEntries,
+		...corporateEntries,
 		...blogEntries,
 	];
 }

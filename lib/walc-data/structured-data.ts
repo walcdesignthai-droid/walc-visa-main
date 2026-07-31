@@ -47,7 +47,16 @@ export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 					},
 				}
 			: {}),
-		sameAs: ["https://dtv.walc-visa.online"],
+		/**
+		 * 同一組織の別サーフェスを明示的に結ぶ。
+		 * walc-consulting.com は @id 無し・同名の Organization ノードを持ち、
+		 * 別組織として誤認されていたため 301 後も sameAs で宣言し続ける。
+		 */
+		sameAs: [
+			"https://dtv.walc-visa.online",
+			"https://guide.walc-visa.online",
+			"https://walc-consulting.com",
+		],
 		contactPoint: {
 			"@type": "ContactPoint",
 			contactType: "customer support",

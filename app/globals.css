@@ -94,6 +94,9 @@
 		"Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", system-ui, sans-serif;
 	--font-display:
 		var(--font-jakarta), var(--font-noto-sans-jp), system-ui, sans-serif;
+	/* font-serif: 法人向け(/corporate/)の見出し専用。本文には使わない。 */
+	--font-serif:
+		var(--font-noto-serif-jp), "Hiragino Mincho ProN", "Yu Mincho", serif;
 
 	/* Layout */
 	--container-content: var(--content-max-width);

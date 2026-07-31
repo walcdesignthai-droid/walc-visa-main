@@ -33,8 +33,15 @@ export const SITE_URLS = {
 	/** 法人向け NON-B / Work Permit ガイド */
 	guideBusiness: "https://guide.walc-visa.online/guide/business",
 
-	/** 企業向け (walc-site → walc-consulting.com) */
-	corporate: "https://walc-consulting.com",
+	/**
+	 * 法人向け (タイ進出・法人設立・Work Permit・法人口座)。
+	 * 旧: walc-consulting.com → 本体サイト配下 /corporate へ集約 (2026-07-30)。
+	 * ⚠️ walc-consulting.com からの 301 は /corporate 公開・インデックス後に実施。
+	 */
+	corporate: "/corporate",
+
+	/** グループ会社 (WEB制作・デザイン・アプリ開発) */
+	walcDesign: "https://walc-design.com",
 
 	/** 顧客ポータル (walc-visa-crm) */
 	portal: "https://my.walc-visa.online/portal/login",
@@ -128,6 +135,7 @@ export const HEADER_NAV: readonly NavLink[] = [
 	{ href: "/#visa-types", label: "VISA 一覧" },
 	{ href: SITE_URLS.dtv, label: "DTV", external: true },
 	{ href: "/visas/non-b-work-permit", label: "NON-B / WP" },
+	{ href: SITE_URLS.corporate, label: "法人のお客様" },
 	{ href: SITE_URLS.guideDtv, label: "取得者ガイド", external: true },
 	{ href: "/#trouble-support", label: "トラブル対応" },
 	{ href: "/#consult", label: "AI 相談" },
