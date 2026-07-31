@@ -14,6 +14,12 @@
 
 import { articleCategory, CATEGORY_LABEL } from "@/lib/blog/presentation";
 import { articleHref, PUBLISHED_ARTICLES } from "@/lib/blog/registry";
+import {
+	CORPORATE_ACCOUNTING_NOTE,
+	CORPORATE_NOT_PROVIDED,
+	CORPORATE_PAGES,
+	CORPORATE_SCOPE,
+} from "@/lib/walc-data/corporate";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 import { renderConditionalLlmsLinks } from "@/lib/walc-data/publication-state";
 
@@ -98,6 +104,17 @@ export async function GET(): Promise<Response> {
 ${conditionalMajorPages}
 - [DTV専門サイト](https://dtv.walc-visa.online)
 - [DTV取得者ガイド](${content.guideUrl})
+
+## 法人向け(タイ進出・法人設立)
+- 対象: タイでの法人設立、駐在員・従業員の就労手配を検討する法人。
+- 対応範囲: ${CORPORATE_SCOPE.join(" / ")}。
+- ${CORPORATE_NOT_PROVIDED.join(" ")}
+- 業種別の許認可(飲食・旅行業・輸出入など)は、ご要望に応じて必要な許認可と取得の可否・手順を調査してお伝えします(取得代行として一律に請け負うものではありません)。
+- ${CORPORATE_ACCOUNTING_NOTE}
+- 設立後のWEB制作・マーケティング・業務システムは、グループ会社の WALC DESIGN(https://walc-design.com)が担当します。
+- 料金は案件ごとに個別見積り。金額は本ファイルに記載しません(公式LINEで個別確認)。
+- [法人向けトップ](${ORIGIN}/corporate)
+${CORPORATE_PAGES.map((page) => `- [${page.label}](${ORIGIN}${page.path})`).join("\n")}
 
 ## ガイド記事(ブログ / 事実ベース解説・一次出典付き)
 ${blogSection}

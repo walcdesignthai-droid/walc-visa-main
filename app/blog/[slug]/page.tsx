@@ -52,6 +52,25 @@ const IMMIGRATION_LP_ANCHORS: Record<string, string> = {
 	"dtv-vs-tourist": "入国で止められた・別室に通された時の相談はこちら",
 };
 
+/**
+ * 就労・法人系記事 → 法人向けページ(/corporate/*)への文脈内リンク。
+ * IMMIGRATION_LP_ANCHORS と同じ設計(記事本文モデルを変えずに内部リンクを張る)。
+ */
+const CORPORATE_LP_ANCHORS: Record<string, { href: string; label: string }> = {
+	"thailand-work-permit": {
+		href: "/corporate/work-permit",
+		label: "会社として従業員分を手配する場合はこちら",
+	},
+	"non-b-visa-extension": {
+		href: "/corporate/work-permit",
+		label: "法人での Work Permit / Non-B 手配はこちら",
+	},
+	"immigration-office-bangkok": {
+		href: "/corporate/flow",
+		label: "法人設立・就労手配のご依頼の流れ",
+	},
+};
+
 export function generateStaticParams() {
 	return PUBLISHED_ARTICLES.map((a) => ({ slug: a.slug }));
 }
@@ -503,6 +522,17 @@ export default async function ArticlePage({
 										>
 											<ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" />
 											{IMMIGRATION_LP_ANCHORS[article.slug]}
+										</Link>
+									</div>
+								)}
+								{CORPORATE_LP_ANCHORS[article.slug] && (
+									<div className="mt-3 border-t border-[var(--vb-border)] pt-3">
+										<Link
+											href={CORPORATE_LP_ANCHORS[article.slug].href}
+											className="inline-flex items-start gap-1.5 text-xs font-semibold leading-snug text-[var(--vb-sub)] hover:underline"
+										>
+											<ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+											{CORPORATE_LP_ANCHORS[article.slug].label}
 										</Link>
 									</div>
 								)}

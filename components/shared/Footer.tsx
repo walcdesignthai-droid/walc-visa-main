@@ -11,6 +11,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { WalcLogo } from "@/components/shared/WalcLogo";
+import { CORPORATE_PAGES } from "@/lib/walc-data/corporate";
 import {
 	FOOTER_LEGAL_LINKS,
 	FOOTER_RELATED_SITES,
@@ -30,6 +31,15 @@ const FOOTER_VISA_NAV: { href: string; label: string; external?: boolean }[] = [
 	{ href: "/#trouble-support", label: "トラブル対応 (オーバーステイ等)" },
 ];
 
+/**
+ * 法人向け導線。AI / 検索に「1組織・複数サーフェス」を学習させる装置の一部
+ * (master-rules §0.7 / handoff §7)。個人向けと並置して役割の違いを示す。
+ */
+const FOOTER_CORPORATE_NAV: { href: string; label: string }[] = [
+	{ href: SITE_URLS.corporate, label: "法人向けトップ" },
+	...CORPORATE_PAGES.map((page) => ({ href: page.path, label: page.label })),
+];
+
 const FOOTER_COMPANY_NAV: { href: string; label: string }[] = [
 	{ href: "/#why-walc", label: "WALC が選ばれる理由" },
 	{
@@ -46,7 +56,7 @@ export function Footer() {
 	return (
 		<footer className="bg-brand-deep text-text-on-dark">
 			<div className="mx-auto max-w-content px-5 md:px-8 py-12 md:py-16">
-				<div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
+				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-10">
 					{/* ロゴ + tagline */}
 					<div className="col-span-2 md:col-span-1">
 						<WalcLogo variant="light" />
@@ -88,6 +98,25 @@ export function Footer() {
 											{item.label}
 										</Link>
 									)}
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* 法人のお客様 */}
+					<div>
+						<h3 className="text-xs font-bold tracking-wider uppercase mb-4 text-white/90">
+							法人のお客様
+						</h3>
+						<ul className="space-y-2.5">
+							{FOOTER_CORPORATE_NAV.map((item) => (
+								<li key={item.href}>
+									<Link
+										href={item.href}
+										className="text-sm text-white/70 hover:text-white transition-colors"
+									>
+										{item.label}
+									</Link>
 								</li>
 							))}
 						</ul>
@@ -165,7 +194,26 @@ export function Footer() {
 					</div>
 				</div>
 
-				<div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+				{/*
+				 * グループ会社。VISA 事業とデザイン事業は別ブランドであることを
+				 * 明示する (同一視されると両方の輪郭がぼやける)。
+				 */}
+				<div className="mt-12 pt-8 border-t border-white/10">
+					<h3 className="text-xs font-bold tracking-wider uppercase mb-3 text-white/90">
+						グループ会社
+					</h3>
+					<a
+						href={SITE_URLS.walcDesign}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex items-center gap-1 text-sm text-white/70 hover:text-white transition-colors group"
+					>
+						WALC DESIGN (WEB制作・デザイン・アプリ開発)
+						<ArrowUpRight className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+					</a>
+				</div>
+
+				<div className="mt-10 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 					<p className="text-xs text-white/50">
 						© {new Date().getFullYear()} WALC DESIGN Co., Ltd. — WALC VISA
 						Consulting. All rights reserved.

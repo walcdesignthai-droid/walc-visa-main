@@ -9,6 +9,7 @@
 import { ConciergeBubble } from "@/components/concierge/ConciergeBubble";
 import { CompanyInfo } from "@/components/lp/CompanyInfo";
 import { ConsultBlock } from "@/components/lp/ConsultBlock";
+import { CorporateEntry } from "@/components/lp/CorporateEntry";
 import { FinalCta } from "@/components/lp/FinalCta";
 import { Founder } from "@/components/lp/Founder";
 import { Hero } from "@/components/lp/Hero";
@@ -37,6 +38,8 @@ export default async function HomePage() {
 				<ConsultBlock />
 				<WhyWalc />
 				<Process />
+				{/* 法人向け導線 (walc-visa.online → /corporate の起点) */}
+				<CorporateEntry />
 				<Founder />
 				<FinalCta />
 				{/* 会社概要は最下部 (業務的・信頼感) - Yosuke 指示 2026-05-26 */}
