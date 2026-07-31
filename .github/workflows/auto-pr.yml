@@ -1,0 +1,83 @@
+name: Auto PR
+
+# feature ブランチが push されたら PR を自動で開く。
+# 目的: 「push したのに PR が無いまま放置」を無くし、
+#       人間の介在を「マージするかどうか」の1点に絞る。
+on:
+  push:
+    branches:
+      - 'feat/**'
+      - 'fix/**'
+      - 'chore/**'
+      - 'docs/**'
+      - 'seo/**'
+      - 'refactor/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Open PR if none exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing already open for $BRANCH — nothing to do."
+            exit 0
+          fi
+
+          # タイトルは最新コミットの subject をそのまま使う
+          title=$(git log -1 --pretty=%s)
+
+          body=$(cat <<'EOF'
+          このPRは push を検知して自動作成されました。
+
+          ## レビュー時に見るところ
+          - [ ] Vercel Preview が Ready
+          - [ ] 公開ページを増やす変更なら canonical / sitemap / 構造化データ
+          - [ ] `.claude/` `policy/` を触っていないか（触っていれば必ず手動レビュー）
+
+          ---
+          🤖 opened by `.github/workflows/auto-pr.yml`
+          EOF
+          )
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "$title" \
+            --body "$body"
+
+      - name: Label low-risk branches for auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          # 低リスク接頭辞のみ auto-merge 候補にする。
+          # feat/ fix/ は既定で手動マージ（公開面・挙動が変わるため）。
+          case "$BRANCH" in
+            chore/*|docs/*) ;;
+            *) echo "not a low-risk branch — manual merge"; exit 0 ;;
+          esac
+
+          # 自動化そのものを書き換える差分は、接頭辞に関わらず手動に落とす。
+          if git diff --name-only origin/main...HEAD | grep -qE '^(\.github/workflows/|\.claude/|policy/)'; then
+            echo "touches control plane — manual merge"
+            exit 0
+          fi
+
+          gh pr edit "$BRANCH" --add-label auto-merge || true
