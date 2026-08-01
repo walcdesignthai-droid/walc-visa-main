@@ -14,7 +14,8 @@ on:
       - 'refactor/**'
 
 permissions:
-  contents: read
+  contents: write        # enabling auto-merge
+  issues: write          # creating the auto-merge label on demand
   pull-requests: write
 
 jobs:
@@ -60,7 +61,7 @@ jobs:
             --title "$title" \
             --body "$body"
 
-      - name: Label low-risk branches for auto-merge
+      - name: Enable auto-merge for low-risk branches
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.ref_name }}
@@ -74,10 +75,31 @@ jobs:
             *) echo "not a low-risk branch — manual merge"; exit 0 ;;
           esac
 
+          # push イベントは対象 ref しか持ってこないので、比較対象を明示的に取得する。
+          git fetch --quiet origin main
+
           # 自動化そのものを書き換える差分は、接頭辞に関わらず手動に落とす。
           if git diff --name-only origin/main...HEAD | grep -qE '^(\.github/workflows/|\.claude/|policy/)'; then
             echo "touches control plane — manual merge"
             exit 0
           fi
 
-          gh pr edit "$BRANCH" --add-label auto-merge || true
+          # ラベルは人間向けの表示。存在しないラベルを指定すると
+          # `gh pr edit --add-label` は失敗するので、無ければ作る。
+          gh label create auto-merge \
+            --description "Eligible for GitHub auto-merge" \
+            --color 0e8a16 >/dev/null 2>&1 || true
+          gh pr edit "$BRANCH" --add-label auto-merge
+
+          # GITHUB_TOKEN の操作は新しいワークフロー実行を発生させないため、
+          # ここで作った PR / 付けたラベルでは auto-merge.yml の
+          # opened / labeled は発火しない。だから同じ run の中で auto-merge を有効化する。
+          # 人間がラベルを付けた PR は従来どおり auto-merge.yml が拾う。
+          if ! gh pr merge "$BRANCH" --squash --auto 2>enable-auto-merge.err; then
+            if grep -qi "clean status" enable-auto-merge.err; then
+              echo "::warning::auto-merge was not enabled: this PR is already mergeable, which means main has no required status checks for auto-merge to wait on. Add required checks to branch protection, then re-run; until then this PR needs a manual merge."
+            else
+              cat enable-auto-merge.err >&2
+              exit 1
+            fi
+          fi
