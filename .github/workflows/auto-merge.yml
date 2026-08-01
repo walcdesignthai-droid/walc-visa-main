@@ -1,0 +1,38 @@
+name: Auto Merge
+
+# `auto-merge` ラベルが付いた PR だけを、GitHub 標準の auto-merge に載せる。
+# ブランチ保護（PR必須・conversation resolution）はそのまま効く。
+# 「マージを速くする」であって「チェックを飛ばす」ではない。
+on:
+  pull_request:
+    types: [opened, labeled, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  enable:
+    if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refuse if control plane is touched
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          if git diff --name-only "$BASE" "$HEAD" | grep -qE '^(\.github/workflows/|\.claude/|policy/)'; then
+            echo "::error::control plane change must not auto-merge"
+            exit 1
+          fi
+
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: gh pr merge "$PR" --squash --auto
