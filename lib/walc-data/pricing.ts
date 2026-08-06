@@ -71,7 +71,7 @@ export const VISA_DTV: VisaCategory = {
 	recommended: true,
 	bankAccountAvailable: false, // DTV取得者限定オプション。可否は個別確認のため UI は「要確認」
 	primaryDesc:
-		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。表示料金は大使館・領事館への申請費用を含む総額です。",
+		"5 年マルチプル・1 回最長 180 日滞在。リモートワーク・ワーケーション・タイのソフトパワー活動など、対象となる活動目的に応じて申請します。延長可否と手続きは最新の公式案内を確認します。",
 	plans: [
 		{
 			id: "dtv-soft-power",
@@ -114,7 +114,7 @@ export const VISA_RETIREMENT: VisaCategory = {
 	recommended: false,
 	bankAccountAvailable: true,
 	primaryDesc:
-		"50 歳以上対象。残高 800,000 THB 以上 (または月年金 65,000 THB) が要件。銀行口座開設可能。",
+		"50 歳以上の方を対象とする長期滞在の選択肢です。資金・収入・保険・申請地・銀行口座の取扱いは申請区分と時点で異なるため、最新の公式案内とお客様の状況を個別に確認します。",
 	plans: [
 		{
 			id: "retire-new-evisa-japan",
@@ -169,7 +169,7 @@ export const VISA_PRIVILEGE: VisaCategory = {
 	recommended: false,
 	bankAccountAvailable: true,
 	primaryDesc:
-		"5〜20 年の長期滞在権 + 空港 VIP・特典サービス。富裕層・面倒回避優先・銀行口座開設希望の方向け。",
+		"タイの長期滞在会員プログラムです。期間・特典・費用・家族追加・受付条件は、申込時点の公式情報を個別に確認します。",
 	plans: [
 		{
 			id: "privilege-bronze",
@@ -222,7 +222,7 @@ export const VISA_LTR: VisaCategory = {
 	recommended: false,
 	bankAccountAvailable: true,
 	primaryDesc:
-		"10 年滞在権・外国所得非課税 (HSP は 17% フラット)・年次レポート。WGC / WP / WFTP / HSP の 4 カテゴリ。",
+		"BOI が所管する長期滞在 VISA です。WGC / WP / WFTP / HSP の 4 カテゴリーがあり、税務・就労・扶養家族の取扱いは該当カテゴリーと最新の公式情報を確認します。",
 	plans: [
 		{
 			id: "ltr-walc-fee",
@@ -252,7 +252,7 @@ export const VISA_LTR: VisaCategory = {
 		},
 	],
 	bookingNote:
-		"富裕層向け・要件が高い分メリット多数。BOI endorsement 35,000 THB / 翻訳・公証費用 2,000〜10,000 THB/書類は別途実費。該当する方には絶対にお勧め。",
+		"BOI endorsement 35,000 THB / 翻訳・公証費用 2,000〜10,000 THB/書類は別途実費。該当カテゴリー・認定要件・費用内訳を確認した上で個別にご案内します。",
 };
 
 // ============================================================================
@@ -268,10 +268,10 @@ export const VISA_STUDENT: VisaCategory = {
 	recommended: false,
 	bankAccountAvailable: true,
 	primaryDesc:
-		"語学学校・ムエタイ・料理学校等への留学向け。3 ヶ月ごとの更新が必要・口座開設不可・学費も別途発生。WALC は DTV ソフトパワー (5 年マルチプル・口座以外の自由度同等) を強く推奨します。",
+		"教育機関での学習を目的とする VISA です。履修期間・出席要件・延長条件・学費・銀行口座の取扱いは、教育機関・入管・金融機関の運用を個別に確認します。",
 	plans: [], // 個別案件のみ・WALC 推奨外
 	bookingNote:
-		"WALC では非推奨。同じ「ムエタイ・語学学習」目的なら DTV ソフトパワー (60,000 THB / 5 年) が圧倒的に費用対効果が高いため、問合せ時はそちらをご案内します。",
+		"活動内容によっては DTV ソフトパワーが別の選択肢になる場合があります。対象条件・滞在期間・総費用を比較して個別にご案内します。",
 	linkDisabled: true,
 	linkDisabledReason: "DTV ソフトパワーをご検討ください",
 };
@@ -337,7 +337,7 @@ export const VISA_RUN_SUPPORT = {
 	slug: "visa-run",
 	shortName: "ビザランサポート",
 	description:
-		"ビザ取得サポート + 隣国往復ツアー。WALC 第一推奨は DTV 取得。ビザランは応急的なご利用に限定推奨。",
+		"出入国歴・現在の VISA・活動目的を確認し、短期対応が適切か、長期 VISA を検討すべきかを個別に整理します。受付可否と行程は相談時点で確認します。",
 	plans: [
 		{
 			id: "cambodia-day",
