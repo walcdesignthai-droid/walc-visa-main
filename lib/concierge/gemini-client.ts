@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * 修正履歴:
  *   v3.0 (2026-05-26) — WALC DESIGN の本番稼働実装に完全同期。
- *     - thinkingConfig 削除 (Gemini 3.5 Flash では thinking 予算は別枠)
+ *     - thinkingConfig 削除
  *     - maxOutputTokens: 2000 → 1024
  *     - temperature: 0.6 → 0.7
  *     - 入力サニタイズ追加: 4000 文字制限
@@ -43,6 +43,7 @@ export interface ConciergeGenerateOptions {
 	messages: ConciergeMessage[];
 	maxOutputTokens?: number;
 	gatewayToken?: string;
+	abortSignal?: AbortSignal;
 }
 
 function buildConfig(options: ConciergeGenerateOptions) {
@@ -50,8 +51,8 @@ function buildConfig(options: ConciergeGenerateOptions) {
 		systemInstruction: options.systemPrompt,
 		maxOutputTokens: options.maxOutputTokens ?? MAX_OUTPUT_TOKENS,
 		temperature: 0.7,
-		// thinkingConfig は明示設定しない (WALC DESIGN 仕様)
-		// → Gemini 3.5 Flash では thinking 予算は別枠で maxOutputTokens を消費しない
+		abortSignal: options.abortSignal,
+		// Gemini 3.6 Flash の既定thinking挙動を使用する。
 	};
 }
 

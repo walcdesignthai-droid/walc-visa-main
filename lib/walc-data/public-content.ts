@@ -3,6 +3,7 @@ import "server-only";
 import { z } from "zod";
 
 const CONTENT_ENDPOINT = "https://crm.walc-visa.online/api/v1/public/content";
+const PUBLIC_CONTENT_TIMEOUT_MS = 2_500;
 
 const DtvContentSchema = z.object({
 	contentVersion: z.string().min(1),
@@ -133,6 +134,7 @@ export const VERIFIED_DTV_FALLBACK: DtvPublicContent = {
 export async function getDtvPublicContent(): Promise<DtvPublicContent> {
 	try {
 		const response = await fetch(CONTENT_ENDPOINT, {
+			signal: AbortSignal.timeout(PUBLIC_CONTENT_TIMEOUT_MS),
 			next: { revalidate: 60 },
 			headers: { Accept: "application/json" },
 		});

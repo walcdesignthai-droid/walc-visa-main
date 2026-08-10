@@ -19,6 +19,7 @@ export async function claudeGenerate(
 
 	const response = await fetch("https://api.anthropic.com/v1/messages", {
 		method: "POST",
+		signal: options.abortSignal,
 		headers: {
 			"anthropic-version": "2023-06-01",
 			"content-type": "application/json",
@@ -27,6 +28,7 @@ export async function claudeGenerate(
 		body: JSON.stringify({
 			model: MODEL,
 			max_tokens: options.maxOutputTokens ?? 2048,
+			thinking: { type: "disabled" },
 			system: options.systemPrompt,
 			messages: options.messages,
 		}),
