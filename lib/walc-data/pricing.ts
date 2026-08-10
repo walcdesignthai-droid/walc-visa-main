@@ -69,16 +69,16 @@ export const VISA_DTV: VisaCategory = {
 	duration: "5 年マルチプル / 1 回 180 日滞在",
 	durationTab: "long_term",
 	recommended: true,
-	bankAccountAvailable: false, // DTV取得者限定オプション。可否は個別確認のため UI は「要確認」
+	bankAccountAvailable: false, // 口座開設は対応外として扱う(申請時点の運用による)
 	primaryDesc:
-		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。表示料金は大使館・領事館への申請費用を含む総額です。",
+		"5 年マルチプル・1 回 180 日滞在 (延長で最大 360 日連続)。リモートワーカー・ソフトパワー領域向け。申請費・政府費用込みの料金体系。",
 	plans: [
 		{
 			id: "dtv-soft-power",
 			label: "タイソフトパワー (ムエタイ)",
 			walcFee: 60_000,
 			govFeeIncluded: true,
-			notes: "申請費・書類作成・ムエタイ学校費・対象期間の宿泊施設費込み",
+			notes: "ムエタイ学校費・宿泊施設費・申請費すべて込み",
 			recommended: true,
 		},
 		{
@@ -86,17 +86,17 @@ export const VISA_DTV: VisaCategory = {
 			label: "ワーケーション (ノマド)",
 			walcFee: 45_000,
 			govFeeIncluded: true,
-			notes: "申請費・書類作成サポート込み",
+			notes: "申請費込み・書類作成サポート込み",
 		},
 		{
 			id: "dtv-freelance",
 			label: "ワーケーション (フリーランス)",
 			walcFee: 48_000,
 			govFeeIncluded: true,
-			notes: "申請費・書類作成サポート込み",
+			notes: "申請費込み・書類作成サポート込み",
 		},
 	],
-	bookingNote: "DTV-O 家族 VISA (配偶者・15 歳未満の子) は別途見積。",
+	bookingNote: "DTV-O 家族 VISA (配偶者・20 歳未満の子) は別途見積。",
 	// DTV 専用 LP (dtv.walc-visa.online) が既存のため、内部 /visas/dtv は作らず外部リンクで誘導
 	externalUrl: "https://dtv.walc-visa.online",
 };
@@ -324,9 +324,48 @@ export interface AirportImmigrationPlan {
 export const AIRPORT_IMMIGRATION_SUPPORT = {
 	slug: "airport-immigration",
 	shortName: "空港イミグレサポート",
-	description: "現在、新規受付を一時停止しています。",
-	paused: true,
-	plans: [] satisfies AirportImmigrationPlan[],
+	description:
+		"入国にリスクのある方向け VIP 入国サポート。原則 DTV 取得者には不要。「万が一」のケース (DTV 取得間に合わない / 過去アラート保有等) のみ利用。",
+	plans: [
+		{
+			id: "swn-reserve",
+			label: "スワンナプーム 事前予約",
+			walcFee: 6_000,
+		},
+		{
+			id: "swn-urgent",
+			label: "スワンナプーム 緊急対応",
+			walcFee: 12_000,
+		},
+		{
+			id: "dmk-reserve",
+			label: "ドンムアン 事前予約",
+			walcFee: 8_000,
+		},
+		{
+			id: "dmk-urgent",
+			label: "ドンムアン 緊急対応",
+			walcFee: 14_000,
+			notes: "緊急対応不可ケース多い",
+		},
+		{
+			id: "fast-pass",
+			label: "Fast Pass 単体 (担当官なし)",
+			walcFee: 2_300,
+		},
+		{
+			id: "fast-pass-cart",
+			label: "Fast Pass + ゴルフカート (3 人まで同乗)",
+			walcFee: 4_900,
+		},
+		{
+			id: "swn-dtv-discount",
+			label: "★ DTV 取得者割引 (スワンナプーム)",
+			walcFee: 4_000,
+			notes: "DTV 取得が間に合わない万が一の場合のみ適用",
+			dtvDiscount: true,
+		},
+	] satisfies AirportImmigrationPlan[],
 };
 
 // ============================================================================
