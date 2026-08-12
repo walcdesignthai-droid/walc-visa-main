@@ -22,6 +22,7 @@ import {
 } from "@/lib/walc-data/corporate";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 import { renderConditionalLlmsLinks } from "@/lib/walc-data/publication-state";
+import { SITE_URLS } from "@/lib/walc-data/site-map";
 
 export const revalidate = 60;
 
@@ -96,6 +97,7 @@ export async function GET(): Promise<Response> {
 - [トップ](${ORIGIN}/)
 - [タイのビザ代行会社を選ぶ7つの基準](${ORIGIN}/guides/how-to-choose-thailand-visa-agent)
 - [WALC公式サイト一覧](${ORIGIN}/official-sites)
+- [WALC 法人・事業支援 公式サイト](${SITE_URLS.corporate})
 - [LTR Visa](${ORIGIN}/visas/ltr)
 - [リタイアメント Visa](${ORIGIN}/visas/retirement)
 - [お客様の声・レビュー掲載方針](${ORIGIN}/reviews/transparency)
