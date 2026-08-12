@@ -1,9 +1,9 @@
 /**
  * lib/blog/thailand-privilege-overview.ts — ビザ別ガイド(会員制長期滞在)
  * ----------------------------------------------------------------------------
- * 🔴 DRAFT。Thailand Privilege(旧 Thailand Elite)現行プラン概要。YMYL ゲート 0。
+ * Thailand Privilege と旧 Thailand Elite の違い・現行プラン概要。YMYL ゲート 0。
  * 推測ゼロ: メンバーシップ名・年数・入会金は thailandprivilege.co.th 公式で
- * 当日(2026-06)verify 済の現行プランのみ記載。金額は「目安・最新は公式で確認」。
+ * 当日(2026-07)verify 済の現行プランのみ記載。金額は「目安・最新は公式で確認」。
  * 旧プラン名(Elite Easy Access 等)は現行と断定しない。監修 = Yosuke Onodera。
  * ----------------------------------------------------------------------------
  */
@@ -14,13 +14,12 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 	slug: "thailand-privilege-overview",
 	kind: "cluster",
 	promptKey: "gd-thailand-privilege",
-	title:
-		"Thailand Privilege(旧Thailand Elite)現行プラン概要｜5区分の入会金目安・年数・特典・就労不可を解説",
-	h1: "Thailand Privilege(旧Thailand Elite)現行プラン概要",
+	title: "Thailand PrivilegeとThailand Eliteの違い｜現行5プラン・旧会員の扱い",
+	h1: "Thailand PrivilegeとThailand Eliteの違い｜現行5プランと旧会員の扱い",
 	description:
-		"会員制の長期滞在プログラム Thailand Privilege(旧 Thailand Elite)の現行メンバーシップ5区分(Bronze/Gold/Platinum/Diamond/Reserve)について、入会金の目安・滞在年数・主な特典・PEビザの位置づけ・就労不可といった基本をわかりやすく整理。金額や条件は改定が多いため、最新は公式でご確認ください。",
+		"Thailand PrivilegeとThailand Eliteの違いを、2023年の名称・ロゴ刷新、旧プラン会員の継続・任意アップグレード、新規申込向け現行5区分、料金・年数・就労可否まで公式情報で整理します。",
 	datePublished: "2026-06-04",
-	dateModified: "2026-06-04",
+	dateModified: "2026-07-30",
 	draft: false,
 	heroEyebrow: "ビザ別ガイド ・ Thailand Privilege",
 	category: "guide",
@@ -34,37 +33,38 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 	cover: {
 		motif: "stamp",
 		kicker: "ビザ別ガイド ・ Thailand Privilege",
-		titleLines: ["会員制で長期滞在。", "5区分の中身。"],
-		accentWord: "5区分の中身",
-		sub: "入会金の目安・滞在年数・特典・就労不可を、現行プラン基準で整理。",
+		titleLines: ["Thailand Eliteとの", "違いを整理。"],
+		accentWord: "違いを整理",
+		sub: "名称変更・旧会員の扱い・現行5区分を、公式情報で確認。",
 	},
 
 	answerFirst: [
-		"Thailand Privilege(旧 Thailand Elite)は、入会金を一度支払うことで5〜20年の長期滞在資格(PE=Privilege Entry ビザ)と各種特典を得られる、タイ政府系の会員制プログラムです。運営は Thailand Privilege Card Co., Ltd.(観光・スポーツ省の所管下にある国営企業)で、就労を目的としたビザではなく、ワークパーミット(労働許可)は付帯しません。",
-		"現行のメンバーシップは Bronze・Gold・Platinum・Diamond・Reserve の5区分で、入会金と滞在年数は区分ごとに異なります。入会金は原則として一度きりの支払いで、年会費は不要とされています。ただしプラン構成・金額・特典・期間限定の優待は改定が多いため、本記事の金額はあくまで目安として捉え、申し込み前に公式で最新情報をご確認ください。",
+		"結論: Thailand Privilegeは、Thailand Eliteが2023年に名称・ロゴを刷新した現行ブランドです。運営は引き続き Thailand Privilege Card Co., Ltd.で、まったく別の民間ビザへ変わったわけではありません。",
+		"旧プランの会員は従来区分のまま継続でき、希望者は条件を満たして所定の費用を支払うことで新制度へのアップグレードを検討できます。一方、新規申込では Bronze・Gold・Platinum・Diamond・Reserve の現行5区分から選びます。旧会員が一律に現行プランへ切り替わる仕組みではありません。",
+		"Thailand Privilegeは、入会金を支払うことで5〜20年以上の長期滞在資格(PE=Privilege Entry ビザ)と区分別の特典を得るタイ政府系の会員制プログラムです。PEビザ自体にワークパーミットは付帯しないため、タイ国内での就労には別の在留資格・労働許可を確認する必要があります。",
 	],
 
 	bodySections: [
 		{
-			heading: "Thailand Privilege とは(旧 Thailand Elite)",
-			lead: "かつて「Thailand Elite」として知られていたプログラムは、Thailand Privilege へと名称・制度が刷新されました。会員制で、入会金を支払うことで長期滞在資格と特典を得る仕組みです。",
+			heading: "Thailand PrivilegeとThailand Eliteの違い(結論)",
+			lead: "違いの中心は、2023年のブランド名・ロゴと新規メンバーシップ体系の刷新です。運営主体が別会社へ変わったのではなく、Thailand Elite CardからThailand Privilege Cardへブランドが移行しました。",
 			items: [
-				"運営: Thailand Privilege Card Co., Ltd.(観光・スポーツ省の所管下にある国営企業)。",
-				"付与される滞在資格: PE(Privilege Entry)ビザ。区分に応じて5〜20年の長期滞在が可能。",
-				"位置づけ: 就労ではなく、長期滞在・暮らしの利便性を主目的としたプログラム。ワークパーミットは付帯しません。",
-				"支払い: 入会金は原則一度きり(年会費は不要とされる)。最新の支払い条件は公式でご確認ください。",
+				"名称・ロゴ: Thailand EliteからThailand Privilegeへ変更。公式は2023年のリブランディングとして案内しています。",
+				"旧プランの会員は従来区分のまま継続可能。公式案内では、希望者が残存期間などの条件を満たし、アップグレード費用等を支払って新制度へ移行する選択肢も示されています。",
+				"新規申込: 現在は Bronze・Gold・Platinum・Diamond・Reserve の5区分から選択します。",
+				"運営: Thailand Privilege Card Co., Ltd.。タイ国政府観光庁(TAT)が唯一の株主である国営企業として公式に案内されています。",
 			],
 		},
 		{
 			heading: "現行メンバーシップ5区分(入会金・年数の目安)",
-			lead: "現行は5区分で、入会金と滞在年数が区分ごとに異なります。下表は2026年6月時点に公式で確認できた目安で、金額・年数・特典は改定される場合があります。最新は公式でご確認ください。",
+			lead: "新規申込向けの現行プランは5区分で、入会金と滞在年数が区分ごとに異なります。下表は2026年7月30日時点に公式で確認できた目安で、金額・年数・特典は改定される場合があります。最新は公式でご確認ください。",
 			items: [
 				"Bronze: 入会金 650,000バーツ目安／滞在5年。特典ポイントの付与はなしとされる入門区分。",
 				"Gold: 入会金 900,000バーツ目安／滞在5年。年間20ポイント目安の特典ポイントが付与される区分。",
 				"Platinum: 入会金 1,500,000バーツ目安／滞在10年。年間35ポイント目安。家族・長期居住者向けの中位区分。",
 				"Diamond: 入会金 2,500,000バーツ目安／滞在15年。年間55ポイント目安。より手厚い特典・長期間の区分。",
 				"Reserve: 入会金 5,000,000バーツ目安／滞在20年(公式は「20+」と表記)。年間120ポイント目安の最上位区分。",
-				"※ 上表の入会金・滞在年数・年間ポイント数は2026年6月時点に公式の比較ページで確認できた目安です。金額・年数・区分名・ポイント数は改定されることがあります。期間限定の優待や入会条件が設定される時期もあるため、上表は目安として扱い、最新は公式で確認してください。",
+				"※ 上表の入会金・滞在年数・年間ポイント数は2026年7月30日時点に公式の比較ページで確認できた目安です。金額・年数・区分名・ポイント数は改定されることがあります。期間限定の優待や入会条件が設定される時期もあるため、上表は目安として扱い、最新は公式で確認してください。",
 			],
 		},
 		{
@@ -99,7 +99,7 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 		},
 		{
 			heading: "ご利用にあたって(免責)",
-			lead: "本記事は2026年6月時点で公式に確認できた公開情報に基づく一般的な解説です。メンバーシップの区分名・入会金・滞在年数・特典・期間限定の優待・就労や在留資格の取り扱いは改定される場合があり、最終判断は Thailand Privilege 公式およびタイ入国管理局・関係当局の最新案内に従ってください。本記事は将来の入会可否や特定の特典・滞在を保証するものではありません。",
+			lead: "本記事は2026年7月30日時点で公式に確認できた公開情報に基づく一般的な解説です。メンバーシップの区分名・入会金・滞在年数・特典・期間限定の優待・就労や在留資格の取り扱いは改定される場合があり、最終判断は Thailand Privilege 公式およびタイ入国管理局・関係当局の最新案内に従ってください。本記事は将来の入会可否や特定の特典・滞在を保証するものではありません。",
 		},
 	],
 
@@ -111,7 +111,7 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 		{
 			question: "Thailand Privilege と Thailand Elite は違うものですか?",
 			answer:
-				"かつて Thailand Elite として知られていたプログラムが、Thailand Privilege へと名称・制度を刷新したものです。現行のメンバーシップ区分や入会金は刷新後の内容で案内されています。古いプラン名や旧料金が現行と異なる場合があるため、最新は公式でご確認ください。",
+				"Thailand Privilegeは、Thailand Eliteが2023年に名称・ロゴと新規メンバーシップ体系を刷新した現行ブランドです。旧プランの会員は従来区分のまま継続でき、条件を満たす希望者には有料アップグレードの選択肢があります。旧会員が一律に現行5区分へ自動移行するわけではありません。",
 		},
 		{
 			question: "入会金は一度払えば年会費はかかりませんか?",
@@ -135,67 +135,82 @@ export const THAILAND_PRIVILEGE_OVERVIEW: Article = {
 			promptKey: "cmp-visa-comparison",
 			label: "タイ長期滞在ビザ 早見比較",
 			plannedSlug: "visa-comparison",
-			published: false,
+			published: true,
 		},
 		{
 			promptKey: "gd-ltr-categories-tax",
 			label: "LTRビザの対象カテゴリと税優遇",
 			plannedSlug: "ltr-categories-tax",
-			published: false,
+			published: true,
 		},
 		{
 			promptKey: "cmp-dtv-vs-tourist",
 			label: "DTV vs 観光ビザ 徹底比較",
 			plannedSlug: "dtv-vs-tourist",
-			published: false,
+			published: true,
 		},
 	],
 
 	sources: [
 		{
-			claim:
-				"現行メンバーシップ5区分(Bronze/Gold/Platinum/Diamond/Reserve)の入会金目安・滞在年数・主な特典",
-			source: "Thailand Privilege 公式(thailandprivilege.co.th)",
-			primaryPending: false,
-		},
-		{
-			claim:
-				"運営主体(Thailand Privilege Card Co., Ltd. / 観光・スポーツ省所管の国営企業)・PEビザの位置づけ・就労不可(ワークパーミット非付帯)",
-			source: "Thailand Privilege 公式 / タイ入国管理局",
-			primaryPending: false,
-		},
-		{
-			claim:
-				"各区分の年間Privilege Points目安(Bronze なし／Gold 20／Platinum 35／Diamond 55／Reserve 120)・Reserve の有効期間表記「20+」(2026-06-04 公式比較ページで確認)",
+			claim: "2023年のThailand EliteからThailand Privilegeへの名称・ロゴ変更",
 			source:
-				"Thailand Privilege 公式 メンバーシップ比較ページ(thailandprivilege.co.th/why-thailand/compare-...)",
+				"Thailand Privilege 公式「Your freedom of choices to endless privileges」",
+			primaryPending: false,
+		},
+		{
+			claim:
+				"旧プラン会員は従来区分を継続可能で、条件を満たす希望者に有料アップグレードの選択肢があること",
+			source: "Thailand Privilege 公式「Membership Upgrade Information」",
+			primaryPending: false,
+		},
+		{
+			claim:
+				"現行5区分の入会金・有効期間・年間Privilege Points(Bronze なし／Gold 20／Platinum 35／Diamond 55／Reserve 120)",
+			source:
+				"Thailand Privilege 公式 メンバーシップ比較ページ(2026-07-30確認)",
+			primaryPending: false,
+		},
+		{
+			claim:
+				"運営主体がThailand Privilege Card Co., Ltd.でTATが唯一の株主であること、PEビザに就労許可が自動付帯しないこと",
+			source:
+				"Thailand Privilege 公式「Who We Are」「Thailand Visa for Digital Nomads」",
 			primaryPending: false,
 		},
 	],
 
 	references: [
 		{
-			label: "Thailand Privilege 公式サイト",
-			url: "https://www.thailandprivilege.co.th",
+			label: "Thailand Privilege 公式｜ブランド変更",
+			url: "https://www.thailandprivilege.co.th/news/more-choices-more-freedom",
+		},
+		{
+			label: "Thailand Privilege 公式｜旧プラン会員とアップグレード",
+			url: "https://www.thailandprivilege.co.th/news/membership-upgrade-information",
 		},
 		{
 			label: "Thailand Privilege メンバーシップ比較(公式)",
 			url: "https://www.thailandprivilege.co.th/why-thailand/compare-thailand-privilege-card-membership-packages-find-the-perfect-fit-for-you",
 		},
 		{
-			label: "タイ入国管理局(Immigration Bureau)公式サイト",
-			url: "https://www.immigration.go.th",
+			label: "Thailand Privilege 公式｜運営会社と沿革",
+			url: "https://www.thailandprivilege.co.th/about",
+		},
+		{
+			label: "Thailand Privilege 公式｜PEビザと就労許可",
+			url: "https://www.thailandprivilege.co.th/why-thailand/thailand-visa-for-digital-nomads",
 		},
 	],
 
 	placeholders: [
 		{
 			key: "bronze-promotion-end-date",
-			note: "2026-06-04 verify 時点、公式比較ページ(thailandprivilege.co.th/why-thailand/compare-...)には Bronze の期間限定優待・終了日の記載なし。第三者(報道・代理店)では『2026/9/30まで延長』等の言及があるが公式一次ソースで日付未確認かつ食い違いあり。確定するまで本文に具体的な終了日は記載しない。公開時に公式で要再確認。",
+			note: "2026-07-30 verify 時点、公式比較ページ(thailandprivilege.co.th/why-thailand/compare-...)には Bronze の期間限定優待・終了日の記載なし。第三者(報道・代理店)では具体的な終了日の言及があるが公式一次ソースで日付未確認かつ食い違いがあるため、本文には記載しない。公開時に公式で要再確認。",
 		},
 		{
 			key: "benefits-partners-detail",
-			note: "各区分の年間ポイント付与数(Gold 20/Platinum 35/Diamond 55/Reserve 120・Bronzeなし)は 2026-06-04 公式比較ページで確認済・反映済。ただし提携先・優待の具体内容(対象ホテル・サービス・ポイント交換レート等)は改定が多く公式比較表だけでは確定不可。公開時点の公式案内で最新化すること。",
+			note: "各区分の年間ポイント付与数(Gold 20/Platinum 35/Diamond 55/Reserve 120・Bronzeなし)は 2026-07-30 公式比較ページで確認済・反映済。ただし提携先・優待の具体内容(対象ホテル・サービス・ポイント交換レート等)は改定が多く公式比較表だけでは確定不可。公開時点の公式案内で最新化すること。",
 		},
 	],
 };
