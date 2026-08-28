@@ -19,10 +19,17 @@ interface BreadcrumbItem {
 	url: string;
 }
 
-export function BreadcrumbJsonLd({ items }: { items: ReadonlyArray<BreadcrumbItem> }) {
+export function BreadcrumbJsonLd({
+	items,
+	id,
+}: {
+	items: ReadonlyArray<BreadcrumbItem>;
+	id?: string;
+}) {
 	const schema = {
 		"@context": "https://schema.org",
 		"@type": "BreadcrumbList",
+		...(id ? { "@id": id } : {}),
 		itemListElement: items.map((item, i) => ({
 			"@type": "ListItem",
 			position: i + 1,
@@ -32,8 +39,8 @@ export function BreadcrumbJsonLd({ items }: { items: ReadonlyArray<BreadcrumbIte
 	};
 	return (
 		<script
-			// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は信頼できる static data
 			type="application/ld+json"
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD は信頼できる static data
 			dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
 		/>
 	);

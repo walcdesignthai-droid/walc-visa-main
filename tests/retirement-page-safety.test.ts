@@ -7,6 +7,11 @@ const PAGE_PATH = resolve(
 	"..",
 	"app/visas/retirement/page.tsx",
 );
+const STRUCTURED_DATA_PATH = resolve(
+	import.meta.dirname,
+	"..",
+	"lib/walc-data/retirement-structured-data.ts",
+);
 
 describe("retirement page public claims", () => {
 	it("links the DTV comparison to the canonical specialist site", async () => {
@@ -35,9 +40,12 @@ describe("retirement page public claims", () => {
 	});
 
 	it("lets the root metadata template append the site name once", async () => {
-		const source = await readFile(PAGE_PATH, "utf8");
+		const [source, structuredData] = await Promise.all([
+			readFile(PAGE_PATH, "utf8"),
+			readFile(STRUCTURED_DATA_PATH, "utf8"),
+		]);
 
-		expect(source).toContain(
+		expect(structuredData).toContain(
 			'const RETIREMENT_TITLE = "リタイアメント VISA(NON-O / 50 歳以上)";',
 		);
 		expect(source).toContain("title: RETIREMENT_TITLE");
@@ -47,10 +55,15 @@ describe("retirement page public claims", () => {
 	});
 
 	it("publishes a page-specific canonical and social URL", async () => {
-		const source = await readFile(PAGE_PATH, "utf8");
+		const [source, structuredData] = await Promise.all([
+			readFile(PAGE_PATH, "utf8"),
+			readFile(STRUCTURED_DATA_PATH, "utf8"),
+		]);
 
-		expect(source).toContain("const RETIREMENT_URL");
-		expect(source).toContain('"https://walc-visa.online/visas/retirement"');
+		expect(source).toContain("RETIREMENT_URL");
+		expect(structuredData).toContain(
+			'"https://walc-visa.online/visas/retirement"',
+		);
 		expect(source).toContain("alternates: { canonical: RETIREMENT_URL }");
 		expect(source).toContain("url: RETIREMENT_URL");
 	});
