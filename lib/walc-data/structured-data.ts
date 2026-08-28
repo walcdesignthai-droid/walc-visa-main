@@ -48,7 +48,7 @@ export function buildMainStructuredDataGraph(content: DtvPublicContent): {
 			"@type": "ImageObject",
 			url: `${ORIGIN}/walc-visa-logo.png`,
 		},
-		foundingDate: "2021-08-27",
+		foundingDate: WALC_ORGANIZATION.foundingDate,
 		founder: {
 			"@type": "Person",
 			name: "小野寺 陽介",

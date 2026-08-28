@@ -4,11 +4,12 @@
  * 差別化ポイントを 3 つに圧縮:
  *   1. オーナー確認済みの DTV 申請通過実績
  *   2. 専用 CRM アプリで取得後も徹底管理
- *   3. バンコク現地法人 6 年運営
+ *   3. オーナー確認済みのタイ在住歴・VISAサポート事業歴
  * ----------------------------------------------------------------------------
  */
 
 import { MapPin, Smartphone, Trophy } from "lucide-react";
+import { WALC_AUTHOR, WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 import { getDtvPublicContent } from "@/lib/walc-data/public-content";
 
 export async function WhyWalc() {
@@ -34,10 +35,13 @@ export async function WhyWalc() {
 		},
 		{
 			Icon: MapPin,
-			labelKey: "Bangkok HQ",
-			title: "バンコク現地法人 6 年運営",
-			body: "現地ネットワーク・大使館 / 領事館との直接コミュニケーション・最新制度情報の一次取得。日本語スピーカー常駐で、現地でしか掴めない情報をリアルタイムにお届け。",
-			metric: { value: "6 年", label: "現地法人運営" },
+			labelKey: "Local Experience",
+			title: `${WALC_AUTHOR.experience.thailandResidency}・${WALC_AUTHOR.experience.visaSupport}`,
+			body: `代表がタイでの実務を日本語で統括。${WALC_ORGANIZATION.businessStartedDisplay}にタイ事業を開始し、${WALC_ORGANIZATION.incorporatedDisplay}に法人設立。制度変更や追加書類にも継続して対応します。`,
+			metric: {
+				value: WALC_AUTHOR.experience.thailandResidency,
+				label: WALC_AUTHOR.experience.visaSupport,
+			},
 		},
 	] as const;
 

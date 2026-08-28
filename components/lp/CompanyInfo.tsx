@@ -12,6 +12,7 @@
  */
 
 import { Building2, Globe, Mail } from "lucide-react";
+import { WALC_ORGANIZATION } from "@/lib/walc-data/eeat";
 
 interface CompanyRow {
 	label: string;
@@ -23,8 +24,11 @@ const COMPANY_PROFILE: CompanyRow[] = [
 	{ label: "代表取締役", value: "小野寺 陽介(Yosuke Onodera)" },
 	{ label: "事業内容", value: "タイ VISA 取得代行 / 渡航コンサルティング" },
 	{ label: "本社所在地", value: "タイ・バンコク・トンロー" },
-	{ label: "創業", value: "2020 年(タイ拠点 6 年)" },
-	{ label: "法人設立", value: "2021 年 8 月 27 日" },
+	{
+		label: "タイ事業開始",
+		value: WALC_ORGANIZATION.businessStartedDisplay,
+	},
+	{ label: "法人設立", value: WALC_ORGANIZATION.incorporatedDisplay },
 	{ label: "資本金", value: "5,000,000 バーツ" },
 	{ label: "登記", value: "タイ商務省にて正規法人登記済" },
 	{ label: "営業時間", value: "月〜金 9:00 – 18:00(タイ時間・GMT+7)" },
@@ -50,7 +54,8 @@ export function CompanyInfo() {
 						会社概要
 					</h2>
 					<p className="text-sm md:text-base text-text-secondary leading-relaxed">
-						タイ商務省登記の現地法人として、日本人向けの長期 VISA 取得・移住サポートを専門に提供しております。
+						タイ商務省登記の現地法人として、日本人向けの長期 VISA
+						取得・移住サポートを専門に提供しております。
 					</p>
 				</div>
 
@@ -77,7 +82,9 @@ export function CompanyInfo() {
 
 						{/* コンプラ姿勢 */}
 						<p className="text-[11px] md:text-xs text-text-tertiary mt-4 leading-relaxed">
-							※ タイの法令・運用は予告なく変更されることがあります。WALC は正規エージェントとして、書類の偽造・改ざんは一切行いません。各料金は本サイト記載時点のものであり、最新情報は公式 LINE にて即時ご確認いただけます。
+							※ タイの法令・運用は予告なく変更されることがあります。WALC
+							は正規エージェントとして、書類の偽造・改ざんは一切行いません。各料金は本サイト記載時点のものであり、最新情報は公式
+							LINE にて即時ご確認いただけます。
 						</p>
 					</div>
 
@@ -96,10 +103,7 @@ export function CompanyInfo() {
 								</p>
 							</div>
 
-							<a
-								href="https://walc-visa.online"
-								className="block group"
-							>
+							<a href="https://walc-visa.online" className="block group">
 								<div className="flex items-center gap-2 text-text-tertiary mb-1">
 									<Globe className="w-3.5 h-3.5" />
 									<span className="text-[10px] uppercase tracking-wider font-semibold">

@@ -71,7 +71,9 @@ export async function Founder() {
 								は、その「複雑さ」を私たちが代わりに引き受け、
 								お客様には「タイで何をするか」だけに集中していただけるよう設計しました。
 								{content.trackRecord.display}のDTV申請通過実績、専用 CRM
-								での一気通貫管理、バンコク現地法人 6 年の経験——
+								での一気通貫管理、
+								{WALC_AUTHOR.experience.thailandResidency}・
+								{WALC_AUTHOR.experience.visaSupport}の現地実務——
 								すべては、お客様の思いを確かな形にするためにあります。
 							</p>
 							<p className="text-amber-200/90 text-sm md:text-base font-semibold">

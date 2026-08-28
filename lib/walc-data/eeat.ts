@@ -31,8 +31,12 @@ export const WALC_ORGANIZATION = {
 	legalName: "WALC DESIGN Co., Ltd.",
 	url: "https://walc-visa.online",
 	logo: "https://walc-visa.online/walc-visa-logo.png",
+	/** タイでの事業開始。法人設立日とは別の確定事実として扱う。 */
+	businessStartedAt: "2020",
+	businessStartedDisplay: "2020年",
 	/** 法人登記日(JSON-LD / Google Knowledge Graph 一致用)。 */
 	foundingDate: "2021-08-27",
+	incorporatedDisplay: "2021年8月27日",
 	email: "walcvisa@gmail.com",
 	/** canonical 確定(2026-05-30 Owner 確認)。旧 084-261-0309 は使用禁止。 */
 	telephone: "+66-6-4753-0375",
