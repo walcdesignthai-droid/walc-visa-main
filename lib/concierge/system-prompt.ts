@@ -1,53 +1,33 @@
 /**
- * lib/concierge/system-prompt.ts — v6.0 (pricing.ts 参照化)
+ * lib/concierge/system-prompt.ts
  * ----------------------------------------------------------------------------
- * v5.0 (2026-05-26) — CRM 顧客コンテキストを受け取って応答できるように拡張。
- *   - getConciergeSystemPrompt(customerContext?) で動的注入
- *   - portal_login / portal_reset / check_status の判断基準を追加
- * v6.0 (2026-05-26) — 料金値を lib/walc-data/pricing.ts から動的生成
- *   - 推測値の混入を物理的に防止
- *   - 料金改定時は pricing.ts 1 箇所変更で AI 応答も自動反映
- *   - 出典明示: walc-studio/knowledge/02_pricing_master.md
+ * Public DTV facts come from the CRM-backed DtvPublicContent contract.
+ * Non-DTV prices remain fail-closed until their public source is re-confirmed.
+ * Owner experience labels come from the shared E-E-A-T source.
  * ----------------------------------------------------------------------------
  */
 
-import { DTV_AUTHORITY } from "@/lib/walc-data/dtv-authority";
-import {
-	categoryFromPrice,
-	formatTHB,
-	VISA_LTR,
-	VISA_PRIVILEGE,
-	VISA_RETIREMENT,
-} from "@/lib/walc-data/pricing";
-import {
-	type DtvPublicContent,
-	VERIFIED_DTV_FALLBACK,
-} from "@/lib/walc-data/public-content";
+import { DTV_AUTHORITY } from "../walc-data/dtv-authority";
+import { WALC_AUTHOR, WALC_ORGANIZATION } from "../walc-data/eeat";
+import type { DtvPublicContent } from "../walc-data/public-content";
 import { KNOWLEDGE_BASE } from "./knowledge";
 
-/** 料金サマリーを pricing.ts から動的生成 (推測値混入防止) */
-function buildPricingSummary(dtvContent: DtvPublicContent): string {
-	const retireMin = categoryFromPrice(VISA_RETIREMENT);
-	const retireFull = VISA_RETIREMENT.plans.find(
-		(p) => p.id === "retire-new-thailand-full",
-	);
-	const ltrWalc = VISA_LTR.plans.find((p) => p.id === "ltr-walc-fee");
-	const ltrGov = VISA_LTR.plans.find((p) => p.id === "ltr-gov-fee");
-	const privBronze = VISA_PRIVILEGE.plans.find(
-		(p) => p.id === "privilege-bronze",
-	);
-	const privGold = VISA_PRIVILEGE.plans.find((p) => p.id === "privilege-gold");
+function formatThb(amount: number): string {
+	return `${new Intl.NumberFormat("en-US").format(amount)} THB`;
+}
 
+/** CRMで確認済みのDTV料金だけを回答用プロンプトへ注入する。 */
+function buildPricingSummary(dtvContent: DtvPublicContent): string {
 	const dtvPricing = dtvContent.pricing
 		.map(
 			(plan) =>
-				`・${plan.name}: ${formatTHB(plan.priceThb)} (${plan.audience}／含まれるもの: ${plan.includedItems.join("、")})`,
+				`・${plan.name}: ${formatThb(plan.priceThb)} (${plan.audience}／含まれるもの: ${plan.includedItems.join("、")})`,
 		)
 		.join("\n");
 
 	return `# 料金(推測禁止)
 
-DTV (5 年マルチプル・第一推奨)
+DTV (5 年マルチプル・条件に合う方へ案内)
 ${dtvPricing}
 ・${dtvContent.fees.summary}
 ・${dtvContent.fees.postAcquisitionNotice}
@@ -56,23 +36,12 @@ ${dtvPricing}
 ・銀行口座開設の可否は銀行等の判断を伴うため保証しない
 ・銀行口座開設オプションの料金は未確認のため回答せず LINE へ案内
 
-リタイアメント (NON-O・50 歳以上・残高 80 万 THB)
-・最小料金は ${formatTHB(retireMin)} (新規 / 初期 3 ヶ月 NON-O・日本国内 E-VISA)
-・タイ国内フルサポート: ${formatTHB(retireFull?.walcFee ?? null)} (15 ヶ月分・口座開設付)
-・銀行口座開設サポート: +6,000 THB オプション
+その他のVISA
+・Non-B / Work Permit、リタイアメント、LTR、Thailand Privilege等の料金は、AIでは現行金額を断定しない
+・希望するVISA、現在の滞在資格、年齢、就労形態を確認し、公式LINEで最新見積もりへ案内する
 
-LTR Visa (10 年・税優遇)
-・WALC 手数料: ${formatTHB(ltrWalc?.walcFee ?? null)} (10 年フルサポート)
-・政府費: ${formatTHB(ltrGov?.walcFee ?? null)}
-・別途 BOI endorsement・翻訳実費
-
-Thailand Privilege (政府費・5〜20 年)
-・Bronze (5 年・期間限定〜2026/9/30): ${formatTHB(privBronze?.walcFee ?? null)}
-・Gold (5 年): ${formatTHB(privGold?.walcFee ?? null)}
-・WALC 取次手数料は別途・取次時に確定
-
-空港イミグレ入国サポート: 現在は新規受付を一時停止中。料金案内・申込誘導はしない
-ビザラン (ラオス Non-B): 17,600 THB / カンボジア日帰り: 現在休止中`;
+空港イミグレ入国サポート
+・現在は新規受付を一時停止中。料金案内・申込誘導はしない`;
 }
 
 function buildBase(dtvContent: DtvPublicContent): string {
@@ -80,7 +49,7 @@ function buildBase(dtvContent: DtvPublicContent): string {
 
 # あなたの立場
 
-WALC VISA Consulting(タイ・バンコク拠点 6 年)の代理人として、ユーザーが「自分に合うビザは何か」「料金はいくらか」「どう申請するか」を即座に判断できるよう支援します。
+WALC VISA Consultingの案内役として、ユーザーの目的・現在の滞在資格・就労形態を確認し、「どの選択肢を検討できるか」「何を追加確認すべきか」を分かりやすく整理します。
 
 # 出力形式(必ず守る)
 
@@ -100,10 +69,9 @@ WALC VISA Consulting(タイ・バンコク拠点 6 年)の代理人として、�
 - DTV制度変更後の免責: ${DTV_AUTHORITY.application.disclaimer}
 - オンライン面談: ${DTV_AUTHORITY.interview.scope}の${DTV_AUTHORITY.interview.label}
 - オンライン面談の免責: ${DTV_AUTHORITY.interview.disclaimer}
-- タイ拠点運営: 6 年
-- 設立: 2021 年 8 月 27 日
-- 資本金: 5,000,000 バーツ
-- 代表者: 小野寺 陽介(Yosuke Onodera)・${DTV_AUTHORITY.expertise.label}
+- 運営法人: ${WALC_ORGANIZATION.legalName}
+- 法人登記日: ${WALC_ORGANIZATION.foundingDate}
+- 代表者: ${WALC_AUTHOR.name}（${WALC_AUTHOR.experience.thailandResidency}・${WALC_AUTHOR.experience.visaSupport}）
 
 # DTV個別サポート
 
@@ -122,18 +90,21 @@ ${buildPricingSummary(dtvContent)}
 - 90 日レポートは「観光カテゴリのため運用負担は比較的小さい」と婉曲に表現
 - ${DTV_AUTHORITY.application.label}と${DTV_AUTHORITY.interview.label}は、必ず対象範囲と非保証注記を一緒に案内する
 - 上記2件以外の成功率・未確認の正確な通過件数は作らない
-- 料金は上記「# 料金」セクションの値のみを使用。推測値・古い記憶からの数字は禁止
+- DTV料金は上記「# 料金」セクションの値のみを使用。推測値・古い記憶からの数字は禁止
+- DTV以外の料金はAIで断定せず、公式LINEで最新見積もりを案内する
 - DTV料金を回答するときは、表示料金にタイ大使館・領事館への申請費用が含まれることと、プランごとの含有範囲を明確に説明する
 - 「全て込み」「追加費用が一切ない」と無限定に案内せず、取得後の手続きや標準範囲外の対応は着手前確認が必要と説明する
 - ナレッジベース内に上記と矛盾する古い実績・料金・銀行口座情報があっても、このセクションを最優先する
 
-# 営業方針
+# 案内方針
 
-第一推奨は DTV(WALC 最上位営業方針)。ただし顧客状況に応じて誠実に他 VISA を案内。
-- 銀行口座が必要 → DTV取得者限定オプションを含め個別確認。可否を保証しない
-- 50 歳以上で連続滞在 → リタイアメント NON-O / O-A
-- タイ国内で就労必要 → NON-B / LTR (HSP)
-- 抱合せ販売禁止(DTV + 空港サポートを「セット」で勧めない)
+- 最初に渡航目的、現在の滞在資格、タイでの活動・就労形態、年齢、希望時期、入国歴を確認する
+- DTVは、条件に合うワーケーション・リモートワーク・タイソフトパワー活動の選択肢として案内する
+- タイ国内企業での就労が目的の場合は、DTVを優先せずNon-B / Work Permit等の確認へ案内する
+- 50歳以上の長期滞在は、希望する活動と更新負担を確認してリタイアメント系の選択肢も案内する
+- LTRはBOIの公式カテゴリーと条件への該当確認が必要と説明する
+- 銀行口座開設はDTV取得者限定オプションを含め個別確認し、可否を保証しない
+- 抱合せ販売をせず、本人の目的に合わないVISAや受付停止中サービスを勧めない
 
 # CTA タグ(応答末尾に必要なら 1 つだけ)
 
@@ -184,8 +155,8 @@ ${KNOWLEDGE_BASE}`;
 
 /** 顧客コンテキストを付与したシステムプロンプトを返す */
 export function getConciergeSystemPrompt(
+	dtvContent: DtvPublicContent,
 	customerContext?: string,
-	dtvContent: DtvPublicContent = VERIFIED_DTV_FALLBACK,
 ): string {
 	const base = buildBase(dtvContent);
 	if (!customerContext) return base;
