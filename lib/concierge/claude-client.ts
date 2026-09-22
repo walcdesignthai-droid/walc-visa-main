@@ -1,14 +1,23 @@
 import type { ConciergeGenerateOptions } from "./gemini-client";
 
-const MODEL = "claude-sonnet-5";
+const MODEL = "claude-opus-5-5";
+
+// Opus 5.5 always thinks and thinking consumes output tokens.
+const MIN_OUTPUT_TOKENS = 8000;
 
 interface ClaudeTextBlock {
 	type: "text";
 	text: string;
 }
 
+interface ClaudeThinkingBlock {
+	type: "thinking" | "redacted_thinking";
+}
+
+type ClaudeContentBlock = ClaudeTextBlock | ClaudeThinkingBlock;
+
 interface ClaudeResponse {
-	content?: ClaudeTextBlock[];
+	content?: ClaudeContentBlock[];
 }
 
 export async function claudeGenerate(
@@ -26,7 +35,7 @@ export async function claudeGenerate(
 		},
 		body: JSON.stringify({
 			model: MODEL,
-			max_tokens: options.maxOutputTokens ?? 2048,
+			max_tokens: Math.max(options.maxOutputTokens ?? 2048, MIN_OUTPUT_TOKENS),
 			system: options.systemPrompt,
 			messages: options.messages,
 		}),
@@ -39,7 +48,7 @@ export async function claudeGenerate(
 	const data = (await response.json()) as ClaudeResponse;
 	return (
 		data.content
-			?.filter((block) => block.type === "text")
+			?.filter((block): block is ClaudeTextBlock => block.type === "text")
 			.map((block) => block.text)
 			.join("") ?? ""
 	);
