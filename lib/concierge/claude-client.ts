@@ -35,10 +35,7 @@ export async function claudeGenerate(
 		},
 		body: JSON.stringify({
 			model: MODEL,
-			max_tokens: Math.max(
-				options.maxOutputTokens ?? 2048,
-				MIN_OUTPUT_TOKENS,
-			),
+			max_tokens: Math.max(options.maxOutputTokens ?? 2048, MIN_OUTPUT_TOKENS),
 			system: options.systemPrompt,
 			messages: options.messages,
 		}),
