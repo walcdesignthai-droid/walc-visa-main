@@ -5,7 +5,7 @@ import {
 } from "./gemini-client";
 
 const GATEWAY_URL = "https://ai-gateway.vercel.sh/v1/chat/completions";
-const PRIMARY_MODEL = "google/gemini-3.6-flash";
+const PRIMARY_MODEL = "google/gemini-3.8-flash";
 const FALLBACK_MODEL = "anthropic/claude-sonnet-5";
 
 /**

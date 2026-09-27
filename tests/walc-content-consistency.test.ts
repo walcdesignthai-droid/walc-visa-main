@@ -147,7 +147,7 @@ describe("WALC VISA public content consistency", () => {
 
 		expect(route).toContain("getDtvPublicContent");
 		expect(route).toContain("conciergeGenerateStream");
-		expect(provider).toContain("google/gemini-3.6-flash");
+		expect(provider).toContain("google/gemini-3.8-flash");
 		expect(provider).toContain("anthropic/claude-sonnet-5");
 		expect(prompt).toContain("dtvContent.trackRecord.display");
 		expect(prompt).not.toMatch(/\b212\b/);
